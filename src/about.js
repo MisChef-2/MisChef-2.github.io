@@ -9,13 +9,6 @@ const ABOUT = {
     "Jetliner Hub는 가상 항공사 Jetliner Virtual의 조종사 포털을 본떠 만든 개인 프로젝트입니다. 비행을 예약하고 기록을 남기는 기능과 함께 보잉·에어버스 기종 백과, 공항 차트, 실시간 운항 지도를 한곳에 모았습니다.",
     "Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
   ],
-  // [항목, 내용]
-  facts: [
-    ["GitHub", "MisChef-2"],
-    ["사이트", "mischef-2.github.io"],
-    ["만든 것", "Jetliner Hub (가상 항공사 조종사 포털)"],
-    ["쓰인 것", "HTML · CSS · JavaScript, 공개 데이터 (OurAirports, OpenStreetMap, Natural Earth, Wikimedia Commons)"]
-  ],
   // [이름, 주소]
   links: [
     ["GitHub", "https://github.com/MisChef-2"],

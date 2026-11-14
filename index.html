@@ -2032,13 +2032,6 @@ const ABOUT = {
     "Jetliner Hub는 가상 항공사 Jetliner Virtual의 조종사 포털을 본떠 만든 개인 프로젝트입니다. 비행을 예약하고 기록을 남기는 기능과 함께 보잉·에어버스 기종 백과, 공항 차트, 실시간 운항 지도를 한곳에 모았습니다.",
     "Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
   ],
-  // [항목, 내용]
-  facts: [
-    ["GitHub", "MisChef-2"],
-    ["사이트", "mischef-2.github.io"],
-    ["만든 것", "Jetliner Hub (가상 항공사 조종사 포털)"],
-    ["쓰인 것", "HTML · CSS · JavaScript, 공개 데이터 (OurAirports, OpenStreetMap, Natural Earth, Wikimedia Commons)"]
-  ],
   // [이름, 주소]
   links: [
     ["GitHub", "https://github.com/MisChef-2"],
@@ -3450,11 +3443,10 @@ ${mapCard()}
 
   /* ---------- 소개 ---------- */
   function renderAbout() {
-    const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], facts: [], links: [], projects: [] }, nm = A.name || "이름";
+    const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], links: [], projects: [] }, nm = A.name || "이름";
     return `<div class="grid">
 <section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div><p class="lbl">About me · 소개</p><h1>${esc(nm)}</h1>${A.tagline ? `<p class="ab-tag">${esc(A.tagline)}</p>` : ""}<div class="actions">${(A.links || []).map(l => `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
-<section class="card c7">${cardH(ICON.user, "소개")}<div class="card-b prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}</div></section>
-<section class="card c5">${cardH(ICON.info, "한눈에")}<div class="card-b"><dl class="facts">${(A.facts || []).map(f => `<div><dt class="lbl">${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join("")}</dl></div></section>
+<section class="card c12">${cardH(ICON.user, "소개")}<div class="card-b prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}</div></section>
 <section class="card c12">${cardH(ICON.star, "이 사이트에 있는 것")}<div class="ab-proj">${(A.projects || []).map(p => `<a class="ab-p" href="${esc(p[2])}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></a>`).join("")}</div></section>
 </div>`;
   }

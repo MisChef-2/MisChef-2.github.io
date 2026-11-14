@@ -219,11 +219,10 @@
 
   /* ---------- 소개 ---------- */
   function renderAbout() {
-    const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], facts: [], links: [], projects: [] }, nm = A.name || "이름";
+    const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], links: [], projects: [] }, nm = A.name || "이름";
     return `<div class="grid">
 <section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div><p class="lbl">About me · 소개</p><h1>${esc(nm)}</h1>${A.tagline ? `<p class="ab-tag">${esc(A.tagline)}</p>` : ""}<div class="actions">${(A.links || []).map(l => `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
-<section class="card c7">${cardH(ICON.user, "소개")}<div class="card-b prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}</div></section>
-<section class="card c5">${cardH(ICON.info, "한눈에")}<div class="card-b"><dl class="facts">${(A.facts || []).map(f => `<div><dt class="lbl">${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join("")}</dl></div></section>
+<section class="card c12">${cardH(ICON.user, "소개")}<div class="card-b prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}</div></section>
 <section class="card c12">${cardH(ICON.star, "이 사이트에 있는 것")}<div class="ab-proj">${(A.projects || []).map(p => `<a class="ab-p" href="${esc(p[2])}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></a>`).join("")}</div></section>
 </div>`;
   }
