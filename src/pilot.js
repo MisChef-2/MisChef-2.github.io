@@ -36,6 +36,8 @@
   const VA_NOTAMS = [
     { p: "high", date: "점수 규칙", title: "PIREP 점수는 이렇게 매깁니다", text: "기본 100점에 착륙률과 비행 시간 보너스를 더합니다. 500 fpm을 넘는 착륙은 30점이 깎입니다.", href: "flights" },
     { p: "med", date: "활동", title: "투어 4개와 도전 과제 4개", text: "한반도 일주부터 조립 공장 순례까지, 제출한 PIREP으로 자동 집계됩니다.", href: "activities" },
+    { p: "med", date: "새 기능", title: "비행 지도와 패스포트", text: "비행한 노선을 지구본에서 보고, 방문한 공항과 나라를 패스포트에서 모아 볼 수 있습니다.", href: "map" },
+    { p: "low", date: "문서", title: "ICAO 기준 안내", text: "비행장 기준 코드, 항적 난기류 등급 같은 ICAO 분류를 기종별로 정리했습니다.", href: "icao" },
     { p: "med", date: "실시간", title: "공항 주변 교통량", text: "국내 공항 4곳과 조립 공장 9곳의 실제 교통량을 FlyItalyADSB 데이터로 보여 줍니다.", href: "live" },
     { p: "low", date: "자료실", title: "기종 백과 21개 기종", text: "보잉과 에어버스 여객기의 제원, 축척 도면, 개발사를 자료실에서 볼 수 있습니다.", href: "fleet" }
   ];
@@ -178,7 +180,7 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
   }
 
   /* ---------- 내 비행 · PIREP ---------- */
-  const pirepStatus = p => p.demo ? `<span class="pill demo">예시</span>` : `<span class="pill ok">승인됨</span>`;
+  const pirepStatus = p => p.demo ? `<span class="pill demo">예시</span>` : p.manual ? `<span class="pill warn">수동</span>` : `<span class="pill ok">승인됨</span>`;
   function pirepTable(list) {
     if (!list.length) return `<p class="empty">아직 제출한 PIREP이 없습니다. 비행을 예약하고 마친 뒤 제출하면 여기에 쌓입니다.</p>`;
     return `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>날짜</th><th>편명</th><th>구간</th><th>기종</th><th class="num">거리</th><th class="num">비행 시간</th><th class="num">착륙률</th><th class="num">점수</th><th>상태</th></tr></thead><tbody>${list.map(p => `<tr class="row-link" data-href="#pirep-${p.id}" tabindex="0"><td>${dayKo(p.filed)}</td><td><span class="code">${esc(p.cs)}</span></td><td><strong class="mono">${p.dep} → ${p.arr}</strong></td><td>${esc(short(byId[p.ac]))}</td><td class="num">${distTxt(p.km)}</td><td class="num">${hm(p.time)}</td><td class="num">${p.land} fpm</td><td class="num"><strong>${p.points}</strong></td><td>${pirepStatus(p)}</td></tr>`).join("")}</tbody></table></div>`;
@@ -196,12 +198,12 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
 <div class="fld" style="margin-top:16px"><label for="pf-notes">메모</label><textarea class="in" id="pf-notes" rows="2" maxlength="300" placeholder="날씨, 활주로, 특이 사항"></textarea></div>
 <div class="actions" style="margin-top:16px"><button type="submit" class="btn go" id="pf-submit">${ICON.doc}PIREP 제출</button></div></form></section>`;
     } else top = `<section class="card c12"><div class="card-b aclive"><div><h2>예약된 비행이 없습니다</h2><p class="muted" style="margin:4px 0 0">현재 위치는 ${here.iata} ${esc(here.name)}입니다. 지도에서 목적지를 골라 다음 비행을 예약하세요.</p></div><a class="btn" href="#book">${ICON.plane}비행 예약</a></div></section>`;
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>내 비행</h1><p>예약한 비행과 제출한 PIREP 기록입니다. 행을 누르면 경로 지도와 점수 내역이 나옵니다.</p></div><span class="sync" data-sync>${syncText()}</span></header>
-<div class="grid">${PS.demo ? demoNote() : ""}${top}<section class="card c12">${cardH(ICON.list, "PIREP 기록", `<span class="hint">${PS.pireps.length}건</span>`)}${pirepTable(PS.pireps)}</section></div>`;
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>내 예약</h1><p>예약한 비행을 확인하고, 비행을 마친 뒤 PIREP을 제출하는 곳입니다. 예약은 한 번에 하나만 둘 수 있습니다.</p></div><div class="actions"><span class="sync" data-sync>${syncText()}</span><a class="btn ghost" href="#rosters">${ICON.list}내 로스터</a></div></header>
+<div class="grid">${PS.demo ? demoNote() : ""}${top}<section class="card c12">${cardH(ICON.list, "최근 PIREP", `<a class="ext small" href="#pireps">전체 ${PS.pireps.length}건 보기 →</a>`)}${pirepTable(PS.pireps.slice(0, 5))}</section></div>`;
   }
   function renderPirep(p) {
     const ac = byId[p.ac], sc = scorePirep(p), ph = photoOf(ac);
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / <a href="#flights">내 비행</a> / PIREP</div><h1>${esc(p.cs)} <span class="mono">${p.dep} → ${p.arr}</span> ${pirepStatus(p)}</h1><p>${dayKo(p.filed)} 제출 · ${esc(ac.name)}</p></div><div class="actions"><a class="btn ghost" href="#${ac.id}">${ICON.plane}기종 정보</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / <a href="#pireps">PIREP</a></div><h1>${esc(p.cs)} <span class="mono">${p.dep} → ${p.arr}</span> ${pirepStatus(p)}</h1><p>${dayKo(p.filed)} 제출 · ${esc(ac.name)}</p></div><div class="actions"><a class="btn ghost" href="#${ac.id}">${ICON.plane}기종 정보</a></div></header>
 <div class="grid">
 <section class="card c8"><div class="mapwrap" style="height:440px"><div id="prmap" class="sitemap livemap" style="inset:0" role="img" aria-label="${p.dep}에서 ${p.arr}까지의 경로 지도"></div><svg id="pr-ov" class="live-ov" style="inset:0;width:100%"></svg></div></section>
 <div class="c4 stack">
@@ -239,7 +241,7 @@ ${p.notes ? `<p style="margin:16px 0 0"><span class="lbl" style="margin-bottom:4
     const pbox = p => `<a class="card pbox c3" href="#pirep-${p.id}"><span class="row1"><span class="lbl">${ICON.doc}PIREP</span>${pirepStatus(p)}</span><span class="rte">${p.dep} → ${p.arr}</span><span class="sub">${esc(p.cs)} · ${esc(short(byId[p.ac]))} · ${hm(p.time)}</span><span class="box-meta">${p.points}점 · ${p.land} fpm · ${dayKo(p.filed)}</span></a>`;
     const last = PS.pireps.slice(0, 3), blanks = Array(3 - last.length).fill(`<div class="card pbox c3"><span class="lbl">${ICON.doc}PIREP</span><span class="rte muted">—</span><span class="sub">제출한 기록이 여기에 나옵니다.</span></div>`);
     return `<div class="grid">
-<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)} · Pilot Hub</p><h1>${esc(nm)}님, 좋은 비행 되세요</h1><p>${esc(rk.name)} · 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.doc}내 비행</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
+<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)} · Pilot Hub</p><h1>${esc(nm)}님, 좋은 비행 되세요</h1><p>${esc(rk.name)} · 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.cal}내 예약</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
 ${PS.demo ? demoNote() : ""}
 ${bookBox}${last.map(pbox).join("")}${blanks.join("")}
 <section class="card c8">${cardH(ICON.chart, "내 통계", seg("days", [[0, "전체"], [90, "90일"], [30, "30일"], [7, "7일"]], statDays, "통계 기간"))}<div class="stats" id="pstats-out">${statTiles(pstats(statDays))}</div></section>
@@ -253,15 +255,27 @@ ${recentIds().map(id => box(byId[id])).join("")}
   }
 
   /* ---------- 프로필 · 활동 · 커뮤니티 ---------- */
+  let profDays = 0;
+  function profStats() { return `<div class="stats" id="prof-stats">${statTiles(pstats(profDays))}</div>`; }
   function renderProfile() {
-    const all = pstats(0), rk = rankOf(all.min), nm = PS.pilot.name || "조종사", here = aptBy[PS.pilot.loc];
-    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / 내 프로필</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)} · ${esc(PS.pilot.joined)} 합류 · 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
-<div class="grid">
-<section class="card c8">${cardH(ICON.chart, "누적 통계")}<div class="stats">${statTiles(all)}</div></section>
-<section class="card c4">${cardH(ICON.target, "계급")}<div class="card-b rank"><div class="rank-h"><b>${esc(rk.name)}</b><span class="muted">${rk.next ? "다음 " + esc(rk.next) : "최고 계급"}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(rk.pct)}%"></span></div><small class="muted">${rk.next ? `${N(Math.round(rk.left * 10) / 10)}시간 더 비행하면 승급합니다.` : "모든 계급을 달성했습니다."}</small><div class="tour-legs" style="margin-top:6px">${RANKS.map(r => `<span class="tleg${all.min / 60 >= r[0] ? " done" : ""}">${r[0]}h ${esc(r[1])}</span>`).join("")}</div></div></section>
-<section class="card c12">${cardH(ICON.cup, "배지", `<span class="hint">${badgeList().filter(x => x[2]).length} / ${badgeList().length}</span>`)}<div class="card-b"><div class="badges">${badgeList().map(x => `<div class="badge${x[2] ? "" : " locked"}">${ICON.star}<b>${x[0]}</b><small>${x[1]}${x[2] ? "" : " · 미획득"}</small></div>`).join("")}</div></div></section>
-<section class="card c6">${cardH(ICON.info, "조종사 설정")}<form id="pilot-form" class="card-b" autocomplete="off"><div class="form-grid"><div class="fld"><label for="pl-name">조종사 이름</label><input class="in" id="pl-name" maxlength="24" value="${esc(PS.pilot.name)}" placeholder="화면에 표시할 이름"></div><div class="fld"><label for="pl-num">조종사 번호</label><input class="in" id="pl-num" type="number" min="1" max="9999" value="${PS.pilot.num}"><small>${VA.code} 뒤에 붙는 네 자리</small></div><div class="fld"><label for="pl-units">거리 단위</label><select class="sel" id="pl-units"><option value="km"${PS.pilot.units === "km" ? " selected" : ""}>킬로미터 (km)</option><option value="nm"${PS.pilot.units === "nm" ? " selected" : ""}>해리 (NM)</option></select></div></div><div class="actions" style="margin-top:16px"><button type="submit" class="btn" id="pl-save">저장</button></div></form></section>
-<section class="card c6">${cardH(ICON.doc, "기록 저장")}<div class="card-b"><p><span class="sync" data-sync>${syncText()}</span></p><p class="muted">기록은 조종사 본인만 볼 수 있는 개인 저장소에 둡니다. Claude 계정에 연결되지 않은 환경에서는 이 브라우저에만 남으므로, 브라우저 데이터를 지우면 함께 사라집니다.</p><div class="actions">${PS.demo ? `<button type="button" class="btn ghost" data-pilot="demo-clear" id="pr-demo">예시 기록 지우기</button>` : ""}<button type="button" class="btn warn" data-pilot="reset" id="pr-reset">모든 기록 초기화</button></div></div></section>
+    const all = pstats(0), rk = rankOf(all.min), nm = PS.pilot.name || "조종사", here = aptBy[PS.pilot.loc], L = PS.pireps;
+    const cnt = {}, acn = {}; L.forEach(p => { cnt[p.dep] = (cnt[p.dep] || 0) + 1; cnt[p.arr] = (cnt[p.arr] || 0) + 1; acn[p.ac] = (acn[p.ac] || 0) + 1; });
+    const topA = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 5), topC = Object.keys(acn).sort((a, b) => acn[b] - acn[a]).slice(0, 5), B = badgeList(), got = B.filter(x => x[2]);
+    const cc = new Set(Object.keys(cnt).map(c => aptBy[c].cc)).size;
+    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / My Profile</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)} · ${esc(PS.pilot.joined)} 합류 · 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
+${profTabs("profile")}
+<div class="grid">${PS.demo ? demoNote() : ""}
+<div class="c8 stack">
+<section class="card">${cardH(ICON.chart, "통계 요약", seg("pdays", [[1, "오늘"], [30, "30일"], [365, "1년"], [0, "전체"]], profDays, "통계 기간"))}${profStats()}<div class="card-b" style="border-top:1px solid var(--line)"><div class="aclive"><span class="small muted">방문한 공항 ${Object.keys(cnt).length}곳 · ${cc}개국</span><div class="actions"><a class="btn ghost" href="#stats">${ICON.chart}통계 자세히</a><a class="btn ghost" href="#map">${ICON.globe}비행 지도</a></div></div></div></section>
+<section class="card">${cardH(ICON.doc, "최근 PIREP", `<a class="ext small" href="#pireps">전체 보기 →</a>`)}${pirepTable(L.slice(0, 5))}</section>
+${PS.booking ? `<section class="card">${cardH(ICON.plane, "예약된 비행", `<a class="ext small" href="#flights">내 예약 →</a>`)}<div class="card-b"><div class="flt">${apCard(PS.booking.dep, "dep")}<div class="mid"><span class="mono">${distTxt(PS.booking.km)}</span><span class="ln"></span><span>${esc(short(byId[PS.booking.ac]))} · 예상 ${hm(PS.booking.ete)}</span></div>${apCard(PS.booking.arr, "arr")}</div></div></section>` : ""}
+</div>
+<div class="c4 stack">
+<section class="card">${cardH(ICON.target, "계급", `<a class="ext small" href="#ranks">계급 안내 →</a>`)}<div class="card-b rank"><div class="rank-h"><b>${esc(rk.name)}</b><span class="muted">${rk.next ? "다음 " + esc(rk.next) : "최고 계급"}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(rk.pct)}%"></span></div><small class="muted">${rk.next ? `${N(Math.round(rk.left * 10) / 10)}시간 더 비행하면 승급합니다.` : "모든 계급을 달성했습니다."}</small><div class="tour-legs" style="margin-top:6px">${RANKS.map(r => `<span class="tleg${all.min / 60 >= r[0] ? " done" : ""}">${r[0]}h ${esc(r[1])}</span>`).join("")}</div></div></section>
+<section class="card">${cardH(ICON.flag, "자주 간 공항")}<div class="card-b">${barList(topA.map(c => [`<a class="ext" href="#apt-${c}">${c} · ${esc(aptBy[c].name)}</a>`, cnt[c]]), "회")}</div></section>
+<section class="card">${cardH(ICON.plane, "자주 탄 기종")}<div class="card-b">${barList(topC.map(id => [`<a class="ext" href="#${id}">${ICAO[id]} · ${esc(short(byId[id]))}</a>`, acn[id], "mk-" + byId[id].maker]), "회")}</div></section>
+<section class="card">${cardH(ICON.medal, "배지", `<a class="ext small" href="#badges">${got.length} / ${B.length} →</a>`)}<div class="card-b">${got.length ? `<div class="tour-legs">${got.map(x => `<span class="tleg done" title="${x[1]}">${x[0]}</span>`).join("")}</div>` : `<p class="muted" style="margin:0">아직 획득한 배지가 없습니다.</p>`}</div></section>
+</div>
 </div>`;
   }
   function renderActivities() {
@@ -317,10 +331,11 @@ ${mapCard()}
     if (h.indexOf("apt-") === 0) return aptBy[h.slice(4)] ? renderApt(h.slice(4)) : null;
     return null;
   }
-  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "flights" : h.indexOf("apt-") === 0 ? "airports" : h;
+  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "pireps" : h.indexOf("apt-") === 0 ? "airports" : h;
   function pilotAfter(h) {
-    wirePilot(); updateWho(); paintSync(); bookMap = null; pirepMap = null; chartLeave();
+    wirePilot(); wirePortal(); updateWho(); paintSync(); bookMap = null; pirepMap = null; chartLeave(); globeLeave();
     if (h === "book") initBook();
+    if (h === "map") initGlobe();
     if (h.indexOf("apt-") === 0 && aptBy[h.slice(4)]) initChart(h.slice(4));
     if (h.indexOf("pirep-") === 0) { const p = PS.pireps.find(x => x.id === h.slice(6)); if (p) initPirep(p); }
   }
@@ -329,6 +344,7 @@ ${mapCard()}
   function wirePilot() {
     if (pilotWired) return; pilotWired = true;
     SEG.days = v => { statDays = +v; const o = $("#pstats-out"); if (o) o.innerHTML = statTiles(pstats(statDays)); };
+    SEG.pdays = v => { profDays = +v; const o = $("#prof-stats"); if (o) o.outerHTML = profStats(); };
     document.addEventListener("click", e => {
       const el = e.target.closest("[data-pilot]"); if (!el) return;
       const v = el.getAttribute("data-pilot"), i = v.indexOf(":"), act = i < 0 ? v : v.slice(0, i), arg = i < 0 ? "" : v.slice(i + 1);

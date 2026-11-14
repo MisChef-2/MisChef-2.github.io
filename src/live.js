@@ -53,13 +53,29 @@
     const pt = [toD(Math.atan2(z, Math.sqrt(x * x + y * y))), toD(Math.atan2(y, x))], q1 = toR(pt[0]), dl = l2 - toR(pt[1]);
     return { pt: pt, brg: (toD(Math.atan2(Math.sin(dl) * Math.cos(p2), Math.cos(q1) * Math.sin(p2) - Math.sin(q1) * Math.cos(p2) * Math.cos(dl))) + 360) % 360 };
   }
+  /* 예시 항공편의 경유점. 공항 사이를 대권으로만 이으면 한국~유럽·북미 노선이 북한 상공을 지나게 그려진다.
+     실제 민항기는 평양 비행정보구역을 지나지 않으므로(한국 출발편은 서해나 동해로 나간다), 실제 항로와 비슷한 경유점을 둔다.
+     유럽 노선은 2022년 이후의 우회 항로(중국 → 중앙아시아 → 캅카스)를 따른다. */
+  const VIA_PAC = [[37.6, 129.3], [38.3, 138.5], [43, 152]], VIA_EUR = [[37.15, 124], [39.1, 118.6], [43.6, 87.5], [41.7, 44.8]];
+  const DEMO_VIA = { "ICN>JFK": VIA_PAC, "ICN>ORD": VIA_PAC, "ICN>SEA": VIA_PAC, "ICN>LAX": VIA_PAC.slice(0, 2), "ICN>CDG": VIA_EUR, "ICN>FRA": VIA_EUR, "HND>LHR": [[36.6, 129.6]].concat(VIA_EUR) };
+  function demoPath(d) {
+    const fw = DEMO_VIA[d[2] + ">" + d[3]], bw = DEMO_VIA[d[3] + ">" + d[2]], via = fw || (bw ? bw.slice().reverse() : []);
+    const pts = [AP[d[2]]].concat(via, [AP[d[3]]]), len = []; let tot = 0;
+    for (let i = 1; i < pts.length; i++) { const k = distKm(pts[i - 1], pts[i]); len.push(k); tot += k; }
+    return { pts: pts, len: len, tot: tot };
+  }
+  function pathPoint(P, f) {
+    let k = Math.max(0, Math.min(1, f)) * P.tot;
+    for (let i = 0; i < P.len.length; i++) { if (k <= P.len[i] || i === P.len.length - 1) return gcPoint(P.pts[i], P.pts[i + 1], P.len[i] ? Math.min(1, k / P.len[i]) : 0); k -= P.len[i]; }
+    return { pt: P.pts[0], brg: 0 };
+  }
   function demoAircraft() {
     const t = (Date.now() - T0) / 1000;
     return DEMO.map((d, i) => {
-      const a = AP[d[2]], b = AP[d[3]]; let pt, brg, f = 0.5;
+      const a = AP[d[2]]; let pt, brg, f = 0.5;
       if (d[2] === d[3]) { const ang = (d[4] * 360 + t * 0.3) % 360; pt = destPt(a[0], a[1], ang, 70); brg = (ang + 90) % 360; }
-      else { f = (d[4] + (t * d[6] * 1.852 / 3600) / distKm(a, b)) % 1; const g = gcPoint(a, b, f); pt = g.pt; brg = g.brg; }
-      return { hex: "ex" + String(i + 1).padStart(4, "0"), flight: d[0], r: "예시", t: d[1], lat: pt[0], lon: pt[1], alt_baro: d[5], gs: d[6], track: Math.round(brg), baro_rate: f < 0.04 ? 1800 : f > 0.95 ? -1400 : 0, squawk: "----", type: "demo", seen_pos: 0, route: d[2] === d[3] ? null : { from_iata: d[2], to_iata: d[3] }, demo: true };
+      else { const P = demoPath(d); f = (d[4] + (t * d[6] * 1.852 / 3600) / P.tot) % 1; const g = pathPoint(P, f); pt = g.pt; brg = g.brg; }
+      return { hex: "ex" + String(i + 1).padStart(4, "0"), flight: d[0], r: "예시", t: d[1], lat: pt[0], lon: pt[1], alt_baro: d[5], gs: d[6], track: Math.round(brg), baro_rate: f < 0.04 ? 1800 : f > 0.95 ? -1400 : 0, squawk: "----", type: "demo", seen_pos: 0, route: d[2] === d[3] ? null : { from_iata: d[2], to_iata: d[3] }, demo: true, df: f };
     });
   }
 
@@ -102,7 +118,7 @@
   }
   async function loadTrail(a) {
     LV.trail = null; LV.trailNote = "";
-    if (a.demo) { const d = DEMO[+a.hex.slice(2) - 1]; if (d && d[2] !== d[3]) { const A = AP[d[2]], pts = []; for (let i = 0; i <= 24; i++) pts.push(gcPoint(A, [a.lat, a.lon], i / 24).pt); LV.trail = pts; LV.trailNote = "예시 경로 (출발 공항에서 현재 위치까지의 대권)"; } else LV.trailNote = "예시 시험비행에는 경로가 없습니다."; return; }
+    if (a.demo) { const d = DEMO[+a.hex.slice(2) - 1]; if (d && d[2] !== d[3]) { const P = demoPath(d), pts = [], n = Math.max(8, Math.round(64 * (a.df || 0))); for (let i = 0; i <= n; i++) pts.push(pathPoint(P, (a.df || 0) * i / n).pt); LV.trail = pts; LV.trailNote = "예시 경로 (출발 공항에서 현재 위치까지, 실제 항로와 비슷하게 그린 선)"; } else LV.trailNote = "예시 시험비행에는 경로가 없습니다."; return; }
     try { const day = new Date().toISOString().slice(0, 10), d = await fia(`/v2/history/${a.hex}/${day}`); const pts = (d.trace || []).filter(p => typeof p[1] === "number" && typeof p[2] === "number").map(p => [p[1], p[2]]); LV.trail = pts.length > 1 ? pts : null; LV.trailNote = pts.length > 1 ? `오늘(UTC) 기록된 위치 ${fmt(pts.length)}개` : "오늘 기록된 궤적이 없습니다."; }
     catch (e) { LV.trailNote = e.status === 404 ? "오늘 기록된 궤적이 없습니다." : errText(e); }
   }

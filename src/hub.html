@@ -684,6 +684,167 @@ body.ch-lock{overflow:hidden}
   .era{grid-template-columns:minmax(0,1fr);gap:4px}
   .banner-in h1{font-size:21px}
 }
+/* ---------- 개발 배경 (왜 만들어졌나) ---------- */
+.why-q{margin:0;padding:18px 24px 16px;font-size:18px;line-height:1.5;font-weight:600;color:var(--fg);border-bottom:1px solid var(--line);border-left:4px solid var(--mk);text-wrap:balance}
+.why .era{grid-template-columns:112px minmax(0,1fr)}
+.why .era-y{font-family:var(--font);font-size:13px;letter-spacing:0;line-height:1.45}
+.why-eras .era-y{color:var(--primary-fg)}
+.why-eras .era{grid-template-columns:112px minmax(0,1fr)}
+a.why-chip{font-family:var(--font);font-size:12.5px;letter-spacing:0;color:var(--fg)}
+a.why-chip:hover{border-color:var(--mk)}
+a.why-chip .dot{margin-right:0}
+/* ---------- ICAO 기준 ---------- */
+.icao-tiles{grid-template-columns:repeat(auto-fit,minmax(128px,1fr))}
+.icao-tiles .rcard-v{font-family:var(--mono);font-size:22px;color:var(--mk,var(--primary-fg))}
+.icao-src{display:block;margin-top:6px;color:var(--muted);font-size:11px;letter-spacing:.2px}
+.icao-scale{position:relative;margin-top:16px;padding-top:26px}
+.icao-scale.two{padding-bottom:22px}
+.icao-bands{display:flex;gap:2px}
+.icao-bands span{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;padding:6px 2px;border-radius:6px;background:var(--tile);border:1px solid var(--tile-line);color:var(--muted)}
+.icao-bands span.on{background:var(--primary-soft);border-color:var(--primary);color:var(--fg)}
+.icao-bands b{font-family:var(--mono);font-size:14px}
+.icao-bands small{font-size:10.5px;white-space:nowrap;overflow:hidden;max-width:100%}
+.icao-scale i{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--mk);font-style:normal;pointer-events:none}
+.icao-scale.two i{bottom:22px}
+.icao-scale.two i.low{top:26px;bottom:0}
+.icao-scale i em{position:absolute;top:0;right:5px;font-style:normal;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--mk);white-space:nowrap;line-height:1.2}
+.icao-scale i.low em{top:auto;bottom:0}
+.sp-col{width:28px}
+/* ---------- 기종 비교 그림 ---------- */
+.cmp-diff{display:flex;gap:8px;flex-wrap:wrap;padding:0 24px 16px}
+.cmp-chip{display:flex;flex-direction:column;gap:1px;padding:7px 12px;border-radius:8px;background:var(--tile);border:1px solid var(--tile-line);box-shadow:var(--tile-shadow)}
+.cmp-chip small{font-size:11px;color:var(--muted)}
+.cmp-chip b{font-family:var(--mono);font-size:13.5px;color:var(--fg)}
+.cmp-chip.eq b{color:var(--muted)}
+.cmp-chip.head{background:var(--primary-soft);border-color:var(--primary)}
+.cmp-chip.head b{font-family:var(--font)}
+.art-defs{position:absolute}
+.art-fig{margin:0 0 14px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#e6edf4}
+.art-fig figcaption{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:8px 14px;background:var(--surface-2);border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.art-fig figcaption b{color:var(--fg);font-size:13.5px}
+.art-scroll{overflow-x:auto}
+.art-svg{display:block;width:100%;min-width:620px}
+.art-svg *{vector-effect:non-scaling-stroke}
+.art-svg .mk-boeing{--art-mk:#2a78d6;--art-mkd:#1c4f93;--art-fin:url(#ag-fin-boeing)}
+.art-svg .mk-airbus{--art-mk:#e2602c;--art-mkd:#a84018;--art-fin:url(#ag-fin-airbus)}
+.art-svg .sky{fill:url(#ag-sky)} .art-svg .apron{fill:#aab3bd} .art-svg .pad{fill:#dde4eb}
+.art-svg .gridl{stroke:#c7d0d9;stroke-width:1}
+.art-svg .ground{display:none}
+.art-svg .fus{fill:url(#ag-fus);stroke:#6b7785;stroke-width:.9;stroke-linejoin:round}
+.art-svg .art-top .fus{fill:url(#ag-fus-top)}
+.art-svg .art-front .fus{fill:url(#ag-fus-front)}
+.art-svg .wing,.art-svg .stab,.art-svg .fair{fill:url(#ag-wing-side);stroke:#626e7c;stroke-width:.8;stroke-linejoin:round}
+.art-svg .art-top .wing,.art-svg .art-top .stab{fill:url(#ag-wing)}
+.art-svg .fin{fill:var(--art-fin);stroke:var(--art-mkd);stroke-width:.8;stroke-linejoin:round}
+.art-svg .finline{stroke:var(--art-mk);stroke-width:3.2;stroke-linecap:round}
+.art-svg .eng{fill:url(#ag-eng);stroke:#5c6875;stroke-width:.8;stroke-linejoin:round}
+.art-svg .pylon{fill:#98a3af;stroke:#626e7c;stroke-width:.6}
+.art-svg .spin{fill:#27303a;stroke:#5c6875;stroke-width:.6}
+.art-svg .win{fill:#2a3642}
+.art-svg .cock{fill:#1e2935;stroke:#55616e;stroke-width:.5}
+.art-svg .det{fill:none;stroke:#7a8693;stroke-width:.6;opacity:.8}
+.art-svg .gear{stroke:#48525d;stroke-width:1.5}
+.art-svg .tyre{fill:#1f252c}
+.art-svg .hinge{stroke:var(--art-mk);stroke-width:1.3;stroke-dasharray:3 2}
+.art-svg .shadow *{fill:#0b1016!important;stroke:none!important;opacity:.12}
+.art-svg .shadow .det,.art-svg .shadow .hinge,.art-svg .shadow .cock{display:none}
+.art-svg .gshadow{fill:#0b1016;opacity:.17}
+.art-svg text{font-family:var(--font);fill:#25303c}
+.art-svg .t-title{font-weight:700}
+.art-svg .t-code{font-family:var(--mono);fill:var(--art-mkd)}
+.art-svg .t-mute,.art-svg .t-tick{fill:#56626f}
+.art-svg .t-dim{fill:#323e4b;font-weight:600}
+.art-svg .t-lim{fill:var(--art-mkd);font-weight:600}
+.art-svg .dimline{stroke:#3a4653;stroke-width:1.1;fill:none}
+.art-svg .tick{stroke:#4f5b68;stroke-width:1}
+.art-svg .lim{stroke:var(--art-mk);stroke-width:1.3;stroke-dasharray:6 4;fill:none}
+.art-svg .ref{fill:#4f5b68} .art-svg .ref .ref-w{fill:#dfe6ed}
+@media (max-width:760px){ .why-q{padding:14px 16px;font-size:16px} .why .era,.why-eras .era{grid-template-columns:minmax(0,1fr);gap:4px} .why .era-y br{display:none} .cmp-diff{padding:0 16px 14px} }
+/* ---------- 메뉴 묶음 ---------- */
+.nav-grp{margin-top:4px}
+button.nav-sec{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;cursor:pointer;font-family:inherit;border-radius:8px;padding:12px 10px 8px}
+button.nav-sec:hover{opacity:1;color:var(--menu-on)}
+button.nav-sec:focus-visible{outline:2px solid var(--primary-fg);outline-offset:-2px}
+button.nav-sec .i{width:14px;height:14px;transition:transform .15s}
+.nav-grp.open > button.nav-sec .i{transform:rotate(90deg)}
+.nav-items{display:none}
+.nav-grp.open > .nav-items{display:block}
+/* ---------- 프로필 하위 메뉴 ---------- */
+.ptabs{display:flex;gap:6px;flex-wrap:wrap;margin:-8px 0 24px}
+.ptabs a{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;background:var(--surface);box-shadow:var(--shadow);color:var(--fg-2);font-size:13.5px;font-weight:500;border:1px solid transparent}
+.ptabs a .i{width:16px;height:16px}
+.ptabs a:hover{color:var(--fg)}
+.ptabs a.on{color:var(--fg);border-color:var(--primary);background:var(--primary-soft)}
+/* ---------- 작은 조각 ---------- */
+.btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
+.fld.inl{display:flex;align-items:center;gap:8px}
+.fld.inl > label{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.fld.inl .sel{height:36px;max-width:230px}
+.far-row td{opacity:.6}
+.gl-chk{display:flex;gap:8px;align-items:center;cursor:pointer}
+.hbars{display:grid;gap:9px}
+.hbar{display:grid;grid-template-columns:minmax(96px,34%) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13px}
+.hbar-l{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg-2)}
+.hbar-t{height:10px;border-radius:9999px;background:var(--tile);overflow:hidden}
+.hbar-f{display:block;height:100%;border-radius:9999px;background:var(--mk,var(--primary));min-width:3px}
+.hbar-f.zero{min-width:0} .hbar-f.good{background:var(--ok)} .hbar-f.bad{background:var(--bad)}
+.hbar-v{font-family:var(--mono);font-size:12px;color:var(--fg);font-variant-numeric:tabular-nums}
+.mchart{display:block;width:100%;max-width:640px;margin:0 auto}
+.mchart .mc-bar{fill:var(--primary)}
+.mchart .mc-ax{stroke:var(--muted);stroke-width:1}
+.mchart .mc-grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+.mchart .mc-x{fill:var(--muted);font-size:11px;font-family:var(--font)}
+.mchart .mc-v{fill:var(--fg);font-size:11px;font-weight:600;font-family:var(--mono)}
+/* ---------- 패스포트 ---------- */
+.pp-stats .stat-n small{font-size:13px}
+.pp-list{display:grid}
+.pp-c{display:grid;gap:9px;padding:14px 24px;border-top:1px solid var(--line)}
+.pp-c:first-child{border-top:0}
+.pp-h{display:flex;align-items:center;gap:8px;color:var(--fg)}
+.pp-h .sp{flex:1}
+.pp-h .val{font-family:var(--mono);font-size:12.5px;color:var(--fg-2)}
+.pp-star .i{width:16px;height:16px;color:var(--warn);fill:var(--warn);vertical-align:-2px;margin-right:4px}
+.pp-c.full .prog-f{background:var(--warn)}
+a.pp-apt{text-decoration:none}
+a.pp-apt .i{width:12px;height:12px}
+a.pp-apt small{font-size:10px;opacity:.75}
+a.pp-apt:hover{border-color:var(--primary-fg);color:var(--fg)}
+/* ---------- 비행 지도 (지구본) ---------- */
+.gl-wrap{position:relative;height:max(600px,calc(100dvh - 240px));border-radius:6px;overflow:hidden;background:radial-gradient(120% 90% at 65% 45%,#12203a 0%,#0a1220 55%,#060a12 100%)}
+.gl-stage{position:absolute;inset:0 0 0 344px}
+.gl-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline:none}
+.gl-stage canvas.grab{cursor:grabbing}
+.gl-tools{position:absolute;top:12px;right:12px;display:grid;gap:6px}
+.gl-tools button{width:36px;height:36px;display:grid;place-items:center;border-radius:6px;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.72);color:#e2e8f0;cursor:pointer;padding:0}
+.gl-tools button:hover{border-color:#8fb4ff;color:#fff}
+.gl-tools button:focus-visible{outline:2px solid #8fb4ff;outline-offset:1px}
+.gl-tools svg{width:18px;height:18px}
+.gl-tip{position:absolute;z-index:3;pointer-events:none;max-width:180px;padding:6px 9px;border-radius:6px;background:rgba(15,23,42,.92);border:1px solid rgba(148,163,184,.35);color:#e2e8f0;font-size:12px;line-height:1.4}
+.gl-tip b{color:#fff}
+.gl-msg{position:absolute;inset:auto 24px 50% 24px;margin:0;text-align:center;color:#cbd5e1;font-size:14px}
+.gl-credit{position:absolute;right:12px;bottom:8px;margin:0;font-size:10.5px;color:rgba(203,213,225,.6)}
+.gl-list{gap:12px;padding:14px}
+.gl-row{grid-template-columns:minmax(0,1fr) auto auto}
+.gl-sel{display:grid;gap:8px;padding:12px;border-radius:8px;background:var(--tile);border:1px solid var(--primary)}
+.gl-sel p{margin:0;font-size:13px;color:var(--fg-2)}
+.gl-sel-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gl-sel-h b{color:var(--fg);font-size:15px}
+.gl-sel-h .btn{min-height:28px;padding:3px 10px;font-size:12px}
+/* ---------- 소개 ---------- */
+.ab-hero{display:flex;gap:22px;align-items:center;padding:28px 28px;background:linear-gradient(135deg,var(--primary-soft),transparent 60%),var(--surface)}
+.ab-av{width:88px;height:88px;font-size:36px}
+.ab-hero h1{font-size:28px;margin:4px 0 2px}
+.ab-tag{margin:0 0 14px;color:var(--fg-2);font-size:15px}
+.ab-proj{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;padding:20px 24px}
+.ab-p{display:grid;gap:4px;padding:14px 16px;border-radius:8px;background:var(--tile);border:1px solid var(--tile-line);box-shadow:var(--tile-shadow);color:var(--fg-2);font-size:13px}
+.ab-p b{color:var(--fg);font-size:14.5px}
+.ab-p:hover{border-color:var(--primary-fg)}
+@media (max-width:900px){
+  .gl-wrap{height:auto;display:flex;flex-direction:column}
+  .gl-stage{position:relative;inset:auto;height:min(78vw,460px)}
+  .ab-hero{flex-direction:column;align-items:flex-start;padding:22px 18px}
+}
+@media (max-width:760px){ .pp-c{padding:12px 16px} .ptabs{margin:-8px 0 16px} .ptabs a{padding:7px 11px;font-size:13px} .fld.inl .sel{max-width:170px} .ab-proj{padding:16px} }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 
@@ -705,10 +866,13 @@ body.ch-lock{overflow:hidden}
   <nav class="side" id="side" aria-label="주요 메뉴"></nav>
   <div class="main">
     <main id="app"></main>
-    <footer class="foot"><span>Jetliner Virtual은 비행 시뮬레이션 기록용 가상 항공사이며 실제 항공사와 관계가 없습니다. 기종 제원은 대표 형식 기준, 생산·인도 수치는 2025년 12월 기준 근사치입니다.</span><span>사진: Wikimedia Commons (각 사진의 라이선스 표기 참조) · Flight data: FlyItalyADSB (flyitalyadsb.com), CC BY-SA 4.0</span></footer>
+    <footer class="foot"><span>Jetliner Virtual은 비행 시뮬레이션 기록용 가상 항공사이며 실제 항공사와 관계가 없습니다. 기종 제원은 대표 형식 기준, 생산·인도 수치는 2025년 12월 기준 근사치입니다.</span><span>사진: Wikimedia Commons (각 사진의 라이선스 표기 참조) · Flight data: FlyItalyADSB (flyitalyadsb.com), CC BY-SA 4.0 · 지도: OpenStreetMap 기여자, OurAirports, Natural Earth</span></footer>
   </div>
 </div>
 <div class="backdrop" id="backdrop"></div>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>

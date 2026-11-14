@@ -79,7 +79,7 @@
 </div>
 <div class="ch-foot"><span>NOT FOR NAVIGATION · 공개 자료로 그린 참고 도면</span><span>활주로·주파수 <a href="https://ourairports.com/airports/${a.icao}/" target="_blank" rel="noopener">OurAirports</a> · 유도로·계류장 <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap 기여자</a></span></div>
 </div>
-<p class="small muted ch-tip">드래그로 옮기고 버튼이나 Ctrl+휠, 두 번 클릭으로 확대합니다. 전체 화면에서는 휠과 두 손가락으로도 확대됩니다.</p></div></section>`;
+<p class="small muted ch-tip">마우스 휠로 확대·축소하고 드래그로 옮깁니다. 버튼이나 두 번 클릭으로도 확대되고, 전체 화면에서는 두 손가락으로도 확대됩니다.</p></div></section>`;
   }
   function chartSide(code) {
     const a = aptBy[code], M = chMeta(a.icao); if (!M) return "";
@@ -203,7 +203,7 @@
       return o.join("");
     }
 
-    // 조작: 마우스 드래그, 두 손가락(전체 화면), 휠(Ctrl 또는 전체 화면), 두 번 클릭, 키보드
+    // 조작: 마우스 드래그, 두 손가락(전체 화면), 휠, 두 번 클릭, 키보드
     const pts = new Map(); let base = null;
     const rel = e => { const r = view.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
     const isFull = () => root.classList.contains("full");
@@ -232,10 +232,12 @@
     });
     const up = e => { if (!pts.has(e.pointerId)) return; pts.delete(e.pointerId); rebase(); if (!pts.size) view.classList.remove("grab"); };
     view.addEventListener("pointerup", up); view.addEventListener("pointercancel", up);
-    let tipT = 0;
     view.addEventListener("wheel", e => {
-      if (!e.ctrlKey && !e.metaKey && !isFull()) { if (!st.dataset.busy) { st.hidden = false; st.textContent = "Ctrl을 누른 채 휠을 돌리면 확대됩니다"; clearTimeout(tipT); tipT = setTimeout(() => { if (!st.dataset.busy) st.hidden = true; }, 1600); } return; }
-      e.preventDefault(); const p = rel(e); zoomAt(Math.exp(-e.deltaY * (e.deltaMode === 1 ? .05 : .0022)), p[0], p[1]);
+      if (e.target.closest(".ch-tools")) return;
+      const f = Math.exp(-e.deltaY * (e.deltaMode === 1 ? .05 : .0022));
+      // 휠만으로 확대·축소한다. 페이지 안에서는 전체 보기보다 더 줄이지 않고, 더 줄일 수 없을 때는 페이지가 스크롤되도록 둔다.
+      if (!isFull() && !e.ctrlKey && !e.metaKey && f < 1 && S.mpp >= S.fit * .999) return;
+      e.preventDefault(); const p = rel(e); zoomAt(isFull() || e.ctrlKey || e.metaKey ? f : Math.max(f, S.mpp / S.fit), p[0], p[1]);
     }, { passive: false });
     view.addEventListener("dblclick", e => { if (e.target.closest(".ch-tools")) return; const p = rel(e); zoomAt(2, p[0], p[1]); });
     view.addEventListener("keydown", e => {

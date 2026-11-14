@@ -45,7 +45,17 @@ CC BY-SA 사진을 고친 파일은 원본과 같은 라이선스로 배포됩�
 - Flight data: [FlyItalyADSB](https://flyitalyadsb.com), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 - `src/cover.js` 는 수신 범위 스냅숏(2026-11-12 16:02 UTC)입니다. API 키 없이 볼 때 나오는 예시 항공편은 실제 비행이 아닙니다.
 
+## 지구본 (`src/world.js`, 비행 지도 페이지)
+
+- 국가 경계: [Natural Earth](https://www.naturalearthdata.com/) 1:110m (퍼블릭 도메인), [world-atlas](https://github.com/topojson/world-atlas) 2.0.2 (ISC)에서 변환
+
+## 참고한 것
+
+- 메뉴 구성(Flight Center · My Profile · Activities · Community · Documents · Resources)은 가상 항공사 포털에서 흔히 쓰는 목차를 따랐습니다. 화면과 코드는 이 저장소에서 새로 만든 것이며, 특정 서비스의 상표나 디자인 자산을 쓰지 않았습니다.
+- ICAO 분류(비행장 기준 코드, 항적 난기류 등급, 구조·소방 등급)는 ICAO 부속서 14, Doc 4444, Doc 8643의 공개된 기준값으로 계산한 요약이며 공식 문서를 대신하지 않습니다.
+
 ## 라이브러리·글꼴 (CDN에서 불러옴)
 
 - [jsvectormap](https://github.com/themustafaomar/jsvectormap) 1.5.3 (MIT)
+- [d3-geo](https://github.com/d3/d3-geo) 3.1.1, [d3-array](https://github.com/d3/d3-array) 3.2.4 (ISC), [topojson-client](https://github.com/topojson/topojson-client) 3.1.0 (ISC)
 - [Figtree](https://fonts.google.com/specimen/Figtree), [Noto Sans KR](https://fonts.google.com/noto/specimen/Noto+Sans+KR), [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) (Google Fonts, 각 글꼴의 오픈 폰트 라이선스)

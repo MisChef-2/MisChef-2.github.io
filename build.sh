@@ -4,7 +4,7 @@
 #   artifact.html : claude.ai 아티팩트 게시용 (문서 껍데기 없이 본문만, 저장소에는 올리지 않는다)
 cd "$(dirname "$0")"
 node src/patch-core.js || exit 1
-PARTS="photos.js cover.js data.js charts-meta.js core2.js live.js pilot.js chart.js hub-app.js"
+PARTS="photos.js cover.js data.js why.js about.js charts-meta.js world.js core2.js icao.js cmpart.js live.js pilot.js portal.js globe.js chart.js hub-app.js"
 FILES=""
 for p in $PARTS; do FILES="$FILES src/$p"; done
 H=src/hub.html

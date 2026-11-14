@@ -7,17 +7,30 @@
 
 ## 기능
 
-| 메뉴 | 내용 |
-|---|---|
-| 대시보드 | 조종사 요약, 최근 비행, 공지 |
-| 비행 예약 (`#book`) | 지도에서 노선을 골라 비행 예약 |
-| 내 비행 (`#flights`) | 비행 기록과 PIREP(비행 보고서) 작성·채점 |
-| 실시간 운항 (`#live`) | FlyItalyADSB API로 주변 항공기·기종별 추적 (API 키 필요) |
-| 내 프로필 · 활동 · 리더보드 | 계급, 배지, 투어·챌린지, 순위 |
-| 공항 (`#airports`) | 66개 공항 정보와 비행장 차트 (활주로·유도로·계류장·터미널·주파수, 확대/이동, 주간·야간, 전체 화면) |
-| 기종 백과 (`#fleet`) | 보잉·에어버스 21개 기종의 제원, 도면(평면·측면·정면), 사진, 비교, 연표 |
+메뉴는 가상 항공사 조종사 포털의 일반적인 목차를 따릅니다.
+
+| 묶음 | 메뉴 | 내용 |
+|---|---|---|
+| | 소개 (`#about`) | 사이트를 만든 사람 소개. 내용은 `src/about.js` 에서 고칩니다 |
+| | 대시보드 (`#home`) | 조종사 요약, 최근 비행, 공지 |
+| Flight Center | 비행 예약 (`#book`) | 지도에서 목적지와 기종을 골라 예약 |
+| | 취항지 (`#dest`) | 출발 공항별로 갈 수 있는 공항, 거리, 예상 시간 |
+| | 비행 생성기 (`#generator`) · 내 로스터 (`#rosters`) | 여러 구간 일정을 무작위로 만들고 저장해 진행 상황을 추적 |
+| | 내 예약 (`#flights`) · PIREP (`#pireps`) · 클레임 (`#claims`) | 예약 확인, 비행 보고서 제출·채점, 예약 없는 비행의 수동 보고 |
+| | 실시간 운항 (`#live`) | FlyItalyADSB API로 주변 항공기·기종별 추적 (API 키 필요) |
+| My Profile | 프로필 · 통계 (`#stats`) | 기간별 통계, 계급, 월별 차트, 기종별 로그북 |
+| | 비행 지도 (`#map`) | 비행한 노선을 3차원 지구본에 그림 (끌어서 회전, 휠로 확대) |
+| | 패스포트 (`#passport`) · 배지 · 설정 | 방문한 공항과 나라, 배지, 이름·단위 설정 |
+| Activities · Community | 투어 · 도전 과제, 리더보드 | 정해진 구간 완주, 점수 순위 |
+| Documents | NOTAM · 계급 안내 · 점수 기준 · ICAO 기준 (`#icao`) | 운영 공지와 규칙, ICAO 분류 설명 |
+| Resources | 공항 (`#airports`) | 66개 공항 정보와 비행장 차트 (활주로·유도로·주파수, 휠 확대, 주간·야간, 전체 화면) |
+| | 기종 백과 (`#fleet`) · 기종 비교 · 연표 | 보잉·에어버스 21개 기종의 개발 배경(왜 만들어졌나), 제원, ICAO 분류, 도면, 같은 축척 비교 그림 |
 
 조종사 기록은 브라우저 저장소(localStorage)에 남습니다.
+
+### 소개 글 고치기
+
+메뉴 맨 위 "소개"의 이름, 소개 글, 링크는 `src/about.js` 한 파일에 있습니다. 고친 뒤 `sh build.sh` 를 다시 실행하세요. 공개 사이트에 그대로 실리므로 올려도 되는 내용만 적으세요.
 
 ## 실행
 
@@ -43,16 +56,23 @@ index.html          빌드된 사이트 (이 파일만 열면 동작)
 build.sh            src/ 를 합쳐 index.html 을 만든다
 src/
   hub.html          레이아웃과 CSS
+  about.js          소개 페이지 내용 (이름, 소개 글, 링크)
   photos.js         사진 목록과 출처
   data.js           기종 데이터
+  why.js            기종별 개발 배경(왜 만들어졌나)과 시대별 요약
   cover.js          FlyItalyADSB 수신 범위 스냅숏
   charts-meta.js    공항별 활주로·주파수 (tools/chart-build.js 가 만든다)
+  world.js          지구본용 국가 경계 (tools/world-build.js 가 만든다)
   core.js, draw-a.js, draw-b.js
                     도면 그리기 (patch-core.js 가 합쳐 core2.js 를 만든다)
+  icao.js           ICAO 분류 계산과 기준 안내 문서
+  cmpart.js         기종 비교 그림 (같은 축척의 측면·평면·정면)
   live.js           실시간 운항
-  pilot.js          조종사 포털 (공항, 예약, PIREP, 프로필 …)
+  pilot.js          조종사 포털 (공항, 예약, PIREP, 프로필, 대시보드)
+  portal.js         메뉴와 추가 페이지 (취항지, 비행 생성기, 로스터, 통계, 패스포트 …)
+  globe.js          비행 지도 지구본
   chart.js          비행장 차트 그리기
-  hub-app.js        라우팅과 나머지 화면
+  hub-app.js        라우팅과 기종 백과 화면
 photos/             기종·배너 사진 (photos/sm/ 은 작은 크기)
 charts/             공항별 유도로·계류장·터미널 도형 (OpenStreetMap에서 만듦)
 fonts/              선택 글꼴 자리 (fonts/README.md 참고)
@@ -88,6 +108,14 @@ node tools/chart-build.js chartsrc .
 
 ```bash
 sh build.sh
+```
+
+## 지구본 지도 데이터 다시 만들기
+
+`src/world.js` 는 [world-atlas](https://github.com/topojson/world-atlas) 의 `countries-110m.json` (Natural Earth 1:110m)에서 국가 경계만 남긴 것입니다. 원본을 `chartsrc/world/` 에 받아 두고 실행합니다.
+
+```bash
+node tools/world-build.js chartsrc/world/countries-110m.json
 ```
 
 ## 출처
