@@ -1,0 +1,16 @@
+# 빌드 중간 산출물
+src/core2.js
+artifact.html
+bundle.check.js
+
+# 비행장 차트 원자료 (용량이 커서 tools/ 스크립트로 다시 받는다)
+chartsrc/
+
+# 배포 허락이 없는 폰트 파일 (fonts/README.md 참고)
+fonts/*.woff2
+fonts/*.woff
+
+*.zip
+node_modules/
+.DS_Store
+Thumbs.db
