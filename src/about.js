@@ -19,23 +19,29 @@ const ABOUT = {
   intro: [
     "안녕하세요. 김성훈입니다. 중앙대학교 스마트시티학과(Dep. of Smartcity) Urban Space Design & Analytics Lab 소속입니다.",
     "스마트시티, 로봇, 보행자, 도시 환경, 안전에 관심을 두고 연구하고 있습니다.",
-    "이 사이트 Jetliner Hub는 가상 항공사 Jetliner Virtual의 조종사 포털을 본떠 만든 개인 프로젝트입니다. Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
+    "이 사이트 Jetliner Hub는 가상 항공사를 만든 개인 프로젝트입니다. Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
   ],
   // 관심 분야 꼬리표
-  tags: ["Smartcity", "Robot", "Pedestrian", "Environments", "Safety"],
+  tags: ["Smartcity", "Aerodynamics" ,"Robot", "Pedestrian", "Environments", "Safety"],
 
-  // 02 / Selected projects : [제목, 분류, 설명, 주소(없으면 "")]
+  // 02 / Projects : [제목, 분류, 설명, 주소(없으면 "")]
   //   분류와 설명은 비워 두면("") 화면에 나오지 않습니다.
   work: [
-    ["개인연구 (석사)", "", "", ""],
-    ["AURI 관리건축물 식별", "", "", ""],
-    ["VR3", "", "", ""],
+    ["개인연구 (석사)", "2026-09-01 ~ 2027-08-31", "중앙대학교", "진행중"],
+    ["AURI 관리건축물 식별", "2026-05-16 ~ 2026-11-17", "AURI", "완료"],
+    ["VR3", "2026-09-01 ~ 2027-08-31", "한국연구재단", "진행중"],
     ["Jetliner Hub", "Web development", "가상 항공사 조종사 포털. 비행 예약과 기록, 3차원 비행 지도, 66개 공항 차트, 기종 백과를 파일 하나로 동작하는 정적 사이트로 만들었습니다.", "#home"]
   ],
 
   // 03 / Publications : [연도, 제목, 저자, 실린 곳]. 논문이 없으면 수업 보고서나 발표 자료를 적어도 됩니다.
   //   예: ["2026", "논문 제목", "김성훈, 공저자", "학술지 / 학회"]
-  pubs: [],
+  pubs: [
+     [SCI],
+     [SSCI],
+     [KCI],
+     [학술지],
+     [학회]
+],
 
   // 이 사이트 둘러보기 : [제목, 설명, 사이트 안 주소]
   projects: [
