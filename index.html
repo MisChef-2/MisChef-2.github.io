@@ -861,6 +861,10 @@ a.ab-w:hover b{color:var(--primary-fg)}
 .ab-pubs div{display:grid;gap:3px;font-size:13.5px;color:var(--fg-2)}
 .ab-pubs b{color:var(--fg);font-size:16px;line-height:1.4}
 .ab-y{font-size:20px;color:var(--fg)}
+.ab-cat{font-size:15px;font-weight:700;color:var(--primary-fg);padding-top:2px}
+.ab-pubs .ab-pl{gap:14px}
+.ab-n{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ab-n .pill{font-style:normal;font-size:11px}
 @media (max-width:900px){
   .gl-wrap{height:auto;display:flex;flex-direction:column}
   .gl-stage{position:relative;inset:auto;height:min(78vw,460px)}
@@ -2056,6 +2060,8 @@ const ABOUT = {
   tagline: ["So desperate, I couldn't give up.", "So certain, I couldn't stop."],
   // [이름, 주소]
   links: [
+    ["onfoa@cau.ac.kr", "mailto:onfoa@cau.ac.kr"],
+    ["연구실 홈페이지", "https://www.urbandna.net/"],
     ["GitHub", "https://github.com/MisChef-2"],
     ["소스 저장소", "https://github.com/MisChef-2/MisChef-2.github.io"]
   ],
@@ -2064,23 +2070,29 @@ const ABOUT = {
   intro: [
     "안녕하세요. 김성훈입니다. 중앙대학교 스마트시티학과(Dep. of Smartcity) Urban Space Design & Analytics Lab 소속입니다.",
     "스마트시티, 로봇, 보행자, 도시 환경, 안전에 관심을 두고 연구하고 있습니다.",
-    "이 사이트 Jetliner Hub는 가상 항공사 Jetliner Virtual의 조종사 포털을 본떠 만든 개인 프로젝트입니다. Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
+    "이 사이트 Jetliner Hub는 가상 항공사를 만든 개인 프로젝트입니다. Jetliner Virtual은 실제로 존재하지 않는 항공사이며, 사이트의 차트와 수치는 참고용입니다."
   ],
   // 관심 분야 꼬리표
-  tags: ["Smartcity", "Robot", "Pedestrian", "Environments", "Safety"],
+  tags: ["Smartcity", "Aerodynamics" ,"Robot", "Pedestrian", "Environments", "Safety"],
 
-  // 02 / Selected projects : [제목, 분류, 설명, 주소(없으면 "")]
+  // 02 / Projects : [제목, 분류, 설명, 주소(없으면 "")]
   //   분류와 설명은 비워 두면("") 화면에 나오지 않습니다.
   work: [
-    ["개인연구 (석사)", "", "", ""],
-    ["AURI 관리건축물 식별", "", "", ""],
-    ["VR3", "", "", ""],
+    ["개인연구 (석사)", "2026-09-01 ~ 2027-08-31", "중앙대학교", "진행중"],
+    ["AURI 관리건축물 식별", "2026-05-16 ~ 2026-11-17", "AURI", "완료"],
+    ["VR3", "2026-09-01 ~ 2027-08-31", "한국연구재단", "진행중"],
     ["Jetliner Hub", "Web development", "가상 항공사 조종사 포털. 비행 예약과 기록, 3차원 비행 지도, 66개 공항 차트, 기종 백과를 파일 하나로 동작하는 정적 사이트로 만들었습니다.", "#home"]
   ],
 
   // 03 / Publications : [연도, 제목, 저자, 실린 곳]. 논문이 없으면 수업 보고서나 발표 자료를 적어도 됩니다.
   //   예: ["2026", "논문 제목", "김성훈, 공저자", "학술지 / 학회"]
-  pubs: [],
+  pubs: [
+     ["SCI"],
+     ["SSCI"],
+     ["KCI"],
+     ["학술지"],
+     ["학회"]
+],
 
   // 이 사이트 둘러보기 : [제목, 설명, 사이트 안 주소]
   projects: [
@@ -3491,13 +3503,17 @@ ${mapCard()}
     const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], links: [], projects: [] }, nm = A.name || "이름";
     const tag = [].concat(A.tagline || []), work = A.work || [], pubs = A.pubs || [], site = A.projects || [], tags = A.tags || [];
     const sec = (n, sub, title, body) => `<section class="card c12 ab-sec"><div class="ab-sh"><p class="lbl">${n} / ${sub}</p><h2>${title}</h2></div>${body}</section>`;
-    const item = (w, i) => { const lk = w[3], ext = /^https?:/.test(lk || ""), body = `<span class="ab-n">${String(i + 1).padStart(2, "0")}</span><b>${esc(w[0])}</b>${w[1] ? `<small>${esc(w[1])}</small>` : ""}${w[2] ? `<span>${esc(w[2])}</span>` : ""}`; return lk ? `<a class="ab-w" href="${esc(lk)}"${ext ? ` target="_blank" rel="noopener"` : ""}>${body}</a>` : `<div class="ab-w">${body}</div>`; };
+    // 넷째 칸이 #이나 http로 시작하면 주소, 아니면 상태 표시(진행중·완료 등)로 본다.
+    const item = (w, i) => { const isLk = /^(#|https?:)/.test(w[3] || ""), lk = isLk ? w[3] : "", stt = isLk ? "" : (w[3] || ""), ext = /^https?:/.test(lk), body = `<span class="ab-n">${String(i + 1).padStart(2, "0")}${stt ? `<span class="pill ${/완료|종료/.test(stt) ? "off" : "ok"}">${esc(stt)}</span>` : ""}</span><b>${esc(w[0])}</b>${w[1] ? `<small>${esc(w[1])}</small>` : ""}${w[2] ? `<span>${esc(w[2])}</span>` : ""}`; return lk ? `<a class="ab-w" href="${esc(lk)}"${ext ? ` target="_blank" rel="noopener"` : ""}>${body}</a>` : `<div class="ab-w">${body}</div>`; };
+    // 논문 목록: ["SCI"] 처럼 한 칸짜리는 분류 제목이고, 그 아래 [연도, 제목, 저자, 실린 곳] 이 그 분류에 들어간다.
+    const pgrp = []; pubs.forEach(p => { if (p.length === 1) pgrp.push({ c: p[0], it: [] }); else if (pgrp.length && pgrp[pgrp.length - 1].c != null) pgrp[pgrp.length - 1].it.push(p); else pgrp.push({ c: null, it: [p] }); });
+    const pubRow = g => g.c == null ? `<li><span class="ab-y">${esc(g.it[0][0])}</span><div><b>${esc(g.it[0][1])}</b><span>${esc(g.it[0][2])}</span><small>${esc(g.it[0][3])}</small></div></li>` : `<li><span class="ab-y ab-cat">${esc(g.c)}</span><div class="ab-pl">${g.it.map(p => `<div><b>${esc(p[1])}</b><span>${esc(p[2])}</span><small>${esc(p[0])} · ${esc(p[3])}</small></div>`).join("") || `<span class="muted">준비 중</span>`}</div></li>`;
     let n = 1; const no = () => String(n++).padStart(2, "0");
     return `<div class="grid">
-<section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div>${A.eyebrow ? `<p class="lbl">${esc(A.eyebrow)}</p>` : ""}<h1>${esc(nm)}${A.nameEn ? ` <small class="ab-en">${esc(A.nameEn)}</small>` : ""}</h1>${tag.length ? `<p class="ab-tag">${tag.map(esc).join("<br>")}</p>` : ""}<div class="actions">${(A.links || []).map(l => `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
+<section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div>${A.eyebrow ? `<p class="lbl">${esc(A.eyebrow)}</p>` : ""}<h1>${esc(nm)}${A.nameEn ? ` <small class="ab-en">${esc(A.nameEn)}</small>` : ""}</h1>${tag.length ? `<p class="ab-tag">${tag.map(esc).join("<br>")}</p>` : ""}<div class="actions">${(A.links || []).map(l => /^mailto:/.test(l[1]) ? `<a class="btn ghost" href="${esc(l[1])}">${ICON.doc}${esc(l[0])}</a>` : `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
 ${sec(no(), "A little introduction", "About me.", `<div class="ab-body prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}${tags.length ? `<div class="ab-tags">${tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>` : ""}</div>`)}
 ${work.length ? sec(no(), "Ideas in practice", "Selected projects.", `<div class="ab-work">${work.map(item).join("")}</div>`) : ""}
-${pubs.length ? sec(no(), "Writing &amp; research", "Publications.", `<ol class="ab-pubs">${pubs.map(p => `<li><span class="ab-y">${esc(p[0])}</span><div><b>${esc(p[1])}</b><span>${esc(p[2])}</span><small>${esc(p[3])}</small></div></li>`).join("")}</ol>`) : ""}
+${pubs.length ? sec(no(), "Writing &amp; research", "Publications.", `<ol class="ab-pubs">${pgrp.map(pubRow).join("")}</ol>`) : ""}
 ${site.length ? `<section class="card c12">${cardH(ICON.star, "이 사이트 둘러보기")}<div class="ab-proj">${site.map(p => `<a class="ab-p" href="${esc(p[2])}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></a>`).join("")}</div></section>` : ""}
 </div>`;
   }

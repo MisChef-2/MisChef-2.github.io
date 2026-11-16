@@ -11,6 +11,8 @@ const ABOUT = {
   tagline: ["So desperate, I couldn't give up.", "So certain, I couldn't stop."],
   // [이름, 주소]
   links: [
+    ["onfoa@cau.ac.kr", "mailto:onfoa@cau.ac.kr"],
+    ["연구실 홈페이지", "https://www.urbandna.net/"],
     ["GitHub", "https://github.com/MisChef-2"],
     ["소스 저장소", "https://github.com/MisChef-2/MisChef-2.github.io"]
   ],
@@ -36,11 +38,11 @@ const ABOUT = {
   // 03 / Publications : [연도, 제목, 저자, 실린 곳]. 논문이 없으면 수업 보고서나 발표 자료를 적어도 됩니다.
   //   예: ["2026", "논문 제목", "김성훈, 공저자", "학술지 / 학회"]
   pubs: [
-     [SCI],
-     [SSCI],
-     [KCI],
-     [학술지],
-     [학회]
+     ["SCI"],
+     ["SSCI"],
+     ["KCI"],
+     ["학술지"],
+     ["학회"]
 ],
 
   // 이 사이트 둘러보기 : [제목, 설명, 사이트 안 주소]
