@@ -220,10 +220,16 @@
   /* ---------- 소개 ---------- */
   function renderAbout() {
     const A = typeof ABOUT !== "undefined" ? ABOUT : { name: "", tagline: "", intro: [], links: [], projects: [] }, nm = A.name || "이름";
+    const tag = [].concat(A.tagline || []), work = A.work || [], pubs = A.pubs || [], site = A.projects || [], tags = A.tags || [];
+    const sec = (n, sub, title, body) => `<section class="card c12 ab-sec"><div class="ab-sh"><p class="lbl">${n} / ${sub}</p><h2>${title}</h2></div>${body}</section>`;
+    const item = (w, i) => { const lk = w[3], ext = /^https?:/.test(lk || ""), body = `<span class="ab-n">${String(i + 1).padStart(2, "0")}</span><b>${esc(w[0])}</b>${w[1] ? `<small>${esc(w[1])}</small>` : ""}${w[2] ? `<span>${esc(w[2])}</span>` : ""}`; return lk ? `<a class="ab-w" href="${esc(lk)}"${ext ? ` target="_blank" rel="noopener"` : ""}>${body}</a>` : `<div class="ab-w">${body}</div>`; };
+    let n = 1; const no = () => String(n++).padStart(2, "0");
     return `<div class="grid">
-<section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div><p class="lbl">About me · 소개</p><h1>${esc(nm)}</h1>${A.tagline ? `<p class="ab-tag">${esc(A.tagline)}</p>` : ""}<div class="actions">${(A.links || []).map(l => `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
-<section class="card c12">${cardH(ICON.user, "소개")}<div class="card-b prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}</div></section>
-<section class="card c12">${cardH(ICON.star, "이 사이트에 있는 것")}<div class="ab-proj">${(A.projects || []).map(p => `<a class="ab-p" href="${esc(p[2])}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></a>`).join("")}</div></section>
+<section class="card c12 ab-hero"><span class="avatar ab-av">${esc(nm.slice(0, 1).toUpperCase())}</span><div>${A.eyebrow ? `<p class="lbl">${esc(A.eyebrow)}</p>` : ""}<h1>${esc(nm)}${A.nameEn ? ` <small class="ab-en">${esc(A.nameEn)}</small>` : ""}</h1>${tag.length ? `<p class="ab-tag">${tag.map(esc).join("<br>")}</p>` : ""}<div class="actions">${(A.links || []).map(l => `<a class="btn ghost" href="${esc(l[1])}" target="_blank" rel="noopener">${ICON.ext}${esc(l[0])}</a>`).join("")}<a class="btn" href="#home">${ICON.grid}대시보드로</a></div></div></section>
+${sec(no(), "A little introduction", "About me.", `<div class="ab-body prose">${(A.intro || []).map(t => `<p>${esc(t)}</p>`).join("") || `<p class="muted">소개 글이 아직 없습니다.</p>`}${tags.length ? `<div class="ab-tags">${tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>` : ""}</div>`)}
+${work.length ? sec(no(), "Ideas in practice", "Selected projects.", `<div class="ab-work">${work.map(item).join("")}</div>`) : ""}
+${pubs.length ? sec(no(), "Writing &amp; research", "Publications.", `<ol class="ab-pubs">${pubs.map(p => `<li><span class="ab-y">${esc(p[0])}</span><div><b>${esc(p[1])}</b><span>${esc(p[2])}</span><small>${esc(p[3])}</small></div></li>`).join("")}</ol>`) : ""}
+${site.length ? `<section class="card c12">${cardH(ICON.star, "이 사이트 둘러보기")}<div class="ab-proj">${site.map(p => `<a class="ab-p" href="${esc(p[2])}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></a>`).join("")}</div></section>` : ""}
 </div>`;
   }
 
