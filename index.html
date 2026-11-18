@@ -338,7 +338,8 @@ button.apcard{cursor:pointer}
 .live-ov .ringlab{fill:var(--fg-2);font-size:10.5px}
 .live-ov .here circle{fill:var(--fg);stroke:var(--inset);stroke-width:2}
 .live-ov .here text{fill:var(--fg);font-size:12px;font-weight:700}
-.live-ov .apt{pointer-events:none}
+.live-ov .apt,.live-ov .here{pointer-events:all;cursor:pointer}
+.live-ov .apt:hover rect{fill:var(--wm-accent)} .live-ov .apt:hover text{fill:var(--wm-accent)}
 .live-ov .apt rect{fill:var(--muted)}
 .live-ov .apt text{fill:var(--muted);font-size:10.5px}
 .live-ov .trail{fill:none;stroke:var(--warn);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
@@ -1355,6 +1356,36 @@ a.abw:hover{background:var(--primary-soft)}
 .b2-n{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .hub-calm .badge2.got:hover .medal{animation:none}
 @media (max-width:640px){.badges2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.badge2{padding:16px 8px 14px}.badge2 .medal{width:70px;height:80px}}
+.mn-news{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 18px 12px;font-size:12.5px}
+.mn-news-k{display:flex;align-items:center;gap:5px;font-weight:700;color:var(--fg-2)} .mn-news-k .i{width:14px;height:14px}
+.mn-news a{display:flex;align-items:baseline;gap:6px;min-width:0;max-width:100%;padding:6px 10px;border-radius:8px;background:var(--tile);color:var(--fg);text-decoration:none}
+.mn-news a:hover{background:color-mix(in srgb,var(--wm-accent) 12%,var(--tile))}
+.mn-news a b{flex:none;color:var(--wm-accent);font-weight:700}
+.mn-news a span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}
+.mn-news a small{flex:none;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:640px){.mn-news{padding:10px 12px}.mn-news a{width:100%}.mn-news a span{max-width:none}}
+/* 통계 그래프에는 테두리를 두지 않는다 (테두리는 비행장 차트에만) */
+.plot svg.chart,svg.chart.hchart,svg.chart.tl{border:0!important;border-radius:0;background:none}
+/* 조종 매뉴얼 그림: 왼쪽에 작게, 설명은 오른쪽 */
+.mn-sit.open .mn-sit-b:has(>.mn-img){display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:22px;align-items:start}
+.mn-sit-b>.mn-img{grid-row:1 / span 12;aspect-ratio:4/3;margin:0;position:sticky;top:80px}
+.mn-sit-b:has(>.mn-img)>*:not(.mn-img){grid-column:2}
+.mn-tipwrap{display:flex;gap:20px;align-items:flex-start}
+.mn-tipwrap>.mn-tip-img{flex:none;width:136px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;background:var(--photo-bg)}
+.mn-tipwrap>.mn-tips{flex:1;min-width:0;align-content:start}
+.mn-tip{display:grid;gap:6px} .mn-tip p{margin:0!important}
+@media (max-width:760px){
+  .mn-sit.open .mn-sit-b:has(>.mn-img){grid-template-columns:110px minmax(0,1fr);column-gap:14px}
+  .mn-sit-b>.mn-img{grid-row:1 / span 1;aspect-ratio:1/1;position:static}
+  .mn-sit-b:has(>.mn-img)>.mn-cols{grid-column:1 / -1}
+  .mn-tipwrap{gap:12px}
+  .mn-tipwrap>.mn-tip-img{width:84px}
+}
+.lv3d.on-ap{cursor:pointer}
+.lv-acleg{position:absolute;right:58px;bottom:14px;z-index:6;display:none;flex-wrap:wrap;gap:6px 12px;padding:7px 11px;border-radius:9px;background:rgba(8,16,30,.72);color:#dbe6f5;font-size:11.5px;pointer-events:none}
+#livecard.show-ac .lv-acleg{display:flex}
+@media (max-width:760px){.lv-acleg{right:52px;left:auto;bottom:10px;max-width:calc(100% - 110px);font-size:10.5px;gap:4px 9px} .livewrap.is-3d .lv-acleg{top:296px;bottom:auto}}
+.lv-acleg span{display:flex;align-items:center;gap:5px} .lv-acleg i{width:8px;height:8px;border-radius:50%}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}
@@ -3242,6 +3273,7 @@ ${spanScale([ac])}
   const normAc = a => Object.assign({}, a, { flight: String(a.flight || "").trim() });
   function demoFor() {
     const all = demoAircraft();
+    if (LV.scope === "all") return all;
     if (LV.scope === "type") return all.filter(a => famOf(a.t) === LV.typeId);
     const p = placeById[LV.place]; return all.filter(a => distKm([p.lat, p.lon], [a.lat, a.lon]) <= LV.radius);
   }
@@ -3250,6 +3282,7 @@ ${spanScale([ac])}
       try {
         let list = [];
         if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(d.ac || []); } }
+        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); (d.ac || []).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
         else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = d.ac || []; }
         LV.ac = list.filter(a => typeof a.lat === "number" && typeof a.lon === "number").map(normAc); LV.acSrc = "live"; LV.acTime = Date.now(); LV.err = null; return;
       } catch (e) { LV.err = errText(e); if (!e.status && LV.net === null) LV.net = false; }
@@ -3275,7 +3308,7 @@ ${spanScale([ac])}
     const hv = cv.d.hourly || [], n = hv.length; if (!n) return "";
     const W = 272, H = 84, m = { l: 4, r: 4, t: 6, b: 16 }, max = Math.max.apply(null, hv.concat([1])), bw = (W - m.l - m.r) / n, start = new Date(cv.d.from).getTime();
     let o = "";
-    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시대 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="middle">${String(hr).padStart(2, "0")}시</text>`; });
+    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시대 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(i === 0 ? m.l : i === n - 1 ? W - m.r : m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${String(hr).padStart(2, "0")}시</text>`; });
     return `<svg class="chart hchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="지난 24시간의 시간대별 항공기 수. 최대 ${fmt(max)}대">${o}</svg>`;
   }
   const sparkline = hv => { if (!hv || !hv.length) return ""; const W = 120, H = 28, max = Math.max.apply(null, hv.concat([1])), bw = W / hv.length; return `<svg class="spark" viewBox="0 0 ${W} ${H}" aria-hidden="true">${hv.map((v, i) => `<rect x="${N(i * bw + 0.5)}" y="${N(H - Math.max(1, v / max * H))}" width="${N(bw - 1)}" height="${N(Math.max(1, v / max * H))}" rx="1"/>`).join("")}</svg>`; };
@@ -3321,9 +3354,10 @@ ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span 
     const fam = mk => `<optgroup label="${makerName(mk)}">${AIRCRAFT.filter(a => a.maker === mk).map(a => `<option value="${a.id}" ${LV.typeId === a.id ? "selected" : ""}>${ICAO[a.id]} ${esc(a.name)}</option>`).join("")}</optgroup>`;
     const p = placeById[LV.place], n = shown().length;
     return `<div class="fp-h"><h2>${ICON.plane}실시간 운항</h2>
-<div class="seg wide" role="group" aria-label="조회 방식">${lbtn("scope:area", "공역", LV.scope === "area", "ls-area")}${lbtn("scope:type", "기종 추적", LV.scope === "type", "ls-type")}</div>
+<div class="seg wide" role="group" aria-label="조회 방식">${lbtn("scope:area", "공역", LV.scope === "area", "ls-area")}${lbtn("scope:all", "전체 공항", LV.scope === "all", "ls-all")}${lbtn("scope:type", "기종 추적", LV.scope === "type", "ls-type")}</div>
 ${LV.scope === "area" ? `<select class="sel" id="live-place" aria-label="지점 선택">${grp("국내 공항", "kr")}${grp("보잉 조립 공장", "boeing")}${grp("에어버스 조립 공장", "airbus")}</select><p>${esc(p.sub)}</p>
 <div class="tabs">${lbtn("tab:traffic", "24시간 교통량", LV.tab === "traffic", "lt-traffic")}${lbtn("tab:aircraft", `항공기 ${n}`, LV.tab === "aircraft", "lt-aircraft")}</div>`
+        : LV.scope === "all" ? `<p>공항과 공장 ${PLACES.length}곳 주변(각 250 km)에서 지금 움직이는 항공기를 한 화면에 모았습니다. 공항 점을 누르면 그 공항으로 날아가 공역 보기로 바뀝니다.</p>`
         : `<select class="sel" id="live-type" aria-label="기종 선택">${fam("boeing")}${fam("airbus")}</select><p>이 기종으로 지금 추적 중인 기체를 네트워크 전체에서 찾습니다. ${FAMILY_CODES[LV.typeId].map(c => `<span class="code">${c}</span>`).join(" ")}</p>`}</div>
 <div class="fp-list">${LV.scope === "area" && LV.tab === "traffic" ? trafficTab() : aircraftTab()}</div>
 <div class="fp-f">${esc(FIA_CREDIT)}</div>`;
@@ -3360,13 +3394,15 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         const hp = heatPts(cv, (la, lo) => { const q = P(la, lo); return q && inV(q) ? q : null; }, cell);
         if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; void st;
       }
-      const ring = (km, cls) => { let d = ""; for (let i = 0; i <= 60; i++) { const g = destPt(pl.lat, pl.lon, i * 6, km), q = P(g[0], g[1]); if (!q) return ""; d += (i ? "L" : "M") + N(q.x) + " " + N(q.y); } const t = P.apply(null, destPt(pl.lat, pl.lon, 0, km)); return `<path class="ring ${cls}" d="${d}Z"/>${t ? `<text class="ringlab" x="${N(t.x)}" y="${N(t.y - 4)}" text-anchor="middle">${km} km</text>` : ""}`; };
+      // 반경 원: 지도 투영(밀러)이 위아래로 늘어나 경로로 그리면 타원이 된다. 화면에서는 동서 방향 1 km 길이로 반지름을 잡아 완전한 원으로 그린다
+      const kmPx = pxDeg / (111.32 * Math.cos(toR(pl.lat)));
+      const ring = (km, cls) => { if (!c0 || !kmPx) return ""; const r = km * kmPx; return `<circle class="ring ${cls}" cx="${N(c0.x)}" cy="${N(c0.y)}" r="${N(r)}"/><text class="ringlab" x="${N(c0.x)}" y="${N(c0.y - r - 4)}" text-anchor="middle">${km} km</text>`; };
       if (pxDeg > 6) { o += ring(100, "r1"); if (LV.tab === "aircraft" || LV.sel) o += ring(LV.radius, "r2"); }
-      if (c0) o += `<g class="here"><circle cx="${N(c0.x)}" cy="${N(c0.y)}" r="5"/><text x="${N(c0.x + 9)}" y="${N(c0.y + 4)}">${pl.code}</text></g>`;
+      if (c0) o += `<g class="here" data-apt="${pl.code}"><circle cx="${N(c0.x)}" cy="${N(c0.y)}" r="5"/><text x="${N(c0.x + 9)}" y="${N(c0.y + 4)}">${pl.code}</text></g>`;
     }
-    if (pxDeg > 14) Object.keys(AP).forEach(k => { if (k === pl.code) return; const q = P(AP[k][0], AP[k][1]); if (inV(q)) o += `<g class="apt"><rect x="${N(q.x - 2.5)}" y="${N(q.y - 2.5)}" width="5" height="5"/><text x="${N(q.x + 6)}" y="${N(q.y + 4)}">${k}</text></g>`; });
+    if (pxDeg > 14) Object.keys(AP).forEach(k => { if (k === pl.code) return; const q = P(AP[k][0], AP[k][1]); if (inV(q)) o += `<g class="apt" data-apt="${k}"><rect x="${N(q.x - 2.5)}" y="${N(q.y - 2.5)}" width="5" height="5"/><text x="${N(q.x + 6)}" y="${N(q.y + 4)}">${k}</text></g>`; });
     if (LV.trail && LV.trail.length > 1) { let d = "", pen = false, prev = null; LV.trail.forEach(t => { const q = P(t[0], t[1]); if (!q || (prev && Math.abs(q.x - prev.x) > W * 0.6)) { pen = false; prev = q; return; } d += (pen ? "L" : "M") + N(q.x) + " " + N(q.y); pen = true; prev = q; }); if (d) o += `<path class="trail" d="${d}"/>`; }
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     // 기체 뒤 꼬리: 지나온 자리, 오래된 쪽일수록 옅게
     if (showAc && typeof tailOf === "function") shown().forEach(a => { const T = tailOf(a); if (!T) return; let prev = null; T.forEach((q, j) => { const p = P(q[0], q[1]); if (p && prev && Math.abs(p.x - prev.x) < W * 0.5) o += `<line class="ac-tail" x1="${N(prev.x)}" y1="${N(prev.y)}" x2="${N(p.x)}" y2="${N(p.y)}" style="stroke-opacity:${(j / T.length * 0.6).toFixed(2)};stroke-width:${(1 + j / T.length * 1.6).toFixed(1)}"/>`; prev = p; }); });
     if (showAc && typeof acRoute === "function") shown().forEach(a => { if (!routeWanted(a)) return; const r = acRoute(a); if (!r) return; const on = LV.sel === a.hex;
@@ -3379,20 +3415,55 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (typeof lv3dDirty === "function") lv3dDirty();
   }
   const queueDraw = () => { if (liveRaf) return; liveRaf = requestAnimationFrame(() => { liveRaf = 0; drawLive(); }); };
+  /* 지도 날아가기: 화면 가운데에 보이는 지점을 목표 지점으로 옮기면서 배율을 로그 비율로 바꾼다.
+     화면 좌표 = (지도 좌표 + 이동) x 배율. 처음과 끝은 느리고 가운데는 빠르게(슉) */
+  function liveFlyMap(mx, my, s1, ms) {
+    const m = liveMap; if (!m) return; const rr = m.container.getBoundingClientRect(), s0 = m.scale, W2 = rr.width / 2, H2 = rr.height / 2;
+    const set = (sc, cx, cy) => { m.scale = sc; m.transX = W2 / sc - cx; m.transY = H2 / sc - cy; m._applyTransform(); };
+    if (fxCalm()) { set(s1, mx, my); return; }
+    if (m.__fly) cancelAnimationFrame(m.__fly);
+    const c0x = W2 / s0 - m.transX, c0y = H2 / s0 - m.transY, t0 = performance.now(), d = ms || 900;
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      set(s0 * Math.pow(s1 / s0, e), c0x + (mx - c0x) * e, c0y + (my - c0y) * e); m.__fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    m.__fly = requestAnimationFrame(step);
+  }
+  // 위도, 경도로 날아가기. 반경(km) 원이 화면 짧은 쪽에 꽉 차게(86%) 당긴다
+  function liveFlyTo(lat, lon, radiusKm, ms) {
+    const m = liveMap; if (!m) return; const a = m.coordsToPoint(lat, lon), b = m.coordsToPoint(lat, lon + 1); if (!a || !b) return;
+    const rr = m.container.getBoundingClientRect(), s0 = m.scale, mx = a.x / s0 - m.transX, my = a.y / s0 - m.transY;
+    const pxKm = Math.abs(b.x - a.x) / (111.32 * Math.cos(toR(lat))), want = Math.min(rr.width, rr.height) * 0.86 / (2 * radiusKm * pxKm);
+    liveFlyMap(mx, my, Math.max(m._baseScale, Math.min(m._baseScale * 400, s0 * want)), ms);
+  }
+  // 두 번 누른 지점을 가운데로 두 배
+  function liveFly(clientX, clientY) {
+    const m = liveMap; if (!m) return; const rr = m.container.getBoundingClientRect(), s0 = m.scale;
+    liveFlyMap((clientX - rr.left) / s0 - m.transX, (clientY - rr.top) / s0 - m.transY, Math.min(m._baseScale * 400, s0 * 2), 650);
+  }
+  // 공항을 누르면 그 공항으로 슉 날아가 반경 원(공역 100 km, 기체 보기에서는 고른 반경)이 화면에 꽉 차게 당긴다. 공역 목록에 있는 공항이면 그 공역으로 바꾼다
+  function liveFlyApt(code) {
+    const c = AP[code] || (PLACES.find(p => p.code === code) || {}), lat = c[0] !== undefined ? c[0] : c.lat, lon = c[1] !== undefined ? c[1] : c.lon; if (lat === undefined) return;
+    const pl = PLACES.find(p => p.code === code);
+    if (pl && LV.place !== pl.id) { LV.place = pl.id; LV.scope = "area"; LV.sel = null; LV.trail = null; saveLive(); if (typeof LV3 !== "undefined") LV3.focusKey = LV.scope + "|" + LV.place + "|"; paintLive(); const sel = document.getElementById("live-place"); if (sel) sel.value = pl.id; refreshLive(); }
+    const rad = LV.tab === "aircraft" || LV.sel ? LV.radius : 100;
+    if (lv3dIsOn()) lv3dFlyTo(lat, lon, lv3dKFor(rad)); else liveFlyTo(lat, lon, rad, 1000);
+  }
   function focusLive(animate) {
     const m = liveMap; if (!m) return;
     try {
+      if (LV.scope === "all" && !LV.sel) { const a0 = m.coordsToPoint(33, 125); if (animate && a0 && !fxCalm()) { liveFlyMap(a0.x / m.scale - m.transX, a0.y / m.scale - m.transY, m._baseScale * 4.5, 900); return; } m.setFocus({ coords: [33, 125], scale: 4.5, animate: false }); return; }
       if (LV.scope === "type" && !LV.sel) { m.setFocus({ coords: [30, 20], scale: 1, animate: !!animate }); return; }
       const sel = LV.sel ? LV.ac.find(a => a.hex === LV.sel) : null, pl = placeById[LV.place], lat = sel ? sel.lat : pl.lat, lon = sel ? sel.lon : pl.lon;
       const a = m.coordsToPoint(lat, lon), b = m.coordsToPoint(lat, lon + 1); if (!a || !b) return;
       const pxKm = Math.abs(b.x - a.x) / (111.3 * Math.cos(toR(lat))), span = (LV.scope === "type" ? 1500 : (LV.tab === "traffic" && !sel ? 130 : LV.radius * 1.15)) * 2;
       const want = Math.min(m.container.offsetWidth, m.container.offsetHeight * 1.5) / (span * pxKm);
-      m.setFocus({ coords: [lat, lon], scale: Math.max(1, (m.scale / m._baseScale) * want), animate: !!animate });
+      if (animate && !fxCalm()) { const s1 = m._baseScale * Math.max(1, (m.scale / m._baseScale) * want); liveFlyMap(a.x / m.scale - m.transX, a.y / m.scale - m.transY, s1, 900); return; }
+      m.setFocus({ coords: [lat, lon], scale: Math.max(1, (m.scale / m._baseScale) * want), animate: false });
     } catch (e) { /* 초점 이동 실패는 무시 */ }
   }
 
   /* ---------- 화면 갱신 ---------- */
   function paintLive() {
+    { const card = document.getElementById("livecard"); if (card) card.classList.toggle("show-ac", LV.scope !== "area" || LV.tab === "aircraft" || !!LV.sel); }
     const pn = $("#live-panel"); if (!pn) return;
     const keep = pn.querySelector(".fp-list"), vk = LV.sel ? "detail" : LV.scope + ":" + LV.tab, y = keep && pn.getAttribute("data-vk") === vk ? keep.scrollTop : 0; pn.setAttribute("data-vk", vk);
     pn.innerHTML = livePanel(); const nl = pn.querySelector(".fp-list"); if (nl) nl.scrollTop = y;
@@ -3415,7 +3486,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (!$("#live-panel")) return;
       if (act === "conn") { LV.conn = !LV.conn; paintLive(); if (LV.conn) { const c = $("#live-conn-card"); if (c) c.scrollIntoView({ block: "nearest" }); } return; }
       if (act === "keydel") { LV.key = ""; try { localStorage.removeItem("hub-fia-key"); } catch (er) { /* 무시 */ } LV.usage = null; const c = $("#live-conn-card"); if (c) c.innerHTML = connCard(); refreshLive("ac"); return; }
-      if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg === "type") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
+      if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg !== "area") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
       if (act === "tab") { LV.tab = arg; paintLive(); focusLive(true); if (arg === "aircraft") refreshLive("ac"); return; }
       if (act === "filter") { LV.filter = arg; paintLive(); return; }
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
@@ -3447,6 +3518,9 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (typeof jsVectorMap !== "undefined") {
       try {
         liveMap = new jsVectorMap({ selector: "#livemap", map: "world", backgroundColor: "transparent", zoomButtons: true, zoomOnScroll: true, zoomMax: 400, zoomStep: 1.6, showTooltip: false, regionStyle: { initial: { fill: "#48535f", stroke: "none" }, hover: { fillOpacity: 1, cursor: "grab" } } });
+        // 두 번 누르면(더블클릭) 그 지점을 가운데로 가져오며 부드럽게 두 배 당긴다. 한 번 누르기와 끌기는 그대로 둔다
+        document.getElementById("livecard") && el.parentElement.addEventListener("click", e => { const g = e.target.closest && e.target.closest("[data-apt]"); if (!g) return; e.stopPropagation(); liveFlyApt(g.getAttribute("data-apt")); });
+        el.addEventListener("dblclick", e => { if (e.target.closest && e.target.closest("[data-live], [data-tip], a, button")) return; e.preventDefault(); liveFly(e.clientX, e.clientY); });
         const orig = liveMap._applyTransform; liveMap._applyTransform = function () { const r = orig.apply(this, arguments); queueDraw(); return r; };
       } catch (e) { liveMap = null; }
     }
@@ -3458,7 +3532,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (!$("#live-panel")) { stopLive(); return; } if (document.hidden) return;
       LV.tick++;
       if (LV.acSrc === "demo") { if (LV.tick % 3 === 0) { LV.ac = demoFor(); if (LV.sel && !LV.ac.some(a => a.hex === LV.sel)) LV.sel = null; if (LV.sel) paintLive(); else queueDraw(); } if (LV.tick % 60 === 0 && LV.key) refreshLive("ac"); }
-      else if (LV.tick % (LV.scope === "type" ? 60 : 30) === 0) refreshLive("ac");
+      else if (LV.tick % (LV.scope !== "area" ? 60 : 30) === 0) refreshLive("ac");
       if (LV.tick % 120 === 0 && LV.net) refreshLive("cover");
     }, 1000);
   }
@@ -3538,7 +3612,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   function motionLoop(now) {
     MOTION.raf = 0;
     if ((location.hash || "").slice(1) !== "live" || !document.getElementById("live-ov")) return;
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     if (!fxCalm() && !MOTION.hold && now - MOTION.last > (LV3.on ? 33 : 50)) {
       MOTION.last = now;
       if (showAc) { acTick(now); if (LV3.on) lv3dDirty(); else queueDraw(); }
@@ -3566,7 +3640,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (h !== "live") { lv3dStop(); return; }
     const wrap = document.querySelector("#livecard .livewrap"); if (!wrap || wrap.querySelector(".lv-view")) return;
     if (typeof d3 === "undefined" || !d3.geoOrthographic || typeof topojson === "undefined" || typeof WORLD_TOPO === "undefined") return;
-    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
+    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><div class="lv-acleg" aria-label="항공기 색"><span><i style="background:var(--boeing)"></i>보잉</span><span><i style="background:var(--airbus)"></i>에어버스</span><span><i style="background:#fcd34d"></i>그 밖의 기종</span><span><i style="background:#fde047;box-shadow:0 0 0 2px rgba(253,224,71,.4)"></i>고른 기체</span></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
     LV3.cv = wrap.querySelector("#lv3d"); LV3.ctx = LV3.cv.getContext("2d"); LV3.focusKey = "";
     LV3.ro = "ResizeObserver" in window ? new ResizeObserver(() => { lv3dSize(); lv3dDirty(); }) : null; if (LV3.ro) LV3.ro.observe(LV3.cv);
     lv3dWire(); lv3dMode(LV3.on); motionStart();
@@ -3592,16 +3666,40 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     let lat, lon, k;
     // 비행 지도처럼 지구가 둥글게 보이는 배율에서 시작한다. 공역은 조금 당겨 보고, 기체를 고르면 더 당긴다
     if (sel) { lat = sel.lat; lon = sel.lon; k = 3.2; }
+    else if (LV.scope === "all") { lat = 32; lon = 127; k = 2.6; }
     else if (LV.scope === "type") { lat = 30; lon = pl ? pl.lon : 127; k = 1; }
     else { lat = pl.lat; lon = pl.lon; k = LV.tab === "aircraft" ? 1.8 : 1.15; }
     const to = [-lon, -lat * 0.75, 0];
     if (!animate || fxCalm()) { LV3.rot = to; LV3.k = k; lv3dDirty(); return; }
     const from = LV3.rot.slice(), k0 = LV3.k, t0 = performance.now(), d = 650;
     let dl = to[0] - from[0]; while (dl > 180) dl -= 360; while (dl < -180) dl += 360;
-    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 + (k - k0) * e; lv3dDirty(); if (t < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
+    if (LV3.fly) cancelAnimationFrame(LV3.fly);
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 + (k - k0) * e; LV3.kt = LV3.k; lv3dDirty(); LV3.fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    LV3.fly = requestAnimationFrame(step);
+  }
+  /* 빈 곳을 두 번 누르면 그 지점을 가운데로 돌리며 두 배 당긴다 */
+  function lv3dClickFly(e) {
+    if (!LV3.proj || !LV3.cv) return; const r = LV3.cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    if ((x - LV3.cx) * (x - LV3.cx) + (y - LV3.cy) * (y - LV3.cy) > LV3.Rpx * LV3.Rpx) return; // 지구 밖은 무시
+    const ll = LV3.proj.invert([x, y]); if (!ll || isNaN(ll[0])) return;
+    lv3dFlyTo(ll[1], ll[0], Math.min(80, LV3.k * 2));
+  }
+  const lv3dIsOn = () => !!(LV3.on && LV3.cv && LV3.cv.offsetParent);
+  // 반경 km 원이 화면 짧은 쪽의 86%가 되는 배율. 지구 반지름 6371 km, 지금 화면의 지구 반지름 = LV3.R (배율 LV3.k일 때)
+  function lv3dKFor(km) { const base = LV3.R || 200, need = Math.min(LV3.W || 600, LV3.H || 400) * 0.43 / (km / 6371); return Math.max(1, Math.min(80, need / base)); }
+  function lv3dFlyTo(lat, lon, k) {
+    MOTION.touched = true; const to = [-lon, -lat, 0];
+    if (fxCalm()) { LV3.rot = to; LV3.k = k; lv3dDirty(); return; }
+    if (LV3.fly) cancelAnimationFrame(LV3.fly);
+    const from = LV3.rot.slice(), k0 = LV3.k, t0 = performance.now(), d = 950;
+    let dl = to[0] - from[0]; while (dl > 180) dl -= 360; while (dl < -180) dl += 360;
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 * Math.pow(k / k0, e); LV3.kt = LV3.k; lv3dDirty();
+      LV3.fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    LV3.fly = requestAnimationFrame(step);
   }
   function lv3dDraw() {
+    if (!LV3.cB) { const cs = getComputedStyle(document.documentElement); LV3.cB = cs.getPropertyValue("--boeing").trim() || "#4690e8"; LV3.cA = cs.getPropertyValue("--airbus").trim() || "#e2602c"; }
     LV3.raf = 0; if (!LV3.on || !LV3.cv || !LV3.dirty) return; LV3.dirty = false;
     if (!LV3.W || !LV3.H) { lv3dSize(); if (!LV3.W) return; }
     const c = LV3.ctx, w = lv3dWorld(); if (!w) return;
@@ -3610,6 +3708,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (key !== LV3.focusKey) { LV3.focusKey = key; lv3dFocus(true); return; }
     const cx = LV3.W / 2, cy = LV3.H / 2, R = LV3.R * LV3.k, toR = Math.PI / 180, mono = getComputedStyle(document.body).getPropertyValue("--mono") || "monospace";
     const proj = d3.geoOrthographic().translate([cx, cy]).scale(R).rotate(LV3.rot).clipAngle(90).precision(0.4), path = d3.geoPath(proj, c), rotFn = d3.geoRotation(LV3.rot);
+    LV3.proj = proj; LV3.cx = cx; LV3.cy = cy; LV3.Rpx = R;
     c.setTransform(LV3.dpr, 0, 0, LV3.dpr, 0, 0); c.clearRect(0, 0, LV3.W, LV3.H);
     // 별: 한 번 만든 자리에 고정
     if (!LV3.stars) LV3.stars = Array.from({ length: 140 }, () => [Math.random(), Math.random(), Math.random() * 1.1 + 0.2, Math.random() * 0.6 + 0.2]);
@@ -3629,9 +3728,15 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     // 지구 좌표 → 화면. alt(반지름 비율)만큼 띄운다
     const p3 = (lon, lat, alt) => { const q = rotFn([lon, lat]), l = q[0] * toR, p = q[1] * toR, co = Math.cos(p), x = co * Math.sin(l), y = Math.sin(p), z = co * Math.cos(l), m = 1 + alt; return { x: cx + R * m * x, y: cy - R * m * y, z: z, vis: z > 0 || (x * x + y * y) * m * m > 1.0004 }; };
     // 공항 이름: 가까이 당겼을 때만
-    if (LV3.k > 1.7) { c.font = "600 10.5px " + mono; AP && Object.keys(AP).forEach(code => { const q = p3(AP[code][1], AP[code][0], 0); if (q.z < 0.25 || q.x < 0 || q.x > LV3.W || q.y < 0 || q.y > LV3.H) return; c.fillStyle = "rgba(203,220,240,.85)"; c.beginPath(); c.arc(q.x, q.y, 2, 0, 7); c.fill(); c.lineWidth = 3; c.strokeStyle = "rgba(6,12,24,.85)"; c.strokeText(code, q.x + 5, q.y + 3.5); c.fillText(code, q.x + 5, q.y + 3.5); }); }
+    LV3.apHits = [];
+    // 공항 점은 늘 그리고(눌러서 날아갈 수 있게), 이름은 가까이 당겼을 때만. 마우스를 올린 공항은 파랗게
+    c.font = "600 10.5px " + mono; AP && Object.keys(AP).forEach(code => { const q = p3(AP[code][1], AP[code][0], 0); if (q.z < 0.25 || q.x < 0 || q.x > LV3.W || q.y < 0 || q.y > LV3.H) return; LV3.apHits.push([q.x, q.y, code]); const hov = LV3.apHover === code;
+      c.fillStyle = hov ? "#5cc6f2" : "rgba(203,220,240,.85)"; c.beginPath(); c.arc(q.x, q.y, hov ? 3.5 : 2.2, 0, 7); c.fill();
+      if (LV3.k > 1.7 || hov) { c.lineWidth = 3; c.strokeStyle = "rgba(6,12,24,.85)"; c.strokeText(code, q.x + 5, q.y + 3.5); c.fillText(code, q.x + 5, q.y + 3.5); } });
     const pl = placeById[LV.place];
+    LV3.here = null;
     if (LV.scope === "area" && pl) {
+      { const hq = p3(pl.lon, pl.lat, 0); if (hq.z > 0) LV3.here = [hq.x, hq.y, pl.code]; }
       const cv = coverOf(pl.id);
       // 교통 열지도: 빛 점을 겹쳐 찍는다
       if (cv && LV.tab === "traffic" && !LV.sel) {
@@ -3648,7 +3753,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     // 경로: 출발 공항에서 올라가 순항 고도로 날다가 도착 공항으로 내려오는 호로 그린다 (비행 지도의 노선 호와 같은 방식).
     // 기체가 떠 있는 높이와 같은 규칙을 써서, 기체가 늘 선 위에 놓이게 한다. 이미 난 부분은 실선, 남은 부분은 점선
     const liftOf = ft => (typeof ft === "number" ? Math.min(45000, ft) : 0) / 45000 * 0.035;
-    if (LV.scope === "type" || LV.tab === "aircraft" || LV.sel) {
+    if (LV.scope !== "area" || LV.tab === "aircraft" || LV.sel) {
       c.lineCap = "round"; c.lineJoin = "round";
       const ramp = f => { const k = Math.max(0, Math.min(1, f / 0.1, (1 - f) / 0.1)); return Math.sin(k * Math.PI / 2); };
       shown().forEach(a => { if (!routeWanted(a)) return; const r = acRoute(a); if (!r) return; const on = LV.sel === a.hex;
@@ -3664,7 +3769,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     }
     // 항공기: 고도만큼 띄우고 땅까지 가는 선, 진행 방향으로 돌린 비행기 모양
     LV3.hits = [];
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     if (showAc) {
       const list = shown().slice().sort((a, b) => (typeof a.alt_baro === "number" ? a.alt_baro : 0) - (typeof b.alt_baro === "number" ? b.alt_baro : 0));
       const lift = liftOf;
@@ -3672,7 +3777,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       list.forEach(a => {
         const alt = lift(a.alt_baro), top = p3(a.lon, a.lat, alt), gnd = p3(a.lon, a.lat, 0); if (!top.vis || gnd.z < -0.05) return;
         const on = LV.sel === a.hex, hov = LV3.hover === a.hex, fam = famOf(a.t), ac = fam ? byId[fam] : null;
-        const col = on ? "#fde047" : ac ? (ac.maker === "boeing" ? "#60a5fa" : "#f472b6") : "#fcd34d";
+        const col = on ? "#fde047" : ac ? (ac.maker === "boeing" ? LV3.cB : LV3.cA) : "#fcd34d";
         { const T = tailOf(a); if (T) { for (let j = 1; j < T.length; j++) { const p0 = p3(T[j - 1][1], T[j - 1][0], alt), p1 = p3(T[j][1], T[j][0], alt); if (!p0.vis || !p1.vis) continue; c.strokeStyle = `rgba(252,211,77,${(j / T.length * 0.55).toFixed(3)})`; c.lineWidth = 1 + j / T.length * 1.4; c.beginPath(); c.moveTo(p0.x, p0.y); c.lineTo(p1.x, p1.y); c.stroke(); } } }
         if (alt > 0) { c.beginPath(); c.moveTo(gnd.x, gnd.y); c.lineTo(top.x, top.y); c.strokeStyle = "rgba(252,211,77,.28)"; c.lineWidth = 1; c.stroke(); c.fillStyle = "rgba(252,211,77,.35)"; c.beginPath(); c.arc(gnd.x, gnd.y, 1.3, 0, 7); c.fill(); }
         // 화면 위 진행 방향: 진행 방향으로 조금 앞선 점을 투영해 각도를 구한다
@@ -3704,14 +3809,22 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       const h = lv3dHit(e), k = h ? h.a.hex : null, tip = document.getElementById("tip");
       if (h) { const a = h.a; tip.innerHTML = `<b>${esc(a.flight || a.r || a.hex)}</b> ${esc(a.t || "?")}<br>${esc(altTxt(a))} ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
       else if (LV3.hover) tip.hidden = true;
+      { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let ap = null, bd = 12 * 12; if (!h) (LV3.apHits || []).forEach(q => { const d = (q[0] - x) * (q[0] - x) + (q[1] - y) * (q[1] - y); if (d < bd) { bd = d; ap = q[2]; } }); if (ap !== (LV3.apHover || null)) { LV3.apHover = ap; lv3dDirty(); } cv.classList.toggle("on-ap", !!ap); }
       cv.classList.toggle("on-ac", !!h);
       if (k !== LV3.hover) { LV3.hover = k; lv3dDirty(); }
     });
     cv.addEventListener("pointerup", e => {
       if (!drag) return; const moved = drag.moved; drag = null; cv.classList.remove("grab"); if (moved) { if (!fxCalm() && lastP && performance.now() - lastP.t < 80) inert = requestAnimationFrame(inertia); return; }
-      const h = lv3dHit(e), pn = document.getElementById("live-panel"); if (!h || !pn) return;
+      // 공항과 비행기가 겹치면 더 가까운 쪽을 고른다
+      const h = lv3dHit(e), pn = document.getElementById("live-panel"), r0 = LV3.cv.getBoundingClientRect(), x0 = e.clientX - r0.left, y0 = e.clientY - r0.top;
+      let ap = null, ad = 16 * 16; (LV3.apHits || []).concat(LV3.here ? [LV3.here] : []).forEach(q => { const d = (q[0] - x0) * (q[0] - x0) + (q[1] - y0) * (q[1] - y0); if (d < ad) { ad = d; ap = q[2]; } });
+      const hd = h ? (h.x - x0) * (h.x - x0) + (h.y - y0) * (h.y - y0) : Infinity;
+      if (ap && ad <= hd) { liveFlyApt(ap); return; }
+      if (!h) return;
+      if (!pn) return;
       const b = document.createElement("button"); b.hidden = true; b.setAttribute("data-live", "sel:" + h.a.hex); pn.appendChild(b); b.click(); b.remove();
     });
+    cv.addEventListener("dblclick", e => { if (!lv3dHit(e)) { e.preventDefault(); lv3dClickFly(e); } });
     cv.addEventListener("pointercancel", () => { drag = null; cv.classList.remove("grab"); });
     cv.addEventListener("pointerleave", () => { if (LV3.hover) { LV3.hover = null; document.getElementById("tip").hidden = true; lv3dDirty(); } });
     cv.addEventListener("wheel", e => {
@@ -3719,14 +3832,14 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         let hh = cv.parentElement.querySelector(".lv3d-hint"); if (!hh) { cv.insertAdjacentHTML("afterend", `<div class="wheel-hint lv3d-hint">${/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl"} + 휠로 확대합니다</div>`); hh = cv.parentElement.querySelector(".lv3d-hint"); }
         hh.classList.add("on"); clearTimeout(hh._t); hh._t = setTimeout(() => hh.classList.remove("on"), 1100); return;
       }
-      e.preventDefault(); MOTION.touched = true; LV3.kt = Math.max(0.8, Math.min(40, (LV3.kt || LV3.k) * Math.pow(1.0015, -e.deltaY))); if (!LV3.zr) { const z = () => { LV3.k += (LV3.kt - LV3.k) * 0.25; lv3dDirty(); if (Math.abs(LV3.kt - LV3.k) > 0.002) LV3.zr = requestAnimationFrame(z); else { LV3.k = LV3.kt; LV3.zr = 0; } }; LV3.zr = requestAnimationFrame(z); }
+      e.preventDefault(); MOTION.touched = true; LV3.kt = Math.max(0.8, Math.min(80, (LV3.kt || LV3.k) * Math.pow(1.0015, -e.deltaY))); if (!LV3.zr) { const z = () => { LV3.k += (LV3.kt - LV3.k) * 0.25; lv3dDirty(); if (Math.abs(LV3.kt - LV3.k) > 0.002) LV3.zr = requestAnimationFrame(z); else { LV3.k = LV3.kt; LV3.zr = 0; } }; LV3.zr = requestAnimationFrame(z); }
     }, { passive: false });
   }
   document.addEventListener("click", e => {
     const b = e.target.closest && e.target.closest("[data-lv3]"); if (!b) return;
     const v = b.getAttribute("data-lv3");
     if (v === "2d" || v === "3d") lv3dMode(v === "3d");
-    else if (v === "in") { LV3.k = Math.min(40, LV3.k * 1.5); lv3dDirty(); }
+    else if (v === "in") { LV3.k = Math.min(80, LV3.k * 1.5); lv3dDirty(); }
     else if (v === "out") { LV3.k = Math.max(0.8, LV3.k / 1.5); lv3dDirty(); }
     else if (v === "home") lv3dFocus(true);
   });
@@ -7793,7 +7906,574 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "title": "테네리페 참사 국제 추모비 (루디 반 데 빈트 작)",
     "license": "CC0",
     "page": "https://commons.wikimedia.org/wiki/File:International_Tenerife_Memorial_March_27,_1977.jpg"
+   },
+   "us1549": {
+    "title": "사고 2개월 전 라스베이거스의 N106US (2008)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:2008_Las_Vegas_N106US_US_Airways.jpg"
+   },
+   "ba38": {
+    "title": "사고 당일 히스로 27L 활주로 앞에 멈춘 G-YMMM (2008)",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BA38_Crash.jpg"
+   },
+   "jk5022": {
+    "title": "사고 10개월 전 마드리드 바라하스의 EC-HFP (2007)",
+    "license": "CC BY 2.5",
+    "page": "https://commons.wikimedia.org/wiki/File:EC-HFP.jpg"
+   },
+   "ke801": {
+    "title": "니미츠 힐 사고 현장의 HL7468 잔해 (1997, 미 해군)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Korean_Air_Flight_801_wreckage.jpg"
+   },
+   "ca129": {
+    "title": "스톡홀름 알란다 공항의 B-2552 (1992)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:B-2552_Air_China_Boeing_767-2J6ER_ARN_250892_(52453208904).jpg"
+   },
+   "ke631": {
+    "title": "사고 3년 전 나리타 공항의 HL7525 (2019)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7525_NRT_20190925.jpg"
+   },
+   "alw301": {
+    "title": "사고 1년 4개월 전 프랑크푸르트의 TC-GEN (1994)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Birgenair_Boeing_757;_TC-GEN@FRA;19.10.1994_(4704769908).jpg"
+   },
+   "hcy522": {
+    "title": "사고 1년 전 런던 루턴 공항의 5B-DBY (2004)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Helios_Airways_Boeing_737-300_5B-DBY_in_2004.jpg"
+   },
+   "qz8501": {
+    "title": "싱가포르 창이 공항의 PK-AXC (2011)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Indonesia_AirAsia_Airbus_A320-216_PK-AXC_August_2011.jpg"
+   },
+   "jl516": {
+    "title": "사고 1년 8개월 전 하네다 공항의 JA13XJ (2022)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:JAPAN_AIRLINES_A350-941_JA13XJ_HND_30-APR-2022.jpg"
+   },
+   "wc708": {
+    "title": "베네수엘라 마치케스 인근 사고 현장의 HK-4374X 잔해 (2005, NTSB)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Wreckage_of_West_Caribbean_Airways_Flight_708.jpg"
+   },
+   "af447": {
+    "title": "사고 2년 전 파리 샤를드골 공항에 착륙하는 F-GZCP (2007)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:PKIERZKOWSKI_070328_FGZCP_CDG.jpg"
    }
+  };
+  /* 사건사고 관련 보도 링크 (tools/make-acc-news.js 로 만든다). 사진은 언론사 페이지에서 본다 */
+  const ACC_NEWS = {
+   "us1549": [
+    {
+     "outlet": "CNN",
+     "title": "Pilot landed in Hudson to avoid 'catastrophic consequences'",
+     "date": "2009-01-17",
+     "url": "https://www.cnn.com/2009/US/01/17/hudson.plane.crash/index.html"
+    }
+   ],
+   "ba38": [
+    {
+     "outlet": "알자지라",
+     "title": "Heathrow crash investigation begins",
+     "date": "2008-01-18",
+     "url": "https://www.aljazeera.com/news/2008/1/18/heathrow-crash-investigation-begins"
+    }
+   ],
+   "aa587": [
+    {
+     "outlet": "CNN",
+     "title": "Feds eye engines in air crash",
+     "date": "2001-11-12",
+     "url": "https://www.cnn.com/2001/US/11/12/newyork.crash/"
+    }
+   ],
+   "uberlingen": [
+    {
+     "outlet": "CNN",
+     "title": "Mid-air collision inquiry begins",
+     "date": "2002-07-03",
+     "url": "https://edition.cnn.com/2002/WORLD/europe/07/02/midair.crash/"
+    }
+   ],
+   "ke801": [
+    {
+     "outlet": "MBC",
+     "title": "대한항공 747기 괌 니미츠언덕 추락 사고현장",
+     "date": "1997-08-06",
+     "url": "https://imnews.imbc.com/replay/1997/nwdesk/article/1769191_30717.html"
+    },
+    {
+     "outlet": "경향신문",
+     "title": "[어제의 오늘]생지옥이 돼버린 꿈의 휴양지",
+     "date": "2011-08-05",
+     "url": "https://www.khan.co.kr/article/201108052157035"
+    }
+   ],
+   "ix812": [
+    {
+     "outlet": "알자지라",
+     "title": "Air India jet crashes in Mangalore",
+     "date": "2010-05-22",
+     "url": "https://www.aljazeera.com/news/2010/5/22/air-india-jet-crashes-in-mangalore"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "Scores dead in Indian plane crash",
+     "date": "2010-05-22",
+     "url": "https://www.aljazeera.com/news/2010/5/22/scores-dead-in-indian-plane-crash"
+    }
+   ],
+   "ca129": [
+    {
+     "outlet": "MBC",
+     "title": "중국 민항기 김해시 신어산 추락 127명 사망 실종",
+     "date": "2002-04-15",
+     "url": "https://imnews.imbc.com/replay/2002/nwdesk/article/1889012_30761.html"
+    },
+    {
+     "outlet": "경향신문",
+     "title": "中여객기 추락 127명 사망",
+     "date": "2002-04-16",
+     "url": "https://www.khan.co.kr/article/200204160000291"
+    }
+   ],
+   "ke631": [
+    {
+     "outlet": "MBC",
+     "title": "대한항공 여객기, 세부공항서 비상착륙 후 활주로 이탈‥\"인명피해 없어\"",
+     "date": "2022-10-24",
+     "url": "https://imnews.imbc.com/news/2022/society/article/6419856_35673.html"
+    },
+    {
+     "outlet": "SBS",
+     "title": "'대한항공 활주로 이탈' 필리핀 공항, 오후 5시까지 활주로 폐쇄",
+     "date": "2022-10-24",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1006943661"
+    }
+   ],
+   "alw301": [
+    {
+     "outlet": "UPI",
+     "title": "No survivors in Dominican plane crash",
+     "date": "1996-02-07",
+     "url": "https://www.upi.com/Archives/1996/02/07/No-survivors-in-Dominican-plane-crash/2358823669200/"
+    }
+   ],
+   "hcy522": [
+    {
+     "outlet": "알자지라",
+     "title": "Bodies found after Greece plane crash",
+     "date": "2005-08-15",
+     "url": "https://www.aljazeera.com/news/2005/8/15/bodies-found-after-greece-plane-crash"
+    }
+   ],
+   "qz8501": [
+    {
+     "outlet": "CNN",
+     "title": "Official: Missing AirAsia jet likely at bottom of sea",
+     "date": "2014-12-27",
+     "url": "https://edition.cnn.com/2014/12/27/world/asia/airasia-missing-plane/index.html"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "Search under way for missing AirAsia plane",
+     "date": "2014-12-28",
+     "url": "https://www.aljazeera.com/news/2014/12/28/search-under-way-for-missing-airasia-plane"
+    }
+   ],
+   "jl516": [
+    {
+     "outlet": "CNN",
+     "title": "Japan Airlines jet bursts into flames after collision with earthquake relief plane at Tokyo Haneda airport",
+     "date": "2024-01-02",
+     "url": "https://www.cnn.com/2024/01/02/asia/japan-airlines-plane-fire-airport-intl-hnk/index.html"
+    }
+   ],
+   "wc708": [
+    {
+     "outlet": "알자지라",
+     "title": "Venezuela plane crash kills 160",
+     "date": "2005-08-17",
+     "url": "https://www.aljazeera.com/news/2005/8/17/venezuela-plane-crash-kills-160"
+    }
+   ],
+   "af447": [
+    {
+     "outlet": "CNN",
+     "title": "Final Air France crash report says pilots failed to react swiftly",
+     "date": "2012-07-05",
+     "url": "https://www.cnn.com/2012/07/05/world/europe/france-air-crash-report/index.html"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "‘Pilots could have saved’ Air France plane",
+     "date": "2011-07-29",
+     "url": "https://www.aljazeera.com/news/2011/7/29/pilots-could-have-saved-air-france-plane"
+    }
+   ],
+   "ac143": [
+    {
+     "outlet": "CBC",
+     "title": "When a metric mix-up led to the 'Gimli Glider' emergency",
+     "date": "2018-07-23",
+     "url": "https://www.cbc.ca/archives/when-a-metric-mix-up-led-to-the-gimli-glider-emergency-1.4754039"
+    }
+   ],
+   "ua232": [
+    {
+     "outlet": "NPR",
+     "title": "Al Haynes, Who Captained United Flight 232 When It Crashed In Sioux City, Dies At 87",
+     "date": "2019-08-26",
+     "url": "https://www.npr.org/2019/08/26/754485091/al-haynes-who-captained-united-flight-232-when-it-crashed-in-sioux-city-dies-at-"
+    }
+   ],
+   "737max": [
+    {
+     "outlet": "CNN",
+     "title": "Investigators spread blame in Lion Air crash, but mostly fault Boeing and FAA",
+     "date": "2019-10-25",
+     "url": "https://www.cnn.com/2019/10/25/world/lion-air-crash-report/index.html"
+    },
+    {
+     "outlet": "CNN",
+     "title": "Ethiopian Airlines 737 Max pilots followed expected procedures before crash, aviation officials say",
+     "date": "2019-04-04",
+     "url": "https://www.cnn.com/2019/04/04/us/ethiopian-airlines-737-max-crash-preliminary-report/index.html"
+    }
+   ],
+   "oz733": [
+    {
+     "outlet": "서울신문",
+     "title": "44명 생존확인… 더 늘듯/1백6명 탄 아시아나기 추락",
+     "date": "1993-07-27",
+     "url": "https://www.seoul.co.kr/news/1993/07/27/19930727001001"
+    }
+   ],
+   "ke8509": [
+    {
+     "outlet": "서울신문",
+     "title": "[대한항공 화물기 추락]",
+     "date": "1999-12-24",
+     "url": "https://m.seoul.co.kr/news/1999/12/24/19991224005001"
+    }
+   ],
+   "oz991": [
+    {
+     "outlet": "코리아중앙데일리",
+     "title": "Asiana 747 cargo plane crashes after reporting fire",
+     "date": "2011-07-28",
+     "url": "https://www.koreajoongangdaily.com/korea/asiana-747-cargo-plane-crashes-after-reporting-fire/11371254"
+    }
+   ],
+   "ea401": [
+    {
+     "outlet": "CBS",
+     "title": "50 Years Have Passed Since Eastern Airlines Flight 401 Crashed Into The Everglades",
+     "date": "2022-12-29",
+     "url": "https://www.cbsnews.com/miami/news/50-years-have-passed-since-eastern-airlines-flight-401-crashed-into-the-everglades/"
+    },
+    {
+     "outlet": "NBC",
+     "title": "35 years after jetliner crash, hero gets his due",
+     "date": "2007-12-25",
+     "url": "https://www.nbcnews.com/id/wbna22394676"
+    }
+   ],
+   "sr111": [
+    {
+     "outlet": "CBC",
+     "title": "Swissair Flight 111 tragedy still raw 15 years later",
+     "date": "2013-09-02",
+     "url": "https://www.cbc.ca/news/canada/nova-scotia/swissair-flight-111-tragedy-still-raw-15-years-later-1.1329919"
+    },
+    {
+     "outlet": "CBC",
+     "title": "Timeline: Swissair 111 crash investigation",
+     "date": "2011-09-15",
+     "url": "https://www.cbc.ca/news/canada/timeline-swissair-111-crash-investigation-1.1048424"
+    }
+   ],
+   "af358": [
+    {
+     "outlet": "CBC",
+     "title": "The day in 2005 when a jet went off a Toronto runway and everyone lived",
+     "date": "2018-08-02",
+     "url": "https://www.cbc.ca/archives/the-day-in-2005-when-a-jet-went-off-a-toronto-runway-and-everyone-lived-1.4771471"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "Dozens hurt in Toronto jet crash",
+     "date": "2005-08-03",
+     "url": "https://www.aljazeera.com/news/2005/8/3/dozens-hurt-in-toronto-jet-crash"
+    }
+   ],
+   "ge235": [
+    {
+     "outlet": "CNN",
+     "title": "Mayday call before plane hits Taipei bridge, crashes",
+     "date": "2015-02-04",
+     "url": "https://www.cnn.com/2015/02/04/asia/taiwan-plane-crash-transasia/index.html"
+    },
+    {
+     "outlet": "CBC",
+     "title": "TransAsia Airways Flight GE235: At least 31 dead as plane crashes in river",
+     "date": "2015-02-04",
+     "url": "https://www.cbc.ca/news/world/transasia-airways-flight-ge235-at-least-31-dead-as-plane-crashes-in-river-1.2944248"
+    }
+   ],
+   "ci006": [
+    {
+     "outlet": "UPI",
+     "title": "A China Airlines jumbo jet with 268 people aboard...",
+     "date": "1985-02-20",
+     "url": "https://www.upi.com/Archives/1985/02/20/A-China-Airlines-jumbo-jet-with-268-people-aboard/9004477723600/"
+    }
+   ],
+   "ts236": [
+    {
+     "outlet": "CNN",
+     "title": "'Miracle' Azores landing probed",
+     "date": "2001-08-25",
+     "url": "https://www.cnn.com/2001/WORLD/europe/08/25/portugal.landing/index.html"
+    },
+    {
+     "outlet": "CBC",
+     "title": "Air Transat Flight 236: investigation continues, crew tells story",
+     "date": "",
+     "url": "https://www.cbc.ca/news/canada/air-transat-flight-236-investigation-continues-crew-tells-story-1.288701"
+    }
+   ],
+   "dl191": [
+    {
+     "outlet": "워싱턴포스트",
+     "title": "Wind Shear Suspected In Jet Crash",
+     "date": "1985-08-04",
+     "url": "https://www.washingtonpost.com/archive/politics/1985/08/04/wind-shear-suspected-in-jet-crash/5717e0a9-d0e7-4f38-889c-ef597f5bd8c1/"
+    }
+   ],
+   "tenerife": [
+    {
+     "outlet": "워싱턴포스트",
+     "title": "Hundreds Killed As Jets Collide On Spanish Isle",
+     "date": "1977-03-28",
+     "url": "https://www.washingtonpost.com/archive/politics/1977/03/28/hundreds-killed-as-jets-collide-on-spanish-isle/477c70b8-0f0d-4047-81c9-5225cf30a8a9/"
+    }
+   ],
+   "ke007": [
+    {
+     "outlet": "중앙일보",
+     "title": "러 군용기 영공 침해했는데…36년 전 소련은 민간 KAL기 격추했다",
+     "date": "2019-07-24",
+     "url": "https://www.joongang.co.kr/article/23534061"
+    }
+   ],
+   "oz162": [
+    {
+     "outlet": "동아일보",
+     "title": "아시아나機, 日서 착륙중 활주로 이탈 ‘23명 경상’",
+     "date": "2015-04-15",
+     "url": "https://www.donga.com/news/article/all/20150415/70708779/1"
+    },
+    {
+     "outlet": "한겨레",
+     "title": "아시아나기, 일 공항 착륙중 활주로 이탈사고",
+     "date": "2015-04-15",
+     "url": "https://www.hani.co.kr/arti/economy/economy_general/686930.html"
+    }
+   ],
+   "fl90": [
+    {
+     "outlet": "워싱턴포스트",
+     "title": "Iced Wings Eyed In Crash of Jet",
+     "date": "1982-01-15",
+     "url": "https://www.washingtonpost.com/archive/politics/1982/01/15/iced-wings-eyed-in-crash-of-jet/d5023958-055a-45e0-92c7-9efdc0bb6f6c/"
+    },
+    {
+     "outlet": "워싱턴포스트",
+     "title": "Collision recalls 1982 Air Florida crash into the 14th Street Bridge",
+     "date": "2025-01-30",
+     "url": "https://www.washingtonpost.com/dc-md-va/2025/01/30/air-florida-crash-14th-street-bridge-1982/"
+    }
+   ],
+   "ac759": [
+    {
+     "outlet": "BBC",
+     "title": "Air Canada flight nearly lands on crowded San Francisco taxiway",
+     "date": "2017-07-11",
+     "url": "https://www.bbc.co.uk/news/world-us-canada-40571913"
+    },
+    {
+     "outlet": "CNN",
+     "title": "Video shows how close Air Canada flight came to landing on taxiing planes",
+     "date": "2018-05-02",
+     "url": "https://www.cnn.com/2018/05/02/us/air-canada-san-francisco-near-miss-ntsb/index.html"
+    }
+   ],
+   "ga152": [
+    {
+     "outlet": "워싱턴포스트",
+     "title": "234 FEARED DEAD AS INDONESIAN JET CRASHES IN SUMATRA",
+     "date": "1997-09-27",
+     "url": "https://www.washingtonpost.com/archive/politics/1997/09/27/234-feared-dead-as-indonesian-jet-crashes-in-sumatra/4cf88f45-17fd-495a-9f4c-51cabb596539/"
+    }
+   ],
+   "oz214": [
+    {
+     "outlet": "SBS",
+     "title": "처참한 아시아나機 사고현장…동체·날개 절단",
+     "date": "2013-07-07",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1001870583"
+    },
+    {
+     "outlet": "MBC",
+     "title": "아시아나 항공기 착륙사고 주원인, \"조종사 과실\"로 결론",
+     "date": "",
+     "url": "https://imnews.imbc.com/replay/2014/nw1800/article/3485043_30301.html"
+    }
+   ],
+   "qf32": [
+    {
+     "outlet": "CNN",
+     "title": "Qantas grounds Airbus A380 fleet after mid-air engine failure",
+     "date": "2010-11-04",
+     "url": "https://edition.cnn.com/2010/WORLD/asiapcf/11/04/indonesia.plane.emergency/"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "Qantas grounds A380s after incident",
+     "date": "2010-11-05",
+     "url": "https://www.aljazeera.com/news/2010/11/5/qantas-grounds-a380s-after-incident"
+    }
+   ],
+   "jk5022": [
+    {
+     "outlet": "CNN",
+     "title": "Madrid plane burst into flames after runway skid",
+     "date": "2008-08-22",
+     "url": "https://edition.cnn.com/2008/WORLD/europe/08/22/plane.crash.madrid/index.html"
+    }
+   ],
+   "7c2216": [
+    {
+     "outlet": "경향신문",
+     "title": "제주항공 여객기 착륙 도중 폭발참사…179명 사망, 2명 생존",
+     "date": "2024-12-29",
+     "url": "https://www.khan.co.kr/article/202412291703011"
+    },
+    {
+     "outlet": "경향신문",
+     "title": "[종합]제주항공 여객기 참사…2명 구조·167명 사망 확인",
+     "date": "2024-12-29",
+     "url": "https://www.khan.co.kr/article/202412291024001"
+    }
+   ],
+   "ci140": [
+    {
+     "outlet": "UPI",
+     "title": "First fatal crash of Airbus A300-600",
+     "date": "1994-04-26",
+     "url": "https://www.upi.com/Archives/1994/04/26/First-fatal-crash-of-Airbus-A300-600/3122767332800/"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "China Airlines to pay crash damages",
+     "date": "2003-12-26",
+     "url": "https://www.aljazeera.com/news/2003/12/26/china-airlines-to-pay-crash-damages"
+    }
+   ],
+   "ke6316": [
+    {
+     "outlet": "MBC",
+     "title": "추락 대한항공기 아직 블랙박스 못 찾아. 유가족 오열",
+     "date": "",
+     "url": "https://imnews.imbc.com/replay/1999/nwdesk/article/1779493_30730.html"
+    },
+    {
+     "outlet": "서울신문",
+     "title": "“추락 KAL기 기체결함”…잔해 흩어진 범위좁아 공중폭발 아닌듯",
+     "date": "1999-04-17",
+     "url": "https://www.seoul.co.kr/news/1999/04/17/19990417001004"
+    }
+   ],
+   "ke015": [
+    {
+     "outlet": "한국일보",
+     "title": "80년 11월19일 대한항공 747기 착륙 중 화재",
+     "date": "",
+     "url": "https://www.hankookilbo.com/news/article/A2021111211120002715"
+    },
+    {
+     "outlet": "UPI",
+     "title": "A Korean Airlines jumbo jet arriving from Los Angeles...",
+     "date": "1980-11-19",
+     "url": "https://www.upi.com/Archives/1980/11/19/A-Korean-Airlines-jumbo-jet-arriving-from-Los-Angeles/8936343458000/"
+    }
+   ],
+   "av52": [
+    {
+     "outlet": "UPI",
+     "title": "Colombian jet that crashed had lost power in three engines",
+     "date": "1990-01-26",
+     "url": "https://www.upi.com/Archives/1990/01/26/Colombian-jet-that-crashed-had-lost-power-in-three-engines/6047633330000/"
+    },
+    {
+     "outlet": "CBS",
+     "title": "Survivors of Avianca Flight 052 crash on Long Island speak out 35 years later",
+     "date": "",
+     "url": "https://www.cbsnews.com/newyork/news/avianca-flight-052-long-island-crash-35-years/"
+    }
+   ],
+   "sq006": [
+    {
+     "outlet": "CNN",
+     "title": "Weather, pilot error blamed for Taiwan crash",
+     "date": "2002-04-26",
+     "url": "https://edition.cnn.com/2002/WORLD/asiapcf/southeast/04/26/singapore.crash/"
+    }
+   ],
+   "tk1951": [
+    {
+     "outlet": "CNN",
+     "title": "Nine killed as Turkish plane crashes near Amsterdam airport",
+     "date": "2009-02-25",
+     "url": "https://www.cnn.com/2009/WORLD/europe/02/25/turkish.plane.amsterdam/index.html"
+    },
+    {
+     "outlet": "알자지라",
+     "title": "Turkish plane crashes in Amsterdam",
+     "date": "2009-02-25",
+     "url": "https://www.aljazeera.com/news/2009/2/25/turkish-plane-crashes-in-amsterdam-2"
+    }
+   ],
+   "wn1380": [
+    {
+     "outlet": "CNN",
+     "title": "Southwest emergency landing: 1 killed, engine missing fan blade",
+     "date": "2018-04-17",
+     "url": "https://edition.cnn.com/2018/04/17/us/philadelphia-southwest-flight-emergency-landing/index.html"
+    },
+    {
+     "outlet": "CNN",
+     "title": "How passengers, pilots kept crippled Southwest Flight 1380 from turning deadlier",
+     "date": "2018-04-22",
+     "url": "https://www.cnn.com/2018/04/22/us/southwest-1380-emergency-landing-moments/index.html"
+    }
+   ],
+   "ci611": [
+    {
+     "outlet": "CNN",
+     "title": "China missile ruled out in Taiwan crash",
+     "date": "2002-05-27",
+     "url": "https://edition.cnn.com/2002/WORLD/asiapcf/east/05/27/taiwan.crash.0900/index.html"
+    }
+   ]
   };
   /* ================= 조종 매뉴얼 =================
      자료 > 조종 매뉴얼. 상황별 대응(비정상, 비상 절차의 일반 원칙), 경험과 요령(흔한 실수와 경험칙), 사건사고(공식 조사 결과 요약).
@@ -7814,7 +8494,25 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     ["tcas", "모든 단계", "TCAS 회피 지시 (RA)", "충돌 경고 장치가 'CLIMB'이나 'DESCEND' 같은 회피 지시를 냈을 때.", ["오토파일럿을 풀고 지시대로 즉시 움직인다", "관제 지시와 달라도 RA를 따른다", "관제에 'TCAS RA'를 알린다"], ["'CLEAR OF CONFLICT' 뒤 원래 허가 고도로 돌아간다"], ["관제 지시를 따르느라 RA와 반대로 움직인다 (2002 위버링겐 공중 충돌)"], "learn-control", "온라인 관제 비행에서 RA 콜아웃 순서를 미리 외워 둔다."],
     ["gpws", "강하", "지형 경고 'PULL UP'", "지상 접근 경고 장치가 'TERRAIN, PULL UP'을 냈을 때.", ["오토파일럿과 자동 추력을 푼다", "최대 추력", "날개 수평으로 기수를 약 20도로 (스틱 셰이커 범위 안)", "스피드브레이크를 집어넣는다"], ["경고가 그칠 때까지 상승하고 관제에 알린다"], ["경고를 오작동이라 여기고 무시한다"], "learn-forces", "산악 공항 접근에서 일부러 낮게 내려가 경고 회피 동작을 연습한다."],
     ["turb", "순항", "심한 난기류", "흔들림이 커지거나 난기류 예보 지역에 들어갈 때.", ["좌석벨트 신호", "기종의 난기류 통과 속도로 맞춘다", "자세를 지키고 급한 조종을 피한다"], ["고도 변화는 어느 정도 허용한다. 고도를 억지로 지키려 하면 기체에 무리가 간다", "가능하면 고도나 경로를 바꿔 벗어난다"], ["속도와 고도를 억지로 잡으려 크게 조작한다"], "learn-sweep", "날씨 설정에서 난기류를 강하게 하고 오토파일럿 상태와 수동 상태를 비교한다."],
-    ["nordo", "모든 단계", "무선 두절", "관제와 교신이 끊겼을 때.", ["7600을 설정한다", "다른 주파수와 장비로 연락을 시도한다", "마지막 허가 받은 경로와 고도를 따른다 (지역 규정에 따라)"], ["도착 공항의 절차대로 접근한다"], ["허가 없이 경로를 바꾼다"], "learn-forces", "비행 계획을 세울 때 무선 두절 시 따를 경로와 고도를 적어 둔다."]
+    ["nordo", "모든 단계", "무선 두절", "관제와 교신이 끊겼을 때.", ["7600을 설정한다", "다른 주파수와 장비로 연락을 시도한다", "마지막 허가 받은 경로와 고도를 따른다 (지역 규정에 따라)"], ["도착 공항의 절차대로 접근한다"], ["허가 없이 경로를 바꾼다"], "learn-forces", "비행 계획을 세울 때 무선 두절 시 따를 경로와 고도를 적어 둔다."],
+    ["smoke", "모든 단계", "객실 연기와 화재", "객실이나 조종석에 연기, 타는 냄새가 나거나 화물칸 화재 경고가 울렸을 때.", ["산소 마스크와 연기 보호 안경을 쓴다", "조종사끼리 통신을 확보한다", "MAYDAY를 선언하고 가장 가까운 적절한 공항으로 회항을 시작한다", "연기 체크리스트로 의심되는 계통을 하나씩 끈다"], ["연기가 계속 짙어지면 체크리스트를 다 끝내기보다 착륙을 우선한다", "객실 승무원에게 연기 위치와 진행 상황을 계속 보고받는다", "착륙 뒤 비상 탈출을 판단하고 소방대를 대기시킨다"], ["원인 찾기에 시간을 쓰며 착륙을 미룬다. 기내 화재는 몇 분 안에 번질 수 있다", "마스크를 늦게 써서 판단력이 떨어진다"], "learn-forces", "순항 중 연기 실패를 걸고 가장 가까운 공항까지 몇 분 안에 내릴 수 있는지 재 본다."],
+    ["elec", "모든 단계", "전기 계통 고장", "발전기 고장 경고가 뜨거나 여러 화면과 계기가 한꺼번에 꺼질 때.", ["대기 계기로 자세를 확인하며 기체 조종을 먼저 한다", "남은 발전기가 버스를 잇고 있는지 확인한다", "APU를 켜 발전기를 연결한다", "전기 체크리스트로 꺼진 버스와 원인을 확인한다"], ["배터리만 남았다면 쓸 수 있는 시간이 한정되므로 가까운 공항에 내린다", "꺼진 장비(연료 펌프, 결빙 방지, 항법 장비)를 정리해 접근 계획에 반영한다", "관제에 상황을 알리고 단순한 접근을 요청한다"], ["화면이 꺼진 데 놀라 기체 자세를 놓친다", "튀어나온 회로 차단기를 여러 번 다시 넣는다. 과열이나 화재로 이어질 수 있다"], "learn-control", "발전기 고장 실패를 걸고 대기 계기만으로 접근하는 연습을 한다."],
+    ["hyd", "모든 단계", "유압 계통 고장", "유압 압력 저하 경고가 뜨거나 조종면, 플랩, 기어, 브레이크 작동이 둔해질 때.", ["기체 조종과 경로를 먼저 안정시킨다", "어느 유압 계통을 잃었는지 확인한다", "유압 체크리스트를 수행한다", "관제에 알리고 대기해 시간을 확보한다"], ["대체 방식으로 기어를 내리는 절차를 미리 확인한다", "플랩이 덜 펴지고 제동과 조향이 약해지므로 긴 활주로를 고르고 착륙 거리를 다시 계산한다", "활주로에서 멈춘 뒤 무리하게 이동하지 말고 견인을 요청한다"], ["서둘러 접근하며 줄어든 성능을 계산하지 않는다", "모든 유압을 잃었을 때는 조종면 대신 좌우 엔진 추력 차이로 방향과 기수를 조절해야 했다 (1989년 유나이티드 232편)"], "learn-control", "유압 계통 하나를 고장 내고 플랩과 제동이 줄어든 상태로 착륙 거리를 비교한다."],
+    ["gear", "접근", "착륙 장치가 내려오지 않을 때", "기어를 내렸는데 초록 표시등 3개가 다 들어오지 않거나 기어 경고가 울릴 때.", ["복행하거나 접근을 멈추고 안전한 고도에서 대기한다", "한 조종사는 비행에만 집중하고 다른 조종사가 문제를 맡는다", "체크리스트가 허락하면 기어를 올렸다가 다시 내린다", "대체(중력) 내림 절차를 수행한다"], ["관제탑 앞을 낮게 지나가며 기어 상태를 눈으로 확인해 달라고 할 수 있다", "끝내 내려오지 않으면 연료를 줄이고 소방대를 대기시킨 뒤 비상 착륙을 준비한다", "객실 승무원에게 충격 대비 자세 안내를 맡긴다"], ["두 조종사가 모두 표시등에 매달려 고도가 떨어지는 것을 놓친다 (1972년 이스턴 항공 401편)"], "learn-forces", "기어 고장 실패를 걸고 대기 패턴에서 대체 내림 절차를 해 본다."],
+    ["flaps", "접근", "플랩이나 슬랫 고장", "접근 중 플랩이나 슬랫이 펴지지 않거나 한쪽만 펴져 비대칭 경고가 뜰 때.", ["레버 조작을 멈추고 지금 형태의 최소 속도보다 빠르게 유지한다", "복행하거나 대기해 시간을 확보한다", "체크리스트에서 형태별 접근 속도 보정값을 찾는다", "착륙 거리를 다시 계산하고 긴 활주로를 고른다"], ["접근 속도가 높아 기수 자세와 플레어 느낌이 평소와 다르다는 것을 미리 알고 내려간다", "관제에 알리고 길고 곧은 최종 접근을 요청한다"], ["비대칭 상태에서 레버를 계속 움직여 기울어짐을 키운다", "평소 접근 속도로 내려가 실속 여유가 줄어든다"], "learn-highlift", "플랩 고장 실패를 걸고 플랩이 작을 때 접근 속도와 착륙 거리가 얼마나 늘어나는지 확인한다."],
+    ["icing", "모든 단계", "결빙", "기온이 영하 근처인 구름이나 비, 눈 속을 지날 때, 또는 결빙 경고가 뜨거나 와이퍼와 날개에 얼음이 보일 때.", ["엔진 결빙 방지를 켠다", "기종 기준에 맞춰 날개 결빙 방지를 켠다", "속도를 평소보다 여유 있게 유지한다", "얼음이 계속 쌓이면 고도를 바꿔 결빙층을 벗어난다"], ["관제에 결빙 정도를 보고한다", "날개에 얼음이 남아 있으면 실속 경고보다 먼저 실속할 수 있으니 접근 속도를 보정한다", "지상에서는 제빙, 방빙 처리를 하고 허용 시간 안에 이륙한다"], ["지상과 이륙에서 엔진 결빙 방지를 켜지 않아 잘못된 추력 표시를 믿는다 (1982년 에어 플로리다 90편)", "오토파일럿이 얼음 때문에 생긴 쏠림을 감추고 있다가 풀리는 순간 크게 기운다"], "learn-stall", "기온을 영하 근처로 두고 구름 속 접근에서 결빙 방지 스위치를 켜는 시점을 연습한다."],
+    ["birdeng", "이륙", "조류 충돌 (엔진 하나)", "이륙이나 초기 상승 중 새와 부딪힌 뒤 한쪽 엔진에서 진동, 소음, 추력 감소가 생길 때.", ["속도와 상승 경로를 지키며 기체를 먼저 조종한다", "러더로 방향을 잡는다", "두 조종사가 함께 어느 엔진인지 계기로 확인한다", "절차 고도 전에는 엔진 조작을 하지 않는다"], ["진동과 배기 온도를 보고 체크리스트대로 추력을 줄이거나 엔진을 끈다", "관제에 조류 충돌을 알리고 돌아가 내린다", "다른 엔진도 손상됐을 수 있으니 계기를 계속 지켜본다"], ["소리나 느낌만으로 엔진을 골라 멀쩡한 쪽을 줄인다", "낮은 고도에서 서둘러 엔진을 만져 추력을 더 잃는다"], "learn-control", "이륙 직후 엔진 하나 손상 실패를 걸고 한 엔진으로 장주를 돌아 내리는 연습을 한다."],
+    ["tailstrike", "이륙", "꼬리 닿음 (테일스트라이크) 위험", "무게가 무겁거나 속도 계산이 틀렸을 때, 또는 기수를 너무 빨리 들 때. 동체가 긴 기종일수록 위험이 크다.", ["이륙 전 무게와 V 속도를 두 사람이 교차 확인한다", "VR 전에는 기수를 들지 않는다", "초당 약 3도로 부드럽게 기수를 든다", "떠오를 때까지 자세를 더 키우지 않는다"], ["꼬리가 닿았다고 의심되면 객실 여압을 올리지 않고 돌아가 내린다", "착륙에서도 플레어를 길게 끌거나 바운스 뒤 기수를 크게 들면 꼬리가 닿을 수 있다"], ["무게를 잘못 넣어 너무 낮은 속도로 기수를 든다 (2009년 에미레이트 407편)", "기수를 한 번에 세게 당긴다"], "learn-lift", "무게를 무겁게 두고 기수를 드는 빠르기를 바꿔 가며 기수 자세가 어떻게 달라지는지 본다."],
+    ["rwyobs", "착륙", "활주로 위 장애물과 침범", "최종 접근이나 이륙 활주 중 활주로에 다른 비행기, 차량, 사람이 보이거나 관제가 활주로가 비지 않았다고 알릴 때.", ["보이는 것을 크게 말해 두 조종사가 함께 확인한다", "접근 중이면 망설이지 말고 복행한다", "이륙 활주 중이면 V1 전인지 확인하고 멈출지 판단한다", "관제에 보고한다"], ["관제 지시를 받은 뒤 다시 접근한다", "지상 이동 중에는 활주로에 들어가기 전 허가를 소리 내어 확인한다"], ["상대가 곧 비킬 것이라 믿고 접근을 계속한다", "이륙 허가를 확실히 받지 않고 이륙을 시작한다 (1977년 테네리페 참사)"], "learn-forces", "온라인 관제 비행에서 활주로 진입과 이륙 허가 문구를 정확히 따라 읽는다."],
+    ["slippery", "착륙", "미끄러운 활주로 착륙", "비, 눈, 얼음으로 활주로 제동 상태가 나쁘다고 보고되거나 물이 고였을 때.", ["보고된 제동 상태로 착륙 거리를 다시 계산한다", "자동 제동을 더 강한 단계로 둔다", "플로트 없이 정해진 지점에 단단히 내린다", "닿자마자 스피드브레이크와 역추력을 쓴다"], ["옆바람 한계가 줄어드니 바람을 다시 확인한다", "속도가 충분히 줄 때까지 앞바퀴 조향보다 러더로 방향을 잡는다", "여유가 부족하면 다른 활주로나 교체 공항으로 간다"], ["부드럽게 내리려고 오래 떠 있다가 활주로를 다 쓴다", "역추력을 늦게 써서 멈추지 못한다 (2005년 사우스웨스트 항공 1248편)"], "learn-forces", "활주로를 젖거나 얼음으로 설정하고 자동 제동 단계별로 멈추는 거리를 비교한다."],
+    ["uas", "모든 단계", "속도계 이상", "두 속도계 값이 서로 다르거나, 속도가 고도, 추력, 자세와 맞지 않게 변할 때. 피토관 결빙이나 막힘이 흔한 원인이다.", ["오토파일럿과 자동 추력을 푼다", "기종 교범의 기억 항목 자세와 추력으로 맞춘다", "날개를 수평으로 유지한다", "피토 열선이 켜져 있는지 확인한다"], ["안정되면 체크리스트의 자세와 추력 표로 비행한다", "GPS 지상속도와 받음각 정보를 참고한다", "관제에 알리고 높은 고도에서는 서두르지 않는다"], ["틀린 속도계를 믿고 기수를 크게 당긴다 (2009년 에어 프랑스 447편)", "막힌 피토관 때문에 속도가 오르는 것처럼 보여 추력을 줄이고 기수를 든다 (1996년 비르겐에어 301편)"], "learn-stall", "피토관 막힘 실패를 걸고 자세와 추력만으로 수평 비행을 유지해 본다."],
+    ["upset-nh", "모든 단계", "불안정 자세 회복 (기수 높음)", "기수가 크게 들리고 속도가 빠르게 줄어들 때. 대략 기수 25도 이상을 기준으로 흔히 쓴다.", ["오토파일럿과 자동 추력을 푼다", "조종간을 밀어 받음각을 줄인다", "필요하면 기수를 숙이는 쪽으로 트림한다", "추력을 줄여 기수를 드는 힘을 줄인다", "그래도 부족하면 기울여서 기수를 수평선 쪽으로 내린다 (60도를 넘기지 않는다)"], ["기수가 수평선에 가까워지면 날개를 수평으로 맞춘다", "속도가 회복되면 천천히 수평 비행으로 돌아온다", "원인(자동화 모드, 트림, 난기류)을 확인한다"], ["추력을 더 넣어 기수가 더 들린다. 날개 밑에 엔진이 달린 기종은 추력이 기수를 든다", "조종간을 너무 세게 밀어 몸이 뜨는 음(-)의 G를 만든다"], "learn-stall", "오토파일럿을 끄고 기수를 30도까지 든 뒤 회복 순서를 소리 내어 해 본다."],
+    ["upset-nl", "모든 단계", "불안정 자세 회복 (기수 낮음)", "기수가 크게 숙여지고 속도가 빠르게 늘어날 때. 기울기가 큰 경우가 많다.", ["오토파일럿과 자동 추력을 푼다", "실속 경고가 있으면 먼저 받음각을 줄인다", "날개를 수평으로 맞춘다", "추력을 줄이고 필요하면 스피드브레이크를 쓴다", "날개가 수평이 된 뒤 기수를 들어 회복한다"], ["과속 한계와 하중 한계를 넘지 않게 부드럽게 당긴다", "회복 뒤 기체 점검이 필요한지 판단하고 관제에 알린다"], ["기울어진 채로 조종간을 당긴다. 나선을 그리며 더 빠르게 내려간다", "급하게 당겨 기체 한계 하중을 넘긴다"], "learn-control", "오토파일럿을 끄고 60도 기울기에 기수 20도 아래 자세를 만든 뒤 날개 수평이 먼저인 회복을 반복한다."],
+    ["incap", "모든 단계", "조종사 무력화", "다른 조종사가 부르는 말에 답하지 않거나 평소와 다른 행동을 할 때. 두 번 불러도 알맞은 답이 없으면 무력화를 의심한다.", ["\"I HAVE CONTROL\"을 말하고 조종을 맡는다", "오토파일럿을 켜 일의 양을 줄인다", "객실 승무원을 불러 무력해진 조종사가 조종 장치에 닿지 않게 한다", "무력해진 조종사에게 산소를 준다"], ["관제에 MAYDAY나 PAN PAN을 선언하고 가까운 적절한 공항으로 간다", "승객 중 의사가 있는지 찾는다", "혼자서 체크리스트와 접근 준비를 한 단계씩 천천히 한다"], ["상대가 피곤한 것으로 여기고 조치를 늦춘다", "혼자 일을 다 하려다 비행 경로를 놓친다"], "learn-control", "오토파일럿을 활용해 혼자 체크리스트, 무선, 접근 준비를 처리하는 순서를 정해 두고 연습한다."],
+    ["ash", "순항", "화산재 구역 진입", "밤에 앞 유리에 정전기 불꽃이 보이거나, 유황 냄새, 객실의 먼지, 엔진 배기 온도 상승, 출력 이상이 생길 때.", ["가능하면 추력을 아이들 쪽으로 줄인다", "화산재를 벗어나도록 180도 돌린다 (보통 강하하며)", "산소 마스크를 쓴다", "결빙 방지와 공기 공급 장치를 켜고 APU를 켠다"], ["엔진이 꺼지면 재시동을 시도한다. 맑은 공기로 내려온 뒤 다시 살아난 사례가 있다 (1982년 브리티시 항공 9편)", "속도계가 이상해질 수 있으니 자세와 추력도 함께 본다", "관제에 화산재를 보고하고 가까운 공항으로 간다"], ["추력을 올려 상승으로 벗어나려 한다. 엔진이 뜨거울수록 화산재가 녹아 엔진 안에 달라붙는다"], "learn-forces", "화산재 실패가 없다면 양쪽 엔진 고장 실패로 재시동 절차를 연습한다."],
+    ["medical", "순항", "의료 비상과 회항 결정", "객실 승무원이 승객의 심한 통증, 의식 저하, 호흡 곤란 같은 상황을 알릴 때.", ["비행은 한 조종사가 계속 맡는다", "객실에 의사가 있는지 방송으로 찾는다", "환자 상태와 예상 도착 시간을 객실 승무원과 나눈다", "항공사 운항 관리나 지상 의료 상담과 연결한다"], ["회항 공항은 거리만이 아니라 활주로, 날씨, 의료 시설, 착륙 무게를 함께 본다", "최대 착륙 무게를 넘으면 연료 방출이나 과중량 착륙을 판단한다", "관제에 PAN PAN이나 MAYDAY로 우선 처리를 요청한다"], ["가장 가까운 공항만 보고 날씨나 활주로가 맞지 않는 곳으로 간다", "두 조종사가 모두 객실 상황에 매달려 비행을 놓친다"], "learn-forces", "장거리 비행 중간에 회항 공항 두세 곳을 정해 두고 각 공항의 활주로와 날씨를 미리 본다."],
+    ["trim", "모든 단계", "트림 폭주와 자동 조종 이상", "트림이 멈추지 않고 계속 돌거나, 오토파일럿이 지시와 다르게 움직여 기체가 한쪽으로 계속 쏠릴 때.", ["조종간을 단단히 잡고 자세를 지킨다", "오토파일럿과 자동 추력을 푼다", "전기 트림으로 반대 방향을 맞춰 본다", "그래도 계속되면 트림 차단 스위치를 끈다"], ["수동 트림 휠이 있는 기종은 손으로 트림을 맞춘다", "속도가 높을수록 수동 트림이 무거워지므로 속도를 적당히 유지한다", "가까운 적절한 공항에 내린다"], ["트림이 반복해서 움직이는데 차단 스위치를 쓰지 않고 계속 반대로 맞춘다 (2018년 라이온에어 610편)"], "learn-control", "트림 폭주 실패를 걸고 차단 스위치까지의 순서를 소리 내어 해 본다."],
+    ["blackhole", "접근", "야간 착시 (블랙홀 접근)", "밤에 활주로 주변이 깜깜하고 활주로 불빛만 보일 때. 바다나 사막 쪽 접근에서 실제보다 높다고 느껴 너무 낮게 내려가기 쉽다.", ["ILS나 RNAV 활공로를 함께 띄워 둔다", "PAPI를 계속 확인한다", "강하율을 기준값(지상속도 × 5)과 비교한다", "기준 고도에서 안정되지 않으면 복행한다"], ["시계 접근 허가를 받아도 계기 접근 경로를 따라간다", "낯선 공항이라면 주변 지형과 장애물을 미리 확인한다"], ["눈에 보이는 활주로 모양만 믿고 계속 낮게 내려간다", "PAPI가 빨간 불 4개인데도 접근을 계속한다"], "learn-forces", "밤 시간으로 해안 공항을 골라 계기를 보지 않고 접근한 뒤 활공로와 얼마나 어긋났는지 확인한다."]
   ];
   // 경험과 요령: [분류, 제목, 내용]
   const MN_TIPS = [
@@ -7829,7 +8527,31 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     ["연료", "연료 계획의 기본", "목적지까지 연료 + 교체 공항까지 연료 + 최종 예비 연료(대략 30분 대기분) + 비상 여유. 계획보다 많이 쓰고 있으면 일찍 알아챌수록 선택지가 많다."],
     ["날씨", "옆바람과 활주로 고르기", "바람과 가장 맞서는 활주로를 고르는 것이 기본이다. 옆바람이 기종 한계에 가까우면 다른 활주로나 교체 공항을 생각한다."],
     ["판단", "'지금 괜찮나'를 계속 묻기", "접근에서 기준 고도마다 속도, 경로, 형태를 확인하고 하나라도 어긋나면 복행한다. 복행은 실패가 아니라 정상 절차다."],
-    ["연습", "실패는 하나씩", "시뮬레이터에서 비상 상황을 연습할 때는 한 번에 하나만 걸고, 절차를 익힌 뒤에 조합한다. 처음부터 여러 개를 겹치면 배우는 것이 적다."]
+    ["연습", "실패는 하나씩", "시뮬레이터에서 비상 상황을 연습할 때는 한 번에 하나만 걸고, 절차를 익힌 뒤에 조합한다. 처음부터 여러 개를 겹치면 배우는 것이 적다."],
+    ["착륙", "접지 지점을 정해 두기", "활주로 끝이 아니라 접지 구역 표지(보통 문턱에서 약 1,000 ft 지점의 굵은 표지)를 목표로 삼는다. 접근 내내 이 지점이 창 안에서 같은 자리에 머물면 활공로를 잘 타고 있는 것이다. 위로 올라가면 낮고, 아래로 내려가면 높다."],
+    ["착륙", "닿은 뒤가 착륙의 절반", "접지하면 스포일러가 올라갔는지 확인하고 기수를 부드럽게 내린 뒤 역추력과 브레이크로 감속한다. 활주로 길이가 넉넉해도 젖었거나 짧으면 자동 제동 단계를 한 칸 높여 둔다."],
+    ["강하", "감속에 필요한 거리", "수평 비행에서 속도 10 kt를 줄이는 데 대략 1 nm가 든다고 생각한다. 강하하면서 동시에 감속하기는 어려우니, 감속 구간을 3배 규칙 거리에 따로 더해 둔다."],
+    ["강하", "전이고도와 고도계", "상승하며 전이고도를 지나면 고도계를 표준(1013 hPa, 29.92 inHg)으로, 강하하며 전이층을 지나면 그 지역 QNH로 바꾼다. 전이고도는 나라와 공항마다 다르니 차트에서 미리 확인한다."],
+    ["속도", "플랩 제한 속도 지키기", "플랩과 기어마다 내려도 되는 최대 속도가 정해져 있다. 속도가 제한보다 충분히 낮아진 것을 보고 한 단계씩 내리고, 내린 뒤에는 표시가 맞는지 확인한다."],
+    ["속도", "속도 추세 화살표 보기", "속도계 옆 추세 화살표는 몇 초 뒤의 속도를 보여 준다. 지금 숫자보다 화살표 끝을 보고 추력을 조절하면 속도가 오르내리며 출렁이는 것을 줄일 수 있다."],
+    ["자동화", "허가 고도부터 맞춘다", "관제 허가를 받으면 모드를 바꾸기 전에 고도 선택 창에 허가 고도를 먼저 넣는다. 고도 창이 틀린 채로 상승이나 강하를 시작하면 허가 고도를 지나쳐 버리기 쉽다."],
+    ["자동화", "FMS 경로는 차트와 대조한다", "출발 전에 FMS에 들어간 경로를 차트와 한 지점씩 맞춰 보고, 경로가 끊긴 곳(디스컨티뉴이티)이 없는지 확인한다. 잘못 넣은 지점 하나를 자동화는 그대로 따라간다."],
+    ["협력", "조종하는 사람과 살피는 사람", "한 사람은 조종(PF)에, 다른 사람은 감시와 교신(PM)에 집중하도록 역할을 나눈다. 조종을 넘길 때는 '조종 넘깁니다', '조종 받았습니다'처럼 분명히 말로 주고받는다."],
+    ["협력", "조용한 조종석 (스테릴 콕핏)", "택시, 이륙, 착륙과 낮은 고도(흔히 10,000 ft 아래)에서는 비행과 관계없는 대화를 하지 않는다. 일이 몰리는 구간에서 주의가 흩어지지 않게 하려는 규칙이다."],
+    ["연료", "구간마다 연료 확인", "주요 지점을 지날 때마다 실제 남은 연료와 계획 연료를 비교한다. 차이가 조금씩 커지면 바람, 고도, 누출 가능성을 점검하고 교체 공항 계획을 미리 다시 본다."],
+    ["연료", "연료를 더 싣는 것도 비용이다", "연료가 싼 공항에서 다음 구간 연료까지 실어 가는 것(탱커링)은 무게가 늘어 그만큼 연료를 더 태운다. 가격 차이, 구간 거리, 착륙 중량 한계를 함께 따져 이득일 때만 한다."],
+    ["날씨", "METAR 읽는 순서", "METAR는 공항, 시각, 바람, 시정, 날씨 현상, 구름, 기온과 이슬점, 기압 순으로 적혀 있다. 기온과 이슬점 차이가 2~3도 안으로 좁으면 안개나 낮은 구름이 생기기 쉽다."],
+    ["날씨", "옆바람 성분 어림셈", "옆바람 성분은 풍속 x sin(바람과 활주로 사이 각도)이다. 30도면 풍속의 절반, 45도면 약 0.7배, 60도 이상이면 거의 전부가 옆바람이라고 기억하면 빠르다."],
+    ["판단", "출발 전 IMSAFE 점검", "병(Illness), 약(Medication), 스트레스(Stress), 술(Alcohol), 피로(Fatigue), 감정과 식사(Emotion, Eating)를 스스로 점검한다. 하나라도 걸리면 비행을 미루는 것이 조종사의 판단이다."],
+    ["판단", "'끝까지 가고 싶은 마음' 경계", "목적지가 가까울수록 날씨나 연료가 나빠져도 계획대로 밀고 가려는 마음이 커진다. 회항이나 복행 기준을 출발 전에 정해 두고, 그 기준에 닿으면 고민 없이 따른다."],
+    ["연습", "한 공항에서 장주 비행 반복", "익숙한 공항 하나를 정해 이륙, 장주, 착륙을 여러 번 되풀이한다. 같은 조건에서 반복해야 무엇이 좋아졌는지 비교할 수 있다."],
+    ["연습", "비행 뒤 짧게 되돌아보기", "착륙 뒤 잘된 것 하나와 고칠 것 하나를 적어 둔다. 다음 비행 브리핑에서 그 한 가지를 목표로 삼으면 실력이 꾸준히 는다."],
+    ["이륙", "이륙 전 브리핑", "활주로, 이륙 속도(V1, VR, V2), 첫 상승 고도와 방향, 그리고 이륙 중 문제가 생기면 멈출지 계속할지와 어디로 돌아올지를 미리 말해 둔다. 일이 터진 뒤 생각하면 늦다."],
+    ["이륙", "회전은 부드럽고 일정하게", "VR에서 초당 약 2~3도의 일정한 속도로 기수를 들어 목표 자세(흔히 15도 안팎)까지 올린다. 너무 빨리 들면 꼬리가 활주로에 닿을 수 있고, 너무 느리면 활주로를 길게 쓴다."],
+    ["지상", "택시는 걷듯이 천천히", "직선 유도로에서는 대략 20 kt 아래, 꺾을 때는 10 kt 정도로 줄인다. 브레이크를 계속 살짝 밟고 가지 말고, 속도가 붙으면 한 번에 눌러 줄인 뒤 떼는 것이 브레이크를 덜 달군다."],
+    ["지상", "활주로 앞 정지선", "유도로의 활주로 정지선(노란 실선 두 줄과 점선 두 줄)은 허가 없이 넘지 않는다. 건너거나 들어가기 전에 허가받은 활주로가 맞는지, 접근하는 비행기가 없는지 눈으로 한 번 더 본다."],
+    ["교신", "중요한 지시는 복창한다", "활주로, 고도, 방향, 속도, 주파수, 트랜스폰더 코드, 정지 지시는 받은 그대로 되풀이해 말하고 끝에 자기 호출부호를 붙인다. 관제사는 복창을 듣고 잘못 알아들은 것을 바로잡는다."],
+    ["교신", "누구에게, 누가, 어디서, 무엇을", "처음 부를 때는 부르는 관제 기관, 내 호출부호, 현재 위치, 요청 순으로 짧게 말한다. 말하기 전에 할 말을 정리하고, 다른 교신이 끝났는지 잠깐 들은 뒤 누른다."]
   ];
   // 사건사고: 조사 자료 정리가 끝나면 채운다 (공식 조사 보고서 기준)
   const MN_ACC = typeof ACCIDENTS !== "undefined" ? ACCIDENTS : [];
@@ -7853,7 +8575,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
   function renderManualTips() {
     const cats = Array.from(new Set(MN_TIPS.map(t => t[0])));
     return mnHead("경험과 요령", "교범에 다 나오지는 않지만 조종사들이 경험으로 쌓아 온 요령과 흔한 실수입니다. 시뮬레이터 비행에 바로 써 볼 수 있는 것 위주로 모았습니다.") + `
-<div class="grid lr mn">${cats.map(c => `<section class="card c6 mn-tipc">${cardH(ICON.star, c)}<img class="mn-img mn-tip-img" src="photos/manual/tip-${c}.webp" alt="" loading="lazy" onerror="this.remove()"><div class="card-b mn-tips">${MN_TIPS.filter(t => t[0] === c).map(t => `<div class="mn-tip"><b>${t[1]}</b><p>${t[2]}</p></div>`).join("")}</div></section>`).join("")}
+<div class="grid lr mn">${cats.map(c => `<section class="card c6 mn-tipc">${cardH(ICON.star, c)}<div class="card-b mn-tipwrap"><img class="mn-tip-img" src="photos/manual/tip-${c}.webp" alt="" loading="lazy" onerror="this.remove()"><div class="mn-tips">${MN_TIPS.filter(t => t[0] === c).map(t => `<div class="mn-tip"><b>${t[1]}</b><p>${t[2]}</p></div>`).join("")}</div></div></section>`).join("")}
 </div>${mnNote}`;
   }
   // 사건사고: 연대(1970년대 ~ 2020년대)로 묶고, 위쪽 연표에서 해마다 점을 찍는다. 사진은 사고기 사진이 아니라 같은 기종의 자료 사진이다
@@ -7872,7 +8594,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     return `<article class="mn-acc" id="acc-${esc(a.id)}"><div class="mn-acc-top"><div class="mn-acc-ph">${typeof ACC_PHOTOS !== "undefined" && ACC_PHOTOS[a.id] ? `<img src="photos/accidents/${esc(a.id)}.webp" alt="${esc(ACC_PHOTOS[a.id].title)}" loading="lazy" decoding="async"><a class="mn-acc-cr" href="${esc(ACC_PHOTOS[a.id].page)}" target="_blank" rel="noopener">${esc(ACC_PHOTOS[a.id].title)}, ${esc(ACC_PHOTOS[a.id].license)}</a>` : ac ? `<div class="mn-acc-sil">${silhouette(ac, 1.5, 240, 120)}</div><span>${esc(ac.name)} 측면 그림</span>` : `<div class="mn-acc-noph">${ICON.plane}<span>${esc(a.aircraft || "")}</span></div>`}</div>
 <div class="mn-acc-hd"><div class="mn-acc-date"><b>${esc(y)}</b><span>${esc(d)}</span></div><h3>${esc(a.name)}</h3><p class="mn-acc-o">${esc(a.outcome || "")}</p><div class="mn-chips">${placeOf(a).map(c => `<span class="ctry">${ICON.globe}${esc(c)}</span>`).join("")}${opOf(a).filter(c => placeOf(a).indexOf(c) < 0).map(c => `<span class="ctry op">${ICON.plane}${esc(c)} 항공사</span>`).join("")}<span>${ICON.flag}${esc(a.place || "")}</span><span>${ICON.plane}${esc(a.aircraft || "")}</span>${a.phase ? `<span>${ICON.route}${esc(a.phase)} 중</span>` : ""}<span class="${a.fatal ? "fat" : "zero"}">${a.fatal ? `사망 ${fmt(a.fatal)}명` : "사망자 없음"}${a.onboard ? ` / 탑승 ${fmt(a.onboard)}명` : ""}</span></div></div></div>
 <div class="mn-acc-body"><section><p class="mn-k">${ICON.info}무슨 일이 있었나</p><p>${esc(a.what || "")}</p></section><section><p class="mn-k">${ICON.doc}조사 결과</p><p>${esc(a.cause || "")}</p></section><section class="mn-acc-les"><p class="mn-k">${ICON.target}조종사에게 남긴 것</p><ol>${(a.lessons || []).map(t => `<li>${esc(t)}</li>`).join("")}</ol></section></div>
-<div class="mn-foot"><span class="mn-tags">${(a.related || []).map(t => MN_TAG_LINK[t] ? `<a href="#${MN_TAG_LINK[t]}">${esc(t)}</a>` : `<span>${esc(t)}</span>`).join("")}${ac ? `<a href="#${ac.id}">${esc(ac.name)} 기종 보기</a>` : ""}</span><span class="mn-src">${(a.sources || []).slice(0, 2).map(s => `<a class="ext" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join("")}</span></div>${a.note ? `<details class="lr-more"><summary>참고 메모</summary><p class="small muted" style="margin:0">${esc(a.note)}</p></details>` : ""}</article>`;
+<div class="mn-foot"><span class="mn-tags">${(a.related || []).map(t => MN_TAG_LINK[t] ? `<a href="#${MN_TAG_LINK[t]}">${esc(t)}</a>` : `<span>${esc(t)}</span>`).join("")}${ac ? `<a href="#${ac.id}">${esc(ac.name)} 기종 보기</a>` : ""}</span><span class="mn-src">${(a.sources || []).slice(0, 2).map(s => `<a class="ext" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join("")}</span></div>${typeof ACC_NEWS !== "undefined" && ACC_NEWS[a.id] && ACC_NEWS[a.id].length ? `<div class="mn-news"><span class="mn-news-k">${ICON.book}관련 보도</span>${ACC_NEWS[a.id].map(n => `<a href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.outlet)}</b><span>${esc(n.title)}</span>${n.date ? `<small>${esc(n.date.replace(/-/g, "."))}</small>` : ""}</a>`).join("")}</div>` : ""}${a.note ? `<details class="lr-more"><summary>참고 메모</summary><p class="small muted" style="margin:0">${esc(a.note)}</p></details>` : ""}</article>`;
   }
   function mnAccList() {
     if (!MN_ACC.length) return `<p class="muted" style="padding:20px">사건사고 자료가 없습니다.</p>`;
@@ -7911,8 +8633,8 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     const cnt = {}; MN_ACC.forEach(a => ctryOf(a).forEach(c => { cnt[c] = (cnt[c] || 0) + 1; })); const ctrys = [["전체", 0]].concat(Object.keys(cnt).sort((x, y) => cnt[y] - cnt[x] || x.localeCompare(y)).map(c => [c, cnt[c]]));
     const decs = ["전체"].concat(Array.from(new Set(MN_ACC.map(decOf))).sort((x, y) => y - x).map(String));
     return mnHead("사건사고", "널리 알려진 여객기 사고와 사건을 공식 조사 결과를 바탕으로 정리했습니다. 무엇이 있었고, 조사에서 무엇이 밝혀졌고, 조종사가 무엇을 가져가야 하는지에 초점을 맞췄습니다.") + `
-<div class="grid lr mn"><section class="card c12">${cardH(ICON.clock, "연표", `<span class="hint">${MN_ACC.length}건</span>`)}<div class="card-b">${mnTimeline()}</div></section>
-${mnTypeStats()}<section class="card c12"><div class="card-b mn-filters"><div><p class="mn-k">국가 <small>사고 장소 또는 항공사 국적</small></p><div class="lr-seg" role="group" aria-label="국가">${ctrys.map(c => `<button type="button" data-mn="ctry:${c[0]}" class="${c[0] === mnCtry ? "on" : ""}">${c[0]}${c[1] ? ` <small>${c[1]}</small>` : ""}</button>`).join("")}</div></div><div><p class="mn-k">연대</p><div class="lr-seg" role="group" aria-label="연대">${decs.map(t => `<button type="button" data-mn="dec:${t}" class="${t === mnDec ? "on" : ""}">${t === "전체" ? "전체" : t + "년대"}</button>`).join("")}</div></div><div><p class="mn-k">분류</p><div class="lr-seg" role="group" aria-label="분류">${tags.map(t => `<button type="button" data-mn="tag:${t}" class="${t === mnTag ? "on" : ""}">${t}</button>`).join("")}</div></div></div><div id="mn-acc-list" class="mn-acc-list">${mnAccList()}</div></section>
+<div class="grid lr mn">${mnTypeStats()}<section class="card c12">${cardH(ICON.clock, "연표", `<span class="hint">${MN_ACC.length}건</span>`)}<div class="card-b">${mnTimeline()}</div></section>
+<section class="card c12"><div class="card-b mn-filters"><div><p class="mn-k">국가 <small>사고 장소 또는 항공사 국적</small></p><div class="lr-seg" role="group" aria-label="국가">${ctrys.map(c => `<button type="button" data-mn="ctry:${c[0]}" class="${c[0] === mnCtry ? "on" : ""}">${c[0]}${c[1] ? ` <small>${c[1]}</small>` : ""}</button>`).join("")}</div></div><div><p class="mn-k">연대</p><div class="lr-seg" role="group" aria-label="연대">${decs.map(t => `<button type="button" data-mn="dec:${t}" class="${t === mnDec ? "on" : ""}">${t === "전체" ? "전체" : t + "년대"}</button>`).join("")}</div></div><div><p class="mn-k">분류</p><div class="lr-seg" role="group" aria-label="분류">${tags.map(t => `<button type="button" data-mn="tag:${t}" class="${t === mnTag ? "on" : ""}">${t}</button>`).join("")}</div></div></div><div id="mn-acc-list" class="mn-acc-list">${mnAccList()}</div></section>
 </div><p class="lr-note">희생자와 가족에게 깊은 애도를 표합니다. 요약은 공식 조사 보고서를 기준으로 했으며, 자세한 내용은 각 출처를 확인하세요. 그림은 기종의 모양을 보여 주는 측면 그림입니다.</p>`;
   }
   const MANUAL_PAGES = { "manual-sit": renderManualSit, "manual-tips": renderManualTips, "manual-acc": renderManualAcc };

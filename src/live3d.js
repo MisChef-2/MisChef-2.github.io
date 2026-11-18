@@ -50,7 +50,7 @@
   function motionLoop(now) {
     MOTION.raf = 0;
     if ((location.hash || "").slice(1) !== "live" || !document.getElementById("live-ov")) return;
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     if (!fxCalm() && !MOTION.hold && now - MOTION.last > (LV3.on ? 33 : 50)) {
       MOTION.last = now;
       if (showAc) { acTick(now); if (LV3.on) lv3dDirty(); else queueDraw(); }
@@ -78,7 +78,7 @@
     if (h !== "live") { lv3dStop(); return; }
     const wrap = document.querySelector("#livecard .livewrap"); if (!wrap || wrap.querySelector(".lv-view")) return;
     if (typeof d3 === "undefined" || !d3.geoOrthographic || typeof topojson === "undefined" || typeof WORLD_TOPO === "undefined") return;
-    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
+    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><div class="lv-acleg" aria-label="항공기 색"><span><i style="background:var(--boeing)"></i>보잉</span><span><i style="background:var(--airbus)"></i>에어버스</span><span><i style="background:#fcd34d"></i>그 밖의 기종</span><span><i style="background:#fde047;box-shadow:0 0 0 2px rgba(253,224,71,.4)"></i>고른 기체</span></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
     LV3.cv = wrap.querySelector("#lv3d"); LV3.ctx = LV3.cv.getContext("2d"); LV3.focusKey = "";
     LV3.ro = "ResizeObserver" in window ? new ResizeObserver(() => { lv3dSize(); lv3dDirty(); }) : null; if (LV3.ro) LV3.ro.observe(LV3.cv);
     lv3dWire(); lv3dMode(LV3.on); motionStart();
@@ -104,16 +104,40 @@
     let lat, lon, k;
     // 비행 지도처럼 지구가 둥글게 보이는 배율에서 시작한다. 공역은 조금 당겨 보고, 기체를 고르면 더 당긴다
     if (sel) { lat = sel.lat; lon = sel.lon; k = 3.2; }
+    else if (LV.scope === "all") { lat = 32; lon = 127; k = 2.6; }
     else if (LV.scope === "type") { lat = 30; lon = pl ? pl.lon : 127; k = 1; }
     else { lat = pl.lat; lon = pl.lon; k = LV.tab === "aircraft" ? 1.8 : 1.15; }
     const to = [-lon, -lat * 0.75, 0];
     if (!animate || fxCalm()) { LV3.rot = to; LV3.k = k; lv3dDirty(); return; }
     const from = LV3.rot.slice(), k0 = LV3.k, t0 = performance.now(), d = 650;
     let dl = to[0] - from[0]; while (dl > 180) dl -= 360; while (dl < -180) dl += 360;
-    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 + (k - k0) * e; lv3dDirty(); if (t < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
+    if (LV3.fly) cancelAnimationFrame(LV3.fly);
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 + (k - k0) * e; LV3.kt = LV3.k; lv3dDirty(); LV3.fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    LV3.fly = requestAnimationFrame(step);
+  }
+  /* 빈 곳을 두 번 누르면 그 지점을 가운데로 돌리며 두 배 당긴다 */
+  function lv3dClickFly(e) {
+    if (!LV3.proj || !LV3.cv) return; const r = LV3.cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    if ((x - LV3.cx) * (x - LV3.cx) + (y - LV3.cy) * (y - LV3.cy) > LV3.Rpx * LV3.Rpx) return; // 지구 밖은 무시
+    const ll = LV3.proj.invert([x, y]); if (!ll || isNaN(ll[0])) return;
+    lv3dFlyTo(ll[1], ll[0], Math.min(80, LV3.k * 2));
+  }
+  const lv3dIsOn = () => !!(LV3.on && LV3.cv && LV3.cv.offsetParent);
+  // 반경 km 원이 화면 짧은 쪽의 86%가 되는 배율. 지구 반지름 6371 km, 지금 화면의 지구 반지름 = LV3.R (배율 LV3.k일 때)
+  function lv3dKFor(km) { const base = LV3.R || 200, need = Math.min(LV3.W || 600, LV3.H || 400) * 0.43 / (km / 6371); return Math.max(1, Math.min(80, need / base)); }
+  function lv3dFlyTo(lat, lon, k) {
+    MOTION.touched = true; const to = [-lon, -lat, 0];
+    if (fxCalm()) { LV3.rot = to; LV3.k = k; lv3dDirty(); return; }
+    if (LV3.fly) cancelAnimationFrame(LV3.fly);
+    const from = LV3.rot.slice(), k0 = LV3.k, t0 = performance.now(), d = 950;
+    let dl = to[0] - from[0]; while (dl > 180) dl -= 360; while (dl < -180) dl += 360;
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      LV3.rot = [from[0] + dl * e, from[1] + (to[1] - from[1]) * e, 0]; LV3.k = k0 * Math.pow(k / k0, e); LV3.kt = LV3.k; lv3dDirty();
+      LV3.fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    LV3.fly = requestAnimationFrame(step);
   }
   function lv3dDraw() {
+    if (!LV3.cB) { const cs = getComputedStyle(document.documentElement); LV3.cB = cs.getPropertyValue("--boeing").trim() || "#4690e8"; LV3.cA = cs.getPropertyValue("--airbus").trim() || "#e2602c"; }
     LV3.raf = 0; if (!LV3.on || !LV3.cv || !LV3.dirty) return; LV3.dirty = false;
     if (!LV3.W || !LV3.H) { lv3dSize(); if (!LV3.W) return; }
     const c = LV3.ctx, w = lv3dWorld(); if (!w) return;
@@ -122,6 +146,7 @@
     if (key !== LV3.focusKey) { LV3.focusKey = key; lv3dFocus(true); return; }
     const cx = LV3.W / 2, cy = LV3.H / 2, R = LV3.R * LV3.k, toR = Math.PI / 180, mono = getComputedStyle(document.body).getPropertyValue("--mono") || "monospace";
     const proj = d3.geoOrthographic().translate([cx, cy]).scale(R).rotate(LV3.rot).clipAngle(90).precision(0.4), path = d3.geoPath(proj, c), rotFn = d3.geoRotation(LV3.rot);
+    LV3.proj = proj; LV3.cx = cx; LV3.cy = cy; LV3.Rpx = R;
     c.setTransform(LV3.dpr, 0, 0, LV3.dpr, 0, 0); c.clearRect(0, 0, LV3.W, LV3.H);
     // 별: 한 번 만든 자리에 고정
     if (!LV3.stars) LV3.stars = Array.from({ length: 140 }, () => [Math.random(), Math.random(), Math.random() * 1.1 + 0.2, Math.random() * 0.6 + 0.2]);
@@ -141,9 +166,15 @@
     // 지구 좌표 → 화면. alt(반지름 비율)만큼 띄운다
     const p3 = (lon, lat, alt) => { const q = rotFn([lon, lat]), l = q[0] * toR, p = q[1] * toR, co = Math.cos(p), x = co * Math.sin(l), y = Math.sin(p), z = co * Math.cos(l), m = 1 + alt; return { x: cx + R * m * x, y: cy - R * m * y, z: z, vis: z > 0 || (x * x + y * y) * m * m > 1.0004 }; };
     // 공항 이름: 가까이 당겼을 때만
-    if (LV3.k > 1.7) { c.font = "600 10.5px " + mono; AP && Object.keys(AP).forEach(code => { const q = p3(AP[code][1], AP[code][0], 0); if (q.z < 0.25 || q.x < 0 || q.x > LV3.W || q.y < 0 || q.y > LV3.H) return; c.fillStyle = "rgba(203,220,240,.85)"; c.beginPath(); c.arc(q.x, q.y, 2, 0, 7); c.fill(); c.lineWidth = 3; c.strokeStyle = "rgba(6,12,24,.85)"; c.strokeText(code, q.x + 5, q.y + 3.5); c.fillText(code, q.x + 5, q.y + 3.5); }); }
+    LV3.apHits = [];
+    // 공항 점은 늘 그리고(눌러서 날아갈 수 있게), 이름은 가까이 당겼을 때만. 마우스를 올린 공항은 파랗게
+    c.font = "600 10.5px " + mono; AP && Object.keys(AP).forEach(code => { const q = p3(AP[code][1], AP[code][0], 0); if (q.z < 0.25 || q.x < 0 || q.x > LV3.W || q.y < 0 || q.y > LV3.H) return; LV3.apHits.push([q.x, q.y, code]); const hov = LV3.apHover === code;
+      c.fillStyle = hov ? "#5cc6f2" : "rgba(203,220,240,.85)"; c.beginPath(); c.arc(q.x, q.y, hov ? 3.5 : 2.2, 0, 7); c.fill();
+      if (LV3.k > 1.7 || hov) { c.lineWidth = 3; c.strokeStyle = "rgba(6,12,24,.85)"; c.strokeText(code, q.x + 5, q.y + 3.5); c.fillText(code, q.x + 5, q.y + 3.5); } });
     const pl = placeById[LV.place];
+    LV3.here = null;
     if (LV.scope === "area" && pl) {
+      { const hq = p3(pl.lon, pl.lat, 0); if (hq.z > 0) LV3.here = [hq.x, hq.y, pl.code]; }
       const cv = coverOf(pl.id);
       // 교통 열지도: 빛 점을 겹쳐 찍는다
       if (cv && LV.tab === "traffic" && !LV.sel) {
@@ -160,7 +191,7 @@
     // 경로: 출발 공항에서 올라가 순항 고도로 날다가 도착 공항으로 내려오는 호로 그린다 (비행 지도의 노선 호와 같은 방식).
     // 기체가 떠 있는 높이와 같은 규칙을 써서, 기체가 늘 선 위에 놓이게 한다. 이미 난 부분은 실선, 남은 부분은 점선
     const liftOf = ft => (typeof ft === "number" ? Math.min(45000, ft) : 0) / 45000 * 0.035;
-    if (LV.scope === "type" || LV.tab === "aircraft" || LV.sel) {
+    if (LV.scope !== "area" || LV.tab === "aircraft" || LV.sel) {
       c.lineCap = "round"; c.lineJoin = "round";
       const ramp = f => { const k = Math.max(0, Math.min(1, f / 0.1, (1 - f) / 0.1)); return Math.sin(k * Math.PI / 2); };
       shown().forEach(a => { if (!routeWanted(a)) return; const r = acRoute(a); if (!r) return; const on = LV.sel === a.hex;
@@ -176,7 +207,7 @@
     }
     // 항공기: 고도만큼 띄우고 땅까지 가는 선, 진행 방향으로 돌린 비행기 모양
     LV3.hits = [];
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     if (showAc) {
       const list = shown().slice().sort((a, b) => (typeof a.alt_baro === "number" ? a.alt_baro : 0) - (typeof b.alt_baro === "number" ? b.alt_baro : 0));
       const lift = liftOf;
@@ -184,7 +215,7 @@
       list.forEach(a => {
         const alt = lift(a.alt_baro), top = p3(a.lon, a.lat, alt), gnd = p3(a.lon, a.lat, 0); if (!top.vis || gnd.z < -0.05) return;
         const on = LV.sel === a.hex, hov = LV3.hover === a.hex, fam = famOf(a.t), ac = fam ? byId[fam] : null;
-        const col = on ? "#fde047" : ac ? (ac.maker === "boeing" ? "#60a5fa" : "#f472b6") : "#fcd34d";
+        const col = on ? "#fde047" : ac ? (ac.maker === "boeing" ? LV3.cB : LV3.cA) : "#fcd34d";
         { const T = tailOf(a); if (T) { for (let j = 1; j < T.length; j++) { const p0 = p3(T[j - 1][1], T[j - 1][0], alt), p1 = p3(T[j][1], T[j][0], alt); if (!p0.vis || !p1.vis) continue; c.strokeStyle = `rgba(252,211,77,${(j / T.length * 0.55).toFixed(3)})`; c.lineWidth = 1 + j / T.length * 1.4; c.beginPath(); c.moveTo(p0.x, p0.y); c.lineTo(p1.x, p1.y); c.stroke(); } } }
         if (alt > 0) { c.beginPath(); c.moveTo(gnd.x, gnd.y); c.lineTo(top.x, top.y); c.strokeStyle = "rgba(252,211,77,.28)"; c.lineWidth = 1; c.stroke(); c.fillStyle = "rgba(252,211,77,.35)"; c.beginPath(); c.arc(gnd.x, gnd.y, 1.3, 0, 7); c.fill(); }
         // 화면 위 진행 방향: 진행 방향으로 조금 앞선 점을 투영해 각도를 구한다
@@ -216,14 +247,22 @@
       const h = lv3dHit(e), k = h ? h.a.hex : null, tip = document.getElementById("tip");
       if (h) { const a = h.a; tip.innerHTML = `<b>${esc(a.flight || a.r || a.hex)}</b> ${esc(a.t || "?")}<br>${esc(altTxt(a))} ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
       else if (LV3.hover) tip.hidden = true;
+      { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let ap = null, bd = 12 * 12; if (!h) (LV3.apHits || []).forEach(q => { const d = (q[0] - x) * (q[0] - x) + (q[1] - y) * (q[1] - y); if (d < bd) { bd = d; ap = q[2]; } }); if (ap !== (LV3.apHover || null)) { LV3.apHover = ap; lv3dDirty(); } cv.classList.toggle("on-ap", !!ap); }
       cv.classList.toggle("on-ac", !!h);
       if (k !== LV3.hover) { LV3.hover = k; lv3dDirty(); }
     });
     cv.addEventListener("pointerup", e => {
       if (!drag) return; const moved = drag.moved; drag = null; cv.classList.remove("grab"); if (moved) { if (!fxCalm() && lastP && performance.now() - lastP.t < 80) inert = requestAnimationFrame(inertia); return; }
-      const h = lv3dHit(e), pn = document.getElementById("live-panel"); if (!h || !pn) return;
+      // 공항과 비행기가 겹치면 더 가까운 쪽을 고른다
+      const h = lv3dHit(e), pn = document.getElementById("live-panel"), r0 = LV3.cv.getBoundingClientRect(), x0 = e.clientX - r0.left, y0 = e.clientY - r0.top;
+      let ap = null, ad = 16 * 16; (LV3.apHits || []).concat(LV3.here ? [LV3.here] : []).forEach(q => { const d = (q[0] - x0) * (q[0] - x0) + (q[1] - y0) * (q[1] - y0); if (d < ad) { ad = d; ap = q[2]; } });
+      const hd = h ? (h.x - x0) * (h.x - x0) + (h.y - y0) * (h.y - y0) : Infinity;
+      if (ap && ad <= hd) { liveFlyApt(ap); return; }
+      if (!h) return;
+      if (!pn) return;
       const b = document.createElement("button"); b.hidden = true; b.setAttribute("data-live", "sel:" + h.a.hex); pn.appendChild(b); b.click(); b.remove();
     });
+    cv.addEventListener("dblclick", e => { if (!lv3dHit(e)) { e.preventDefault(); lv3dClickFly(e); } });
     cv.addEventListener("pointercancel", () => { drag = null; cv.classList.remove("grab"); });
     cv.addEventListener("pointerleave", () => { if (LV3.hover) { LV3.hover = null; document.getElementById("tip").hidden = true; lv3dDirty(); } });
     cv.addEventListener("wheel", e => {
@@ -231,14 +270,14 @@
         let hh = cv.parentElement.querySelector(".lv3d-hint"); if (!hh) { cv.insertAdjacentHTML("afterend", `<div class="wheel-hint lv3d-hint">${/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl"} + 휠로 확대합니다</div>`); hh = cv.parentElement.querySelector(".lv3d-hint"); }
         hh.classList.add("on"); clearTimeout(hh._t); hh._t = setTimeout(() => hh.classList.remove("on"), 1100); return;
       }
-      e.preventDefault(); MOTION.touched = true; LV3.kt = Math.max(0.8, Math.min(40, (LV3.kt || LV3.k) * Math.pow(1.0015, -e.deltaY))); if (!LV3.zr) { const z = () => { LV3.k += (LV3.kt - LV3.k) * 0.25; lv3dDirty(); if (Math.abs(LV3.kt - LV3.k) > 0.002) LV3.zr = requestAnimationFrame(z); else { LV3.k = LV3.kt; LV3.zr = 0; } }; LV3.zr = requestAnimationFrame(z); }
+      e.preventDefault(); MOTION.touched = true; LV3.kt = Math.max(0.8, Math.min(80, (LV3.kt || LV3.k) * Math.pow(1.0015, -e.deltaY))); if (!LV3.zr) { const z = () => { LV3.k += (LV3.kt - LV3.k) * 0.25; lv3dDirty(); if (Math.abs(LV3.kt - LV3.k) > 0.002) LV3.zr = requestAnimationFrame(z); else { LV3.k = LV3.kt; LV3.zr = 0; } }; LV3.zr = requestAnimationFrame(z); }
     }, { passive: false });
   }
   document.addEventListener("click", e => {
     const b = e.target.closest && e.target.closest("[data-lv3]"); if (!b) return;
     const v = b.getAttribute("data-lv3");
     if (v === "2d" || v === "3d") lv3dMode(v === "3d");
-    else if (v === "in") { LV3.k = Math.min(40, LV3.k * 1.5); lv3dDirty(); }
+    else if (v === "in") { LV3.k = Math.min(80, LV3.k * 1.5); lv3dDirty(); }
     else if (v === "out") { LV3.k = Math.max(0.8, LV3.k / 1.5); lv3dDirty(); }
     else if (v === "home") lv3dFocus(true);
   });

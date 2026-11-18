@@ -102,6 +102,7 @@
   const normAc = a => Object.assign({}, a, { flight: String(a.flight || "").trim() });
   function demoFor() {
     const all = demoAircraft();
+    if (LV.scope === "all") return all;
     if (LV.scope === "type") return all.filter(a => famOf(a.t) === LV.typeId);
     const p = placeById[LV.place]; return all.filter(a => distKm([p.lat, p.lon], [a.lat, a.lon]) <= LV.radius);
   }
@@ -110,6 +111,7 @@
       try {
         let list = [];
         if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(d.ac || []); } }
+        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); (d.ac || []).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
         else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = d.ac || []; }
         LV.ac = list.filter(a => typeof a.lat === "number" && typeof a.lon === "number").map(normAc); LV.acSrc = "live"; LV.acTime = Date.now(); LV.err = null; return;
       } catch (e) { LV.err = errText(e); if (!e.status && LV.net === null) LV.net = false; }
@@ -135,7 +137,7 @@
     const hv = cv.d.hourly || [], n = hv.length; if (!n) return "";
     const W = 272, H = 84, m = { l: 4, r: 4, t: 6, b: 16 }, max = Math.max.apply(null, hv.concat([1])), bw = (W - m.l - m.r) / n, start = new Date(cv.d.from).getTime();
     let o = "";
-    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시대 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="middle">${String(hr).padStart(2, "0")}시</text>`; });
+    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시대 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(i === 0 ? m.l : i === n - 1 ? W - m.r : m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${String(hr).padStart(2, "0")}시</text>`; });
     return `<svg class="chart hchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="지난 24시간의 시간대별 항공기 수. 최대 ${fmt(max)}대">${o}</svg>`;
   }
   const sparkline = hv => { if (!hv || !hv.length) return ""; const W = 120, H = 28, max = Math.max.apply(null, hv.concat([1])), bw = W / hv.length; return `<svg class="spark" viewBox="0 0 ${W} ${H}" aria-hidden="true">${hv.map((v, i) => `<rect x="${N(i * bw + 0.5)}" y="${N(H - Math.max(1, v / max * H))}" width="${N(bw - 1)}" height="${N(Math.max(1, v / max * H))}" rx="1"/>`).join("")}</svg>`; };
@@ -181,9 +183,10 @@ ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span 
     const fam = mk => `<optgroup label="${makerName(mk)}">${AIRCRAFT.filter(a => a.maker === mk).map(a => `<option value="${a.id}" ${LV.typeId === a.id ? "selected" : ""}>${ICAO[a.id]} ${esc(a.name)}</option>`).join("")}</optgroup>`;
     const p = placeById[LV.place], n = shown().length;
     return `<div class="fp-h"><h2>${ICON.plane}실시간 운항</h2>
-<div class="seg wide" role="group" aria-label="조회 방식">${lbtn("scope:area", "공역", LV.scope === "area", "ls-area")}${lbtn("scope:type", "기종 추적", LV.scope === "type", "ls-type")}</div>
+<div class="seg wide" role="group" aria-label="조회 방식">${lbtn("scope:area", "공역", LV.scope === "area", "ls-area")}${lbtn("scope:all", "전체 공항", LV.scope === "all", "ls-all")}${lbtn("scope:type", "기종 추적", LV.scope === "type", "ls-type")}</div>
 ${LV.scope === "area" ? `<select class="sel" id="live-place" aria-label="지점 선택">${grp("국내 공항", "kr")}${grp("보잉 조립 공장", "boeing")}${grp("에어버스 조립 공장", "airbus")}</select><p>${esc(p.sub)}</p>
 <div class="tabs">${lbtn("tab:traffic", "24시간 교통량", LV.tab === "traffic", "lt-traffic")}${lbtn("tab:aircraft", `항공기 ${n}`, LV.tab === "aircraft", "lt-aircraft")}</div>`
+        : LV.scope === "all" ? `<p>공항과 공장 ${PLACES.length}곳 주변(각 250 km)에서 지금 움직이는 항공기를 한 화면에 모았습니다. 공항 점을 누르면 그 공항으로 날아가 공역 보기로 바뀝니다.</p>`
         : `<select class="sel" id="live-type" aria-label="기종 선택">${fam("boeing")}${fam("airbus")}</select><p>이 기종으로 지금 추적 중인 기체를 네트워크 전체에서 찾습니다. ${FAMILY_CODES[LV.typeId].map(c => `<span class="code">${c}</span>`).join(" ")}</p>`}</div>
 <div class="fp-list">${LV.scope === "area" && LV.tab === "traffic" ? trafficTab() : aircraftTab()}</div>
 <div class="fp-f">${esc(FIA_CREDIT)}</div>`;
@@ -220,13 +223,15 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         const hp = heatPts(cv, (la, lo) => { const q = P(la, lo); return q && inV(q) ? q : null; }, cell);
         if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; void st;
       }
-      const ring = (km, cls) => { let d = ""; for (let i = 0; i <= 60; i++) { const g = destPt(pl.lat, pl.lon, i * 6, km), q = P(g[0], g[1]); if (!q) return ""; d += (i ? "L" : "M") + N(q.x) + " " + N(q.y); } const t = P.apply(null, destPt(pl.lat, pl.lon, 0, km)); return `<path class="ring ${cls}" d="${d}Z"/>${t ? `<text class="ringlab" x="${N(t.x)}" y="${N(t.y - 4)}" text-anchor="middle">${km} km</text>` : ""}`; };
+      // 반경 원: 지도 투영(밀러)이 위아래로 늘어나 경로로 그리면 타원이 된다. 화면에서는 동서 방향 1 km 길이로 반지름을 잡아 완전한 원으로 그린다
+      const kmPx = pxDeg / (111.32 * Math.cos(toR(pl.lat)));
+      const ring = (km, cls) => { if (!c0 || !kmPx) return ""; const r = km * kmPx; return `<circle class="ring ${cls}" cx="${N(c0.x)}" cy="${N(c0.y)}" r="${N(r)}"/><text class="ringlab" x="${N(c0.x)}" y="${N(c0.y - r - 4)}" text-anchor="middle">${km} km</text>`; };
       if (pxDeg > 6) { o += ring(100, "r1"); if (LV.tab === "aircraft" || LV.sel) o += ring(LV.radius, "r2"); }
-      if (c0) o += `<g class="here"><circle cx="${N(c0.x)}" cy="${N(c0.y)}" r="5"/><text x="${N(c0.x + 9)}" y="${N(c0.y + 4)}">${pl.code}</text></g>`;
+      if (c0) o += `<g class="here" data-apt="${pl.code}"><circle cx="${N(c0.x)}" cy="${N(c0.y)}" r="5"/><text x="${N(c0.x + 9)}" y="${N(c0.y + 4)}">${pl.code}</text></g>`;
     }
-    if (pxDeg > 14) Object.keys(AP).forEach(k => { if (k === pl.code) return; const q = P(AP[k][0], AP[k][1]); if (inV(q)) o += `<g class="apt"><rect x="${N(q.x - 2.5)}" y="${N(q.y - 2.5)}" width="5" height="5"/><text x="${N(q.x + 6)}" y="${N(q.y + 4)}">${k}</text></g>`; });
+    if (pxDeg > 14) Object.keys(AP).forEach(k => { if (k === pl.code) return; const q = P(AP[k][0], AP[k][1]); if (inV(q)) o += `<g class="apt" data-apt="${k}"><rect x="${N(q.x - 2.5)}" y="${N(q.y - 2.5)}" width="5" height="5"/><text x="${N(q.x + 6)}" y="${N(q.y + 4)}">${k}</text></g>`; });
     if (LV.trail && LV.trail.length > 1) { let d = "", pen = false, prev = null; LV.trail.forEach(t => { const q = P(t[0], t[1]); if (!q || (prev && Math.abs(q.x - prev.x) > W * 0.6)) { pen = false; prev = q; return; } d += (pen ? "L" : "M") + N(q.x) + " " + N(q.y); pen = true; prev = q; }); if (d) o += `<path class="trail" d="${d}"/>`; }
-    const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    const showAc = LV.scope !== "area" || LV.tab === "aircraft" || LV.sel;
     // 기체 뒤 꼬리: 지나온 자리, 오래된 쪽일수록 옅게
     if (showAc && typeof tailOf === "function") shown().forEach(a => { const T = tailOf(a); if (!T) return; let prev = null; T.forEach((q, j) => { const p = P(q[0], q[1]); if (p && prev && Math.abs(p.x - prev.x) < W * 0.5) o += `<line class="ac-tail" x1="${N(prev.x)}" y1="${N(prev.y)}" x2="${N(p.x)}" y2="${N(p.y)}" style="stroke-opacity:${(j / T.length * 0.6).toFixed(2)};stroke-width:${(1 + j / T.length * 1.6).toFixed(1)}"/>`; prev = p; }); });
     if (showAc && typeof acRoute === "function") shown().forEach(a => { if (!routeWanted(a)) return; const r = acRoute(a); if (!r) return; const on = LV.sel === a.hex;
@@ -239,20 +244,55 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (typeof lv3dDirty === "function") lv3dDirty();
   }
   const queueDraw = () => { if (liveRaf) return; liveRaf = requestAnimationFrame(() => { liveRaf = 0; drawLive(); }); };
+  /* 지도 날아가기: 화면 가운데에 보이는 지점을 목표 지점으로 옮기면서 배율을 로그 비율로 바꾼다.
+     화면 좌표 = (지도 좌표 + 이동) x 배율. 처음과 끝은 느리고 가운데는 빠르게(슉) */
+  function liveFlyMap(mx, my, s1, ms) {
+    const m = liveMap; if (!m) return; const rr = m.container.getBoundingClientRect(), s0 = m.scale, W2 = rr.width / 2, H2 = rr.height / 2;
+    const set = (sc, cx, cy) => { m.scale = sc; m.transX = W2 / sc - cx; m.transY = H2 / sc - cy; m._applyTransform(); };
+    if (fxCalm()) { set(s1, mx, my); return; }
+    if (m.__fly) cancelAnimationFrame(m.__fly);
+    const c0x = W2 / s0 - m.transX, c0y = H2 / s0 - m.transY, t0 = performance.now(), d = ms || 900;
+    const step = now => { const t = Math.min(1, (now - t0) / d), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      set(s0 * Math.pow(s1 / s0, e), c0x + (mx - c0x) * e, c0y + (my - c0y) * e); m.__fly = t < 1 ? requestAnimationFrame(step) : 0; };
+    m.__fly = requestAnimationFrame(step);
+  }
+  // 위도, 경도로 날아가기. 반경(km) 원이 화면 짧은 쪽에 꽉 차게(86%) 당긴다
+  function liveFlyTo(lat, lon, radiusKm, ms) {
+    const m = liveMap; if (!m) return; const a = m.coordsToPoint(lat, lon), b = m.coordsToPoint(lat, lon + 1); if (!a || !b) return;
+    const rr = m.container.getBoundingClientRect(), s0 = m.scale, mx = a.x / s0 - m.transX, my = a.y / s0 - m.transY;
+    const pxKm = Math.abs(b.x - a.x) / (111.32 * Math.cos(toR(lat))), want = Math.min(rr.width, rr.height) * 0.86 / (2 * radiusKm * pxKm);
+    liveFlyMap(mx, my, Math.max(m._baseScale, Math.min(m._baseScale * 400, s0 * want)), ms);
+  }
+  // 두 번 누른 지점을 가운데로 두 배
+  function liveFly(clientX, clientY) {
+    const m = liveMap; if (!m) return; const rr = m.container.getBoundingClientRect(), s0 = m.scale;
+    liveFlyMap((clientX - rr.left) / s0 - m.transX, (clientY - rr.top) / s0 - m.transY, Math.min(m._baseScale * 400, s0 * 2), 650);
+  }
+  // 공항을 누르면 그 공항으로 슉 날아가 반경 원(공역 100 km, 기체 보기에서는 고른 반경)이 화면에 꽉 차게 당긴다. 공역 목록에 있는 공항이면 그 공역으로 바꾼다
+  function liveFlyApt(code) {
+    const c = AP[code] || (PLACES.find(p => p.code === code) || {}), lat = c[0] !== undefined ? c[0] : c.lat, lon = c[1] !== undefined ? c[1] : c.lon; if (lat === undefined) return;
+    const pl = PLACES.find(p => p.code === code);
+    if (pl && LV.place !== pl.id) { LV.place = pl.id; LV.scope = "area"; LV.sel = null; LV.trail = null; saveLive(); if (typeof LV3 !== "undefined") LV3.focusKey = LV.scope + "|" + LV.place + "|"; paintLive(); const sel = document.getElementById("live-place"); if (sel) sel.value = pl.id; refreshLive(); }
+    const rad = LV.tab === "aircraft" || LV.sel ? LV.radius : 100;
+    if (lv3dIsOn()) lv3dFlyTo(lat, lon, lv3dKFor(rad)); else liveFlyTo(lat, lon, rad, 1000);
+  }
   function focusLive(animate) {
     const m = liveMap; if (!m) return;
     try {
+      if (LV.scope === "all" && !LV.sel) { const a0 = m.coordsToPoint(33, 125); if (animate && a0 && !fxCalm()) { liveFlyMap(a0.x / m.scale - m.transX, a0.y / m.scale - m.transY, m._baseScale * 4.5, 900); return; } m.setFocus({ coords: [33, 125], scale: 4.5, animate: false }); return; }
       if (LV.scope === "type" && !LV.sel) { m.setFocus({ coords: [30, 20], scale: 1, animate: !!animate }); return; }
       const sel = LV.sel ? LV.ac.find(a => a.hex === LV.sel) : null, pl = placeById[LV.place], lat = sel ? sel.lat : pl.lat, lon = sel ? sel.lon : pl.lon;
       const a = m.coordsToPoint(lat, lon), b = m.coordsToPoint(lat, lon + 1); if (!a || !b) return;
       const pxKm = Math.abs(b.x - a.x) / (111.3 * Math.cos(toR(lat))), span = (LV.scope === "type" ? 1500 : (LV.tab === "traffic" && !sel ? 130 : LV.radius * 1.15)) * 2;
       const want = Math.min(m.container.offsetWidth, m.container.offsetHeight * 1.5) / (span * pxKm);
-      m.setFocus({ coords: [lat, lon], scale: Math.max(1, (m.scale / m._baseScale) * want), animate: !!animate });
+      if (animate && !fxCalm()) { const s1 = m._baseScale * Math.max(1, (m.scale / m._baseScale) * want); liveFlyMap(a.x / m.scale - m.transX, a.y / m.scale - m.transY, s1, 900); return; }
+      m.setFocus({ coords: [lat, lon], scale: Math.max(1, (m.scale / m._baseScale) * want), animate: false });
     } catch (e) { /* 초점 이동 실패는 무시 */ }
   }
 
   /* ---------- 화면 갱신 ---------- */
   function paintLive() {
+    { const card = document.getElementById("livecard"); if (card) card.classList.toggle("show-ac", LV.scope !== "area" || LV.tab === "aircraft" || !!LV.sel); }
     const pn = $("#live-panel"); if (!pn) return;
     const keep = pn.querySelector(".fp-list"), vk = LV.sel ? "detail" : LV.scope + ":" + LV.tab, y = keep && pn.getAttribute("data-vk") === vk ? keep.scrollTop : 0; pn.setAttribute("data-vk", vk);
     pn.innerHTML = livePanel(); const nl = pn.querySelector(".fp-list"); if (nl) nl.scrollTop = y;
@@ -275,7 +315,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (!$("#live-panel")) return;
       if (act === "conn") { LV.conn = !LV.conn; paintLive(); if (LV.conn) { const c = $("#live-conn-card"); if (c) c.scrollIntoView({ block: "nearest" }); } return; }
       if (act === "keydel") { LV.key = ""; try { localStorage.removeItem("hub-fia-key"); } catch (er) { /* 무시 */ } LV.usage = null; const c = $("#live-conn-card"); if (c) c.innerHTML = connCard(); refreshLive("ac"); return; }
-      if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg === "type") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
+      if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg !== "area") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
       if (act === "tab") { LV.tab = arg; paintLive(); focusLive(true); if (arg === "aircraft") refreshLive("ac"); return; }
       if (act === "filter") { LV.filter = arg; paintLive(); return; }
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
@@ -307,6 +347,9 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (typeof jsVectorMap !== "undefined") {
       try {
         liveMap = new jsVectorMap({ selector: "#livemap", map: "world", backgroundColor: "transparent", zoomButtons: true, zoomOnScroll: true, zoomMax: 400, zoomStep: 1.6, showTooltip: false, regionStyle: { initial: { fill: "#48535f", stroke: "none" }, hover: { fillOpacity: 1, cursor: "grab" } } });
+        // 두 번 누르면(더블클릭) 그 지점을 가운데로 가져오며 부드럽게 두 배 당긴다. 한 번 누르기와 끌기는 그대로 둔다
+        document.getElementById("livecard") && el.parentElement.addEventListener("click", e => { const g = e.target.closest && e.target.closest("[data-apt]"); if (!g) return; e.stopPropagation(); liveFlyApt(g.getAttribute("data-apt")); });
+        el.addEventListener("dblclick", e => { if (e.target.closest && e.target.closest("[data-live], [data-tip], a, button")) return; e.preventDefault(); liveFly(e.clientX, e.clientY); });
         const orig = liveMap._applyTransform; liveMap._applyTransform = function () { const r = orig.apply(this, arguments); queueDraw(); return r; };
       } catch (e) { liveMap = null; }
     }
@@ -318,7 +361,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (!$("#live-panel")) { stopLive(); return; } if (document.hidden) return;
       LV.tick++;
       if (LV.acSrc === "demo") { if (LV.tick % 3 === 0) { LV.ac = demoFor(); if (LV.sel && !LV.ac.some(a => a.hex === LV.sel)) LV.sel = null; if (LV.sel) paintLive(); else queueDraw(); } if (LV.tick % 60 === 0 && LV.key) refreshLive("ac"); }
-      else if (LV.tick % (LV.scope === "type" ? 60 : 30) === 0) refreshLive("ac");
+      else if (LV.tick % (LV.scope !== "area" ? 60 : 30) === 0) refreshLive("ac");
       if (LV.tick % 120 === 0 && LV.net) refreshLive("cover");
     }, 1000);
   }

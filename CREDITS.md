@@ -55,6 +55,20 @@ CC BY-SA 사진을 고친 파일은 원본과 같은 라이선스로 배포됩�
 | `photos/accidents/qf32.webp` | [콴타스 32편 A380 2번 엔진(트렌트 900)의 비격납 파손](https://commons.wikimedia.org/wiki/File:Qantas_Flight_32_engine_damage_-_4_Nov_2010.jpg) | Australian Transport Safety Bureau, CC BY-SA 3.0 AU, via Wikimedia Commons | CC BY-SA 3.0 au |
 | `photos/accidents/ua232.webp` | [사고 9년 전 뉴어크의 유나이티드 DC-10 N1819U (1980)](https://commons.wikimedia.org/wiki/File:N1819U_McDonnell_Douglas_DC-10-10_United_Airlines,_Newark_International_Airport_1980.jpg) | Paul Seymour, CC BY-SA 4.0, via Wikimedia Commons | CC BY-SA 4.0 |
 | `photos/accidents/tenerife.webp` | [테네리페 참사 국제 추모비 (루디 반 데 빈트 작)](https://commons.wikimedia.org/wiki/File:International_Tenerife_Memorial_March_27,_1977.jpg) | Jesús Manuel Pérez Triana (CC0), via Wikimedia Commons | CC0 |
+| `photos/accidents/us1549.webp` | [사고 2개월 전 라스베이거스의 N106US (2008)](https://commons.wikimedia.org/wiki/File:2008_Las_Vegas_N106US_US_Airways.jpg) | Edmund Seeger | CC BY-SA 2.0 |
+| `photos/accidents/ba38.webp` | [사고 당일 히스로 27L 활주로 앞에 멈춘 G-YMMM (2008)](https://commons.wikimedia.org/wiki/File:BA38_Crash.jpg) | Marc-Antony Payne | CC BY 3.0 |
+| `photos/accidents/jk5022.webp` | [사고 10개월 전 마드리드 바라하스의 EC-HFP (2007)](https://commons.wikimedia.org/wiki/File:EC-HFP.jpg) | Javier Pedreira | CC BY 2.5 |
+| `photos/accidents/ke801.webp` | [니미츠 힐 사고 현장의 HL7468 잔해 (1997, 미 해군)](https://commons.wikimedia.org/wiki/File:Korean_Air_Flight_801_wreckage.jpg) | Petty Officer 3rd Class Michael A. Meyers, U.S. Navy. | Public domain |
+| `photos/accidents/ix812.webp` | [망갈로르 바즈페 사고 현장의 VT-AXV 잔해 (2010)](https://commons.wikimedia.org/wiki/File:Bajpe_plane_crash_2.jpg) | Neil Pinto | CC BY-SA 3.0 |
+| `photos/accidents/ca129.webp` | [스톡홀름 알란다 공항의 B-2552 (1992)](https://commons.wikimedia.org/wiki/File:B-2552_Air_China_Boeing_767-2J6ER_ARN_250892_(52453208904).jpg) | Steve Knight from Halstead, United Kingdom | CC BY 2.0 |
+| `photos/accidents/ke631.webp` | [사고 3년 전 나리타 공항의 HL7525 (2019)](https://commons.wikimedia.org/wiki/File:HL7525_NRT_20190925.jpg) | K.Tomoaki | CC BY 2.0 |
+| `photos/accidents/alw301.webp` | [사고 1년 4개월 전 프랑크푸르트의 TC-GEN (1994)](https://commons.wikimedia.org/wiki/File:Birgenair_Boeing_757;_TC-GEN@FRA;19.10.1994_(4704769908).jpg) | Aero Icarus from Zürich, Switzerland | CC BY-SA 2.0 |
+| `photos/accidents/hcy522.webp` | [사고 1년 전 런던 루턴 공항의 5B-DBY (2004)](https://commons.wikimedia.org/wiki/File:Helios_Airways_Boeing_737-300_5B-DBY_in_2004.jpg) | Se16boy | CC BY-SA 3.0 |
+| `photos/accidents/qz8501.webp` | [싱가포르 창이 공항의 PK-AXC (2011)](https://commons.wikimedia.org/wiki/File:Indonesia_AirAsia_Airbus_A320-216_PK-AXC_August_2011.jpg) | Aero Icarus from Zürich, Switzerland | CC BY-SA 2.0 |
+| `photos/accidents/jl516.webp` | [사고 1년 8개월 전 하네다 공항의 JA13XJ (2022)](https://commons.wikimedia.org/wiki/File:JAPAN_AIRLINES_A350-941_JA13XJ_HND_30-APR-2022.jpg) | Steven Byles | CC BY-SA 2.0 |
+| `photos/accidents/wc708.webp` | [베네수엘라 마치케스 인근 사고 현장의 HK-4374X 잔해 (2005, NTSB)](https://commons.wikimedia.org/wiki/File:Wreckage_of_West_Caribbean_Airways_Flight_708.jpg) | National Transportation Safety Board | Public domain |
+| `photos/accidents/af447.webp` | [사고 2년 전 파리 샤를드골 공항에 착륙하는 F-GZCP (2007)](https://commons.wikimedia.org/wiki/File:PKIERZKOWSKI_070328_FGZCP_CDG.jpg) | Pawel Kierzkowski | CC BY-SA 3.0 |
+| `photos/accidents/ts236.webp` | [사고 2년 전 런던 개트윅 공항의 C-GITS (1999)](https://commons.wikimedia.org/wiki/File:C-GITS_24-7-99_Gatwick_(53592900141).jpg) | Pete Macklin | CC BY 2.0 |
 
 ## 조종 매뉴얼 그림 (`photos/manual/`)
 
