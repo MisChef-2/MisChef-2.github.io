@@ -40,6 +40,11 @@
     "license": "Public domain",
     "page": "https://commons.wikimedia.org/wiki/File:Korean_Air_Flight_801_wreckage.jpg"
    },
+   "ix812": {
+    "title": "사고 3개월 전 싱가포르 창이공항의 같은 기종 VT-AXQ (2010)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Air_India_Express_B737-800%28VT-AXQ%29_%284336474987%29.jpg"
+   },
    "ca129": {
     "title": "스톡홀름 알란다 공항의 B-2552 (1992)",
     "license": "CC BY 2.0",

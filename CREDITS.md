@@ -59,7 +59,7 @@ CC BY-SA 사진을 고친 파일은 원본과 같은 라이선스로 배포됩�
 | `photos/accidents/ba38.webp` | [사고 당일 히스로 27L 활주로 앞에 멈춘 G-YMMM (2008)](https://commons.wikimedia.org/wiki/File:BA38_Crash.jpg) | Marc-Antony Payne | CC BY 3.0 |
 | `photos/accidents/jk5022.webp` | [사고 10개월 전 마드리드 바라하스의 EC-HFP (2007)](https://commons.wikimedia.org/wiki/File:EC-HFP.jpg) | Javier Pedreira | CC BY 2.5 |
 | `photos/accidents/ke801.webp` | [니미츠 힐 사고 현장의 HL7468 잔해 (1997, 미 해군)](https://commons.wikimedia.org/wiki/File:Korean_Air_Flight_801_wreckage.jpg) | Petty Officer 3rd Class Michael A. Meyers, U.S. Navy. | Public domain |
-| `photos/accidents/ix812.webp` | [망갈로르 바즈페 사고 현장의 VT-AXV 잔해 (2010)](https://commons.wikimedia.org/wiki/File:Bajpe_plane_crash_2.jpg) | Neil Pinto | CC BY-SA 3.0 |
+| `photos/accidents/ix812.webp` | [사고 3개월 전 싱가포르 창이공항의 같은 기종 VT-AXQ (2010)](https://commons.wikimedia.org/wiki/File:Air_India_Express_B737-800%28VT-AXQ%29_%284336474987%29.jpg) | Kentaro Iemoto from Tokyo, Japan | CC BY-SA 2.0 |
 | `photos/accidents/ca129.webp` | [스톡홀름 알란다 공항의 B-2552 (1992)](https://commons.wikimedia.org/wiki/File:B-2552_Air_China_Boeing_767-2J6ER_ARN_250892_(52453208904).jpg) | Steve Knight from Halstead, United Kingdom | CC BY 2.0 |
 | `photos/accidents/ke631.webp` | [사고 3년 전 나리타 공항의 HL7525 (2019)](https://commons.wikimedia.org/wiki/File:HL7525_NRT_20190925.jpg) | K.Tomoaki | CC BY 2.0 |
 | `photos/accidents/alw301.webp` | [사고 1년 4개월 전 프랑크푸르트의 TC-GEN (1994)](https://commons.wikimedia.org/wiki/File:Birgenair_Boeing_757;_TC-GEN@FRA;19.10.1994_(4704769908).jpg) | Aero Icarus from Zürich, Switzerland | CC BY-SA 2.0 |

@@ -508,7 +508,8 @@ button.apcard{cursor:pointer}
 /* 기종 상세 */
 .detail{display:grid;grid-template-columns:348px minmax(0,1fr);gap:24px;align-items:start}
 .viz{background:var(--inset);border:1px solid var(--line);border-radius:6px;padding:10px;overflow-x:auto}
-.viz .tv,.viz .ov-svg{width:100%;min-width:560px;max-width:780px;margin:0 auto}
+.viz .tv{width:100%;min-width:560px;max-width:780px;margin:0 auto}
+.viz .ov-svg{width:100%;min-width:560px;max-width:780px;margin:0 auto}
 .viz .cs{width:100%;max-width:330px;margin:0 auto}
 .cap{font-size:12.5px;color:var(--muted);margin:10px 0 0}
 .prose p{max-width:76ch}
@@ -1456,6 +1457,15 @@ a.abw:hover{background:var(--primary-soft)}
 .cell-leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;font-variant-numeric:tabular-nums;margin:0 0 6px}
 .cell-leg span{display:flex;align-items:center;gap:5px} .cell-leg i{width:12px;height:12px;border-radius:3px}
 .live-ov .hcell{opacity:.82}
+/* 기종 페이지: 도면과 ICAO 기준을 나란히 (넓은 화면) */
+.ac-pair{display:grid;gap:var(--gap,16px)}
+@media (min-width:1180px){
+  .ac-pair{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+  .ac-pair>.card{margin:0;min-width:0}
+  .ac-pair .viz{overflow:visible}
+  .ac-pair .viz .tv,.ac-pair .viz .ov-svg{min-width:0;max-height:560px;width:100%}
+  .ac-pair .ac-draw .card-h .tabs{flex-wrap:wrap}
+}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}
@@ -8064,6 +8074,11 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "license": "Public domain",
     "page": "https://commons.wikimedia.org/wiki/File:Korean_Air_Flight_801_wreckage.jpg"
    },
+   "ix812": {
+    "title": "사고 3개월 전 싱가포르 창이공항의 같은 기종 VT-AXQ (2010)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Air_India_Express_B737-800%28VT-AXQ%29_%284336474987%29.jpg"
+   },
    "ca129": {
     "title": "스톡홀름 알란다 공항의 B-2552 (1992)",
     "license": "CC BY 2.0",
@@ -9214,8 +9229,8 @@ ${encyExtras()}
 </aside>
 <div class="stack">
 ${whyCard(ac)}
-<section class="card">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
-${icaoCard(ac)}
+<div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
+${icaoCard(ac)}</div>
 ${acLiveCard(ac)}
 <section class="card">${cardH(ICON.doc, "역사")}<div class="card-b prose">${ac.history.map(t => `<p>${esc(t)}</p>`).join("")}</div></section>
 <div class="grid"><section class="card c6">${cardH(ICON.info, "설계 특징")}<div class="card-b"><ul class="feats">${ac.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div></section><section class="card c6">${cardH(ICON.flag, "한국 운항")}<div class="card-b prose"><p>${esc(ac.korea)}</p></div></section></div>
