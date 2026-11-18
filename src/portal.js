@@ -229,11 +229,34 @@
 <section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다. 첫 비행을 마치면 여기에 도장이 찍힙니다.</p>`}</div></section>
 <section class="card c5">${cardH(ICON.pin, "아직 가 보지 않은 나라", `<span class="hint">${todo.length}개국</span>`)}<div class="pp-list">${todo.length ? todo.map(cRow).join("") : `<p class="empty">취항하는 모든 나라를 방문했습니다.</p>`}</div></section></div>`;
   }
+  /* 배지: 금속 메달 모양. 배지마다 색과 그림이 다르고, 아직 못 받은 배지는 회색 메달과 진행 막대로 보여 준다 */
+  const BADGE_ART = {
+    "첫 비행": ["#3b82f6", '<path d="M-14 4l10-2 9-12c2-2 5-2 5 0l-5 13 9 3 4-4h3l-3 7 3 7h-3l-4-4-9 3 5 13c0 2-3 2-5 0l-9-12-10-2z" transform="rotate(-35) scale(.72)"/>'],
+    "버터 랜딩": ["#f59e0b", '<path d="M-17 8h34" stroke-width="3" fill="none"/><path d="M-15 1c8 4 14-4 26-6l4 3c-10 4-16 8-28 7z"/><circle cx="-12" cy="13" r="1.6"/><circle cx="-4" cy="13" r="1.6"/>'],
+    "장거리 비행": ["#14b8a6", '<path d="M-16 10C-8-12 8-12 16 10" fill="none" stroke-width="2.6" stroke-dasharray="3 3"/><circle cx="-16" cy="10" r="3"/><circle cx="16" cy="10" r="3"/>'],
+    "기종 수집가": ["#8b5cf6", '<rect x="-15" y="-11" width="20" height="14" rx="3" opacity=".55"/><rect x="-10" y="-5" width="20" height="14" rx="3" opacity=".8"/><rect x="-5" y="1" width="20" height="14" rx="3"/>'],
+    "세계 여행자": ["#0ea5e9", '<circle r="15" fill="none" stroke-width="2.6"/><ellipse rx="6.5" ry="15" fill="none" stroke-width="2"/><path d="M-15 0h30M-12-8h24M-12 8h24" fill="none" stroke-width="2"/>'],
+    "점보 기장": ["#e11d48", '<path d="M-18 6h30c4 0 6-2 6-4s-3-3-6-3h-6c-2-6-8-9-14-9-5 0-8 3-8 7v9z"/><rect x="-2" y="7" width="10" height="3" rx="1.5"/>'],
+    "슈퍼점보 기장": ["#6366f1", '<rect x="-17" y="-9" width="34" height="18" rx="9"/><path d="M-11-3h22M-11 3h22" stroke="#fff" stroke-width="1.8" stroke-dasharray="2.5 2.5" fill="none"/>'],
+    "단골 조종사": ["#10b981", '<path d="M0-16l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L0 7.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5z"/><text y="5" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" stroke="none">10</text>']
+  };
+  function badgeProg() {
+    const L = PS.pireps, types = new Set(L.map(p => p.ac)), apts = new Set(); L.forEach(p => { apts.add(p.dep); apts.add(p.arr); });
+    return { "첫 비행": [L.length, 1], "버터 랜딩": [L.some(p => Math.abs(p.land) <= 100) ? 1 : 0, 1], "장거리 비행": [Math.max(0, ...L.map(p => p.km)), 8000, "km"], "기종 수집가": [types.size, 5, "개"], "세계 여행자": [apts.size, 10, "곳"], "점보 기장": [types.has("boeing-747") ? 1 : 0, 1], "슈퍼점보 기장": [types.has("airbus-a380") ? 1 : 0, 1], "단골 조종사": [L.length, 10, "건"] };
+  }
+  function medal(name, got, i) {
+    const art = BADGE_ART[name] || ["#64748b", '<circle r="8"/>'], c = got ? art[0] : "#94a3b8", id = "md" + i + (got ? "g" : "l");
+    return `<svg class="medal" viewBox="-40 -40 80 92" aria-hidden="true"><defs><radialGradient id="${id}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".35" stop-color="${c}" stop-opacity=".55"/><stop offset="1" stop-color="${c}"/></radialGradient></defs>
+<path d="M-14 22l-8 26 9-5 6 8 7-26z M14 22l8 26-9-5-6 8-7-26z" fill="${c}" opacity="${got ? .75 : .35}"/>
+<circle r="33" fill="${c}" opacity="${got ? .22 : .12}"/><circle r="29" fill="url(#${id})"/><circle r="23.5" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" stroke-dasharray="${got ? "0" : "3 3"}"/>
+<g fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">${art[1]}</g>${got ? "" : `<g transform="translate(20 20)"><circle r="9" fill="var(--surface)"/><path d="M-3.5-1v-2a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="#94a3b8" stroke-width="1.6"/><rect x="-5" y="-1" width="10" height="7" rx="1.5" fill="#94a3b8"/></g>`}</svg>`;
+  }
   function renderBadges() {
-    const B = badgeList(), got = B.filter(x => x[2]).length;
+    const B = badgeList(), got = B.filter(x => x[2]).length, P = badgeProg();
+    const card = (x, i) => { const pr = P[x[0]] || [0, 1], pct = Math.min(100, pr[0] / pr[1] * 100);
+      return `<div class="badge2${x[2] ? " got" : ""}" style="--bc:${(BADGE_ART[x[0]] || ["#64748b"])[0]}">${medal(x[0], x[2], i)}<b>${x[0]}</b><small>${x[1]}</small>${x[2] ? `<span class="b2-ok">획득</span>` : `<div class="b2-bar"><i style="width:${pct.toFixed(0)}%"></i></div><span class="b2-n">${pr[2] ? `${fmt(Math.min(pr[0], pr[1]))} / ${fmt(pr[1])} ${pr[2]}` : "아직"}</span>`}</div>`; };
     return phead(`<a href="#profile">조종사 프로필</a>`, "배지", "PIREP을 제출하면 조건을 확인해 배지를 자동으로 줍니다.", `<span class="hint">${got} / ${B.length} 획득</span>`) + profTabs("badges") + `
-<div class="grid"><section class="card c12">${cardH(ICON.medal, "획득한 배지", `<span class="hint">${got}개</span>`)}<div class="card-b">${got ? `<div class="badges">${B.filter(x => x[2]).map(x => `<div class="badge">${ICON.star}<b>${x[0]}</b><small>${x[1]}</small></div>`).join("")}</div>` : `<p class="muted" style="margin:0">아직 획득한 배지가 없습니다.</p>`}</div></section>
-<section class="card c12">${cardH(ICON.target, "도전할 배지", `<span class="hint">${B.length - got}개</span>`)}<div class="card-b">${B.length - got ? `<div class="badges">${B.filter(x => !x[2]).map(x => `<div class="badge locked">${ICON.star}<b>${x[0]}</b><small>${x[1]}</small></div>`).join("")}</div>` : `<p class="muted" style="margin:0">모든 배지를 획득했습니다.</p>`}</div></section></div>`;
+<div class="grid"><section class="card c12">${cardH(ICON.medal, "배지 진열장", `<span class="hint">${got} / ${B.length} 획득</span>`)}<div class="card-b"><div class="b2-shelf-bar"><i style="width:${(got / B.length * 100).toFixed(0)}%"></i></div><div class="badges2">${B.map((x, i) => [x, i]).sort((p, q) => q[0][2] - p[0][2]).map(([x, i]) => card(x, i)).join("")}</div></div></section></div>`;
   }
   function renderSettings() {
     return phead(`<a href="#profile">조종사 프로필</a>`, "설정", "화면에 표시할 이름과 단위, 기록 저장 방식을 정합니다.", `<span class="sync" data-sync>${syncText()}</span>`) + profTabs("settings") + `
