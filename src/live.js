@@ -40,6 +40,7 @@
   try { LV.key = localStorage.getItem("hub-fia-key") || ""; const s = JSON.parse(localStorage.getItem("hub-live") || "{}"); if (placeById[s.place]) LV.place = s.place; if ([100, 250, 500].includes(s.radius)) LV.radius = s.radius; } catch (e) { /* 저장소 없음 */ }
   const saveLive = () => { try { localStorage.setItem("hub-live", JSON.stringify({ place: LV.place, radius: LV.radius })); } catch (e) { /* 무시 */ } };
   let liveMap = null, liveTimer = null, liveWired = false, liveRaf = 0;
+  try { LV.heatMode = localStorage.getItem("hub-heat") || "smooth"; } catch (e) { LV.heatMode = "smooth"; }
   const T0 = Date.now();
 
   /* ---------- 지리 계산 ---------- */
@@ -149,7 +150,8 @@
     const d = cv.d, s = d.src || {}, st = (label, val, unit) => `<div class="kv"><span class="lbl">${label}</span><span class="val">${val}<small> ${unit}</small></span></div>`;
     return `<div class="kvs live-kvs">${st("지금 추적 중", fmt(d.now || 0), "대")}${st("그중 지상", fmt(d.gnd || 0), "대")}${st("지난 24시간", fmt(d.a24 || 0), "대")}${st("시간당 최대", fmt(d.peak || 0), "대")}</div>
 <div class="live-sec"><p class="lbl">${ICON.chart}시간대별 항공기 수 (KST)</p>${hourlyChart(cv)}</div>
-<div class="live-sec"><p class="lbl">${ICON.map}교통 밀도 (지난 24시간 통과 기록)</p><div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div></div>
+<div class="live-sec"><p class="lbl">${ICON.map}교통 밀도 (지난 24시간 통과 기록)</p><div class="seg heat-mode" role="group" aria-label="밀도 보기 방식">${lbtn("heat:smooth", "부드럽게", LV.heatMode !== "cells", "lh-smooth")}${lbtn("heat:cells", "칸별 정확히", LV.heatMode === "cells", "lh-cells")}</div>
+${LV.heatMode === "cells" ? `<div class="cell-leg">${binLabels(cellBins(cv)).map((t, i) => `<span><i style="background:${HCOL[i]}"></i>${t}대</span>`).join("")}</div><p class="small muted">한 칸은 0.1도(약 11 km) 네모입니다. 색은 그 칸을 지난 24시간 동안 지나간 항공기 수이고, 칸에 마우스를 올리면 정확한 대수가 나옵니다. 수신기가 받지 못한 곳은 비어 있습니다.</p>` : `<div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div><p class="small muted">흐름을 보기 쉽게 번지게 그린 그림입니다. 실제 대수는 '칸별 정확히'에서 볼 수 있습니다.</p>`}</div>
 <div class="live-sec small muted">반경 100 km 기준. 수신 방식은 ADS-B ${fmt(s.adsb || 0)}, MLAT ${fmt(s.mlat || 0)}. 주변 수신기 ${fmt(d.rx || 0)}대, 전체 네트워크 ${fmt(d.net || 0)}대.<br>${cv.src === "live" ? `<span class="pill ok">LIVE</span> ${esc(kst(d.g))} 갱신` : `<span class="pill off">스냅샷</span> ${esc(kst(d.g))}에 수집한 실제 값`}</div>`;
   }
   function acRow(a) {
@@ -208,6 +210,16 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   /* ---------- 지도 위 그리기 ---------- */
   const PLANE = "M0 -8 L1.5 -3.2 L8 1.4 L8 3 L1.6 1.3 L1.2 5.4 L3.3 7 L3.3 8.1 L0 7.2 L-3.3 8.1 L-3.3 7 L-1.2 5.4 L-1.6 1.3 L-8 3 L-8 1.4 L-1.5 -3.2Z";
   function heatSteps(cv) { if (cv.steps) return cv.steps; const v = cv.d.cells.map(c => c[2]).sort((a, b) => a - b), q = f => v[Math.min(v.length - 1, Math.floor(v.length * f))] || 0; cv.steps = [q(0.35), q(0.6), q(0.8), q(0.93)]; return cv.steps; }
+  /* 칸별 정확히 보기: 칸의 실제 대수로 5구간을 만든다. 경계는 분위수를 보기 좋은 수로 반올림 */
+  const niceN = v => { if (v <= 5) return Math.max(1, Math.round(v)); const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; };
+  function cellBins(cv) {
+    if (cv.bins) return cv.bins; const v = cv.d.cells.map(c => c[2]).sort((a, b) => a - b), q = f => v[Math.min(v.length - 1, Math.floor(v.length * f))] || 1;
+    const e = []; [0.3, 0.55, 0.75, 0.9].forEach(f => { const n = niceN(q(f)); if (!e.length || n > e[e.length - 1]) e.push(n); });
+    cv.bins = e; return e;
+  }
+  const HCOL = ["#14b8a6", "#22c55e", "#facc15", "#f97316", "#ef4444"];
+  const binOf = (bins, n) => { let i = 0; while (i < bins.length && n > bins[i]) i++; return Math.min(4, i + (5 - bins.length - 1 > 0 ? 0 : 0)); };
+  function binLabels(bins) { const L = []; let lo = 1; bins.forEach(b => { L.push(lo === b ? `${b}` : `${lo}~${b}`); lo = b + 1; }); L.push(`${lo}+`); return L; }
   function drawLive() {
     const ov = $("#live-ov"), m = liveMap; if (!ov || !m) return;
     const W = ov.clientWidth, H = ov.clientHeight; ov.setAttribute("viewBox", `0 0 ${W} ${H}`);
@@ -221,7 +233,12 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         // 열지도: 칸마다 점을 쌓아 밀도를 만들고 색 띠로 바꿔 한 장의 그림으로 얹는다
         let cell = 0; cv.d.cells.slice(0, 3).forEach(c => { const a2 = P(c[0] / 100 + h, c[1] / 100 - h), b2 = P(c[0] / 100 - h, c[1] / 100 + h); if (a2 && b2) cell = Math.max(cell, b2.x - a2.x); });
         const hp = heatPts(cv, (la, lo) => { const q = P(la, lo); return q && inV(q) ? q : null; }, cell);
-        if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; void st;
+        if (LV.heatMode === "cells") {
+          const bins = cellBins(cv); LV.cellBoxes = [];
+          cv.d.cells.forEach(c => { const la = c[0] / 100, lo = c[1] / 100, a2 = P(la + h, lo - h), b2 = P(la - h, lo + h); if (!a2 || !b2 || b2.x < 0 || a2.x > W || b2.y < 0 || a2.y > H) return; const k = binOf(bins, c[2]);
+            o += `<rect class="hcell" x="${N(a2.x)}" y="${N(a2.y)}" width="${N(Math.max(1, b2.x - a2.x - 0.6))}" height="${N(Math.max(1, b2.y - a2.y - 0.6))}" fill="${HCOL[k]}"/>`; LV.cellBoxes.push([a2.x, a2.y, b2.x, b2.y, c[2], la, lo]); });
+        } else { LV.cellBoxes = null; if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; }
+        void st;
       }
       // 반경 원: 지도 투영(밀러)이 위아래로 늘어나 경로로 그리면 타원이 된다. 화면에서는 동서 방향 1 km 길이로 반지름을 잡아 완전한 원으로 그린다
       const kmPx = pxDeg / (111.32 * Math.cos(toR(pl.lat)));
@@ -269,6 +286,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     liveFlyMap((clientX - rr.left) / s0 - m.transX, (clientY - rr.top) / s0 - m.transY, Math.min(m._baseScale * 400, s0 * 2), 650);
   }
   // 공항을 누르면 그 공항으로 슉 날아가 반경 원(공역 100 km, 기체 보기에서는 고른 반경)이 화면에 꽉 차게 당긴다. 공역 목록에 있는 공항이면 그 공역으로 바꾼다
+  const LV3on2d = () => typeof LV3 !== "undefined" && LV3.on;
   function liveFlyApt(code) {
     const c = AP[code] || (PLACES.find(p => p.code === code) || {}), lat = c[0] !== undefined ? c[0] : c.lat, lon = c[1] !== undefined ? c[1] : c.lon; if (lat === undefined) return;
     const pl = PLACES.find(p => p.code === code);
@@ -293,6 +311,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   /* ---------- 화면 갱신 ---------- */
   function paintLive() {
     { const card = document.getElementById("livecard"); if (card) card.classList.toggle("show-ac", LV.scope !== "area" || LV.tab === "aircraft" || !!LV.sel); }
+    { const w = document.querySelector("#livecard .livewrap"); if (w) w.classList.toggle("cells", LV.heatMode === "cells" && LV.scope === "area" && LV.tab === "traffic" && !LV.sel); }
     const pn = $("#live-panel"); if (!pn) return;
     const keep = pn.querySelector(".fp-list"), vk = LV.sel ? "detail" : LV.scope + ":" + LV.tab, y = keep && pn.getAttribute("data-vk") === vk ? keep.scrollTop : 0; pn.setAttribute("data-vk", vk);
     pn.innerHTML = livePanel(); const nl = pn.querySelector(".fp-list"); if (nl) nl.scrollTop = y;
@@ -316,6 +335,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (act === "conn") { LV.conn = !LV.conn; paintLive(); if (LV.conn) { const c = $("#live-conn-card"); if (c) c.scrollIntoView({ block: "nearest" }); } return; }
       if (act === "keydel") { LV.key = ""; try { localStorage.removeItem("hub-fia-key"); } catch (er) { /* 무시 */ } LV.usage = null; const c = $("#live-conn-card"); if (c) c.innerHTML = connCard(); refreshLive("ac"); return; }
       if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg !== "area") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
+      if (act === "heat") { LV.heatMode = arg; try { localStorage.setItem("hub-heat", arg); } catch (er) { /* 무시 */ } paintLive(); queueDraw(); if (typeof lv3dDirty === "function") lv3dDirty(); return; }
       if (act === "tab") { LV.tab = arg; paintLive(); focusLive(true); if (arg === "aircraft") refreshLive("ac"); return; }
       if (act === "filter") { LV.filter = arg; paintLive(); return; }
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
@@ -349,6 +369,9 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         liveMap = new jsVectorMap({ selector: "#livemap", map: "world", backgroundColor: "transparent", zoomButtons: true, zoomOnScroll: true, zoomMax: 400, zoomStep: 1.6, showTooltip: false, regionStyle: { initial: { fill: "#48535f", stroke: "none" }, hover: { fillOpacity: 1, cursor: "grab" } } });
         // 두 번 누르면(더블클릭) 그 지점을 가운데로 가져오며 부드럽게 두 배 당긴다. 한 번 누르기와 끌기는 그대로 둔다
         document.getElementById("livecard") && el.parentElement.addEventListener("click", e => { const g = e.target.closest && e.target.closest("[data-apt]"); if (!g) return; e.stopPropagation(); liveFlyApt(g.getAttribute("data-apt")); });
+        el.parentElement.addEventListener("mousemove", e => { const B = LV.cellBoxes, tip = document.getElementById("tip"); if (!B || !tip || LV3on2d()) return; const r = el.parentElement.querySelector(".live-ov").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; const c = B.find(b => x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3]);
+          if (c) { tip.innerHTML = `<b>${fmt(c[4])}대</b> 지난 24시간<br>${c[5].toFixed(2)}N, ${c[6].toFixed(2)}E 칸`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; el.parentElement.__ct = 1; } else if (el.parentElement.__ct) { tip.hidden = true; el.parentElement.__ct = 0; } });
+        el.parentElement.addEventListener("mouseleave", () => { if (el.parentElement.__ct) { const tip = document.getElementById("tip"); if (tip) tip.hidden = true; el.parentElement.__ct = 0; } });
         el.addEventListener("dblclick", e => { if (e.target.closest && e.target.closest("[data-live], [data-tip], a, button")) return; e.preventDefault(); liveFly(e.clientX, e.clientY); });
         const orig = liveMap._applyTransform; liveMap._applyTransform = function () { const r = orig.apply(this, arguments); queueDraw(); return r; };
       } catch (e) { liveMap = null; }

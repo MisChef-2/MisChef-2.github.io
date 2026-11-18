@@ -373,7 +373,7 @@ ${whyEras()}
   let tipFor = null;
   document.addEventListener("mouseover", e => { const t = e.target.closest("[data-tip]"); if (!t) return; tip.innerHTML = t.getAttribute("data-tip"); tip.hidden = false; tipFor = t; anchorTip(t); });
   // 지도는 점을 계속 새로 그려서, 마우스 아래 점이 바뀌면 mouseout이 오지 않는다. 그래서 움직일 때마다 아래에 툴팁 대상이 있는지 다시 본다
-  document.addEventListener("mousemove", e => { if (tip.hidden) return; if (e.target.closest && e.target.closest(".lv3d")) { moveTip(e); return; } const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) { tip.hidden = true; tipFor = null; return; } if (t !== tipFor) { tipFor = t; tip.innerHTML = t.getAttribute("data-tip"); anchorTip(t); } });
+  document.addEventListener("mousemove", e => { if (tip.hidden) return; if (e.target.closest && e.target.closest(".lv3d, .livewrap.cells")) { moveTip(e); return; } const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) { tip.hidden = true; tipFor = null; return; } if (t !== tipFor) { tipFor = t; tip.innerHTML = t.getAttribute("data-tip"); anchorTip(t); } });
   const hideTip = () => { tip.hidden = true; };
   window.addEventListener("hashchange", hideTip); document.addEventListener("mouseleave", hideTip); window.addEventListener("blur", hideTip); window.addEventListener("scroll", hideTip, { passive: true });
   document.addEventListener("mouseout", e => { const t = e.target.closest("[data-tip]"); if (t && !t.contains(e.relatedTarget)) tip.hidden = true; });

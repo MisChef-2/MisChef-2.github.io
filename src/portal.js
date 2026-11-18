@@ -215,18 +215,55 @@
 <section class="card c12">${cardH(ICON.gauge, "착륙률 분포")}<div class="card-b">${barList(land, "회")}</div></section>
 <section class="card c12">${cardH(ICON.book, "로그북", `<span class="hint">기종별 합계</span>`)}${ids.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>기종</th><th class="num">비행</th><th class="num">승객</th><th class="num">화물</th><th class="num">비행 시간</th><th class="num">거리</th><th class="num">연료</th><th class="num">평균 착륙률</th></tr></thead><tbody>${ids.map(id => row(`<a class="ext" href="#${id}"><span class="code">${ICAO[id]}</span> ${esc(byId[id].name)}</a>`, by[id])).join("")}${row("<strong>합계</strong>", tot, true)}</tbody></table></div>` : `<p class="empty">아직 제출한 PIREP이 없습니다.</p>`}</section></div>`;
   }
+  /* 패스포트: 여권 신원면과 입국 도장 면. 국기는 flag-icons(MIT) SVG를 CDN에서 불러오고, 못 불러오면 지운다 */
+  const flagImg = (cc, cls) => `<img class="${cls || "flag"}" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${String(cc).toLowerCase()}.svg" alt="" loading="lazy" onerror="this.remove()">`;
+  const ppHash = str => { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+  const PP_INK = ["#b4232c", "#1f4fb5", "#0f7a55", "#6b3fb8", "#a85b0c", "#0e6f86"];
+  const ppCC = code => (APT.find(x => x[0] === code) || [])[3];
+  function ppStamp(cc, info, i) {
+    const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = (h % 17) - 8, shape = ["circ", "rect", "oval"][h % 3], d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "";
+    return `<div class="pp-stamp ${shape}" style="--ink:${ink};--rot:${rot}deg;--dl:${(i * 0.07).toFixed(2)}s" title="${esc(CCN[cc] || cc)} 첫 입국 ${d}"><div class="pp-st-in"><span class="pp-st-top">ARRIVAL 입국</span>${flagImg(cc, "pp-st-flag")}<b>${esc(CCN[cc] || cc)}</b><span class="pp-st-date">${d}</span><span class="pp-st-apt">${info.apts.slice(0, 4).join(" ")}</span></div></div>`;
+  }
+  // 여권 사진: 고른 사진은 300x400으로 줄여 이 브라우저(localStorage)에만 둔다. 없으면 조종사 실루엣
+  const PP_SIL = `<svg class="pp-sil" viewBox="0 0 120 160" aria-hidden="true"><rect width="120" height="160" fill="url(#ppbg)"/><defs><linearGradient id="ppbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe7f3"/><stop offset="1" stop-color="#b9c8de"/></linearGradient></defs><path d="M60 46c-14 0-24 9-24 23 0 15 10 28 24 28s24-13 24-28c0-14-10-23-24-23z" fill="#5b6f8f"/><path d="M30 52c2-12 14-20 30-20s28 8 30 20l-6 2H36z" fill="#2b3d5c"/><rect x="34" y="50" width="52" height="6" rx="3" fill="#1d2c47"/><circle cx="60" cy="41" r="4" fill="#d8c07a"/><path d="M14 160c2-30 20-46 46-46s44 16 46 46z" fill="#2b3d5c"/><path d="M52 114l8 14 8-14z" fill="#e9eef6"/><path d="M58 120h4l2 40h-8z" fill="#8a1c1c"/><path d="M30 130h14M76 130h14" stroke="#d8c07a" stroke-width="3"/></svg>`;
+  let ppPhoto = ""; try { ppPhoto = localStorage.getItem("hub-pp-photo") || ""; } catch (e) { /* 저장소 없음 */ }
+  const ppPhotoHtml = () => ppPhoto ? `<img src="${ppPhoto}" alt="여권 사진">` : PP_SIL;
+  document.addEventListener("click", e => {
+    const b = e.target.closest && e.target.closest("[data-pp]"); if (!b) return; const v = b.getAttribute("data-pp");
+    if (v === "photo") { const inp = document.getElementById("pp-photo-in"); if (inp) inp.click(); }
+    if (v === "photo-del") { ppPhoto = ""; try { localStorage.removeItem("hub-pp-photo"); } catch (er) { /* 무시 */ } document.querySelectorAll(".pp-photo-img").forEach(x => { x.innerHTML = ppPhotoHtml(); }); b.hidden = true; }
+  });
+  document.addEventListener("change", e => {
+    if (!e.target || e.target.id !== "pp-photo-in" || !e.target.files || !e.target.files[0]) return;
+    const f = e.target.files[0], rdr = new FileReader();
+    rdr.onload = () => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"); c.width = 300; c.height = 400; const g = c.getContext("2d"), r = Math.max(300 / im.width, 400 / im.height), w = im.width * r, h = im.height * r; g.drawImage(im, (300 - w) / 2, (400 - h) / 2, w, h); ppPhoto = c.toDataURL("image/jpeg", 0.82); try { localStorage.setItem("hub-pp-photo", ppPhoto); } catch (er) { /* 용량 초과면 이번 화면에만 */ } document.querySelectorAll(".pp-photo-img").forEach(x => { x.innerHTML = ppPhotoHtml(); }); const d = document.querySelector("[data-pp='photo-del']"); if (d) d.hidden = false; }; im.src = rdr.result; };
+    rdr.readAsDataURL(f); e.target.value = "";
+  });
   function renderPassport() {
-    const vis = {}; PS.pireps.forEach(p => { vis[p.dep] = (vis[p.dep] || 0) + 1; vis[p.arr] = (vis[p.arr] || 0) + 1; });
+    const vis = {}, firstC = {};
+    PS.pireps.slice().sort((x, y) => String(x.filed).localeCompare(String(y.filed))).forEach(p => { vis[p.dep] = (vis[p.dep] || 0) + 1; vis[p.arr] = (vis[p.arr] || 0) + 1; [p.dep, p.arr].forEach(code => { const c = ppCC(code); if (!c) return; const f = firstC[c] || (firstC[c] = { first: p.filed, apts: [] }); if (f.apts.indexOf(code) < 0) f.apts.push(code); }); });
     const byC = {}; APT.forEach(a => { (byC[a[3]] = byC[a[3]] || []).push(a); });
     const ccs = Object.keys(byC), seen = ccs.filter(c => byC[c].some(a => vis[a[0]])), full = seen.filter(c => byC[c].every(a => vis[a[0]])), nA = Object.keys(vis).length;
-    seen.sort((a, b) => byC[b].filter(x => vis[x[0]]).length - byC[a].filter(x => vis[x[0]]).length);
+    seen.sort((a, b) => String((firstC[a] || {}).first || "").localeCompare(String((firstC[b] || {}).first || "")));
     const todo = ccs.filter(c => !seen.includes(c)).sort((a, b) => (CCN[a] || a).localeCompare(CCN[b] || b, "ko"));
     const chip = a => `<a class="tleg pp-apt${vis[a[0]] ? " done" : ""}" href="#apt-${a[0]}" title="${esc(a[2])}">${vis[a[0]] ? ICON.check : ""}${a[0]}${vis[a[0]] ? `<small>${vis[a[0]]}</small>` : ""}</a>`;
-    const cRow = c => { const all = byC[c], n = all.filter(a => vis[a[0]]).length, done = n === all.length; return `<div class="pp-c${done ? " full" : ""}"><div class="pp-h"><b>${done ? `<span class="pp-star" title="모든 공항 방문">${ICON.star}</span>` : ""}${esc(CCN[c] || c)}</b><span class="code">${c}</span><span class="sp"></span><span class="val">${n} / ${all.length}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(n / all.length * 100)}%"></span></div><div class="tour-legs">${all.map(chip).join("")}</div></div>`; };
-    return phead(`<a href="#profile">조종사 프로필</a>`, "패스포트", "지금까지 이착륙한 공항과 나라를 모았습니다. 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
+    const cRow = c => { const all = byC[c], n = all.filter(a => vis[a[0]]).length, done = n === all.length; return `<div class="pp-c${done ? " full" : ""}"><div class="pp-h">${flagImg(c)}<b>${done ? `<span class="pp-star" title="모든 공항 방문">${ICON.star}</span>` : ""}${esc(CCN[c] || c)}</b><span class="code">${c}</span><span class="sp"></span><span class="val">${n} / ${all.length}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(n / all.length * 100)}%"></span></div><div class="tour-legs">${all.map(chip).join("")}</div></div>`; };
+    const rk = rankOf(pstats(0).min), nm = PS.pilot.name || "조종사", num = `${VA.code}${String(PS.pilot.num).padStart(4, "0")}`, issued = String(PS.pilot.joined || "").replace(/-/g, ".");
+    const roman = String(nm).normalize("NFKD").replace(/[^A-Za-z]/g, "").toUpperCase() || "PILOT";
+    const mrz1 = ("P<JLV" + roman + "<<" + num).padEnd(44, "<").slice(0, 44), mrz2 = (num + "<0JLV" + issued.replace(/\./g, "").slice(2) + "<<" + seen.length + "<" + nA).padEnd(44, "<").slice(0, 44);
+    const loc = aptBy[PS.pilot.loc];
+    return phead(`<a href="#profile">조종사 프로필</a>`, "패스포트", "이착륙한 공항과 나라를 여권처럼 모았습니다. 새 나라에 처음 내리면 입국 도장이 찍히고, 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
 <div class="grid">${PS.demo ? demoNote() : ""}
-<section class="card c12"><div class="stats pp-stats"><div class="stat"><span class="stat-i">${ICON.flag}</span><span class="stat-n">${nA}<small> / ${APT.length}</small></span><span class="stat-l">방문한 공항</span><span class="stat-s">${N(nA / APT.length * 100)}%</span></div><div class="stat"><span class="stat-i">${ICON.globe}</span><span class="stat-n">${seen.length}<small> / ${ccs.length}</small></span><span class="stat-l">방문한 나라</span><span class="stat-s">${N(seen.length / ccs.length * 100)}%</span></div><div class="stat"><span class="stat-i">${ICON.star}</span><span class="stat-n">${full.length}<small>개국</small></span><span class="stat-l">모든 공항을 방문한 나라</span></div><div class="stat"><span class="stat-i">${ICON.pin}</span><span class="stat-n">${PS.pilot.loc}</span><span class="stat-l">현재 위치</span><span class="stat-s">${esc(aptBy[PS.pilot.loc].name)}</span></div></div></section>
-<section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다. 첫 비행을 마치면 여기에 도장이 찍힙니다.</p>`}</div></section>
+<section class="card c12 pp-book"><div class="pp-cover"><span class="pp-emb">${ICON.globe}</span><div><b>PASSPORT</b><span>여권 JETLINER VIRTUAL</span></div><span class="pp-type"><small>종류 / Type</small>P<small>발행 / Code</small>JLV</span></div>
+<div class="pp-spread"><div class="pp-page pp-left">
+<div class="pp-photo"><button type="button" class="pp-photo-img" data-pp="photo" title="눌러서 사진 바꾸기">${ppPhotoHtml()}</button><input type="file" id="pp-photo-in" accept="image/*" hidden><span class="pp-photo-hint">눌러서 사진 넣기</span><button type="button" class="pp-photo-del" data-pp="photo-del"${ppPhoto ? "" : " hidden"}>사진 지우기</button></div>
+<dl class="pp-fields"><div class="w2"><dt>성명 / Name</dt><dd>${esc(nm)}</dd></div><div><dt>조종사 번호 / Pilot No.</dt><dd class="mono">${num}</dd></div><div><dt>계급 / Rank</dt><dd>${esc(rk.name)}</dd></div><div><dt>발급일 / Date of issue</dt><dd class="mono">${esc(issued || "-")}</dd></div><div><dt>발행 / Authority</dt><dd>Jetliner Virtual</dd></div><div class="w2"><dt>현재 위치 / Location</dt><dd>${esc(PS.pilot.loc)} ${esc(loc ? loc.name : "")}</dd></div><div class="w2 pp-sign"><dt>서명 / Signature</dt><dd>${esc(nm)}</dd></div></dl></div>
+<div class="pp-page pp-right"><span class="pp-wm">${ICON.globe}</span><p class="pp-rt">여행 기록 / Travel record</p>
+<div class="pp-rows"><div><span>방문한 공항</span><b>${nA}<small> / ${APT.length}</small></b></div><div><span>방문한 나라</span><b>${seen.length}<small> / ${ccs.length}</small></b></div><div><span>모든 공항을 방문한 나라</span><b>${full.length}</b></div><div><span>첫 입국</span><b class="mono">${seen.length && firstC[seen[0]] ? esc(String(firstC[seen[0]].first).slice(0, 10).replace(/-/g, ".")) : "-"}</b></div></div>
+<div class="pp-mini">${ppPhotoHtml()}</div></div></div>
+<div class="pp-mrz" aria-hidden="true"><span>${esc(mrz1)}</span><span>${esc(mrz2)}</span></div></section>
+<section class="card c12">${cardH(ICON.check, "입국 도장", `<span class="hint">${seen.length}개국, 처음 내린 순서</span>`)}<div class="pp-visa">${seen.length ? seen.map((c, i) => ppStamp(c, firstC[c] || { first: "", apts: [] }, i)).join("") : `<p class="empty">아직 찍힌 도장이 없습니다. 첫 비행을 마치면 여기에 입국 도장이 찍힙니다.</p>`}${todo.slice(0, Math.max(0, 8 - seen.length)).map(c => `<div class="pp-stamp empty" title="${esc(CCN[c] || c)}">${flagImg(c, "pp-st-flag")}<span>${esc(CCN[c] || c)}</span></div>`).join("")}</div></section>
+<section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다.</p>`}</div></section>
 <section class="card c5">${cardH(ICON.pin, "아직 가 보지 않은 나라", `<span class="hint">${todo.length}개국</span>`)}<div class="pp-list">${todo.length ? todo.map(cRow).join("") : `<p class="empty">취항하는 모든 나라를 방문했습니다.</p>`}</div></section></div>`;
   }
   /* 배지: 금속 메달 모양. 배지마다 색과 그림이 다르고, 아직 못 받은 배지는 회색 메달과 진행 막대로 보여 준다 */

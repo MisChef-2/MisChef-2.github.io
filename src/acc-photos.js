@@ -79,5 +79,165 @@
     "title": "사고 2년 전 파리 샤를드골 공항에 착륙하는 F-GZCP (2007)",
     "license": "CC BY-SA 3.0",
     "page": "https://commons.wikimedia.org/wiki/File:PKIERZKOWSKI_070328_FGZCP_CDG.jpg"
+   },
+   "ts236": {
+    "title": "사고 2년 전 런던 개트윅 공항의 C-GITS (1999)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:C-GITS_24-7-99_Gatwick_(53592900141).jpg"
+   },
+   "uberlingen": {
+    "title": "사고 4개월 전 샤르자 공항의 바시키르항공 Tu-154M RA-85816 (2002)",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BAL_Bashkirian_Airlines_Tupolev_Tu-154M_RA-85816_at_Sharjah_International_Airport_(SHJ,_OMSJ)_in_March_2002.jpg"
+   },
+   "oz733": {
+    "title": "같은 계열 아시아나항공 보잉 737-400 HL7235, 간사이 공항 (2001)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7235_B737-4Q8_Asiana_KIX_12JUL01_(6912266102).jpg"
+   },
+   "ke8509": {
+    "title": "같은 기종 대한항공 화물 보잉 747-200F (1984)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:KAL_747F_(7798398814).jpg"
+   },
+   "oz991": {
+    "title": "사고 한 달 전 로스앤젤레스의 HL7604 (2011)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Asiana_Cargo_Boeing_747-400F_HL7604.jpg"
+   },
+   "ea401": {
+    "title": "에버글레이즈 습지에 흩어진 N310EA 잔해 (NTSB, 1972)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Eastern_401_wreckage.jpg"
+   },
+   "sr111": {
+    "title": "사고 7주 전 취리히 공항의 HB-IWF (1998)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:28as_-_Swissair_MD-11;_HB-IWF@ZRH;14.07.1998_(4713082874).jpg"
+   },
+   "af358": {
+    "title": "사고 1년 전 파리 샤를드골 공항의 F-GLZQ (2004)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:316co_-_Air_France_Airbus_A340,_F-GLZQ@CDG,06.09.2004_-_Flickr_-_Aero_Icarus.jpg"
+   },
+   "ge235": {
+    "title": "사고 한 달 전 타이베이 쑹산 공항을 떠나는 B-22816 (2015)",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:TransAsia_Airways_ATR_72-212A_B-22816.jpg"
+   },
+   "ci006": {
+    "title": "사고 뒤 크게 부서진 N4522V 꼬리날개 (NTSB, 1985)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Damaged_empennage_of_China_Airlines_Flight_006-N4522V.JPG"
+   },
+   "colgan3407": {
+    "title": "클래런스 센터 주택가에 추락한 N200WQ 잔해 (NTSB, 2009)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Wreckage_of_N200WQ.jpg"
+   },
+   "aa587": {
+    "title": "퀸스 벨하버의 587편 추락 현장 (FAA, 2001)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:American_Airlines_Flight_587_accident_site.jpg"
+   },
+   "737max": {
+    "title": "사고 한 달여 전의 라이언에어 PK-LQP (2018)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Lion_Air_Boeing_737-MAX8_PK-LQP.jpg"
+   },
+   "jl123": {
+    "title": "사고 1년 전 이타미공항에 착륙하는 JA8119 (1984)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Japan_Airlines_B747SR-46_(JA8119)_at_Itami_Airport_in_1984.jpg"
+   },
+   "ke007": {
+    "title": "사고 3년 전 취리히공항의 HL7442 (1980)",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:20559-186-HL7442-B747-230B-ZRH-5%2780.jpg"
+   },
+   "oz162": {
+    "title": "사고 7년 전 상하이 푸둥공항의 HL7762 (2008)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7762_Airbus_A320_Asiana_Airlines_(7342418474).jpg"
+   },
+   "fl90": {
+    "title": "포토맥강에 잠긴 90편 꼬리 부분 (FAA, 1982)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Tail_of_the_Air_Florida_Flight_90_in_the_Potomac_River.jpg"
+   },
+   "af4590": {
+    "title": "사고 20년 전 버밍엄공항의 콩코드 F-BTSC (1980)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BIRMINGHAM_16_SEPTEMBER_1980_AIR_FRANCE_CONCORDE_F-BTSC_(38254737502).jpg"
+   },
+   "comair5191": {
+    "title": "렉싱턴 블루그래스공항 인근 N431CA 추락 현장 (NTSB, 2006)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Overhead_view_of_N431CA_accident_site.jpg"
+   },
+   "ac759": {
+    "title": "사건 5년 전의 에어캐나다 C-FKCK (2012)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Air_Canada_Airbus_A320-211_C-FKCK_220_(7731072780).jpg"
+   },
+   "ga152": {
+    "title": "사고 9년 전 덴파사르공항의 PK-GAI (1988)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:PK-GAI_Airbus_A300B4-220_Garuda_Indonesia_at_Denpasar_Ngurah_Rai_(DPS)_17_11_88.jpg"
+   },
+   "oz214": {
+    "title": "NTSB가 공개한 사고 직후 OZ214 동체 잔해 (2013)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:NTSBAsiana214Fuselage2.jpg"
+   },
+   "dl191": {
+    "title": "NTSB가 촬영한 N726DA 꼬리 부분 잔해 (1985)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Delta_191_tail_section_wreckage.jpg"
+   },
+   "7c2216": {
+    "title": "사고 나흘 전 제주공항의 HL8088 (2024)",
+    "license": "CC BY 2.0 kr",
+    "page": "https://commons.wikimedia.org/wiki/File:Boeing_737-8AS_Jeju_Air_HL8088,_Jeju_Int%27l_Airport,_25_December_2024_01.jpg"
+   },
+   "ci140": {
+    "title": "일본 사고조사위원회가 기록한 나고야공항의 B-1816 잔해 (1994)",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:China_Airlines_Flight_140_wreckage.jpg"
+   },
+   "ke6316": {
+    "title": "사고 5년 전 로스앤젤레스공항의 HL7373 (1994)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7373_MD-11_Korean_Air_LAX_12MAR94_(6893608555).jpg"
+   },
+   "ke015": {
+    "title": "같은 시기 대한항공 747-2B5B 자매기 HL7443 (1980)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Korean_Air_Lines_Boeing_747-2B5B_HL7443_%22I_Love_New_York_%22_sticker_(25956288833).jpg"
+   },
+   "av52": {
+    "title": "사고 석 달 전 프랑크푸르트공항의 HK-2016 (1989)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:FRANKFURT_OCT_1989_AVIANCA_COLOMBIA_BOEING_707_HK-2016.jpg"
+   },
+   "sq006": {
+    "title": "사고 넉 달 전 프랑크푸르트공항의 9V-SPK (2000)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:FRANKFURT_JUNE_2000_SINGAPORE_AIRLINES_BOEING_747-400_9V-SPK.jpg"
+   },
+   "tk1951": {
+    "title": "사고 1년 반 전 취리히공항의 TC-JGE (2007)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Turkish_Airlines_Boeing_737-800,_TC-JGE@ZRH,08.09.2007-487dt_-_Flickr_-_Aero_Icarus.jpg"
+   },
+   "wn1380": {
+    "title": "NTSB 조사관이 N772SW의 파손된 왼쪽 엔진을 살피는 모습 (2018)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Southwest_Airlines_Flight_1380_NTSB_Engine_Inspection_PHL_KPHL.jpg"
+   },
+   "ci611": {
+    "title": "사고 2년 전의 B-18255 (2000)",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Boeing_747-209B_-_China_Airlines_B-18255_0239713.jpg"
    }
   };

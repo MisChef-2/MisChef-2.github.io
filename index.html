@@ -1356,14 +1356,16 @@ a.abw:hover{background:var(--primary-soft)}
 .b2-n{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .hub-calm .badge2.got:hover .medal{animation:none}
 @media (max-width:640px){.badges2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.badge2{padding:16px 8px 14px}.badge2 .medal{width:70px;height:80px}}
-.mn-news{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 18px 12px;font-size:12.5px}
+.mn-news{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:10px 14px;padding:10px 18px 14px;font-size:12.5px}
+.mn-news-k{padding-top:6px;white-space:nowrap}
+.mn-news-l{display:grid;gap:6px;justify-items:start;min-width:0}
 .mn-news-k{display:flex;align-items:center;gap:5px;font-weight:700;color:var(--fg-2)} .mn-news-k .i{width:14px;height:14px}
 .mn-news a{display:flex;align-items:baseline;gap:6px;min-width:0;max-width:100%;padding:6px 10px;border-radius:8px;background:var(--tile);color:var(--fg);text-decoration:none}
 .mn-news a:hover{background:color-mix(in srgb,var(--wm-accent) 12%,var(--tile))}
 .mn-news a b{flex:none;color:var(--wm-accent);font-weight:700}
 .mn-news a span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}
 .mn-news a small{flex:none;color:var(--muted);font-variant-numeric:tabular-nums}
-@media (max-width:640px){.mn-news{padding:10px 12px}.mn-news a{width:100%}.mn-news a span{max-width:none}}
+@media (max-width:640px){.mn-news{padding:10px 12px;grid-template-columns:1fr}.mn-news-k{padding-top:0}.mn-news a{width:100%}.mn-news a span{max-width:none}}
 /* 통계 그래프에는 테두리를 두지 않는다 (테두리는 비행장 차트에만) */
 .plot svg.chart,svg.chart.hchart,svg.chart.tl{border:0!important;border-radius:0;background:none}
 /* 조종 매뉴얼 그림: 왼쪽에 작게, 설명은 오른쪽 */
@@ -1386,6 +1388,74 @@ a.abw:hover{background:var(--primary-soft)}
 #livecard.show-ac .lv-acleg{display:flex}
 @media (max-width:760px){.lv-acleg{right:52px;left:auto;bottom:10px;max-width:calc(100% - 110px);font-size:10.5px;gap:4px 9px} .livewrap.is-3d .lv-acleg{top:296px;bottom:auto}}
 .lv-acleg span{display:flex;align-items:center;gap:5px} .lv-acleg i{width:8px;height:8px;border-radius:50%}
+/* ---------- 패스포트 ---------- */
+:root{--pp-paper:#f7f2e6;--pp-paper2:#efe6d1;--pp-line:rgba(120,96,50,.13);--pp-ink-fg:#2a2925;--pp-gold:#b8933a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pp-paper:#1c2333;--pp-paper2:#222b3d;--pp-line:rgba(190,170,120,.12);--pp-ink-fg:#e7e2d4;--pp-gold:#d8c07a}}
+:root[data-theme="dark"]{--pp-paper:#1c2333;--pp-paper2:#222b3d;--pp-line:rgba(190,170,120,.12);--pp-ink-fg:#e7e2d4;--pp-gold:#d8c07a}
+.flag{width:20px;height:15px;border-radius:2px;object-fit:cover;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.pp-book{padding:0;overflow:hidden;background:var(--pp-paper);box-shadow:0 1px 2px rgba(0,0,0,.06),0 18px 40px -24px rgba(20,38,74,.45)}
+.pp-cover{display:flex;align-items:center;gap:16px;padding:18px 28px;background:radial-gradient(120% 140% at 0% 0%,#24447e 0,#14264a 55%,#0f1d3a 100%);color:#e9d9a6}
+.pp-cover b{display:block;font:800 18px/1.1 var(--mono);letter-spacing:.36em;background:linear-gradient(180deg,#f3e2a8,#c9a85a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pp-cover span{font-size:11.5px;letter-spacing:.14em;opacity:.8}
+.pp-emb{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:1.5px solid #d8c07a;box-shadow:inset 0 0 0 4px rgba(216,192,122,.12);flex:none}
+.pp-emb .i{width:24px;height:24px;color:#e9d9a6}
+.pp-type{margin-left:auto;display:grid;grid-template-columns:auto auto;gap:2px 10px;align-items:baseline;font:700 13px var(--mono);letter-spacing:.12em}
+.pp-type small{font:500 9.5px var(--font);letter-spacing:.04em;opacity:.65}
+.pp-spread{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);position:relative;color:var(--pp-ink-fg);background:var(--pp-paper)}
+.pp-spread::after{content:"";position:absolute;top:0;bottom:0;left:60.8%;width:26px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(80,60,20,.08) 45%,rgba(80,60,20,.12) 50%,rgba(80,60,20,.08) 55%,transparent);pointer-events:none}
+.pp-page{position:relative;padding:28px 30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='24'%3E%3Cpath d='M0 12 Q20 2 40 12 T80 12 T120 12 T160 12' fill='none' stroke='%23b8933a' stroke-opacity='.13' stroke-width='1'/%3E%3C/svg%3E")}
+.pp-left{display:grid;grid-template-columns:150px minmax(0,1fr);gap:28px;align-items:start}
+.pp-photo{display:grid;gap:6px;justify-items:center}
+.pp-photo-img{display:block;width:150px;aspect-ratio:3/4;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:#dfe7f3;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 6px 14px -8px rgba(0,0,0,.35)}
+.pp-photo-img img,.pp-photo-img svg{display:block;width:100%;height:100%;object-fit:cover}
+.pp-photo-img:hover{outline:2px solid var(--wm-accent);outline-offset:2px}
+.pp-photo-hint{font-size:11px;color:color-mix(in srgb,var(--pp-ink-fg) 55%,transparent)}
+.pp-photo-del{border:0;background:none;padding:0;font:inherit;font-size:11px;color:var(--wm-accent);cursor:pointer}
+.pp-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 26px;margin:0}
+.pp-fields .w2{grid-column:1 / -1}
+.pp-fields dt{font-size:10.5px;letter-spacing:.05em;color:color-mix(in srgb,var(--pp-ink-fg) 52%,transparent);margin:0 0 4px}
+.pp-fields dd{margin:0;font-size:15.5px;font-weight:700;letter-spacing:.01em}
+.pp-fields dd.mono{font-family:var(--mono);letter-spacing:.04em}
+.pp-sign{padding-top:6px;border-top:1px solid var(--pp-line)}
+.pp-sign dd{font:italic 500 24px/1.1 "Segoe Script","Brush Script MT","Apple Chancery",cursive;color:#203a74;letter-spacing:0}
+:root[data-theme="dark"] .pp-sign dd{color:#9fbaf0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pp-sign dd{color:#9fbaf0}}
+.pp-right{display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.pp-wm{position:absolute;right:-30px;top:20px;opacity:.07;pointer-events:none}
+.pp-wm .i{width:220px;height:220px;color:var(--pp-gold)}
+.pp-rt{margin:0;font:700 11px var(--mono);letter-spacing:.16em;color:var(--pp-gold);text-transform:uppercase}
+.pp-rows{display:grid}
+.pp-rows div{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--pp-line)}
+.pp-rows span{font-size:13px;color:color-mix(in srgb,var(--pp-ink-fg) 70%,transparent)}
+.pp-rows b{font:800 22px var(--font);font-variant-numeric:tabular-nums}
+.pp-rows b.mono{font:700 14px var(--mono)}
+.pp-rows small{font-size:12px;font-weight:600;opacity:.55}
+.pp-mini{position:absolute;right:26px;bottom:20px;width:46px;aspect-ratio:3/4;border-radius:3px;overflow:hidden;opacity:.28;filter:grayscale(1) contrast(.9)}
+.pp-mini img,.pp-mini svg{display:block;width:100%;height:100%;object-fit:cover}
+.pp-mrz{display:grid;gap:3px;padding:14px 30px 18px;background:var(--pp-paper2);border-top:1px solid var(--pp-line);font:600 13.5px/1.35 "OCR B","OCR-B",var(--mono);letter-spacing:.2em;color:color-mix(in srgb,var(--pp-ink-fg) 78%,transparent);overflow:hidden;white-space:nowrap}
+@media (max-width:900px){.pp-spread{grid-template-columns:1fr}.pp-spread::after{display:none}.pp-right{border-top:1px dashed var(--pp-line)}.pp-mini{display:none}}
+@media (max-width:640px){.pp-left{grid-template-columns:96px minmax(0,1fr);gap:16px;padding:18px}.pp-photo-img{width:96px}.pp-fields{grid-template-columns:1fr;gap:12px}.pp-right{padding:18px}.pp-mrz{font-size:10px;padding:12px 18px;letter-spacing:.12em}.pp-cover{padding:14px 18px}.pp-type{display:none}}
+.pp-visa{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px;padding:22px 26px 26px;background:repeating-linear-gradient(0deg,transparent 0 27px,var(--pp-line) 27px 28px),var(--pp-paper)}
+.pp-stamp{position:relative;display:grid;place-items:center;aspect-ratio:1/1;color:var(--ink);transform:rotate(var(--rot));animation:pp-stamp .45s cubic-bezier(.2,.9,.3,1.3) both;animation-delay:var(--dl)}
+.pp-st-in{display:grid;justify-items:center;gap:3px;width:88%;height:88%;align-content:center;text-align:center;border:3px double var(--ink);opacity:.86;padding:8px;box-sizing:border-box}
+.pp-stamp.circ .pp-st-in{border-radius:50%}
+.pp-stamp.oval .pp-st-in{border-radius:46% / 38%;height:74%}
+.pp-stamp.rect .pp-st-in{border-radius:10px;height:76%}
+.pp-st-top{font:700 8.5px var(--mono);letter-spacing:.14em}
+.pp-st-flag{width:30px;height:22px;border-radius:2px;object-fit:cover;filter:saturate(.75);opacity:.9}
+.pp-stamp b{font-size:14px;font-weight:800;line-height:1.15}
+.pp-st-date{font:700 12px var(--mono)}
+.pp-st-apt{font:600 9.5px var(--mono);letter-spacing:.08em;opacity:.85}
+.pp-stamp.empty{display:grid;justify-items:center;align-content:center;gap:4px;color:color-mix(in srgb,var(--pp-ink-fg) 38%,transparent);border:1.5px dashed color-mix(in srgb,var(--pp-ink-fg) 22%,transparent);border-radius:50%;transform:none;animation:none;font-size:12px}
+.pp-stamp.empty .pp-st-flag{filter:grayscale(1);opacity:.45}
+@keyframes pp-stamp{0%{opacity:0;transform:rotate(var(--rot)) scale(1.6)}70%{opacity:1;transform:rotate(var(--rot)) scale(.94)}100%{transform:rotate(var(--rot)) scale(1)}}
+.hub-calm .pp-stamp{animation:none}
+.pp-h .flag{margin-right:2px}
+@media (max-width:760px){.pp-bio{grid-template-columns:90px minmax(0,1fr);gap:16px;padding:18px}.pp-nums{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(0,1fr))}.pp-nums b{font-size:20px}.pp-fields{grid-template-columns:1fr}.pp-mrz{font-size:10px;padding:12px 18px}.pp-visa{grid-template-columns:repeat(2,minmax(0,1fr));padding:16px;gap:12px}.pp-cover{padding:14px 18px}}
+.heat-mode{margin:2px 0 10px}
+.cell-leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;font-variant-numeric:tabular-nums;margin:0 0 6px}
+.cell-leg span{display:flex;align-items:center;gap:5px} .cell-leg i{width:12px;height:12px;border-radius:3px}
+.live-ov .hcell{opacity:.82}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}
@@ -3211,6 +3281,7 @@ ${spanScale([ac])}
   try { LV.key = localStorage.getItem("hub-fia-key") || ""; const s = JSON.parse(localStorage.getItem("hub-live") || "{}"); if (placeById[s.place]) LV.place = s.place; if ([100, 250, 500].includes(s.radius)) LV.radius = s.radius; } catch (e) { /* 저장소 없음 */ }
   const saveLive = () => { try { localStorage.setItem("hub-live", JSON.stringify({ place: LV.place, radius: LV.radius })); } catch (e) { /* 무시 */ } };
   let liveMap = null, liveTimer = null, liveWired = false, liveRaf = 0;
+  try { LV.heatMode = localStorage.getItem("hub-heat") || "smooth"; } catch (e) { LV.heatMode = "smooth"; }
   const T0 = Date.now();
 
   /* ---------- 지리 계산 ---------- */
@@ -3320,7 +3391,8 @@ ${spanScale([ac])}
     const d = cv.d, s = d.src || {}, st = (label, val, unit) => `<div class="kv"><span class="lbl">${label}</span><span class="val">${val}<small> ${unit}</small></span></div>`;
     return `<div class="kvs live-kvs">${st("지금 추적 중", fmt(d.now || 0), "대")}${st("그중 지상", fmt(d.gnd || 0), "대")}${st("지난 24시간", fmt(d.a24 || 0), "대")}${st("시간당 최대", fmt(d.peak || 0), "대")}</div>
 <div class="live-sec"><p class="lbl">${ICON.chart}시간대별 항공기 수 (KST)</p>${hourlyChart(cv)}</div>
-<div class="live-sec"><p class="lbl">${ICON.map}교통 밀도 (지난 24시간 통과 기록)</p><div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div></div>
+<div class="live-sec"><p class="lbl">${ICON.map}교통 밀도 (지난 24시간 통과 기록)</p><div class="seg heat-mode" role="group" aria-label="밀도 보기 방식">${lbtn("heat:smooth", "부드럽게", LV.heatMode !== "cells", "lh-smooth")}${lbtn("heat:cells", "칸별 정확히", LV.heatMode === "cells", "lh-cells")}</div>
+${LV.heatMode === "cells" ? `<div class="cell-leg">${binLabels(cellBins(cv)).map((t, i) => `<span><i style="background:${HCOL[i]}"></i>${t}대</span>`).join("")}</div><p class="small muted">한 칸은 0.1도(약 11 km) 네모입니다. 색은 그 칸을 지난 24시간 동안 지나간 항공기 수이고, 칸에 마우스를 올리면 정확한 대수가 나옵니다. 수신기가 받지 못한 곳은 비어 있습니다.</p>` : `<div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div><p class="small muted">흐름을 보기 쉽게 번지게 그린 그림입니다. 실제 대수는 '칸별 정확히'에서 볼 수 있습니다.</p>`}</div>
 <div class="live-sec small muted">반경 100 km 기준. 수신 방식은 ADS-B ${fmt(s.adsb || 0)}, MLAT ${fmt(s.mlat || 0)}. 주변 수신기 ${fmt(d.rx || 0)}대, 전체 네트워크 ${fmt(d.net || 0)}대.<br>${cv.src === "live" ? `<span class="pill ok">LIVE</span> ${esc(kst(d.g))} 갱신` : `<span class="pill off">스냅샷</span> ${esc(kst(d.g))}에 수집한 실제 값`}</div>`;
   }
   function acRow(a) {
@@ -3379,6 +3451,16 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   /* ---------- 지도 위 그리기 ---------- */
   const PLANE = "M0 -8 L1.5 -3.2 L8 1.4 L8 3 L1.6 1.3 L1.2 5.4 L3.3 7 L3.3 8.1 L0 7.2 L-3.3 8.1 L-3.3 7 L-1.2 5.4 L-1.6 1.3 L-8 3 L-8 1.4 L-1.5 -3.2Z";
   function heatSteps(cv) { if (cv.steps) return cv.steps; const v = cv.d.cells.map(c => c[2]).sort((a, b) => a - b), q = f => v[Math.min(v.length - 1, Math.floor(v.length * f))] || 0; cv.steps = [q(0.35), q(0.6), q(0.8), q(0.93)]; return cv.steps; }
+  /* 칸별 정확히 보기: 칸의 실제 대수로 5구간을 만든다. 경계는 분위수를 보기 좋은 수로 반올림 */
+  const niceN = v => { if (v <= 5) return Math.max(1, Math.round(v)); const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; };
+  function cellBins(cv) {
+    if (cv.bins) return cv.bins; const v = cv.d.cells.map(c => c[2]).sort((a, b) => a - b), q = f => v[Math.min(v.length - 1, Math.floor(v.length * f))] || 1;
+    const e = []; [0.3, 0.55, 0.75, 0.9].forEach(f => { const n = niceN(q(f)); if (!e.length || n > e[e.length - 1]) e.push(n); });
+    cv.bins = e; return e;
+  }
+  const HCOL = ["#14b8a6", "#22c55e", "#facc15", "#f97316", "#ef4444"];
+  const binOf = (bins, n) => { let i = 0; while (i < bins.length && n > bins[i]) i++; return Math.min(4, i + (5 - bins.length - 1 > 0 ? 0 : 0)); };
+  function binLabels(bins) { const L = []; let lo = 1; bins.forEach(b => { L.push(lo === b ? `${b}` : `${lo}~${b}`); lo = b + 1; }); L.push(`${lo}+`); return L; }
   function drawLive() {
     const ov = $("#live-ov"), m = liveMap; if (!ov || !m) return;
     const W = ov.clientWidth, H = ov.clientHeight; ov.setAttribute("viewBox", `0 0 ${W} ${H}`);
@@ -3392,7 +3474,12 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         // 열지도: 칸마다 점을 쌓아 밀도를 만들고 색 띠로 바꿔 한 장의 그림으로 얹는다
         let cell = 0; cv.d.cells.slice(0, 3).forEach(c => { const a2 = P(c[0] / 100 + h, c[1] / 100 - h), b2 = P(c[0] / 100 - h, c[1] / 100 + h); if (a2 && b2) cell = Math.max(cell, b2.x - a2.x); });
         const hp = heatPts(cv, (la, lo) => { const q = P(la, lo); return q && inV(q) ? q : null; }, cell);
-        if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; void st;
+        if (LV.heatMode === "cells") {
+          const bins = cellBins(cv); LV.cellBoxes = [];
+          cv.d.cells.forEach(c => { const la = c[0] / 100, lo = c[1] / 100, a2 = P(la + h, lo - h), b2 = P(la - h, lo + h); if (!a2 || !b2 || b2.x < 0 || a2.x > W || b2.y < 0 || a2.y > H) return; const k = binOf(bins, c[2]);
+            o += `<rect class="hcell" x="${N(a2.x)}" y="${N(a2.y)}" width="${N(Math.max(1, b2.x - a2.x - 0.6))}" height="${N(Math.max(1, b2.y - a2.y - 0.6))}" fill="${HCOL[k]}"/>`; LV.cellBoxes.push([a2.x, a2.y, b2.x, b2.y, c[2], la, lo]); });
+        } else { LV.cellBoxes = null; if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; }
+        void st;
       }
       // 반경 원: 지도 투영(밀러)이 위아래로 늘어나 경로로 그리면 타원이 된다. 화면에서는 동서 방향 1 km 길이로 반지름을 잡아 완전한 원으로 그린다
       const kmPx = pxDeg / (111.32 * Math.cos(toR(pl.lat)));
@@ -3440,6 +3527,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     liveFlyMap((clientX - rr.left) / s0 - m.transX, (clientY - rr.top) / s0 - m.transY, Math.min(m._baseScale * 400, s0 * 2), 650);
   }
   // 공항을 누르면 그 공항으로 슉 날아가 반경 원(공역 100 km, 기체 보기에서는 고른 반경)이 화면에 꽉 차게 당긴다. 공역 목록에 있는 공항이면 그 공역으로 바꾼다
+  const LV3on2d = () => typeof LV3 !== "undefined" && LV3.on;
   function liveFlyApt(code) {
     const c = AP[code] || (PLACES.find(p => p.code === code) || {}), lat = c[0] !== undefined ? c[0] : c.lat, lon = c[1] !== undefined ? c[1] : c.lon; if (lat === undefined) return;
     const pl = PLACES.find(p => p.code === code);
@@ -3464,6 +3552,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   /* ---------- 화면 갱신 ---------- */
   function paintLive() {
     { const card = document.getElementById("livecard"); if (card) card.classList.toggle("show-ac", LV.scope !== "area" || LV.tab === "aircraft" || !!LV.sel); }
+    { const w = document.querySelector("#livecard .livewrap"); if (w) w.classList.toggle("cells", LV.heatMode === "cells" && LV.scope === "area" && LV.tab === "traffic" && !LV.sel); }
     const pn = $("#live-panel"); if (!pn) return;
     const keep = pn.querySelector(".fp-list"), vk = LV.sel ? "detail" : LV.scope + ":" + LV.tab, y = keep && pn.getAttribute("data-vk") === vk ? keep.scrollTop : 0; pn.setAttribute("data-vk", vk);
     pn.innerHTML = livePanel(); const nl = pn.querySelector(".fp-list"); if (nl) nl.scrollTop = y;
@@ -3487,6 +3576,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (act === "conn") { LV.conn = !LV.conn; paintLive(); if (LV.conn) { const c = $("#live-conn-card"); if (c) c.scrollIntoView({ block: "nearest" }); } return; }
       if (act === "keydel") { LV.key = ""; try { localStorage.removeItem("hub-fia-key"); } catch (er) { /* 무시 */ } LV.usage = null; const c = $("#live-conn-card"); if (c) c.innerHTML = connCard(); refreshLive("ac"); return; }
       if (act === "scope") { LV.scope = arg; LV.sel = null; LV.trail = null; if (arg !== "area") LV.tab = "aircraft"; paintLive(); focusLive(true); refreshLive(); return; }
+      if (act === "heat") { LV.heatMode = arg; try { localStorage.setItem("hub-heat", arg); } catch (er) { /* 무시 */ } paintLive(); queueDraw(); if (typeof lv3dDirty === "function") lv3dDirty(); return; }
       if (act === "tab") { LV.tab = arg; paintLive(); focusLive(true); if (arg === "aircraft") refreshLive("ac"); return; }
       if (act === "filter") { LV.filter = arg; paintLive(); return; }
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
@@ -3520,6 +3610,9 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
         liveMap = new jsVectorMap({ selector: "#livemap", map: "world", backgroundColor: "transparent", zoomButtons: true, zoomOnScroll: true, zoomMax: 400, zoomStep: 1.6, showTooltip: false, regionStyle: { initial: { fill: "#48535f", stroke: "none" }, hover: { fillOpacity: 1, cursor: "grab" } } });
         // 두 번 누르면(더블클릭) 그 지점을 가운데로 가져오며 부드럽게 두 배 당긴다. 한 번 누르기와 끌기는 그대로 둔다
         document.getElementById("livecard") && el.parentElement.addEventListener("click", e => { const g = e.target.closest && e.target.closest("[data-apt]"); if (!g) return; e.stopPropagation(); liveFlyApt(g.getAttribute("data-apt")); });
+        el.parentElement.addEventListener("mousemove", e => { const B = LV.cellBoxes, tip = document.getElementById("tip"); if (!B || !tip || LV3on2d()) return; const r = el.parentElement.querySelector(".live-ov").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; const c = B.find(b => x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3]);
+          if (c) { tip.innerHTML = `<b>${fmt(c[4])}대</b> 지난 24시간<br>${c[5].toFixed(2)}N, ${c[6].toFixed(2)}E 칸`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; el.parentElement.__ct = 1; } else if (el.parentElement.__ct) { tip.hidden = true; el.parentElement.__ct = 0; } });
+        el.parentElement.addEventListener("mouseleave", () => { if (el.parentElement.__ct) { const tip = document.getElementById("tip"); if (tip) tip.hidden = true; el.parentElement.__ct = 0; } });
         el.addEventListener("dblclick", e => { if (e.target.closest && e.target.closest("[data-live], [data-tip], a, button")) return; e.preventDefault(); liveFly(e.clientX, e.clientY); });
         const orig = liveMap._applyTransform; liveMap._applyTransform = function () { const r = orig.apply(this, arguments); queueDraw(); return r; };
       } catch (e) { liveMap = null; }
@@ -3740,8 +3833,14 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       const cv = coverOf(pl.id);
       // 교통 열지도: 빛 점을 겹쳐 찍는다
       if (cv && LV.tab === "traffic" && !LV.sel) {
+        if (LV.heatMode === "cells") { const bins = cellBins(cv), hh = cv.d.deg / 2; LV3.cellHits = [];
+          cv.d.cells.forEach(cc => { const la = cc[0] / 100, lo = cc[1] / 100, q1 = p3(lo - hh, la + hh, 0), q2 = p3(lo + hh, la + hh, 0), q3 = p3(lo + hh, la - hh, 0), q4 = p3(lo - hh, la - hh, 0); if (q1.z <= 0 || q3.z <= 0) return;
+            c.fillStyle = HCOL[binOf(bins, cc[2])]; c.globalAlpha = 0.82; c.beginPath(); c.moveTo(q1.x, q1.y); c.lineTo(q2.x, q2.y); c.lineTo(q3.x, q3.y); c.lineTo(q4.x, q4.y); c.closePath(); c.fill(); c.globalAlpha = 1;
+            LV3.cellHits.push([Math.min(q1.x, q4.x), Math.min(q1.y, q2.y), Math.max(q2.x, q3.x), Math.max(q3.y, q4.y), cc[2], la, lo]); });
+        } else { LV3.cellHits = null;
         const cellPx = Math.max(2, R * (cv.d.deg * toR)), hp = heatPts(cv, (la, lo) => { const p = p3(lo, la, 0); return p.z > 0 ? p : null; }, cellPx);
         if (hp.length) c.drawImage(heatCanvas(hp.map(p => [p[0] * LV3.dpr, p[1] * LV3.dpr, p[2], p[3] * LV3.dpr]), LV3.W * LV3.dpr, LV3.H * LV3.dpr), 0, 0, LV3.W, LV3.H);
+        }
       }
       const ring = km => { c.beginPath(); path(d3.geoCircle().center([pl.lon, pl.lat]).radius(km / 111.2)()); c.stroke(); };
       c.setLineDash([4, 5]); c.lineWidth = 1.2; c.strokeStyle = "rgba(125,211,252,.55)"; ring(100);
@@ -3810,6 +3909,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (h) { const a = h.a; tip.innerHTML = `<b>${esc(a.flight || a.r || a.hex)}</b> ${esc(a.t || "?")}<br>${esc(altTxt(a))} ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
       else if (LV3.hover) tip.hidden = true;
       { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let ap = null, bd = 12 * 12; if (!h) (LV3.apHits || []).forEach(q => { const d = (q[0] - x) * (q[0] - x) + (q[1] - y) * (q[1] - y); if (d < bd) { bd = d; ap = q[2]; } }); if (ap !== (LV3.apHover || null)) { LV3.apHover = ap; lv3dDirty(); } cv.classList.toggle("on-ap", !!ap); }
+      if (!h && LV3.cellHits) { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, cc = LV3.cellHits.find(b => x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3]); if (cc) { tip.innerHTML = `<b>${fmt(cc[4])}대</b> 지난 24시간<br>${cc[5].toFixed(2)}N, ${cc[6].toFixed(2)}E 칸`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; LV3.cellTip = 1; } else if (LV3.cellTip) { tip.hidden = true; LV3.cellTip = 0; } }
       cv.classList.toggle("on-ac", !!h);
       if (k !== LV3.hover) { LV3.hover = k; lv3dDirty(); }
     });
@@ -4492,18 +4592,55 @@ ${mapCard()}
 <section class="card c12">${cardH(ICON.gauge, "착륙률 분포")}<div class="card-b">${barList(land, "회")}</div></section>
 <section class="card c12">${cardH(ICON.book, "로그북", `<span class="hint">기종별 합계</span>`)}${ids.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>기종</th><th class="num">비행</th><th class="num">승객</th><th class="num">화물</th><th class="num">비행 시간</th><th class="num">거리</th><th class="num">연료</th><th class="num">평균 착륙률</th></tr></thead><tbody>${ids.map(id => row(`<a class="ext" href="#${id}"><span class="code">${ICAO[id]}</span> ${esc(byId[id].name)}</a>`, by[id])).join("")}${row("<strong>합계</strong>", tot, true)}</tbody></table></div>` : `<p class="empty">아직 제출한 PIREP이 없습니다.</p>`}</section></div>`;
   }
+  /* 패스포트: 여권 신원면과 입국 도장 면. 국기는 flag-icons(MIT) SVG를 CDN에서 불러오고, 못 불러오면 지운다 */
+  const flagImg = (cc, cls) => `<img class="${cls || "flag"}" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${String(cc).toLowerCase()}.svg" alt="" loading="lazy" onerror="this.remove()">`;
+  const ppHash = str => { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+  const PP_INK = ["#b4232c", "#1f4fb5", "#0f7a55", "#6b3fb8", "#a85b0c", "#0e6f86"];
+  const ppCC = code => (APT.find(x => x[0] === code) || [])[3];
+  function ppStamp(cc, info, i) {
+    const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = (h % 17) - 8, shape = ["circ", "rect", "oval"][h % 3], d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "";
+    return `<div class="pp-stamp ${shape}" style="--ink:${ink};--rot:${rot}deg;--dl:${(i * 0.07).toFixed(2)}s" title="${esc(CCN[cc] || cc)} 첫 입국 ${d}"><div class="pp-st-in"><span class="pp-st-top">ARRIVAL 입국</span>${flagImg(cc, "pp-st-flag")}<b>${esc(CCN[cc] || cc)}</b><span class="pp-st-date">${d}</span><span class="pp-st-apt">${info.apts.slice(0, 4).join(" ")}</span></div></div>`;
+  }
+  // 여권 사진: 고른 사진은 300x400으로 줄여 이 브라우저(localStorage)에만 둔다. 없으면 조종사 실루엣
+  const PP_SIL = `<svg class="pp-sil" viewBox="0 0 120 160" aria-hidden="true"><rect width="120" height="160" fill="url(#ppbg)"/><defs><linearGradient id="ppbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe7f3"/><stop offset="1" stop-color="#b9c8de"/></linearGradient></defs><path d="M60 46c-14 0-24 9-24 23 0 15 10 28 24 28s24-13 24-28c0-14-10-23-24-23z" fill="#5b6f8f"/><path d="M30 52c2-12 14-20 30-20s28 8 30 20l-6 2H36z" fill="#2b3d5c"/><rect x="34" y="50" width="52" height="6" rx="3" fill="#1d2c47"/><circle cx="60" cy="41" r="4" fill="#d8c07a"/><path d="M14 160c2-30 20-46 46-46s44 16 46 46z" fill="#2b3d5c"/><path d="M52 114l8 14 8-14z" fill="#e9eef6"/><path d="M58 120h4l2 40h-8z" fill="#8a1c1c"/><path d="M30 130h14M76 130h14" stroke="#d8c07a" stroke-width="3"/></svg>`;
+  let ppPhoto = ""; try { ppPhoto = localStorage.getItem("hub-pp-photo") || ""; } catch (e) { /* 저장소 없음 */ }
+  const ppPhotoHtml = () => ppPhoto ? `<img src="${ppPhoto}" alt="여권 사진">` : PP_SIL;
+  document.addEventListener("click", e => {
+    const b = e.target.closest && e.target.closest("[data-pp]"); if (!b) return; const v = b.getAttribute("data-pp");
+    if (v === "photo") { const inp = document.getElementById("pp-photo-in"); if (inp) inp.click(); }
+    if (v === "photo-del") { ppPhoto = ""; try { localStorage.removeItem("hub-pp-photo"); } catch (er) { /* 무시 */ } document.querySelectorAll(".pp-photo-img").forEach(x => { x.innerHTML = ppPhotoHtml(); }); b.hidden = true; }
+  });
+  document.addEventListener("change", e => {
+    if (!e.target || e.target.id !== "pp-photo-in" || !e.target.files || !e.target.files[0]) return;
+    const f = e.target.files[0], rdr = new FileReader();
+    rdr.onload = () => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"); c.width = 300; c.height = 400; const g = c.getContext("2d"), r = Math.max(300 / im.width, 400 / im.height), w = im.width * r, h = im.height * r; g.drawImage(im, (300 - w) / 2, (400 - h) / 2, w, h); ppPhoto = c.toDataURL("image/jpeg", 0.82); try { localStorage.setItem("hub-pp-photo", ppPhoto); } catch (er) { /* 용량 초과면 이번 화면에만 */ } document.querySelectorAll(".pp-photo-img").forEach(x => { x.innerHTML = ppPhotoHtml(); }); const d = document.querySelector("[data-pp='photo-del']"); if (d) d.hidden = false; }; im.src = rdr.result; };
+    rdr.readAsDataURL(f); e.target.value = "";
+  });
   function renderPassport() {
-    const vis = {}; PS.pireps.forEach(p => { vis[p.dep] = (vis[p.dep] || 0) + 1; vis[p.arr] = (vis[p.arr] || 0) + 1; });
+    const vis = {}, firstC = {};
+    PS.pireps.slice().sort((x, y) => String(x.filed).localeCompare(String(y.filed))).forEach(p => { vis[p.dep] = (vis[p.dep] || 0) + 1; vis[p.arr] = (vis[p.arr] || 0) + 1; [p.dep, p.arr].forEach(code => { const c = ppCC(code); if (!c) return; const f = firstC[c] || (firstC[c] = { first: p.filed, apts: [] }); if (f.apts.indexOf(code) < 0) f.apts.push(code); }); });
     const byC = {}; APT.forEach(a => { (byC[a[3]] = byC[a[3]] || []).push(a); });
     const ccs = Object.keys(byC), seen = ccs.filter(c => byC[c].some(a => vis[a[0]])), full = seen.filter(c => byC[c].every(a => vis[a[0]])), nA = Object.keys(vis).length;
-    seen.sort((a, b) => byC[b].filter(x => vis[x[0]]).length - byC[a].filter(x => vis[x[0]]).length);
+    seen.sort((a, b) => String((firstC[a] || {}).first || "").localeCompare(String((firstC[b] || {}).first || "")));
     const todo = ccs.filter(c => !seen.includes(c)).sort((a, b) => (CCN[a] || a).localeCompare(CCN[b] || b, "ko"));
     const chip = a => `<a class="tleg pp-apt${vis[a[0]] ? " done" : ""}" href="#apt-${a[0]}" title="${esc(a[2])}">${vis[a[0]] ? ICON.check : ""}${a[0]}${vis[a[0]] ? `<small>${vis[a[0]]}</small>` : ""}</a>`;
-    const cRow = c => { const all = byC[c], n = all.filter(a => vis[a[0]]).length, done = n === all.length; return `<div class="pp-c${done ? " full" : ""}"><div class="pp-h"><b>${done ? `<span class="pp-star" title="모든 공항 방문">${ICON.star}</span>` : ""}${esc(CCN[c] || c)}</b><span class="code">${c}</span><span class="sp"></span><span class="val">${n} / ${all.length}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(n / all.length * 100)}%"></span></div><div class="tour-legs">${all.map(chip).join("")}</div></div>`; };
-    return phead(`<a href="#profile">조종사 프로필</a>`, "패스포트", "지금까지 이착륙한 공항과 나라를 모았습니다. 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
+    const cRow = c => { const all = byC[c], n = all.filter(a => vis[a[0]]).length, done = n === all.length; return `<div class="pp-c${done ? " full" : ""}"><div class="pp-h">${flagImg(c)}<b>${done ? `<span class="pp-star" title="모든 공항 방문">${ICON.star}</span>` : ""}${esc(CCN[c] || c)}</b><span class="code">${c}</span><span class="sp"></span><span class="val">${n} / ${all.length}</span></div><div class="prog-t"><span class="prog-f" style="width:${N(n / all.length * 100)}%"></span></div><div class="tour-legs">${all.map(chip).join("")}</div></div>`; };
+    const rk = rankOf(pstats(0).min), nm = PS.pilot.name || "조종사", num = `${VA.code}${String(PS.pilot.num).padStart(4, "0")}`, issued = String(PS.pilot.joined || "").replace(/-/g, ".");
+    const roman = String(nm).normalize("NFKD").replace(/[^A-Za-z]/g, "").toUpperCase() || "PILOT";
+    const mrz1 = ("P<JLV" + roman + "<<" + num).padEnd(44, "<").slice(0, 44), mrz2 = (num + "<0JLV" + issued.replace(/\./g, "").slice(2) + "<<" + seen.length + "<" + nA).padEnd(44, "<").slice(0, 44);
+    const loc = aptBy[PS.pilot.loc];
+    return phead(`<a href="#profile">조종사 프로필</a>`, "패스포트", "이착륙한 공항과 나라를 여권처럼 모았습니다. 새 나라에 처음 내리면 입국 도장이 찍히고, 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
 <div class="grid">${PS.demo ? demoNote() : ""}
-<section class="card c12"><div class="stats pp-stats"><div class="stat"><span class="stat-i">${ICON.flag}</span><span class="stat-n">${nA}<small> / ${APT.length}</small></span><span class="stat-l">방문한 공항</span><span class="stat-s">${N(nA / APT.length * 100)}%</span></div><div class="stat"><span class="stat-i">${ICON.globe}</span><span class="stat-n">${seen.length}<small> / ${ccs.length}</small></span><span class="stat-l">방문한 나라</span><span class="stat-s">${N(seen.length / ccs.length * 100)}%</span></div><div class="stat"><span class="stat-i">${ICON.star}</span><span class="stat-n">${full.length}<small>개국</small></span><span class="stat-l">모든 공항을 방문한 나라</span></div><div class="stat"><span class="stat-i">${ICON.pin}</span><span class="stat-n">${PS.pilot.loc}</span><span class="stat-l">현재 위치</span><span class="stat-s">${esc(aptBy[PS.pilot.loc].name)}</span></div></div></section>
-<section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다. 첫 비행을 마치면 여기에 도장이 찍힙니다.</p>`}</div></section>
+<section class="card c12 pp-book"><div class="pp-cover"><span class="pp-emb">${ICON.globe}</span><div><b>PASSPORT</b><span>여권 JETLINER VIRTUAL</span></div><span class="pp-type"><small>종류 / Type</small>P<small>발행 / Code</small>JLV</span></div>
+<div class="pp-spread"><div class="pp-page pp-left">
+<div class="pp-photo"><button type="button" class="pp-photo-img" data-pp="photo" title="눌러서 사진 바꾸기">${ppPhotoHtml()}</button><input type="file" id="pp-photo-in" accept="image/*" hidden><span class="pp-photo-hint">눌러서 사진 넣기</span><button type="button" class="pp-photo-del" data-pp="photo-del"${ppPhoto ? "" : " hidden"}>사진 지우기</button></div>
+<dl class="pp-fields"><div class="w2"><dt>성명 / Name</dt><dd>${esc(nm)}</dd></div><div><dt>조종사 번호 / Pilot No.</dt><dd class="mono">${num}</dd></div><div><dt>계급 / Rank</dt><dd>${esc(rk.name)}</dd></div><div><dt>발급일 / Date of issue</dt><dd class="mono">${esc(issued || "-")}</dd></div><div><dt>발행 / Authority</dt><dd>Jetliner Virtual</dd></div><div class="w2"><dt>현재 위치 / Location</dt><dd>${esc(PS.pilot.loc)} ${esc(loc ? loc.name : "")}</dd></div><div class="w2 pp-sign"><dt>서명 / Signature</dt><dd>${esc(nm)}</dd></div></dl></div>
+<div class="pp-page pp-right"><span class="pp-wm">${ICON.globe}</span><p class="pp-rt">여행 기록 / Travel record</p>
+<div class="pp-rows"><div><span>방문한 공항</span><b>${nA}<small> / ${APT.length}</small></b></div><div><span>방문한 나라</span><b>${seen.length}<small> / ${ccs.length}</small></b></div><div><span>모든 공항을 방문한 나라</span><b>${full.length}</b></div><div><span>첫 입국</span><b class="mono">${seen.length && firstC[seen[0]] ? esc(String(firstC[seen[0]].first).slice(0, 10).replace(/-/g, ".")) : "-"}</b></div></div>
+<div class="pp-mini">${ppPhotoHtml()}</div></div></div>
+<div class="pp-mrz" aria-hidden="true"><span>${esc(mrz1)}</span><span>${esc(mrz2)}</span></div></section>
+<section class="card c12">${cardH(ICON.check, "입국 도장", `<span class="hint">${seen.length}개국, 처음 내린 순서</span>`)}<div class="pp-visa">${seen.length ? seen.map((c, i) => ppStamp(c, firstC[c] || { first: "", apts: [] }, i)).join("") : `<p class="empty">아직 찍힌 도장이 없습니다. 첫 비행을 마치면 여기에 입국 도장이 찍힙니다.</p>`}${todo.slice(0, Math.max(0, 8 - seen.length)).map(c => `<div class="pp-stamp empty" title="${esc(CCN[c] || c)}">${flagImg(c, "pp-st-flag")}<span>${esc(CCN[c] || c)}</span></div>`).join("")}</div></section>
+<section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다.</p>`}</div></section>
 <section class="card c5">${cardH(ICON.pin, "아직 가 보지 않은 나라", `<span class="hint">${todo.length}개국</span>`)}<div class="pp-list">${todo.length ? todo.map(cRow).join("") : `<p class="empty">취항하는 모든 나라를 방문했습니다.</p>`}</div></section></div>`;
   }
   /* 배지: 금속 메달 모양. 배지마다 색과 그림이 다르고, 아직 못 받은 배지는 회색 메달과 진행 막대로 보여 준다 */
@@ -7966,6 +8103,166 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "title": "사고 2년 전 파리 샤를드골 공항에 착륙하는 F-GZCP (2007)",
     "license": "CC BY-SA 3.0",
     "page": "https://commons.wikimedia.org/wiki/File:PKIERZKOWSKI_070328_FGZCP_CDG.jpg"
+   },
+   "ts236": {
+    "title": "사고 2년 전 런던 개트윅 공항의 C-GITS (1999)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:C-GITS_24-7-99_Gatwick_(53592900141).jpg"
+   },
+   "uberlingen": {
+    "title": "사고 4개월 전 샤르자 공항의 바시키르항공 Tu-154M RA-85816 (2002)",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BAL_Bashkirian_Airlines_Tupolev_Tu-154M_RA-85816_at_Sharjah_International_Airport_(SHJ,_OMSJ)_in_March_2002.jpg"
+   },
+   "oz733": {
+    "title": "같은 계열 아시아나항공 보잉 737-400 HL7235, 간사이 공항 (2001)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7235_B737-4Q8_Asiana_KIX_12JUL01_(6912266102).jpg"
+   },
+   "ke8509": {
+    "title": "같은 기종 대한항공 화물 보잉 747-200F (1984)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:KAL_747F_(7798398814).jpg"
+   },
+   "oz991": {
+    "title": "사고 한 달 전 로스앤젤레스의 HL7604 (2011)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Asiana_Cargo_Boeing_747-400F_HL7604.jpg"
+   },
+   "ea401": {
+    "title": "에버글레이즈 습지에 흩어진 N310EA 잔해 (NTSB, 1972)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Eastern_401_wreckage.jpg"
+   },
+   "sr111": {
+    "title": "사고 7주 전 취리히 공항의 HB-IWF (1998)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:28as_-_Swissair_MD-11;_HB-IWF@ZRH;14.07.1998_(4713082874).jpg"
+   },
+   "af358": {
+    "title": "사고 1년 전 파리 샤를드골 공항의 F-GLZQ (2004)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:316co_-_Air_France_Airbus_A340,_F-GLZQ@CDG,06.09.2004_-_Flickr_-_Aero_Icarus.jpg"
+   },
+   "ge235": {
+    "title": "사고 한 달 전 타이베이 쑹산 공항을 떠나는 B-22816 (2015)",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:TransAsia_Airways_ATR_72-212A_B-22816.jpg"
+   },
+   "ci006": {
+    "title": "사고 뒤 크게 부서진 N4522V 꼬리날개 (NTSB, 1985)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Damaged_empennage_of_China_Airlines_Flight_006-N4522V.JPG"
+   },
+   "colgan3407": {
+    "title": "클래런스 센터 주택가에 추락한 N200WQ 잔해 (NTSB, 2009)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Wreckage_of_N200WQ.jpg"
+   },
+   "aa587": {
+    "title": "퀸스 벨하버의 587편 추락 현장 (FAA, 2001)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:American_Airlines_Flight_587_accident_site.jpg"
+   },
+   "737max": {
+    "title": "사고 한 달여 전의 라이언에어 PK-LQP (2018)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Lion_Air_Boeing_737-MAX8_PK-LQP.jpg"
+   },
+   "jl123": {
+    "title": "사고 1년 전 이타미공항에 착륙하는 JA8119 (1984)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Japan_Airlines_B747SR-46_(JA8119)_at_Itami_Airport_in_1984.jpg"
+   },
+   "ke007": {
+    "title": "사고 3년 전 취리히공항의 HL7442 (1980)",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:20559-186-HL7442-B747-230B-ZRH-5%2780.jpg"
+   },
+   "oz162": {
+    "title": "사고 7년 전 상하이 푸둥공항의 HL7762 (2008)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7762_Airbus_A320_Asiana_Airlines_(7342418474).jpg"
+   },
+   "fl90": {
+    "title": "포토맥강에 잠긴 90편 꼬리 부분 (FAA, 1982)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Tail_of_the_Air_Florida_Flight_90_in_the_Potomac_River.jpg"
+   },
+   "af4590": {
+    "title": "사고 20년 전 버밍엄공항의 콩코드 F-BTSC (1980)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BIRMINGHAM_16_SEPTEMBER_1980_AIR_FRANCE_CONCORDE_F-BTSC_(38254737502).jpg"
+   },
+   "comair5191": {
+    "title": "렉싱턴 블루그래스공항 인근 N431CA 추락 현장 (NTSB, 2006)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Overhead_view_of_N431CA_accident_site.jpg"
+   },
+   "ac759": {
+    "title": "사건 5년 전의 에어캐나다 C-FKCK (2012)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Air_Canada_Airbus_A320-211_C-FKCK_220_(7731072780).jpg"
+   },
+   "ga152": {
+    "title": "사고 9년 전 덴파사르공항의 PK-GAI (1988)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:PK-GAI_Airbus_A300B4-220_Garuda_Indonesia_at_Denpasar_Ngurah_Rai_(DPS)_17_11_88.jpg"
+   },
+   "oz214": {
+    "title": "NTSB가 공개한 사고 직후 OZ214 동체 잔해 (2013)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:NTSBAsiana214Fuselage2.jpg"
+   },
+   "dl191": {
+    "title": "NTSB가 촬영한 N726DA 꼬리 부분 잔해 (1985)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Delta_191_tail_section_wreckage.jpg"
+   },
+   "7c2216": {
+    "title": "사고 나흘 전 제주공항의 HL8088 (2024)",
+    "license": "CC BY 2.0 kr",
+    "page": "https://commons.wikimedia.org/wiki/File:Boeing_737-8AS_Jeju_Air_HL8088,_Jeju_Int%27l_Airport,_25_December_2024_01.jpg"
+   },
+   "ci140": {
+    "title": "일본 사고조사위원회가 기록한 나고야공항의 B-1816 잔해 (1994)",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:China_Airlines_Flight_140_wreckage.jpg"
+   },
+   "ke6316": {
+    "title": "사고 5년 전 로스앤젤레스공항의 HL7373 (1994)",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HL7373_MD-11_Korean_Air_LAX_12MAR94_(6893608555).jpg"
+   },
+   "ke015": {
+    "title": "같은 시기 대한항공 747-2B5B 자매기 HL7443 (1980)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Korean_Air_Lines_Boeing_747-2B5B_HL7443_%22I_Love_New_York_%22_sticker_(25956288833).jpg"
+   },
+   "av52": {
+    "title": "사고 석 달 전 프랑크푸르트공항의 HK-2016 (1989)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:FRANKFURT_OCT_1989_AVIANCA_COLOMBIA_BOEING_707_HK-2016.jpg"
+   },
+   "sq006": {
+    "title": "사고 넉 달 전 프랑크푸르트공항의 9V-SPK (2000)",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:FRANKFURT_JUNE_2000_SINGAPORE_AIRLINES_BOEING_747-400_9V-SPK.jpg"
+   },
+   "tk1951": {
+    "title": "사고 1년 반 전 취리히공항의 TC-JGE (2007)",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Turkish_Airlines_Boeing_737-800,_TC-JGE@ZRH,08.09.2007-487dt_-_Flickr_-_Aero_Icarus.jpg"
+   },
+   "wn1380": {
+    "title": "NTSB 조사관이 N772SW의 파손된 왼쪽 엔진을 살피는 모습 (2018)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Southwest_Airlines_Flight_1380_NTSB_Engine_Inspection_PHL_KPHL.jpg"
+   },
+   "ci611": {
+    "title": "사고 2년 전의 B-18255 (2000)",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Boeing_747-209B_-_China_Airlines_B-18255_0239713.jpg"
    }
   };
   /* 사건사고 관련 보도 링크 (tools/make-acc-news.js 로 만든다). 사진은 언론사 페이지에서 본다 */
@@ -8594,7 +8891,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     return `<article class="mn-acc" id="acc-${esc(a.id)}"><div class="mn-acc-top"><div class="mn-acc-ph">${typeof ACC_PHOTOS !== "undefined" && ACC_PHOTOS[a.id] ? `<img src="photos/accidents/${esc(a.id)}.webp" alt="${esc(ACC_PHOTOS[a.id].title)}" loading="lazy" decoding="async"><a class="mn-acc-cr" href="${esc(ACC_PHOTOS[a.id].page)}" target="_blank" rel="noopener">${esc(ACC_PHOTOS[a.id].title)}, ${esc(ACC_PHOTOS[a.id].license)}</a>` : ac ? `<div class="mn-acc-sil">${silhouette(ac, 1.5, 240, 120)}</div><span>${esc(ac.name)} 측면 그림</span>` : `<div class="mn-acc-noph">${ICON.plane}<span>${esc(a.aircraft || "")}</span></div>`}</div>
 <div class="mn-acc-hd"><div class="mn-acc-date"><b>${esc(y)}</b><span>${esc(d)}</span></div><h3>${esc(a.name)}</h3><p class="mn-acc-o">${esc(a.outcome || "")}</p><div class="mn-chips">${placeOf(a).map(c => `<span class="ctry">${ICON.globe}${esc(c)}</span>`).join("")}${opOf(a).filter(c => placeOf(a).indexOf(c) < 0).map(c => `<span class="ctry op">${ICON.plane}${esc(c)} 항공사</span>`).join("")}<span>${ICON.flag}${esc(a.place || "")}</span><span>${ICON.plane}${esc(a.aircraft || "")}</span>${a.phase ? `<span>${ICON.route}${esc(a.phase)} 중</span>` : ""}<span class="${a.fatal ? "fat" : "zero"}">${a.fatal ? `사망 ${fmt(a.fatal)}명` : "사망자 없음"}${a.onboard ? ` / 탑승 ${fmt(a.onboard)}명` : ""}</span></div></div></div>
 <div class="mn-acc-body"><section><p class="mn-k">${ICON.info}무슨 일이 있었나</p><p>${esc(a.what || "")}</p></section><section><p class="mn-k">${ICON.doc}조사 결과</p><p>${esc(a.cause || "")}</p></section><section class="mn-acc-les"><p class="mn-k">${ICON.target}조종사에게 남긴 것</p><ol>${(a.lessons || []).map(t => `<li>${esc(t)}</li>`).join("")}</ol></section></div>
-<div class="mn-foot"><span class="mn-tags">${(a.related || []).map(t => MN_TAG_LINK[t] ? `<a href="#${MN_TAG_LINK[t]}">${esc(t)}</a>` : `<span>${esc(t)}</span>`).join("")}${ac ? `<a href="#${ac.id}">${esc(ac.name)} 기종 보기</a>` : ""}</span><span class="mn-src">${(a.sources || []).slice(0, 2).map(s => `<a class="ext" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join("")}</span></div>${typeof ACC_NEWS !== "undefined" && ACC_NEWS[a.id] && ACC_NEWS[a.id].length ? `<div class="mn-news"><span class="mn-news-k">${ICON.book}관련 보도</span>${ACC_NEWS[a.id].map(n => `<a href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.outlet)}</b><span>${esc(n.title)}</span>${n.date ? `<small>${esc(n.date.replace(/-/g, "."))}</small>` : ""}</a>`).join("")}</div>` : ""}${a.note ? `<details class="lr-more"><summary>참고 메모</summary><p class="small muted" style="margin:0">${esc(a.note)}</p></details>` : ""}</article>`;
+<div class="mn-foot"><span class="mn-tags">${(a.related || []).map(t => MN_TAG_LINK[t] ? `<a href="#${MN_TAG_LINK[t]}">${esc(t)}</a>` : `<span>${esc(t)}</span>`).join("")}${ac ? `<a href="#${ac.id}">${esc(ac.name)} 기종 보기</a>` : ""}</span><span class="mn-src">${(a.sources || []).slice(0, 2).map(s => `<a class="ext" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join("")}</span></div>${typeof ACC_NEWS !== "undefined" && ACC_NEWS[a.id] && ACC_NEWS[a.id].length ? `<div class="mn-news"><span class="mn-news-k">${ICON.book}관련 보도</span><div class="mn-news-l">${ACC_NEWS[a.id].map(n => `<a href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.outlet)}</b><span>${esc(n.title)}</span>${n.date ? `<small>${esc(n.date.replace(/-/g, "."))}</small>` : ""}</a>`).join("")}</div></div>` : ""}${a.note ? `<details class="lr-more"><summary>참고 메모</summary><p class="small muted" style="margin:0">${esc(a.note)}</p></details>` : ""}</article>`;
   }
   function mnAccList() {
     if (!MN_ACC.length) return `<p class="muted" style="padding:20px">사건사고 자료가 없습니다.</p>`;
@@ -9025,7 +9322,7 @@ ${whyEras()}
   let tipFor = null;
   document.addEventListener("mouseover", e => { const t = e.target.closest("[data-tip]"); if (!t) return; tip.innerHTML = t.getAttribute("data-tip"); tip.hidden = false; tipFor = t; anchorTip(t); });
   // 지도는 점을 계속 새로 그려서, 마우스 아래 점이 바뀌면 mouseout이 오지 않는다. 그래서 움직일 때마다 아래에 툴팁 대상이 있는지 다시 본다
-  document.addEventListener("mousemove", e => { if (tip.hidden) return; if (e.target.closest && e.target.closest(".lv3d")) { moveTip(e); return; } const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) { tip.hidden = true; tipFor = null; return; } if (t !== tipFor) { tipFor = t; tip.innerHTML = t.getAttribute("data-tip"); anchorTip(t); } });
+  document.addEventListener("mousemove", e => { if (tip.hidden) return; if (e.target.closest && e.target.closest(".lv3d, .livewrap.cells")) { moveTip(e); return; } const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) { tip.hidden = true; tipFor = null; return; } if (t !== tipFor) { tipFor = t; tip.innerHTML = t.getAttribute("data-tip"); anchorTip(t); } });
   const hideTip = () => { tip.hidden = true; };
   window.addEventListener("hashchange", hideTip); document.addEventListener("mouseleave", hideTip); window.addEventListener("blur", hideTip); window.addEventListener("scroll", hideTip, { passive: true });
   document.addEventListener("mouseout", e => { const t = e.target.closest("[data-tip]"); if (t && !t.contains(e.relatedTarget)) tip.hidden = true; });

@@ -178,8 +178,14 @@
       const cv = coverOf(pl.id);
       // 교통 열지도: 빛 점을 겹쳐 찍는다
       if (cv && LV.tab === "traffic" && !LV.sel) {
+        if (LV.heatMode === "cells") { const bins = cellBins(cv), hh = cv.d.deg / 2; LV3.cellHits = [];
+          cv.d.cells.forEach(cc => { const la = cc[0] / 100, lo = cc[1] / 100, q1 = p3(lo - hh, la + hh, 0), q2 = p3(lo + hh, la + hh, 0), q3 = p3(lo + hh, la - hh, 0), q4 = p3(lo - hh, la - hh, 0); if (q1.z <= 0 || q3.z <= 0) return;
+            c.fillStyle = HCOL[binOf(bins, cc[2])]; c.globalAlpha = 0.82; c.beginPath(); c.moveTo(q1.x, q1.y); c.lineTo(q2.x, q2.y); c.lineTo(q3.x, q3.y); c.lineTo(q4.x, q4.y); c.closePath(); c.fill(); c.globalAlpha = 1;
+            LV3.cellHits.push([Math.min(q1.x, q4.x), Math.min(q1.y, q2.y), Math.max(q2.x, q3.x), Math.max(q3.y, q4.y), cc[2], la, lo]); });
+        } else { LV3.cellHits = null;
         const cellPx = Math.max(2, R * (cv.d.deg * toR)), hp = heatPts(cv, (la, lo) => { const p = p3(lo, la, 0); return p.z > 0 ? p : null; }, cellPx);
         if (hp.length) c.drawImage(heatCanvas(hp.map(p => [p[0] * LV3.dpr, p[1] * LV3.dpr, p[2], p[3] * LV3.dpr]), LV3.W * LV3.dpr, LV3.H * LV3.dpr), 0, 0, LV3.W, LV3.H);
+        }
       }
       const ring = km => { c.beginPath(); path(d3.geoCircle().center([pl.lon, pl.lat]).radius(km / 111.2)()); c.stroke(); };
       c.setLineDash([4, 5]); c.lineWidth = 1.2; c.strokeStyle = "rgba(125,211,252,.55)"; ring(100);
@@ -248,6 +254,7 @@
       if (h) { const a = h.a; tip.innerHTML = `<b>${esc(a.flight || a.r || a.hex)}</b> ${esc(a.t || "?")}<br>${esc(altTxt(a))} ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
       else if (LV3.hover) tip.hidden = true;
       { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let ap = null, bd = 12 * 12; if (!h) (LV3.apHits || []).forEach(q => { const d = (q[0] - x) * (q[0] - x) + (q[1] - y) * (q[1] - y); if (d < bd) { bd = d; ap = q[2]; } }); if (ap !== (LV3.apHover || null)) { LV3.apHover = ap; lv3dDirty(); } cv.classList.toggle("on-ap", !!ap); }
+      if (!h && LV3.cellHits) { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, cc = LV3.cellHits.find(b => x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3]); if (cc) { tip.innerHTML = `<b>${fmt(cc[4])}대</b> 지난 24시간<br>${cc[5].toFixed(2)}N, ${cc[6].toFixed(2)}E 칸`; tip.hidden = false; tip.style.left = (e.clientX + 14) + "px"; tip.style.top = (e.clientY + 14) + "px"; LV3.cellTip = 1; } else if (LV3.cellTip) { tip.hidden = true; LV3.cellTip = 0; } }
       cv.classList.toggle("on-ac", !!h);
       if (k !== LV3.hover) { LV3.hover = k; lv3dDirty(); }
     });
