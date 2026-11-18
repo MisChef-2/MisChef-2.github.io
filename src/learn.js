@@ -81,7 +81,14 @@
   }
   const lrChartCard = (cls, title, id, cap) => `<section class="card ${cls}">${cardH(ICON.chart, title)}<div class="card-b"><div id="${id}"></div>${cap ? `<p class="lr-cap">${cap}</p>` : ""}</div></section>`;
   // 위에서 본 여객기 실루엣 (오른쪽을 향함)
-  const lrPlaneSide = `<g class="lr-jet"><path class="lr-jet-b" d="M-95 0 C-95 -9 -80 -12 -60 -12 L70 -12 C92 -12 108 -6 112 0 C108 6 92 9 70 9 L-60 9 C-80 9 -95 7 -95 0Z"/><path class="lr-jet-w" d="M-10 2 L-48 34 L-30 34 L28 4Z"/><path class="lr-jet-w" d="M-10 -4 L-34 -20 L-22 -20 L18 -6Z" opacity=".55"/><path class="lr-jet-w" d="M-86 -8 L-104 -40 L-92 -40 L-66 -10Z"/><path class="lr-jet-w" d="M-84 3 L-100 14 L-90 14 L-70 4Z"/><rect class="lr-jet-e" x="-6" y="14" width="26" height="9" rx="4"/><path class="lr-jet-c" d="M96 -7 C101 -6 105 -4 107 -2 L96 -2Z"/></g>`;
+  /* 비행 원리 그림의 여객기: 기종 백과의 측면도(실제 치수 비례)를 그대로 쓴다. 도색은 하늘색 윗면, 은색 아랫면.
+     실제 항공사 이름과 로고는 넣지 않는다 (저장소 규칙). faceRight면 기수가 오른쪽 */
+  const LR_JET_DEFS = `<defs><linearGradient id="lrKalG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0f0"/><stop offset=".5" stop-color="#79c3ea"/><stop offset=".5" stop-color="#2a5d9c"/><stop offset=".545" stop-color="#2a5d9c"/><stop offset=".545" stop-color="#e3e7ec"/><stop offset="1" stop-color="#c9d0d9"/></linearGradient></defs>`;
+  function lrJet(id, width, faceRight) {
+    const ac = byId[id] || byId["boeing-777"], sv = sideView(ac), L = ac.specs.length, s = width / L;
+    return `<g class="ac-svg lr-kal mk-${ac.maker}" transform="translate(${faceRight ? width / 2 : -width / 2} 0) scale(${faceRight ? -s : s} ${s})">${LR_JET_DEFS}${sv.svg}</g>`;
+  }
+  const lrPlaneSide = lrJet("boeing-777", 230, true);
 
   /* ---------- 1. 네 가지 힘 ---------- */
   function renderLearnForces() {

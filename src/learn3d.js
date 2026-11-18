@@ -3,7 +3,7 @@
      흐름선은 점선이 흘러가도록 움직이고, 끌면 카메라가 돈다. 좌표: x 앞(비행 방향), y 오른쪽 날개, z 위.
      공기는 x의 음의 방향으로 흐른다(비행기 기준). */
   const L3 = { cv: null, ctx: null, raf: 0, key: null, yaw: -0.65, pitch: 0.32, zoom: 1, W: 0, H: 0, dpr: 1, drag: null, t: 0 };
-  const LR3_VIEW = { "learn-forces": [-0.75, 0.28, 0.9], "learn-lift": [-0.22, 0.1, 1.25], "learn-stall": [-0.22, 0.1, 1.25], "learn-winglet": [2.7, 0.3, 0.75], "learn-sweep": [-0.35, 0.95, 0.95], "learn-highlift": [-0.22, 0.1, 1.25], "learn-control": [-0.8, 0.38, 0.9] };
+  const LR3_VIEW = { "learn-forces": [-0.75, 0.28, 0.9], "learn-lift": [-0.22, 0.1, 1.25], "learn-stall": [-0.22, 0.1, 1.25], "learn-winglet": [2.45, 0.42, 0.95], "learn-sweep": [-0.35, 1.05, 0.78], "learn-highlift": [-0.22, 0.1, 1.25], "learn-control": [-0.8, 0.38, 0.9] };
   const v3 = { add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], mul: (a, k) => [a[0] * k, a[1] * k, a[2] * k], cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], len: a => Math.hypot(a[0], a[1], a[2]) };
   // y축(날개폭) 둘레로 돌리기: 받음각. 기수가 들리면 앞(+x)이 올라간다
   const rotY = (p, a, c) => { const ca = Math.cos(a), sa = Math.sin(a), x = p[0] - c[0], z = p[2] - c[2]; return [c[0] + x * ca - z * sa, p[1], c[2] + x * sa + z * ca]; };
@@ -35,50 +35,37 @@
     return v3.add(a, [v[0] * c + cr[0] * s + k[0] * d * (1 - c), v[1] * c + cr[1] * s + k[1] * d * (1 - c), v[2] * c + cr[2] * s + k[2] * d * (1 - c)]);
   }
   // 여객기 모형 (737/A320 정도의 비율). 앞이 +x. dfl: 조종면 각도 {ail, elev, rud}(라디안)
-  const PL = { body: [236, 240, 246], wing: [200, 208, 220], eng: [168, 178, 192], dark: [44, 52, 66], win: [70, 92, 120], on: [47, 111, 237], off: [178, 188, 202] };
+  const PL = { top: [121, 195, 234], stripe: [42, 93, 156], belly: [218, 223, 230], fin: [110, 186, 228], body: [236, 240, 246], wing: [200, 208, 220], eng: [168, 178, 192], dark: [44, 52, 66], win: [70, 92, 120], on: [47, 111, 237], off: [178, 188, 202] };
+  /* 여객기: Blender에서 가져온 777 메시(PLANE_MESH)에 조종면(에일러론, 엘리베이터, 러더)만 따로 얹는다.
+     조종면 위치는 메시의 날개, 꼬리날개 꼭짓점에서 뒷전을 찾아 정한다 */
+  const L3M = (() => {
+    const t = PLANE_MESH.t, tris = [], wing = [], hst = [], fin = [];
+    for (let i = 0; i < t.length; i += 10) {
+      const p = [[t[i] / 1000, t[i + 1] / 1000, t[i + 2] / 1000], [t[i + 3] / 1000, t[i + 4] / 1000, t[i + 5] / 1000], [t[i + 6] / 1000, t[i + 7] / 1000, t[i + 8] / 1000]], c = PLANE_MESH.mats[t[i + 9]];
+      tris.push({ p: p, c: c });
+      p.forEach(v => { if (Math.abs(v[1]) > 0.3 && v[0] > -1.2 && v[0] < 1.2 && v[2] > -0.3 && v[2] < 0.2) wing.push(v); else if (v[0] < -1.5 && Math.abs(v[1]) > 0.1 && v[2] > -0.05 && v[2] < 0.2) hst.push(v); else if (v[0] < -1.5 && Math.abs(v[1]) < 0.05 && v[2] > 0.25) fin.push(v); });
+    }
+    const span = Math.max(...wing.map(v => Math.abs(v[1]))), hspan = Math.max(...hst.map(v => Math.abs(v[1]))), ftop = Math.max(...fin.map(v => v[2]));
+    const te = (V, k, at, w) => { const S = V.filter(v => Math.abs(Math.abs(v[k]) - at) < w); return S.length ? [Math.min(...S.map(v => v[0])), S.reduce((a, v) => a + v[k === 1 ? 2 : 1], 0) / S.length] : [0, 0]; };
+    return { tris: tris, wing: wing, hst: hst, fin: fin, span: span, hspan: hspan, ftop: ftop, te: te };
+  })();
   function l3plane(dfl) {
-    dfl = dfl || {}; const P = [], N = 16;
-    // 동체: [x, 반지름, 중심 높이]. 앞은 둥근 기수, 뒤는 위로 쳐든 꼬리 원뿔
-    const ST = [[2.75, 0.0, -0.02], [2.68, 0.1, -0.02], [2.55, 0.18, -0.01], [2.35, 0.25, 0], [2.1, 0.3, 0], [1.75, 0.32, 0], [-1.3, 0.32, 0], [-1.7, 0.29, 0.03], [-2.05, 0.23, 0.08], [-2.35, 0.16, 0.13], [-2.6, 0.09, 0.17], [-2.75, 0.03, 0.19]];
-    const ring = st => Array.from({ length: N }, (_, i) => { const t = i / N * Math.PI * 2; return [st[0], st[1] * Math.cos(t), st[2] + st[1] * Math.sin(t) * 1.04]; });
-    for (let j = 0; j < ST.length - 1; j++) { const A = ring(ST[j]), B = ring(ST[j + 1]); for (let i = 0; i < N; i++) { const i2 = (i + 1) % N; P.push({ p: [A[i], A[i2], B[i2], B[i]], c: PL.body }); } }
-    // 조종석 창: 기수 위쪽 앞 비스듬한 띠
-    [[0.08, 0.2], [-0.2, -0.08]].forEach(w => { const r1 = 0.245, r2 = 0.285; P.push({ p: [[2.36, w[0] * 1.2, 0.17], [2.36, w[1] * 1.2, 0.17], [2.2, w[1] * 1.4, r2 * 0.86], [2.2, w[0] * 1.4, r2 * 0.86]], c: PL.win }); void r1; });
-    // 객실 창 줄
-    for (let x = 1.6; x > -1.2; x -= 0.32) [1, -1].forEach(sd => P.push({ p: [[x, sd * 0.323, 0.07], [x - 0.12, sd * 0.323, 0.07], [x - 0.12, sd * 0.323, 0.11], [x, sd * 0.323, 0.11]], c: PL.win }));
-    // 주날개: 낮은 날개, 끝으로 갈수록 올라감(상반각 6도), 후퇴각 약 25도
-    const foil = l3foil(1, 3), span = 3.4, rootLE = 0.72, rootC = 2.1, tipLE = rootLE - 1.6, tipC = 0.7, rootZ = -0.2, tipZ = rootZ + span * Math.tan(6 * LR_TOR);
-    const wingSec = sd => sd > 0 ? [{ y: 0.2, dx: rootLE, dz: rootZ, k: rootC }, { y: span, dx: tipLE, dz: tipZ, k: tipC }] : [{ y: -span, dx: tipLE, dz: tipZ, k: tipC }, { y: -0.2, dx: rootLE, dz: rootZ, k: rootC }];
+    dfl = dfl || {}; const P = L3M.tris.slice(), M = L3M;
+    if (!("ail" in dfl || "elev" in dfl || "rud" in dfl)) return P;
+    const surf = (A, B, d, axisAng, on, lift) => { const hA = [A[0] + d, A[1], A[2] + lift], hB = [B[0] + d, B[1], B[2] + lift], tA = [A[0], A[1], A[2] + lift], tB = [B[0], B[1], B[2] + lift], q = [hA, hB, tB, tA].map(v => rotAxis(v, hA, v3.sub(hB, hA), axisAng)); P.push({ p: q, c: on ? PL.on : PL.off }); P.push({ p: q.map(v => [v[0], v[1], v[2] - 2 * lift]), c: on ? PL.on : PL.off }); };
     [1, -1].forEach(sd => {
-      P.push(...l3wing(foil, wingSec(sd), PL.wing));
-      // 블렌디드 윙렛
-      const t0 = [tipLE, sd * span, tipZ], t1 = [tipLE - 0.38, sd * (span + 0.08), tipZ + 0.42];
-      P.push({ p: [t0, t1, [t1[0] - 0.28, t1[1], t1[2]], [t0[0] - tipC * 0.9, t0[1], t0[2]]], c: PL.wing });
-      // 엔진: 날개 아래 파일런에 매달린 나셀, 앞에는 어두운 흡입구
-      const ey = sd * 1.2, ez = -0.55, ex0 = 1.25, ex1 = 0.05;
-      P.push(...l3tube(ex1, ex0, ey, ez, t => t > 0.85 ? 0.2 - (t - 0.85) * 0.25 : t < 0.18 ? 0.15 + t * 0.28 : 0.2, PL.eng, 14));
-      P.push({ p: Array.from({ length: 14 }, (_, i) => { const q = i / 14 * Math.PI * 2; return [ex0 + 0.001, ey + 0.165 * Math.cos(q), ez + 0.165 * Math.sin(q)]; }), c: PL.dark });
-      const wingZ = rootZ + 1.2 * Math.tan(6 * LR_TOR) - 0.04, leAt = rootLE + (tipLE - rootLE) * (1.2 / span);
-      P.push({ p: [[ex0 - 0.35, ey, ez + 0.19], [ex1 + 0.05, ey, ez + 0.19], [leAt - 1.1, ey, wingZ], [leAt + 0.05, ey, wingZ]], c: PL.eng });
-      // 에일러론: 날개 바깥쪽 뒷전 (날개폭 58~88%), 경첩선을 축으로
-      const yA = 0.58 * span, yB = 0.88 * span, chordAt = y => rootC + (tipC - rootC) * (y / span), leX = y => rootLE + (tipLE - rootLE) * (y / span), zAt = y => rootZ + y * Math.tan(6 * LR_TOR) + 0.01;
-      const hA = [leX(yA) - chordAt(yA) * 0.76, sd * yA, zAt(yA)], hB = [leX(yB) - chordAt(yB) * 0.76, sd * yB, zAt(yB)], tA = [leX(yA) - chordAt(yA), sd * yA, zAt(yA) - 0.01], tB = [leX(yB) - chordAt(yB), sd * yB, zAt(yB) - 0.01];
-      const ang = (dfl.ail || 0) * sd, axis = v3.sub(hB, hA), on = !!dfl.ail;
-      const ail = [hA, hB, tB, tA].map(q => rotAxis(q, hA, axis, ang));
-      P.push({ p: ail, c: on ? PL.on : PL.off }); P.push({ p: ail.map(q => [q[0], q[1], q[2] + 0.012]), c: on ? PL.on : PL.off });
-      // 수평 꼬리날개와 엘리베이터
-      const hs = sd > 0 ? [{ y: 0.12, dx: -1.95, dz: 0.12, k: 0.95 }, { y: 1.3, dx: -2.55, dz: 0.2, k: 0.4 }] : [{ y: -1.3, dx: -2.55, dz: 0.2, k: 0.4 }, { y: -0.12, dx: -1.95, dz: 0.12, k: 0.95 }];
-      P.push(...l3wing(l3foil(1, 4), hs, PL.wing));
-      const eA = [-1.95 - 0.95 * 0.68, sd * 0.15, 0.13], eB = [-2.55 - 0.4 * 0.68, sd * 1.25, 0.2], eTA = [-1.95 - 0.95, sd * 0.15, 0.12], eTB = [-2.55 - 0.4, sd * 1.25, 0.19];
-      const elev = [eA, eB, eTB, eTA].map(q => rotAxis(q, eA, v3.sub(eB, eA), -(dfl.elev || 0) * sd));
-      P.push({ p: elev, c: dfl.elev ? PL.on : PL.off });
+      // 에일러론: 날개폭 60~88%, 뒷전에서 시위 쪽으로 0.16
+      const yA = M.span * 0.6, yB = M.span * 0.88, a = M.te(M.wing, 1, yA, 0.08), b = M.te(M.wing, 1, yB, 0.08);
+      surf([a[0], sd * yA, a[1]], [b[0], sd * yB, b[1]], 0.16, (dfl.ail || 0) * sd, !!dfl.ail, 0.012);
+      // 엘리베이터: 수평 꼬리날개 15~90%
+      const hA = M.hspan * 0.15, hB = M.hspan * 0.9, c = M.te(M.hst, 1, hA, 0.06), e = M.te(M.hst, 1, hB, 0.06);
+      surf([c[0], sd * hA, c[1]], [e[0], sd * hB, e[1]], 0.12, -(dfl.elev || 0) * sd, !!dfl.elev, 0.01);
     });
-    // 수직 꼬리날개 (얇은 날개 단면을 세로로 세운 것)와 러더
-    const fin = l3wing(l3foil(1, 4), [{ y: 0.22, dx: -1.6, dz: 0, k: 1.05 }, { y: 1.45, dx: -2.35, dz: 0, k: 0.5 }], PL.wing).map(q => ({ p: q.p.map(v => [v[0], v[2] * 0.9, v[1]]), c: q.c }));
-    P.push(...fin);
-    const rA = [-1.6 - 1.05 * 0.7, 0, 0.25], rB = [-2.35 - 0.5 * 0.7, 0, 1.42], rTA = [-1.6 - 1.05, 0, 0.25], rTB = [-2.35 - 0.5, 0, 1.42];
-    const rud = [rA, rB, rTB, rTA].map(q => rotAxis(q, rA, v3.sub(rB, rA), dfl.rud || 0));
-    P.push({ p: rud, c: dfl.rud ? PL.on : PL.off });
+    // 러더: 수직 꼬리날개 높이 15~92%
+    const z0 = 0.35, z1 = M.ftop * 0.92, ra = M.fin.filter(v => Math.abs(v[2] - z0) < 0.08), rb = M.fin.filter(v => Math.abs(v[2] - z1) < 0.08);
+    const xa = ra.length ? Math.min(...ra.map(v => v[0])) : -2.4, xb = rb.length ? Math.min(...rb.map(v => v[0])) : -2.5;
+    const rA = [xa + 0.16, 0.012, z0], rB = [xb + 0.12, 0.012, z1], rTA = [xa, 0.012, z0], rTB = [xb, 0.012, z1];
+    const rud = [rA, rB, rTB, rTA].map(q => rotAxis(q, rA, v3.sub(rB, rA), dfl.rud || 0)); P.push({ p: rud, c: dfl.rud ? PL.on : PL.off }); P.push({ p: rud.map(v => [v[0], -v[1], v[2]]), c: dfl.rud ? PL.on : PL.off });
     return P;
   }
   // 날개 단면 주위 흐름선(3D). 날개 모양(받음각 포함)을 따라 위아래로 휘고, 뒤에서 내리흐름
@@ -106,63 +93,83 @@
 
   /* ---------- 장면들 ---------- */
   const lrVal = (id, d) => { const e = document.getElementById(id); return e ? +e.value : d; };
+  // 단면 장면 안내: 바람 방향(앞), 앞전, 뒷전, 위아래 압력. noline 이름표는 선 없이 꼬리표만 그린다
+  const l3guide = (y, a, top, bot) => { const R = p => rotY(p, a || 0, [-0.5, 0, 0]); return [
+    { from: [3.1, y, -0.5], to: [1.35, y, -0.5], col: [100, 116, 139], label: "바람 (앞에서 옴)" },
+    { from: R([0.55, y, -0.05]), to: R([0.55, y, -0.05]), col: [30, 41, 59], label: "날개 앞쪽 끝", noline: true },
+    { from: R([-2.15, y, 0.12]), to: R([-2.15, y, 0.12]), col: [30, 41, 59], label: "날개 뒤쪽 끝", noline: true },
+    top ? { from: R([-2.0, 1.35, 0.38]), to: R([-2.0, 1.35, 0.38]), col: [37, 99, 235], label: top, noline: true } : null,
+    bot ? { from: R([-1.2, 1.2, -0.5]), to: R([-1.2, 1.2, -0.5]), col: [234, 88, 12], label: bot, noline: true } : null].filter(Boolean); };
+  const l3nice = L => L.flatMap(l => { const col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]); return [Object.assign({}, l, { col: col, dash: null, speed: 0, alpha: 0.28, w: 1.6, wob: 0, fade: true }), Object.assign({}, l, { col: col, dash: [0.16, 0.7], w: 2.4, alpha: 0.85, fade: true })]; });
   const LR3_SCENES = {
     "learn-forces": t => {
       const thr = lrVal("lr-f-thr", 62), aoa = lrVal("lr-f-aoa", 3) * LR_TOR, speed = 0.35 + thr / 100 * 0.65, lift = Math.min(1.5, (0.55 + aoa / LR_TOR * 0.09) * (0.6 + speed * 0.55)), drag = 0.28 + speed * speed * 0.42 + aoa / LR_TOR * 0.025;
       const P = l3plane().map(q => ({ p: q.p.map(p => rotY(p, aoa, [0, 0, 0])), c: q.c })), L = [];
       for (let i = 0; i < 9; i++) { const y = -4 + (i % 3) * 4, z = -1.6 + Math.floor(i / 3) * 1.6; L.push({ p: [[4.5, y, z], [-4.5, y, z]], col: [148, 163, 184], speed: 2 + speed * 6, w: 1, dash: [0.4, 0.6] }); }
-      return { shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: L, arrows: [l3arrow([0, 0, 0.35], [0, 0, 0.35 + lift * 2.2], [22, 163, 74], "양력"), l3arrow([0, 0, -0.35], [0, 0, -1.9], [220, 38, 38], "무게"), l3arrow([2.7, 0, 0], [2.7 + thr / 100 * 2.4, 0, 0], [37, 99, 235], "추력"), l3arrow([-2.6, 0, 0], [-2.6 - drag * 2.4, 0, 0], [234, 88, 12], "항력")] };
+      return { sky: true, shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: L, arrows: [l3arrow([0, 0, 0.35], [0, 0, 0.35 + lift * 2.2], [22, 163, 74], "양력"), l3arrow([0, 0, -0.35], [0, 0, -1.9], [220, 38, 38], "무게"), l3arrow([2.7, 0, 0], [2.7 + thr / 100 * 2.4, 0, 0], [37, 99, 235], "추력"), l3arrow([-2.6, 0, 0], [-2.6 - drag * 2.4, 0, 0], [234, 88, 12], "항력")] };
     },
+    // 흐름선: 흐린 실선 위로 작은 점이 흘러가게 (점선 여러 겹 대신)
     "learn-lift": t => {
       const cl = lrVal("lr-l-cl", 0.5), a = Math.max(-3, (cl - 0.2) / 0.095) * LR_TOR, loop = l3foil(2, 2), half = loop.length / 2;
-      const col = (i) => i < half ? [120, 160, 235] : [240, 170, 120];
-      const P = l3wing(loop.map(q => [q[0], q[1]]), [{ y: -2, dx: 0, dz: 0, k: 1 }, { y: 2, dx: 0, dz: 0, k: 1 }], col).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
-      return { polys: P, lines: l3flows(2, a, [-1.5, -0.5, 0.5, 1.5], [0.35, 0.75, 1.15, -0.35, -0.75], { down: 0.04 + cl * 0.07 }), arrows: [l3arrow([-0.5, 0, 0.25], [-0.5, 0, 0.45 + cl * 0.8], [22, 163, 74], "양력"), l3arrow([-2.6, 0, -0.1], [-3.3, 0, -0.1 - cl * 0.6], [37, 99, 235], "내리흐름")] };
+      const col = [206, 213, 223]; void half;
+      const P = l3wing(loop.map(q => [q[0], q[1]]), [{ y: -1.4, dx: 0, dz: 0, k: 1 }, { y: 1.4, dx: 0, dz: 0, k: 1 }], col).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.1, 0, 1.1], [0.32, 0.7, -0.34], { down: 0.04 + cl * 0.07 })), arrows: [l3arrow([-0.5, 0, 0.25], [-0.5, 0, 0.45 + cl * 0.8], [22, 163, 74], "양력"), l3arrow([-2.6, 0, -0.1], [-3.3, 0, -0.1 - cl * 0.6], [37, 99, 235], "내리흐름"), ...l3guide(-1.45, a, "윗면: 압력 낮음", "아랫면: 압력 높음")] };
     },
     "learn-stall": t => {
       const ad = lrVal("lr-s-a", 4), a = ad * LR_TOR, stall = ad > 15, loop = l3foil(2, 2);
-      const P = l3wing(loop, [{ y: -2, dx: 0, dz: 0, k: 1 }, { y: 2, dx: 0, dz: 0, k: 1 }], [200, 210, 224]).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
+      const P = l3wing(loop, [{ y: -1.4, dx: 0, dz: 0, k: 1 }, { y: 1.4, dx: 0, dz: 0, k: 1 }], [206, 213, 223]).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
       const cl = lrCL(ad);
-      return { polys: P, lines: l3flows(2, a, [-1.5, -0.5, 0.5, 1.5], [0.3, 0.65, 1.0, -0.35, -0.75], { down: Math.min(cl, 1.6) * 0.08, sep: stall ? Math.min(1, (ad - 15) / 5) : 0 }), arrows: [l3arrow([-0.5, 0, 0.3], [-0.5, 0, 0.45 + cl * 0.75], stall ? [220, 38, 38] : [22, 163, 74], stall ? "양력 급감" : "양력")] };
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.1, 0, 1.1], [0.3, 0.66, -0.34], { down: Math.min(cl, 1.6) * 0.08, sep: stall ? Math.min(1, (ad - 15) / 5) : 0 })), arrows: [l3arrow([-0.5, 0, 0.3], [-0.5, 0, 0.45 + cl * 0.75], stall ? [220, 38, 38] : [22, 163, 74], stall ? "양력 급감" : "양력"), ...l3guide(-1.45, a, stall ? "윗면 흐름이 떨어져 나감" : "윗면 흐름이 날개를 따라감", null)] };
     },
     "learn-winglet": t => {
-      const w = (typeof LR_WL !== "undefined" ? LR_WL.find(x => x[0] === lrWL) : null) || [0, 0, 1], s = w[2], thin = l3foil(1.6, 3);
-      const span = 4, st = [{ y: 0, dx: 0, dz: 0, k: 1 }, { y: span, dx: -1.2, dz: 0.25, k: 0.45 }];
-      const P = l3wing(thin, st, [190, 200, 214]);
-      P.push(...l3tube(-3, 2.2, 0, -0.1, tt => tt < 0.1 ? 0.2 + tt * 3 : tt > 0.85 ? 0.5 - (tt - 0.85) * 2 : 0.5, [214, 222, 232], 12).filter(q => q.p.every(p => p[1] >= -0.05)));
-      const tipX = -1.2 - 0.36, tipZ = 0.25, tipY = span;
-      const wl = { blend: [[0, 0, 0], [-0.15, 0.12, 0.25], [-0.3, 0.18, 0.75]], shark: [[0, 0, 0], [-0.1, 0.05, 0.15], [-0.35, 0.08, 0.8]], scim: [[0, 0, 0], [-0.2, 0.1, 0.7]], raked: [[0, 0, 0], [-0.9, 0.9, 0.05]] }[lrWL];
-      if (wl) { const C = [tipX + 0.36, tipY, tipZ]; for (let i = 0; i < wl.length - 1; i++) { const a = v3.add(C, wl[i]), b = v3.add(C, wl[i + 1]), ch = 0.65 * (1 - i * 0.3), ch2 = 0.65 * (1 - (i + 1) * 0.3); P.push({ p: [a, b, [b[0] - ch2, b[1], b[2]], [a[0] - ch, a[1], a[2]]], c: [47, 111, 237] }); } if (lrWL === "scim") { const a = C, b = v3.add(C, [-0.15, 0.06, -0.35]); P.push({ p: [a, b, [b[0] - 0.3, b[1], b[2]], [a[0] - 0.55, a[1], a[2]]], c: [47, 111, 237] }); } }
-      // 날개 끝 소용돌이: 뒤로 끌려가는 나선
-      const L = [], R = 0.07 + 0.26 * s, ex = lrWL === "raked" ? 0.9 : 0, ez = wl && lrWL !== "raked" ? 0.45 : 0;
-      for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 6; x += 0.05) { const ang = x * 5 + k * 2.1 - t * 4, r = R * (0.4 + Math.min(1, x / 1.2) * 0.6); pts.push([tipX - x, tipY + ex + r * Math.cos(ang), tipZ + ez + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.2 + s, dash: null, alpha: 0.75 - k * 0.18 }); }
-      // 날개 아래는 바깥으로, 위는 안으로 도는 흐름
-      [1.2, 2.2, 3.1].forEach(y => { L.push({ p: [[-0.4, y, -0.35], [-0.9, y + 0.6, -0.3]], col: [234, 88, 12], speed: 1, w: 1.2, dash: [0.12, 0.1] }); L.push({ p: [[-0.4, y + 0.3, 0.5], [-0.9, y - 0.3, 0.5]], col: [37, 99, 235], speed: 1, w: 1.2, dash: [0.12, 0.1] }); });
-      return { polys: P, lines: L, arrows: [] };
+      // 777 메시 전체를 쓰고, 오른쪽 날개 끝에 윙렛 모양을 얹는다. 소용돌이는 양쪽 날개 끝에서 뒤로 끌려간다
+      const w = (typeof LR_WL !== "undefined" ? LR_WL.find(x => x[0] === lrWL) : null) || [0, 0, 1], s = w[2];
+      const P = l3plane(), M = L3M, tipY = M.span, tip = M.te(M.wing, 1, tipY - 0.03, 0.05), tipX = tip[0] + 0.12, tipZ = tip[1];
+      const wl = { blend: [[0, 0, 0], [-0.08, 0.05, 0.12], [-0.16, 0.07, 0.34]], shark: [[0, 0, 0], [-0.05, 0.02, 0.07], [-0.18, 0.03, 0.36]], scim: [[0, 0, 0], [-0.1, 0.04, 0.32]], raked: [[0, 0, 0], [-0.45, 0.42, 0.02]] }[lrWL];
+      [1, -1].forEach(sd => { if (wl) { const C = [tipX, sd * tipY, tipZ]; for (let i = 0; i < wl.length - 1; i++) { const a = v3.add(C, [wl[i][0], sd * wl[i][1], wl[i][2]]), b = v3.add(C, [wl[i + 1][0], sd * wl[i + 1][1], wl[i + 1][2]]), ch = 0.3 * (1 - i * 0.3), ch2 = 0.3 * (1 - (i + 1) * 0.3); P.push({ p: [a, b, [b[0] - ch2, b[1], b[2]], [a[0] - ch, a[1], a[2]]], c: [47, 111, 237] }); } if (lrWL === "scim") { const b = v3.add(C, [-0.08, sd * 0.03, -0.16]); P.push({ p: [C, b, [b[0] - 0.14, b[1], b[2]], [C[0] - 0.24, C[1], C[2]]], c: [47, 111, 237] }); } } });
+      const L = [], R0 = 0.33, R = 0.07 + 0.26 * s, ex = lrWL === "raked" ? 0.42 : 0, ez = wl && lrWL !== "raked" ? 0.2 : 0;
+      [1, -1].forEach(sd => {
+        const cy = sd * (tipY + ex), cz = tipZ + ez, x0 = tipX - 0.3;
+        // 지금 소용돌이: 파란 나선 세 가닥
+        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 4.2; x += 0.04) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * (0.4 + Math.min(1, x / 0.9) * 0.6); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.4 + s, dash: null, alpha: 0.8 - k * 0.2 }); }
+        // 비교용: 윙렛이 없을 때 소용돌이 크기(회색 점선 고리)
+        [1.2, 2.4, 3.6].forEach(x => { const pts = []; for (let a = 0; a <= 6.3; a += 0.2) pts.push([x0 - x, cy + R0 * Math.cos(a), cz + R0 * Math.sin(a)]); L.push({ p: pts, col: [148, 163, 184], speed: 0, w: 1, dash: [0.05, 0.06], alpha: 0.7 }); });
+      });
+      // 날개 아래는 바깥으로, 위는 안으로 흐르는 공기
+      [0.9, 1.5, 2.0].forEach(y => { L.push({ p: [[-0.2, y, -0.22], [-0.5, y + 0.35, -0.2]], col: [234, 88, 12], speed: 1, w: 1.4, dash: [0.08, 0.07] }); L.push({ p: [[-0.2, y + 0.2, 0.2], [-0.5, y - 0.15, 0.2]], col: [37, 99, 235], speed: 1, w: 1.4, dash: [0.08, 0.07] }); });
+      const pct = Math.round(s * 100), lab = [tipX - 2.6, tipY + ex, tipZ + ez + R0 + 0.05];
+      return { sky: true, polys: P, lines: L, arrows: [{ from: lab, to: lab, col: [37, 99, 235], label: lrWL === "none" ? "소용돌이 크기 100% (기준)" : `소용돌이 크기 ${pct}% (회색 = 윙렛 없을 때)`, noline: true }] };
     },
     "learn-sweep": t => {
-      const sw = lrVal("lr-sw-a", 25) * LR_TOR, m = lrVal("lr-sw-m", 0.78), thin = l3foil(1.6, 3), span = 4, P = [];
-      [1, -1].forEach(s => P.push(...l3wing(thin, s > 0 ? [{ y: 0, dx: 0, dz: 0, k: 1 }, { y: span, dx: -Math.tan(sw) * span, dz: 0.15, k: 0.45 }] : [{ y: -span, dx: -Math.tan(sw) * span, dz: 0.15, k: 0.45 }, { y: 0, dx: 0, dz: 0, k: 1 }], [190, 200, 214])));
-      P.push(...l3tube(-3.5, 2.5, 0, 0, tt => tt < 0.1 ? 0.15 + tt * 2.5 : tt > 0.85 ? 0.4 - (tt - 0.85) * 1.6 : 0.4, [214, 222, 232], 12));
-      const mid = [-Math.tan(sw) * span * 0.5, span * 0.5, 0.5], V = 2.4 * m / 0.9, n = [-Math.cos(sw), Math.sin(sw), 0], tg = [-Math.sin(sw), -Math.cos(sw), 0];
+      // 777 메시에서 주날개, 엔진, 착륙장치를 빼고 동체와 꼬리만 쓴다. 주날개는 슬라이더 각도로 새로 그린다
+      const sw = lrVal("lr-sw-a", 25) * LR_TOR, m = lrVal("lr-sw-m", 0.78), M = L3M, span = M.span, thin = l3foil(0.95, 3);
+      const WP = PLANE_MESH.mats.findIndex(c => c[0] === 200 && c[1] === 207), cut = c => c === PLANE_MESH.mats[WP];
+      const P = M.tris.filter(q => { const cx = (q.p[0][0] + q.p[1][0] + q.p[2][0]) / 3, cy = Math.abs((q.p[0][1] + q.p[1][1] + q.p[2][1]) / 3), cz = (q.p[0][2] + q.p[1][2] + q.p[2][2]) / 3; if (cut(q.c) && cx > -1.5) return false; if (cy > 0.36 && cz < 0.15 && cx > -1.5) return false; if (cz < -0.42) return false; return true; });
+      const rootX = 0.55, rootZ = -0.16;
+      [1, -1].forEach(sd => P.push(...l3wing(thin, sd > 0 ? [{ y: 0.3, dx: rootX, dz: rootZ, k: 1 }, { y: span, dx: rootX - Math.tan(sw) * span, dz: rootZ + 0.16, k: 0.32 }] : [{ y: -span, dx: rootX - Math.tan(sw) * span, dz: rootZ + 0.16, k: 0.32 }, { y: -0.3, dx: rootX, dz: rootZ, k: 1 }], [200, 207, 217])));
+      const mid = [rootX - 0.3 - Math.tan(sw) * span * 0.55, span * 0.55, 0.12], V = 1.5 * m / 0.9, n = [-Math.cos(sw), Math.sin(sw), 0], tg = [-Math.sin(sw), -Math.cos(sw), 0];
       const vn = V * Math.cos(sw), vt = V * Math.sin(sw), base = v3.add(mid, [V, 0, 0]);
-      const L = []; for (let i = 0; i < 7; i++) L.push({ p: [[3.5, -3 + i, 0.5], [-5.5, -3 + i, 0.5]], col: [148, 163, 184], speed: 4, w: 1, dash: [0.3, 0.5] });
-      return { polys: P, lines: L, arrows: [l3arrow(base, mid, [100, 116, 139], `바람 M${m.toFixed(2)}`), l3arrow(v3.add(mid, v3.mul(n, -vn)), mid, m * Math.cos(sw) > 0.72 ? [220, 38, 38] : [22, 163, 74], "날개가 느끼는 몫"), l3arrow(v3.add(mid, v3.mul(tg, -vt)), mid, [234, 88, 12], "날개를 따라 흐르는 몫")] };
+      const L = []; for (let i = 0; i < 7; i++) L.push({ p: [[3.5, -3 + i, 0.6], [-5.5, -3 + i, 0.6]], col: [148, 163, 184], speed: 4, w: 1, dash: [0.3, 0.5], alpha: 0.5 });
+      return { sky: true, polys: P, lines: L, arrows: [l3arrow(base, mid, [100, 116, 139], `바람 M${m.toFixed(2)}`), l3arrow(v3.add(mid, v3.mul(n, -vn)), mid, m * Math.cos(sw) > 0.72 ? [220, 38, 38] : [22, 163, 74], "날개가 느끼는 몫"), l3arrow(v3.add(mid, v3.mul(tg, -vt)), mid, [234, 88, 12], "날개를 따라 흐르는 몫")] };
     },
     "learn-highlift": t => {
-      const i = lrVal("lr-h-f", 0), k = [0, 10, 20, 32, 40][i] / 40, main = l3foil(2, 2), slat = main.filter(q => q[0] > -0.35), flap = main.filter(q => q[0] < -1.55);
-      const P = [];
-      P.push(...l3wing(main.filter(q => q[0] <= -0.3 && q[0] >= -1.6), [{ y: -1.8, dx: 0, dz: 0, k: 1 }, { y: 1.8, dx: 0, dz: 0, k: 1 }], [190, 200, 214]));
-      P.push(...l3wing(slat, [{ y: -1.8, dx: 0.25 * k, dz: -0.18 * k, k: 1 }, { y: 1.8, dx: 0.25 * k, dz: -0.18 * k, k: 1 }], [47, 111, 237]).map(q => ({ p: q.p.map(p => rotY(p, -0.35 * k, [0, 0, 0])), c: q.c })));
-      P.push(...l3wing(flap, [{ y: -1.8, dx: -0.35 * k, dz: -0.15 * k, k: 1 }, { y: 1.8, dx: -0.35 * k, dz: -0.15 * k, k: 1 }], [47, 111, 237]).map(q => ({ p: q.p.map(p => rotY(p, -0.7 * k, [-1.6 - 0.35 * k, 0, -0.15 * k])), c: q.c })));
-      return { polys: P, lines: l3flows(2, 0.03, [-1.2, 0, 1.2], [0.35, 0.75, -0.35, -0.7], { down: 0.05 + k * 0.28 }), arrows: [l3arrow([-0.8, 0, 0.3], [-0.8, 0, 0.45 + [1.3, 1.75, 2.1, 2.45, 2.6][i] * 0.5], [22, 163, 74], "최대 양력")] };
+      // 접힌 상태: 매끈한 날개 단면 하나. 펼치면 앞에서 얇은 슬랫이 앞아래로, 뒤에서 작은 날개 모양 플랩이 뒤아래로 미끄러져 나오며 꺾인다
+      const i = lrVal("lr-h-f", 0), k = [0, 10, 20, 32, 40][i] / 40, C = 1.8, main = l3foil(C, 2), Y = [{ y: -1.4, dx: 0, dz: 0, k: 1 }, { y: 1.4, dx: 0, dz: 0, k: 1 }];
+      const P = l3wing(main, Y, [206, 213, 223]);
+      if (k > 0) {
+        const sl = l3foil(0.42, 2).map(q => [q[0], q[1] * 0.55]);
+        P.push(...l3wing(sl, Y, [47, 111, 237]).map(q => ({ p: q.p.map(p => rotY([p[0] + 0.3 * k + 0.06, p[1], p[2] - 0.13 * k], -0.45 * k, [0.1, 0, 0])), c: q.c })));
+        const fl = l3foil(0.62, 3), fx = -C + 0.18 - 0.42 * k, fz = -0.06 - 0.16 * k;
+        P.push(...l3wing(fl, Y, [47, 111, 237]).map(q => ({ p: q.p.map(p => rotY([p[0] + fx, p[1], p[2] + fz], -0.75 * k, [fx, 0, fz])), c: q.c })));
+      }
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, 0.03, [-1.1, 0, 1.1], [0.34, 0.72, -0.36], { down: 0.05 + k * 0.28 })), arrows: [l3arrow([-0.8, 0, 0.3], [-0.8, 0, 0.45 + [1.3, 1.75, 2.1, 2.45, 2.6][i] * 0.5], [22, 163, 74], "최대 양력"), ...l3guide(-1.45, 0, null, null), ...(k > 0 ? [{ from: [0.55, 1.45, -0.05], to: [0.55, 1.45, -0.05], col: [47, 111, 237], label: "슬랫", noline: true }, { from: [-2.35, 1.45, -0.3], to: [-2.35, 1.45, -0.3], col: [47, 111, 237], label: "플랩", noline: true }] : [])] };
     },
     "learn-control": t => {
       const ax = typeof lrAxis !== "undefined" ? lrAxis : "roll", v = lrVal("lr-c-in", 40) / 100, d = 0.55 * v;
       const P0 = l3plane({ ail: ax === "roll" ? d : 0, elev: ax === "pitch" ? -d : 0, rud: ax === "yaw" ? -d : 0 });
       const att = p => { let q = p; if (ax === "roll") q = rotX(q, v * 0.6, [0, 0, 0]); if (ax === "pitch") q = rotY(q, v * 0.4, [0, 0, 0]); if (ax === "yaw") q = rotZ(q, -v * 0.45, [0, 0, 0]); return q; };
       const P = P0.map(q => ({ p: q.p.map(att), c: q.c }));
-      return { shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: [], arrows: [l3arrow([-3.6, 0, 0], [3.8, 0, 0], ax === "roll" ? [220, 38, 38] : [203, 213, 225], "롤 축"), l3arrow([0, -3.8, 0], [0, 3.8, 0], ax === "pitch" ? [22, 163, 74] : [203, 213, 225], "피치 축"), l3arrow([0, 0, -1.4], [0, 0, 2.2], ax === "yaw" ? [37, 99, 235] : [203, 213, 225], "요 축")] };
+      return { sky: true, shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: [], arrows: [l3arrow([-3.6, 0, 0], [3.8, 0, 0], ax === "roll" ? [220, 38, 38] : [203, 213, 225], "롤 축"), l3arrow([0, -3.8, 0], [0, 3.8, 0], ax === "pitch" ? [22, 163, 74] : [203, 213, 225], "피치 축"), l3arrow([0, 0, -1.4], [0, 0, 2.2], ax === "yaw" ? [37, 99, 235] : [203, 213, 225], "요 축")] };
     }
   };
 
@@ -172,27 +179,32 @@
     const c = L3.ctx, sc = LR3_SCENES[L3.key]; if (!c || !sc) return;
     const dark = getComputedStyle(document.documentElement).getPropertyValue("--mg").trim() === "1";
     c.setTransform(L3.dpr, 0, 0, L3.dpr, 0, 0); c.clearRect(0, 0, L3.W, L3.H);
-    // 바닥 모눈(원근)
-    c.lineWidth = 1; c.strokeStyle = dark ? "rgba(148,180,220,.10)" : "rgba(100,116,139,.12)";
-    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, -2.6]), b = l3prj([i, 8, -2.6]), e = l3prj([-8, i, -2.6]), f = l3prj([8, i, -2.6]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); }
     const S = sc(now / 1000), items = [];
-    if (S.shadow) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), -2.6]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
+    // 바닥 모눈(원근). 하늘을 나는 장면(sky)에는 그리지 않는다
+    if (!S.sky) { c.lineWidth = 1; c.strokeStyle = dark ? "rgba(148,180,220,.10)" : "rgba(100,116,139,.12)";
+    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, -2.6]), b = l3prj([i, 8, -2.6]), e = l3prj([-8, i, -2.6]), f = l3prj([8, i, -2.6]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); } }
+    if (S.shadow && !S.sky) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), -2.6]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
       const g = c.createRadialGradient(cx, cy, 0, cx, cy, rr); g.addColorStop(0, dark ? "rgba(0,0,0,.35)" : "rgba(15,23,42,.16)"); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); }
     S.polys.forEach(q => { const pr = q.p.map(l3prj), dep = pr.reduce((s, r) => s + r.d, 0) / pr.length, nrm = v3.cross(v3.sub(q.p[1], q.p[0]), v3.sub(q.p[2], q.p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl); items.push({ t: 0, pr, dep, col: q.c, sh: 0.5 + 0.5 * lam }); });
-    S.lines.forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc }); acc += sl; } });
+    S.lines.forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc, f: i / (pr.length - 1) }); acc += sl; } });
     items.sort((p, q) => q.dep - p.dep);
     items.forEach(it => {
       if (it.t === 0) { const r = Math.round(it.col[0] * it.sh), g = Math.round(it.col[1] * it.sh), b = Math.round(it.col[2] * it.sh); c.fillStyle = `rgb(${r},${g},${b})`; c.strokeStyle = c.fillStyle; c.lineWidth = 0.8; c.lineJoin = "round"; c.beginPath(); it.pr.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); c.stroke(); return; }
-      const ln = it.ln, k = (it.a.k + it.b.k) / 2; c.strokeStyle = `rgba(${ln.col.join(",")},${ln.alpha != null ? ln.alpha : 0.8})`; c.lineWidth = (ln.w || 1.2) * k; c.lineCap = "round";
+      const ln = it.ln, k = (it.a.k + it.b.k) / 2; const fa = ln.fade ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, it.f))), 0.7) : 1; c.strokeStyle = `rgba(${ln.col.join(",")},${((ln.alpha != null ? ln.alpha : 0.8) * fa).toFixed(3)})`; c.lineWidth = (ln.w || 1.2) * k; c.lineCap = "round";
       if (ln.dash !== null) { const ds = ln.dash || [0.18, 0.14], sz = Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.zoom; c.setLineDash([ds[0] * sz * k, ds[1] * sz * k]); c.lineDashOffset = -(now / 1000) * (ln.speed || 1) * sz * 0.6 + it.acc; } else c.setLineDash([]);
       c.beginPath(); c.moveTo(it.a.x, it.a.y + (it.wob || 0) * 0.6); c.lineTo(it.b.x, it.b.y + (it.wob || 0)); c.stroke();
     });
     c.setLineDash([]);
     // 화살표는 맨 위에
-    (S.arrows || []).forEach(ar => { const a = l3prj(ar.from), b = l3prj(ar.to), ang = Math.atan2(b.y - a.y, b.x - a.x), col = `rgb(${ar.col.join(",")})`; c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 3; c.lineCap = "round"; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x - Math.cos(ang) * 8, b.y - Math.sin(ang) * 8); c.stroke(); c.beginPath(); c.moveTo(b.x, b.y); c.lineTo(b.x - Math.cos(ang - 0.4) * 13, b.y - Math.sin(ang - 0.4) * 13); c.lineTo(b.x - Math.cos(ang + 0.4) * 13, b.y - Math.sin(ang + 0.4) * 13); c.closePath(); c.fill(); if (ar.label) { c.font = "700 12.5px " + getComputedStyle(document.body).fontFamily; const tw = c.measureText(ar.label).width, capOn = !!document.querySelector("#app .lr-cap3.show"), bottom = L3.H - (capOn ? 92 : 26);
+    (S.arrows || []).forEach(ar => { const a = l3prj(ar.from), b = l3prj(ar.to), ang = Math.atan2(b.y - a.y, b.x - a.x), col = `rgb(${ar.col.join(",")})`; c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 3.6; c.lineCap = "round"; if (!ar.noline) { c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x - Math.cos(ang) * 8, b.y - Math.sin(ang) * 8); c.stroke(); c.beginPath(); c.moveTo(b.x, b.y); c.lineTo(b.x - Math.cos(ang - 0.4) * 13, b.y - Math.sin(ang - 0.4) * 13); c.lineTo(b.x - Math.cos(ang + 0.4) * 13, b.y - Math.sin(ang + 0.4) * 13); c.closePath(); c.fill(); } if (ar.label) { c.font = "600 12px " + getComputedStyle(document.body).fontFamily; const tw = c.measureText(ar.label).width, capOn = !!document.querySelector("#app .lr-cap3.show"), bottom = L3.H - (capOn ? 92 : 26);
         // 이름표는 그림 안에, 자막이 떠 있으면 자막 위로 올린다
         let lx = Math.max(8, Math.min(L3.W - tw - 8, b.x + 8)), ly = Math.max(18, Math.min(bottom, b.y - 6)); if (capOn && ly > bottom - 4) ly = bottom;
-        c.lineWidth = 4; c.strokeStyle = dark ? "#0e1726" : "#ffffff"; c.strokeText(ar.label, lx, ly); c.fillText(ar.label, lx, ly); } });
+        // 이름표: 흰 둥근 꼬리표 + 화살표 색 점 + 진한 글씨 (어두운 테마는 반대로)
+        const ph = 22, pw = tw + 26, px = Math.max(6, Math.min(L3.W - pw - 6, lx - 4)), py = ly - 15;
+        c.save(); c.shadowColor = "rgba(15,23,42,.14)"; c.shadowBlur = 8; c.shadowOffsetY = 2; c.fillStyle = dark ? "rgba(15,23,42,.92)" : "rgba(255,255,255,.96)"; c.beginPath(); if (c.roundRect) c.roundRect(px, py, pw, ph, 11); else c.rect(px, py, pw, ph); c.fill(); c.restore();
+        c.strokeStyle = `rgba(${ar.col.join(",")},.35)`; c.lineWidth = 1; c.beginPath(); if (c.roundRect) c.roundRect(px + 0.5, py + 0.5, pw - 1, ph - 1, 10.5); else c.rect(px, py, pw, ph); c.stroke();
+        c.fillStyle = col; c.beginPath(); c.arc(px + 11, py + ph / 2, 3.6, 0, 7); c.fill();
+        c.fillStyle = dark ? "#e2e8f0" : "#1e293b"; c.fillText(ar.label, px + 19, py + 15.5); } });
   }
   function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); }
   function l3loop(now) { L3.raf = 0; if (!L3.cv || !document.contains(L3.cv)) { L3.cv = null; return; } if (L3.autoSpin && !L3.drag) L3.yaw += 0.0025; if (L3.cv.width !== Math.round(L3.cv.getBoundingClientRect().width * L3.dpr)) l3size(); l3draw(now); if (!fxCalm()) L3.raf = requestAnimationFrame(l3loop); }
@@ -220,7 +232,7 @@
     "learn-forces": [{ cap: "비행기에는 늘 네 가지 힘이 작용합니다.", set: { "lr-f-thr": 62, "lr-f-aoa": 3 }, view: [-0.75, 0.28, 0.9] }, { cap: "위로 드는 양력(초록)과 아래로 당기는 무게(빨강).", view: [-1.2, 0.12, 0.95] }, { cap: "앞으로 미는 추력(파랑)과 뒤로 잡는 항력(주황).", view: [-0.3, 0.3, 0.9] }, { cap: "추력을 올리면 항력보다 커져서 빨라집니다.", set: { "lr-f-thr": 95 } }, { cap: "추력을 줄이면 항력이 이겨서 느려집니다.", set: { "lr-f-thr": 30 } }, { cap: "기수를 들면 양력이 커져서 올라갑니다.", set: { "lr-f-thr": 62, "lr-f-aoa": 8 } }, { cap: "네 힘이 맞서면 속도와 고도 그대로 순항합니다.", set: { "lr-f-aoa": 3 } }],
     "learn-lift": [{ cap: "날개를 옆에서 봅니다. 공기는 앞에서 뒤로 흐릅니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 480, "lr-l-h": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "윗면(파랑)은 공기가 빨리 흐르고 압력이 낮아집니다.", view: [-0.5, 0.35, 1.3] }, { cap: "아랫면(주황)은 압력이 조금 높습니다. 이 차이가 날개를 들어 올립니다.", view: [-0.5, -0.1, 1.3] }, { cap: "더 기울이면(받음각) 공기를 더 아래로 밀어 양력이 커집니다.", set: { "lr-l-cl": 1.2 }, view: [-0.22, 0.1, 1.25] }, { cap: "속도가 두 배가 되면 양력은 네 배가 됩니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 900 } }, { cap: "높이 오르면 공기가 옅어져 같은 속도에서도 양력이 줄어듭니다.", set: { "lr-l-h": 11000 } }, { cap: "그래서 높은 곳에서는 더 빠르게 날아야 합니다.", set: { "lr-l-h": 0, "lr-l-v": 480 } }],
     "learn-stall": [{ cap: "받음각 4도. 공기가 날개 윗면을 따라 붙어 흐릅니다.", set: { "lr-s-a": 4 }, view: [-0.22, 0.1, 1.25] }, { cap: "더 기울이면 양력이 계속 커집니다.", set: { "lr-s-a": 11 } }, { cap: "15도 근처가 한계입니다. 이때 실속 경고가 울립니다.", set: { "lr-s-a": 14.5 } }, { cap: "넘으면 윗면 흐름이 떨어져 나가고 양력이 뚝 떨어집니다. 실속입니다.", set: { "lr-s-a": 19 } }, { cap: "회복은 기수를 숙여 받음각을 줄이는 것부터입니다.", set: { "lr-s-a": 5 } }],
-    "learn-winglet": [{ cap: "윙렛이 없는 날개 끝. 아래 공기가 위로 말려 큰 소용돌이가 생깁니다.", click: '[data-lrw="none"]', view: [2.7, 0.3, 0.75] }, { cap: "블렌디드 윙렛. 끝을 위로 꺾어 소용돌이가 작아집니다.", click: '[data-lrw="blend"]' }, { cap: "분할 시미터 윙렛. 위아래로 갈라져 더 줄입니다.", click: '[data-lrw="scim"]', view: [2.3, 0.2, 0.8] }, { cap: "레이크드 윙팁. 꺾지 않고 날개 끝을 뒤로 길게 늘립니다.", click: '[data-lrw="raked"]', view: [2.7, 0.5, 0.75] }],
+    "learn-winglet": [{ cap: "윙렛이 없는 날개 끝. 아래 공기가 위로 말려 큰 소용돌이가 생깁니다.", click: '[data-lrw="none"]', view: [2.45, 0.42, 0.95] }, { cap: "블렌디드 윙렛. 끝을 위로 꺾어 소용돌이가 작아집니다.", click: '[data-lrw="blend"]' }, { cap: "분할 시미터 윙렛. 위아래로 갈라져 더 줄입니다.", click: '[data-lrw="scim"]', view: [2.2, 0.35, 1.05] }, { cap: "레이크드 윙팁. 꺾지 않고 날개 끝을 뒤로 길게 늘립니다.", click: '[data-lrw="raked"]', view: [2.7, 0.5, 0.75] }],
     "learn-sweep": [{ cap: "곧은 날개는 바람을 정면으로 다 받습니다.", set: { "lr-sw-a": 0, "lr-sw-m": 0.78 }, view: [-0.35, 0.95, 0.95] }, { cap: "날개를 젖히면 날개가 정면으로 받는 바람(초록)이 줄어듭니다.", set: { "lr-sw-a": 30 } }, { cap: "그래서 마하 0.85로 빨리 날아도 충격파를 늦출 수 있습니다.", set: { "lr-sw-m": 0.85 } }, { cap: "덜 젖힌 날개로 빨리 날면 빨간색, 충격파 구간에 들어갑니다.", set: { "lr-sw-a": 10 } }, { cap: "여객기는 보통 25~38도 정도로 젖힙니다.", set: { "lr-sw-a": 25, "lr-sw-m": 0.78 } }],
     "learn-highlift": [{ cap: "순항 때 날개. 얇고 매끈합니다.", set: { "lr-h-f": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "이륙: 슬랫과 플랩을 조금 펼칩니다.", set: { "lr-h-f": 1 } }, { cap: "더 펼치면 날개가 넓고 휘어져 양력이 커집니다.", set: { "lr-h-f": 3 }, view: [-0.6, 0.25, 1.2] }, { cap: "착륙: 가장 깊이 펼쳐 느린 속도에서도 날 수 있게 합니다.", set: { "lr-h-f": 4 } }, { cap: "펼칠수록 실속 속도가 내려가 더 천천히 내릴 수 있습니다.", view: [-0.22, 0.1, 1.25] }],
     "learn-control": [{ cap: "롤: 에일러론이 반대로 꺾여 한쪽 날개 양력만 커지고 기체가 기웁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 70 } }, { cap: "반대로 입력하면 반대쪽으로 기웁니다.", set: { "lr-c-in": -70 } }, { cap: "피치: 엘리베이터가 꼬리를 눌러 기수가 들립니다.", click: '[data-lra="pitch"]', set: { "lr-c-in": 70 } }, { cap: "요: 러더가 꼬리를 옆으로 밀어 기수가 돕니다.", click: '[data-lra="yaw"]', set: { "lr-c-in": 70 } }, { cap: "실제 선회에서는 세 축을 함께 씁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 40 } }]

@@ -1538,6 +1538,66 @@ a.abw:hover{background:var(--primary-soft)}
 .sx-lc b{font-size:13px;font-weight:700;margin-top:4px} .sx-lc small{font-size:11.5px;color:var(--muted)} .sx-lc em{font-style:normal;font-size:12px;font-weight:700;color:var(--fg-2)}
 .mchart .mc-bar{fill:var(--wm-accent);opacity:.9} .mchart .mc-grid{stroke:var(--line);stroke-dasharray:3 4} .mchart .mc-zero{fill:var(--line)} .mchart .mc-ax{stroke:var(--line)} .mchart .mc-v{font-weight:700;fill:var(--fg)}
 @media (max-width:760px){.sx-type{grid-template-columns:64px minmax(0,1fr) 46px;gap:10px}.sx-type .sx-bar{grid-column:1 / -1;order:4}.sx-sil svg{width:64px}.sx-mk{grid-template-columns:96px minmax(0,1fr)}.sx-donut{width:96px;height:96px}.sx-land{gap:6px}.sx-lb{height:80px}.sx-lc small{display:none}}
+/* ---------- 비행 원리: 속도의 종류, 무게중심, 퀴즈 ---------- */
+.lr-grid-l{stroke:var(--lr-ink);opacity:.12;stroke-dasharray:3 5}
+.lr-sp-tas{stroke:#2563eb;stroke-width:5;stroke-linecap:round;opacity:.75}
+.lr-sp-gs{stroke:#ea580c;stroke-width:4;stroke-linecap:round;opacity:.7;stroke-dasharray:2 6}
+.lr-sp-wind line{stroke:#0e7490;stroke-width:3} .lr-sp-wind path{fill:#0e7490}
+.lr-spd{display:grid;gap:10px;margin-top:6px}
+.lr-spd-r{display:grid;grid-template-columns:44px minmax(0,1fr) 78px;grid-template-rows:auto auto;gap:2px 10px;align-items:center}
+.lr-spd-r .k{font:700 12px var(--font);color:var(--fg-2)}
+.lr-spd-r .t{position:relative;height:9px;border-radius:5px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:visible}
+.lr-spd-r .t i{display:block;height:100%;border-radius:5px;transition:width .3s}
+.lr-spd-r .t em{position:absolute;top:-3px;bottom:-3px;width:2px;background:#dc2626;border-radius:1px}
+.lr-spd-r b{font:700 15px var(--font);font-variant-numeric:tabular-nums;text-align:right}
+.lr-spd-r small{grid-column:2 / -1;font-size:11.5px;color:var(--muted)}
+.lr-spd-r.ias .t i{background:#16a34a} .lr-spd-r.tas .t i{background:#2563eb} .lr-spd-r.gs .t i{background:#ea580c} .lr-spd-r.mach .t i{background:#7c3aed}
+.lr-spd-r.warn b,.lr-spd-r.warn small{color:#dc2626}
+.lr-spd-n{margin:4px 0 0;font-size:12.5px;color:var(--fg-2)}
+.lr-cg-band{position:relative;display:grid;grid-template-columns:8fr 20fr 10fr;height:10px;border-radius:5px;overflow:visible;margin-top:8px}
+.lr-cg-band i{display:block} .lr-cg-band i.ok{background:#22c55e;opacity:.7} .lr-cg-band i.bad{background:#ef4444;opacity:.35} .lr-cg-band i:first-child{border-radius:5px 0 0 5px} .lr-cg-band i:nth-child(3){border-radius:0 5px 5px 0}
+.lr-cg-band span{position:absolute;top:-5px;width:4px;height:20px;margin-left:-2px;border-radius:2px;background:var(--fg);transition:left .2s}
+.lr-cg-r{display:grid;grid-template-columns:86px auto 1fr;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+.lr-cg-r b{font:700 15px var(--font);font-variant-numeric:tabular-nums} .lr-cg-r small{color:var(--muted);font-size:11.5px} .lr-cg-r.bad b{color:#dc2626}
+.lr-cg-warn{margin:0 0 8px;padding:9px 12px;border-radius:9px;background:color-mix(in srgb,#dc2626 12%,transparent);color:#b91c1c;font-size:12.5px;font-weight:600}
+.lr-arw.up line{stroke:#16a34a} .lr-arw.down line{stroke:#dc2626}
+.lr-qz{list-style:none;margin:0;padding:0;display:grid;gap:16px;counter-reset:q}
+.lr-qz>li{counter-increment:q;padding:14px 16px;border-radius:12px;background:var(--tile)}
+.lr-qz-q{margin:0 0 10px;font-size:14.5px;font-weight:700} .lr-qz-q::before{content:"Q" counter(q) " ";color:var(--wm-accent)}
+.lr-qz-c{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.lr-qz-c button{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;font-size:13.5px;text-align:left;cursor:pointer;transition:background .15s,border-color .15s}
+.lr-qz-c button:hover:not(:disabled){border-color:var(--wm-accent);background:color-mix(in srgb,var(--wm-accent) 8%,var(--surface))}
+.lr-qz-c button.right{border-color:#16a34a;background:color-mix(in srgb,#16a34a 14%,var(--surface));font-weight:700}
+.lr-qz-c button.wrong{border-color:#dc2626;background:color-mix(in srgb,#dc2626 12%,var(--surface))}
+.lr-qz-c button:disabled{cursor:default}
+.lr-qz-x{margin:10px 0 0;font-size:13px;line-height:1.6;color:var(--fg-2)} li.ok .lr-qz-x b{color:#16a34a} li.no .lr-qz-x b{color:#dc2626}
+.lr-qz-end{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:12px 16px;border-radius:12px;background:color-mix(in srgb,var(--wm-accent) 10%,var(--tile))}
+@media (max-width:640px){.lr-qz-c{grid-template-columns:1fr}}
+.lr-cg-warn.ok{background:color-mix(in srgb,#16a34a 11%,transparent);color:#15803d}
+.lr-cg-warn{height:62px;box-sizing:border-box;display:flex;align-items:center;overflow:hidden}
+#lr-cg-out{min-height:300px}
+.lr-cg-r{grid-template-columns:76px auto minmax(0,1fr)!important}
+.lr-cg-r small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lr-cg-plane{transform-origin:430px 170px;transition:transform .35s cubic-bezier(.3,.7,.3,1)}
+.lr-cg-win{fill:var(--lr-ink);opacity:.55} .lr-cg-door{fill:none;stroke:var(--lr-ink);stroke-width:1;opacity:.5}
+.lr-cg-cockpit{fill:var(--lr-ink);opacity:.7}
+.lr-cg-tailfin,.lr-cg-hstab{fill:var(--lr-wing,#dbe4f0);stroke:var(--lr-ink);stroke-width:1.6}
+.lr-cg-hinge{stroke:var(--lr-ink);stroke-width:1;stroke-dasharray:3 3;opacity:.6}
+.lr-cg-pylon{fill:var(--lr-wing,#dbe4f0);stroke:var(--lr-ink);stroke-width:1.2}
+.lr-cg-eng{fill:#cfd8e6;stroke:var(--lr-ink);stroke-width:1.6} .lr-cg-fan{fill:#7f8ea6;opacity:.7}
+.lr-cg-gear{stroke:var(--lr-ink);stroke-width:3} .lr-cg-tire{fill:#2b3442}
+.lr-cg-plumb{stroke:#111;stroke-width:1;stroke-dasharray:2 3;opacity:.6}
+.lr-cg-arm{stroke:var(--lr-ink);stroke-width:1;stroke-dasharray:5 4;opacity:.45}
+.lr-lab.small{font-size:11px;font-weight:600}
+.lr-cg-mac .ok{fill:#22c55e;opacity:.5} .lr-cg-mac .rule{fill:var(--lr-ink);opacity:.6} .lr-cg-mac .tick{stroke:var(--lr-ink);stroke-width:1.2} .lr-cg-mac .cgmk{fill:#111}
+/* 비행 원리 여객기: 하늘색 윗면, 짙은 파랑 줄, 은색 아랫면 */
+.lr-kal{--fus:url(#lrKalG);--wing:#c9d0d9;--glass:#1d2a3c;--ink:#3b4656}
+.lr-kal .fin{fill:#79c3ea}
+.lr-kal .eng{fill:#d5dbe3}
+.lr-cg-ground{stroke:var(--lr-ink);stroke-width:1;opacity:.25}
+.lr-cg-zoom{fill:none;stroke:var(--lr-ink);stroke-width:1;stroke-dasharray:3 4;opacity:.35}
+.lr-cg-macbar{fill:#f59e0b;opacity:.7}
+.lr-cg-mac .bg{fill:#ef4444;opacity:.18} .lr-cg-mac .cpmk{stroke:#2563eb;stroke-width:2.5}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}

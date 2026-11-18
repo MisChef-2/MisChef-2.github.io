@@ -19,7 +19,7 @@
       { id: "ac", icon: "list", title: "기종", extra: "ac", tabs: [["fleet", "list", "기종 백과"], ["boeing", "bldg", "보잉"], ["airbus", "bldg", "에어버스"], ["compare", "swap", "비교"], ["timeline", "clock", "연표"]] },
       { id: "rules", icon: "book", title: "운항 규정", tabs: [["notams", "bell", "NOTAM"], ["ranks", "star", "계급"], ["scores", "gauge", "점수 기준"], ["icao", "book", "ICAO 분류"]] },
       { id: "manual", icon: "check", title: "조종 매뉴얼", lead: "어떤 상황이든 순서는 같습니다. 비행기부터 안정시키고(조종), 어디로 갈지 정한 다음(항법), 관제와 승무원에게 알립니다(교신).", tabs: [["manual-sit", "bell", "상황별 대응"], ["manual-tips", "star", "경험과 요령"], ["manual-acc", "flag", "사건사고"]] },
-      { id: "learn", icon: "wing", title: "비행 원리", tabs: [["learn-forces", "plane", "네 가지 힘"], ["learn-lift", "wing", "양력"], ["learn-stall", "gauge", "받음각과 실속"], ["learn-winglet", "target", "윙렛"], ["learn-sweep", "ruler", "후퇴익과 음속"], ["learn-highlift", "layers", "플랩과 슬랫"], ["learn-control", "swap", "조종면과 세 축"]] }
+      { id: "learn", icon: "wing", title: "비행 원리", tabs: [["learn-forces", "plane", "네 가지 힘"], ["learn-lift", "wing", "양력"], ["learn-stall", "gauge", "받음각과 실속"], ["learn-winglet", "target", "윙렛"], ["learn-sweep", "ruler", "후퇴익과 음속"], ["learn-highlift", "layers", "플랩과 슬랫"], ["learn-control", "swap", "조종면과 세 축"], ["learn-speed", "gauge", "속도의 종류"], ["learn-cg", "weight", "무게중심"]] }
     ] }
   ];
   const CATS = []; NAV.forEach(g => g.items.forEach(c => CATS.push(c)));
