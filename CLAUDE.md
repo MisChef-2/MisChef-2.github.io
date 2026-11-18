@@ -6,9 +6,9 @@
 ## 새 컴퓨터에서 처음 할 일
 
 1. Git과 Node.js(LTS)가 없으면 설치한다 (Windows: `winget install --id Git.Git -e`, `winget install --id OpenJS.NodeJS.LTS -e`).
-2. 이 저장소에만 커밋 작성자를 설정한다. 전역 설정은 건드리지 않는다.
-   - `git config user.name "MisChef-2"`
-   - `git config user.email "240839643+MisChef-2@users.noreply.github.com"`
+2. 이 저장소에만 커밋 작성자를 설정한다. 전역 설정은 건드리지 않는다. 먼저 사용자가 저장소 주인(MisChef-2)인지 공동 작업자인지 확인한다.
+   - 저장소 주인: `git config user.name "MisChef-2"`, `git config user.email "240839643+MisChef-2@users.noreply.github.com"`
+   - 공동 작업자: 자기 GitHub 아이디와 자기 noreply 주소(GitHub → Settings → Emails 에 나오는 `숫자+아이디@users.noreply.github.com`)를 쓴다. 저장소 주인의 이름으로 커밋하지 않는다.
 3. `sh build.sh` 를 실행해 `build ok` 가 나오는지 확인한다.
 4. 첫 푸시 때 뜨는 GitHub 로그인 창은 사용자가 직접 승인한다. 비밀번호나 토큰을 대신 입력하지 않는다.
 
@@ -27,11 +27,14 @@
 - Jetliner Virtual(JLV)은 가상의 항공사다. 실제 항공사, vAMSYS, Jeppesen의 이름·로고·자료를 쓰지 않는다.
 - 예시 데이터는 예시라고 표시하고, 비행장 차트에는 NOT FOR NAVIGATION 표시를 유지한다.
 - `fonts/` 의 글꼴 파일(woff2)은 배포 허락이 없으므로 저장소에 올리지 않는다 (.gitignore 로 제외돼 있음).
-- 사용자의 개인 정보는 사용자가 직접 준 내용만 사이트에 싣는다. 커밋 작성자에는 위 noreply 주소만 쓴다.
+- 개인 정보는 저장소 주인이 직접 준 내용만 사이트에 싣는다. 커밋 작성자에는 각자의 noreply 주소만 쓴다.
+- 공동 작업자는 소개 페이지(`src/about.js`)의 개인 정보를 저장소 주인의 요청 없이 바꾸지 않는다.
 - API 키를 소스나 저장소에 넣지 않는다.
 - 사진·지도 자료를 바꾸면 CREDITS.md 의 출처도 함께 고친다 (`node tools/make-credits.js`).
 
 ## claude.ai 아티팩트
+
+아티팩트는 저장소 주인의 Claude 계정에 묶여 있어 저장소 주인만 갱신할 수 있습니다. 공동 작업자는 이 절을 건너뜁니다.
 
 같은 사이트의 아티팩트 판이 있습니다. 주소는 사용자가 알고 있으니, 갱신해 달라는 요청을 받으면 주소를 물어본 뒤
 `artifact.html` 을 그 주소로 다시 게시합니다. `charts/` 와 `photos/` 파일은 이미 올라가 있어 다시 보낼 필요가 없고,
