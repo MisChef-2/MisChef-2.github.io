@@ -150,7 +150,7 @@
     if (!nx) act = `<span class="pill ok">완료</span>`;
     else if (PS.booking) act = `<span class="small muted">예약된 비행을 마치면 다음 구간을 예약할 수 있습니다.</span>`;
     else if (nx[0] === here) act = `<button type="button" class="btn" data-po="ros-book:${r.id}" id="ros-book-${r.id}">${ICON.plane}다음 구간 예약 (${nx[0]} → ${nx[1]})</button>`;
-    else act = `<span class="small muted">다음 구간은 ${nx[0]} 출발입니다. 지금 위치는 ${here}입니다.</span><button type="button" class="btn ghost" data-pilot="jump:${nx[0]}" id="ros-jump-${r.id}">${ICON.swap}${nx[0]}로 점프시트 이동</button>`;
+    else act = `<span class="small muted">다음 구간은 ${nx[0]} 출발입니다. 지금 위치는 ${here}입니다.</span><button type="button" class="btn ghost" data-pilot="jump:${nx[0]}" id="ros-jump-${r.id}">${ICON.swap}${nx[0]}로 점프시트로 이동</button>`;
     return `<section class="card c12">${cardH(ICON.list, r.name, `<span class="hint">${legTotals(r.legs, r.ac)}, ${esc(short(byId[r.ac]))}</span><button type="button" class="btn warn sm" data-po="ros-del:${r.id}" id="ros-del-${r.id}">삭제</button>`)}
 <div class="card-b" style="display:grid;gap:12px">${pbar("진행", d / r.legs.length * 100, `${d} / ${r.legs.length} 구간`, `${dayKo(r.created)} 저장, 저장한 뒤 제출한 PIREP만 집계합니다`)}<div class="actions" style="align-items:center">${act}</div></div>
 <div class="tbl-wrap"><table class="tbl"><thead><tr><th class="num">#</th><th>구간</th><th>공항</th><th class="num">거리</th><th class="num">예상 시간</th><th>상태</th></tr></thead><tbody>${legRows(r.legs, r.ac, r.created)}</tbody></table></div></section>`;
@@ -208,7 +208,7 @@
     const M = monthSeries(), n = Math.max(1, L.length);
     const row = (name, b, strong) => `<tr${strong ? ' class="me-row"' : ""}><td>${name}</td><td class="num">${fmt(b.n)}</td><td class="num">${fmt(b.pax)}</td><td class="num">${fmt(Math.round(b.cargo / 1000))} t</td><td class="num">${hm(b.min)}</td><td class="num">${distTxt(b.km)}</td><td class="num">${fmt(Math.round(b.fuel / 1000))} t</td><td class="num">${b.n ? Math.round(b.land / b.n) : "-"} fpm</td></tr>`;
     const mxType = Math.max(1, ...ids.map(id => by[id].n));
-    const typeRows = ids.length ? ids.map(id => { const ac = byId[id], b = by[id]; return `<a class="sx-type mk-${ac.maker}" href="#${id}"><span class="sx-sil">${silhouette(ac, 0.9, 120, 60)}</span><span class="sx-tn"><b>${esc(short(ac))}</b><small>${ICAO[id]} · ${hm(b.min)} · ${distTxt(b.km)}</small></span><span class="sx-bar"><i style="width:${N(b.n / mxType * 100)}%"></i></span><span class="sx-n">${fmt(b.n)}<small>회</small></span></a>`; }).join("") : `<p class="empty">아직 제출한 비행이 없습니다.</p>`;
+    const typeRows = ids.length ? ids.map(id => { const ac = byId[id], b = by[id]; return `<a class="sx-type mk-${ac.maker}" href="#${id}"><span class="sx-sil">${silhouette(ac, 0.9, 120, 60)}</span><span class="sx-tn"><b>${esc(short(ac))}</b><small>${ICAO[id]}, ${hm(b.min)}, ${distTxt(b.km)}</small></span><span class="sx-bar"><i style="width:${N(b.n / mxType * 100)}%"></i></span><span class="sx-n">${fmt(b.n)}<small>회</small></span></a>`; }).join("") : `<p class="empty">아직 제출한 비행이 없습니다.</p>`;
     // 제작사 도넛
     const tb = mk.boeing + mk.airbus, C = 2 * Math.PI * 42, fb = tb ? mk.boeing / tb : 0;
     const donut = `<svg class="sx-donut" viewBox="0 0 120 120" role="img" aria-label="보잉 ${mk.boeing}회, 에어버스 ${mk.airbus}회"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--line)" stroke-width="14"/>${tb ? `<circle cx="60" cy="60" r="42" fill="none" stroke="var(--airbus)" stroke-width="14" stroke-dasharray="${N(C)} ${N(C)}" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="42" fill="none" stroke="var(--boeing)" stroke-width="14" stroke-dasharray="${N(C * fb)} ${N(C)}" transform="rotate(-90 60 60)"/>` : ""}<text x="60" y="58" text-anchor="middle" class="sx-dn">${fmt(tb)}</text><text x="60" y="74" text-anchor="middle" class="sx-dl">비행</text></svg>`;
@@ -226,6 +226,15 @@
 <section class="card c12">${cardH(ICON.gauge, "착륙률 분포", `<span class="hint">접지 순간 하강률, fpm</span>`)}<div class="card-b">${landCols}</div></section>
 <section class="card c12">${cardH(ICON.book, "로그북", `<span class="hint">기종별 합계</span>`)}${ids.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>기종</th><th class="num">비행</th><th class="num">승객</th><th class="num">화물</th><th class="num">비행 시간</th><th class="num">거리</th><th class="num">연료</th><th class="num">평균 착륙률</th></tr></thead><tbody>${ids.map(id => row(`<a class="ext" href="#${id}"><span class="code">${ICAO[id]}</span> ${esc(byId[id].name)}</a>`, by[id])).join("")}${row("<strong>합계</strong>", tot, true)}</tbody></table></div>` : `<p class="empty">아직 제출한 PIREP이 없습니다.</p>`}</section></div>`;
   }
+  /* 패스포트 도우미: 국기 그림, 도장 색과 모양을 정하는 해시, 공항의 나라, 나라 영어 이름 */
+  const flagImg = (cc, cls) => `<img class="${cls || "flag"}" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${String(cc).toLowerCase()}.svg" alt="" loading="lazy" onerror="this.remove()">`;
+  const ppHash = str => { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+  const PP_INK = ["#8e1f2f", "#1d3b75", "#1f5a46", "#5a3a7a", "#8a5a1c", "#24576b"];
+  const ppCC = code => (APT.find(x => x[0] === code) || [])[3];
+  const ccEn = cc => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(cc).toUpperCase(); } catch (e) { return cc; } };
+  // 도장 잉크: 넓은 면적에서만 아주 옅게 농도가 달라지고 가장자리가 살짝 부드럽다 (빈 구멍 없이 깔끔하게)
+  const PP_DEFS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="ppInk" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="lo"/><feColorMatrix in="lo" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0.5" result="loA"/><feComposite in="SourceGraphic" in2="loA" operator="in" result="ink"/><feGaussianBlur in="ink" stdDeviation="0.22"/></filter></defs></svg>`;
+  const PP_PLANE = `<path d="M0-6.5l1.3 4.2 5.2 2.3v1.3l-5.2-1.2-.4 3.6 1.7 1.3v1l-2.6-.7-2.6.7v-1l1.7-1.3-.4-3.6-5.2 1.2V0l5.2-2.3z" fill="currentColor"/>`;
   function ppStamp(cc, info, i) {
     const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = Math.round(Math.random() * 28 - 14), shape = ["circ", "rect", "oval"][h % 3];
     const d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "", ko = esc(CCN[cc] || cc), en = esc(ccEn(cc)), ap = esc(info.apts.slice(0, 3).join("  "));
@@ -348,7 +357,7 @@ ${flag(58, 75, 8)}<text x="72" y="80" font-size="13" font-weight="700" fill="cur
 
   /* ---------- Documents: NOTAM · 계급 · 점수 ---------- */
   function renderNotams() {
-    return phead("Documents", "NOTAM", "운영진 공지입니다. 중요한 것부터 놓았습니다.", "") + `
+    return phead("Documents", "NOTAM", "운영진 공지입니다. 중요한 순서대로 정리했습니다.", "") + `
 <div class="grid"><section class="card c12">${cardH(ICON.bell, "운영 공지", `<span class="hint">${VA_NOTAMS.length}건</span>`)}<div>${VA_NOTAMS.map(n => `<a class="notam p-${n.p}" href="#${n.href}"><i></i><div><div class="notam-h"><span class="tag">${PRI[n.p]}</span><strong>${esc(n.title)}</strong><span class="date">${esc(n.date)}</span></div><p>${esc(n.text)}</p></div></a>`).join("")}</div></section>
 <section class="card c12">${cardH(ICON.info, "업계 소식", `<span class="hint">기종 백과</span>`)}<div>${NOTAMS.map(n => `<a class="notam p-${n.p}" href="#${n.href}"><i></i><div><div class="notam-h"><span class="tag">${PRI[n.p]}</span><strong>${esc(n.title)}</strong><span class="date">${esc(n.date)}</span></div><p>${esc(n.text)}</p></div></a>`).join("")}</div></section></div>`;
   }

@@ -39,7 +39,7 @@
     { p: "med", date: "새 기능", title: "비행 지도와 패스포트", text: "비행한 노선은 지구본에, 방문한 공항과 나라는 패스포트에 모입니다.", href: "map" },
     { p: "low", date: "문서", title: "ICAO 기준 안내", text: "비행장 기준 코드, 항적 난기류 등급 같은 ICAO 분류를 기종별로 정리했습니다.", href: "icao" },
     { p: "med", date: "실시간", title: "공항 주변 교통량", text: "국내 공항 4곳과 조립 공장 9곳의 실제 교통량을 FlyItalyADSB 데이터로 보여 줍니다.", href: "live" },
-    { p: "low", date: "자료실", title: "기종 백과 21개 기종", text: "보잉과 에어버스 여객기의 제원, 축척 도면, 개발사는 자료실에 있습니다.", href: "fleet" }
+    { p: "low", date: "자료", title: "기종 백과 21개 기종", text: "보잉과 에어버스 여객기의 제원, 축척 도면, 개발 배경는 자료에 있습니다.", href: "fleet" }
   ];
 
   /* ---------- 점수와 기록 ---------- */
@@ -179,7 +179,7 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
     if (bookMap) { bookMap.redraw(); if (refocus) { const b = PS.booking, here = aptBy[PS.pilot.loc], from = b ? aptBy[b.dep] : here, dest = b ? b.arr : BK.dest; if (dest) focusRoute(bookMap, [from.lat, from.lon], [aptBy[dest].lat, aptBy[dest].lon], true); else { const ac = byId[BK.ac], pts = [[here.lat, here.lon]]; APT.forEach(a => { if (a[0] !== here.iata && ac && aptKm(here.iata, a[0]) <= ac.specs.range) { const q = aptBy[a[0]]; if (q) pts.push([q.lat, q.lon]); } }); if (pts.length > 1) bookMap.fit(pts, true); else bookMap.focus(here.lat, here.lon, 4200, true); } } }
   }
   function renderBook() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>비행 예약</h1><p>현재 위치에서 갈 수 있는 공항이 지도에 표시됩니다. 도착 공항과 기종을 고르면 거리와 예상 시간이 계산됩니다.</p></div><div class="actions"><a class="btn ghost" href="#airports">${ICON.list}공항 목록</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 비행</div><h1>비행 예약</h1><p>현재 위치에서 갈 수 있는 공항이 지도에 표시됩니다. 도착 공항과 기종을 고르면 거리와 예상 시간이 계산됩니다.</p></div><div class="actions"><a class="btn ghost" href="#airports">${ICON.list}공항 목록</a></div></header>
 <section class="card" id="bookcard"><div class="mapwrap livewrap"><div id="bookmap" class="sitemap livemap" role="img" aria-label="비행 예약 지도"></div><svg id="book-ov" class="live-ov"></svg><div class="float-panel bk-panel" id="bk-panel"></div></div></section>`;
   }
   function initBook() {
@@ -207,7 +207,7 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
 <div class="fld" style="margin-top:16px"><label for="pf-notes">메모</label><textarea class="in" id="pf-notes" rows="2" maxlength="300" placeholder="날씨, 활주로, 특이 사항"></textarea></div>
 <div class="actions" style="margin-top:16px"><button type="submit" class="btn go" id="pf-submit">${ICON.doc}PIREP 제출</button></div></form></section>`;
     } else top = `<section class="card c12"><div class="card-b aclive"><div><h2>예약된 비행이 없습니다</h2><p class="muted" style="margin:4px 0 0">현재 위치는 ${here.iata} ${esc(here.name)}입니다. 지도에서 목적지를 골라 다음 비행을 예약하세요.</p></div><a class="btn" href="#book">${ICON.plane}비행 예약</a></div></section>`;
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>내 예약</h1><p>예약한 비행입니다. 비행을 마치면 여기서 PIREP을 제출합니다. 예약은 한 번에 하나만 둘 수 있습니다.</p></div><div class="actions"><span class="sync" data-sync>${syncText()}</span><a class="btn ghost" href="#rosters">${ICON.list}내 로스터</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 비행</div><h1>내 예약</h1><p>예약한 비행입니다. 비행을 마치면 여기서 PIREP을 제출합니다. 예약은 한 번에 하나만 둘 수 있습니다.</p></div><div class="actions"><span class="sync" data-sync>${syncText()}</span><a class="btn ghost" href="#rosters">${ICON.list}내 로스터</a></div></header>
 <div class="grid">${PS.demo ? demoNote() : ""}${top}<section class="card c12">${cardH(ICON.list, "최근 PIREP", `<a class="ext small" href="#pireps">전체 ${PS.pireps.length}건 보기 →</a>`)}${pirepTable(PS.pireps.slice(0, 5))}</section></div>`;
   }
   function renderPirep(p) {
@@ -254,7 +254,7 @@ ${p.notes ? `<p style="margin:16px 0 0"><span class="lbl" style="margin-bottom:4
       return `<svg class="st-area" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path class="a" d="${d} L${W} ${H} Z"/><path class="l" d="${d.replace(/^M0 \S+ L/, "M")}"/></svg>`;
     };
     const delta = (k, unit, digits) => {
-      const a = KEYS[k](cur), b = KEYS[k](prev); if (a == null || b == null) return `<span class="st-d none">비교할 기록이 아직 없어요</span>`;
+      const a = KEYS[k](cur), b = KEYS[k](prev); if (a == null || b == null) return `<span class="st-d none">비교할 기록이 아직 없습니다</span>`;
       const dlt = a - b, val = digits ? Math.abs(dlt).toFixed(digits) : fmt(Math.round(Math.abs(dlt)));
       if (Math.abs(dlt) < (digits ? 0.05 : 0.5)) return `<span class="st-d flat">${than} 그대로</span>`;
       const good = k === "land" ? dlt < 0 : dlt > 0, sign = k === "land" ? "" : dlt > 0 ? "+" : "−";
@@ -278,7 +278,7 @@ ${p.notes ? `<p style="margin:16px 0 0"><span class="lbl" style="margin-bottom:4
     const pbox = p => `<a class="card pbox c3" href="#pirep-${p.id}"><span class="row1"><span class="lbl">${ICON.doc}PIREP</span>${pirepStatus(p)}</span><span class="rte">${p.dep} → ${p.arr}</span><span class="sub">${esc(p.cs)}, ${esc(short(byId[p.ac]))}, ${hm(p.time)}</span><span class="box-meta">${p.points}점, ${p.land} fpm, ${dayKo(p.filed)}</span></a>`;
     const last = PS.pireps.slice(0, 3), blanks = Array(3 - last.length).fill(`<div class="card pbox c3"><span class="lbl">${ICON.doc}PIREP</span><span class="rte muted">-</span><span class="sub">제출한 기록이 여기에 나옵니다.</span></div>`);
     return `<div class="grid">
-<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)}, Pilot Hub</p><h1>${esc(nm)}님, 좋은 비행 되세요</h1><p>${esc(rk.name)}, 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.cal}내 예약</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
+<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)}, Pilot Hub</p><h1>${esc(nm)}님, 오늘도 안전한 비행 하세요</h1><p>${esc(rk.name)}, 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.cal}내 예약</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
 ${PS.demo ? demoNote() : ""}
 ${bookBox}${last.map(pbox).join("")}${blanks.join("")}
 <section class="card c8">${cardH(ICON.chart, "내 통계", seg("days", [[0, "전체"], [90, "90일"], [30, "30일"], [7, "7일"]], statDays, "통계 기간"))}<div class="stats" id="pstats-out">${statTiles(pstats(statDays), statDays)}</div></section>
@@ -286,7 +286,7 @@ ${bookBox}${last.map(pbox).join("")}${blanks.join("")}
 ${liveStrip()}
 <section class="card c6">${cardH(ICON.target, "활동", `<a class="ext small" href="#activities">전체 보기 →</a>`)}<div class="goal-sec">${pbar(`계급, ${esc(rk.name)}`, rk.pct, rk.next ? `${esc(rk.next)}까지 ${N(Math.round(rk.left * 10) / 10)}시간` : "최고 계급", "")}</div><div class="goal-sec">${pbar(`투어, ${esc(tour.name)}`, done / tour.legs.length * 100, `${done} / ${tour.legs.length} 구간`, esc(tour.desc))}<div class="tour-legs">${tour.legs.map(l => `<span class="tleg${legDone(l) ? " done" : ""}">${l[0]} → ${l[1]}</span>`).join("")}</div></div></section>
 <section class="card c6">${cardH(ICON.cup, "리더보드", `<a class="ext small" href="#community">전체 보기 →</a>`)}${leaderTable(5)}</section>
-<p class="lbl sec-lbl">${ICON.star}자료실, 기종 백과</p>
+<p class="lbl sec-lbl">${ICON.star}자료, 기종 백과</p>
 ${recentIds().map(id => box(byId[id])).join("")}
 </div>`;
   }
@@ -299,7 +299,7 @@ ${recentIds().map(id => box(byId[id])).join("")}
     const cnt = {}, acn = {}; L.forEach(p => { cnt[p.dep] = (cnt[p.dep] || 0) + 1; cnt[p.arr] = (cnt[p.arr] || 0) + 1; acn[p.ac] = (acn[p.ac] || 0) + 1; });
     const topA = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 5), topC = Object.keys(acn).sort((a, b) => acn[b] - acn[a]).slice(0, 5), B = badgeList(), got = B.filter(x => x[2]);
     const cc = new Set(Object.keys(cnt).map(c => aptBy[c].cc)).size;
-    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / My Profile</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)}, ${esc(PS.pilot.joined)} 합류, 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
+    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / 내 기록</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)}, ${esc(PS.pilot.joined)} 합류, 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
 ${profTabs("profile")}
 <div class="grid">${PS.demo ? demoNote() : ""}
 <div class="c8 stack">
@@ -330,7 +330,7 @@ ${PS.booking ? `<section class="card">${cardH(ICON.plane, "예약된 비행", `<
     return `<section class="card c12 myrank"><div class="card-b"><div class="myrank-n"><span class="stat-n">${i + 1}</span><small>위 / ${L.length}명</small></div><div class="myrank-t">${up ? `<p><b>${esc(up.name)}</b> 님까지 <b>${fmt(gap)}점</b> 남았습니다. 보통 PIREP 한 건이 ${per}점 안팎이라 <b>${need}건</b>쯤 더 날면 됩니다.</p>` : `<p><b>1위</b>입니다.</p>`}<div class="prog-t"><span class="prog-f" style="width:${N(pct)}%"></span></div></div>${up ? `<a class="btn" href="#book">${ICON.plane}비행 예약</a>` : ""}</div></section>`;
   }
   function renderCommunity() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 커뮤니티</div><h1>리더보드</h1><p>점수 순위입니다. 혼자 쓰는 허브라서 다른 조종사는 비교용 예시입니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 커뮤니티</div><h1>리더보드</h1><p>점수 순위입니다. 혼자 쓰는 사이트라 다른 조종사는 비교를 위해 넣은 예시입니다.</p></div></header>
 <div class="grid">${myRankCard()}<section class="card c12">${cardH(ICON.cup, "점수 순위", `<span class="hint">예시 조종사 ${ROSTER.length}명 포함</span>`)}${leaderTable(0)}</section></div>`;
   }
 
@@ -342,7 +342,7 @@ ${PS.booking ? `<section class="card">${cardH(ICON.plane, "예약된 비행", `<
     return L.length ? L.map(a => `<tr class="row-link" data-href="#apt-${a[0]}" tabindex="0"><td><span class="code">${a[1]}</span></td><td><span class="code">${a[0]}</span></td><td><strong>${esc(a[2])}</strong>${a[0] === here ? ` <span class="pill warn">현재 위치</span>` : ""}</td><td>${esc(CCN[a[3]] || a[3])}</td><td class="num">${a[0] === here ? "-" : distTxt(aptKm(here, a[0]))}</td><td class="num">${visits[a[0]] || 0}</td></tr>`).join("") : `<tr><td colspan="6" class="muted">일치하는 공항이 없습니다. 이름이나 코드를 다시 확인하세요.</td></tr>`;
   }
   function renderAirports() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>공항</h1><p>${VA.name}이 운항하는 공항 ${APT.length}곳입니다. 행을 누르면 비행장 차트와 공항 정보가 열리고, 거기서 출발지를 옮기거나 목적지로 고를 수 있습니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>공항</h1><p>${VA.name}이 운항하는 공항 ${APT.length}곳입니다. 행을 누르면 비행장 차트와 공항 정보가 열리고, 거기서 출발지를 옮기거나 목적지로 고를 수 있습니다.</p></div></header>
 <div class="grid"><section class="card c12"><div class="filters"><input class="in" id="apt-q" type="search" placeholder="이름, ICAO 또는 IATA 코드, 국가" value="${esc(aq)}" aria-label="공항 검색" autocomplete="off"></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>ICAO</th><th>IATA</th><th>공항</th><th>국가</th><th class="num">현재 위치에서</th><th class="num">내 이착륙</th></tr></thead><tbody id="apt-rows">${aptRows()}</tbody></table></div></section></div>`;
   }
   function renderApt(code) {
@@ -362,7 +362,7 @@ ${chartCard(code).replace('class="card c8 ch-card"', 'class="card c12 ch-card"')
 <section class="card">${cardH(ICON.plane, "주변 교통량", cv ? `<span class="hint">${esc(kst(cv.d.g))}, 반경 100 km</span>` : "")}<div class="card-b">${traffic}</div></section>
 </div>
 <section class="card c12">${cardH(ICON.route, "가까운 공항", `<span class="hint">A321neo 기준 예상 시간</span>`)}<div class="card-b ap-near">${near.map(x => `<a class="ap-nc" href="#apt-${x[0][0]}"><span class="code">${x[0][0]}</span><b>${esc(x[0][2])}</b><small>${esc(CCN[x[0][3]] || x[0][3])}</small><span class="ap-nc-d">${distTxt(x[1])}<em>${hm(eteMin(x[1], byId["airbus-a320neo"]))}</em></span></a>`).join("")}</div></section>
-${cp ? `<section class="card c12">${cardH(ICON.ext, "실제 차트 보기")}<div class="card-b"><div class="ap-exts">${cp.ext}</div><p class="small muted" style="margin:12px 0 0">Jeppesen 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. 점프시트는 비행 없이 현재 위치를 옮기는 기능이며, 예약된 비행이 있으면 쓸 수 없습니다.</p></div></section>` : ""}
+${cp ? `<section class="card c12">${cardH(ICON.ext, "실제 차트 보기")}<div class="card-b"><div class="ap-exts">${cp.ext}</div><p class="small muted" style="margin:12px 0 0">상용 항법 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. 점프시트는 비행 없이 현재 위치를 옮기는 기능이며, 예약된 비행이 있으면 쓸 수 없습니다.</p></div></section>` : ""}
 </div>`;
   }
 

@@ -31,7 +31,7 @@
   const NOTAMS = [
     { p: "high", date: "2026", title: "777-9 첫 인도, 2027년 목표", text: "보잉은 2026년 한 해를 FAA 형식 인증에 쓰고 2027년에 첫 기체를 인도할 계획입니다.", href: "boeing-777x" },
     { p: "med", date: "2026.01", title: "2025년 인도: 에어버스 793대, 보잉 600대", text: "에어버스는 7년 연속 1위를 지켰고, 보잉은 2018년 이후 가장 많이 인도했습니다.", href: "airbus" },
-    { p: "med", date: "2025.10", title: "A320 패밀리, 737 누적 인도 추월", text: "누적 12,260대를 넘어 역사상 가장 많이 인도된 여객기가 되었습니다.", href: "airbus-a320" },
+    { p: "med", date: "2025.10", title: "A320 패밀리, 737 누적 인도 추월", text: "누적 12,260대를 넘어 역사상 가장 많이 인도된 여객기가 됐습니다.", href: "airbus-a320" },
     { p: "low", date: "2025.10", title: "737 MAX 월 42대 증산 승인", text: "FAA가 2024년 1월 사고 이후 유지한 월 38대 상한을 풀었습니다.", href: "boeing-737max" },
     { p: "low", date: "2024.11", title: "A321XLR 취항", text: "이베리아항공이 첫 상업 운항을 시작했습니다. 협동체 항속거리 8,700 km.", href: "airbus-a320neo" },
     { p: "low", date: "2023.01", title: "마지막 747 인도", text: "1,574번째 기체가 아틀라스항공에 인도되며 54년의 생산이 끝났습니다.", href: "boeing-747" }
@@ -182,7 +182,7 @@
   const mini = rows => `<div class="mini">${rows.map(r => `<div><span class="lbl">${esc(r[0])}</span><span class="val">${fmt(r[1])}</span></div>`).join("")}</div>`;
   function mapCard() {
     return `<section class="card c12 mapcard" id="mapcard"><div class="mapwrap"><div id="sitemap" class="sitemap" role="img" aria-label="보잉과 에어버스 최종 조립 라인 위치 지도"></div>
-<div class="float-panel"><div class="fp-h"><h2>${ICON.map}최종 조립 라인</h2><p>여객기가 완성되어 출고되는 공장 9곳. 지도의 점에 올리면 생산 기종이 보입니다.</p><div class="legend" style="margin-top:8px"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div></div>
+<div class="float-panel"><div class="fp-h"><h2>${ICON.map}최종 조립 라인</h2><p>여객기가 완성되어 출고되는 공장 9곳. 지도의 점에 마우스를 올리면 생산 기종이 보입니다.</p><div class="legend" style="margin-top:8px"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div></div>
 <div class="fp-list">${SITES.map(s => `<div class="site mk-${s.maker}${s.closed ? " closed" : ""}"><div class="site-h"><span class="dot"></span>${esc(s.name)}<small>${esc(s.region)}</small></div><span class="val">${esc(s.builds)}</span>${siteLive(s)}</div>`).join("")}</div></div></div></section>`;
   }
   const siteLive = s => { const cv = coverOf(SITE_PLACE[s.name]); return cv ? `<button type="button" class="linkbtn site-live" data-live="goto:area/${SITE_PLACE[s.name]}" id="site-${SITE_PLACE[s.name]}">상공 ${fmt(cv.d.now || 0)}대, 24시간 ${fmt(cv.d.a24 || 0)}대</button>` : ""; };
@@ -219,7 +219,7 @@
   }
   function renderFleet() {
     const lineup = mk => AIRCRAFT.filter(a => a.maker === mk).sort((a, b) => a.specs.length - b.specs.length).map(ac => `<a class="lu-item mk-${ac.maker}" href="#${ac.id}" data-tip="${esc(`<b>${ac.name}</b><br>길이 ${ac.specs.length} m, 날개폭 ${ac.specs.span} m`)}">${silhouette(ac, 1.9, 180, 170)}<span>${esc(short(ac))}</span><small>${ac.specs.length} × ${ac.specs.span} m</small></a>`).join("");
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>기종 백과</h1><p>보잉 11개, 에어버스 10개 기종의 제원과 축척 도면, 개발사, 생산 거점, 인도 통계를 모았습니다. 행을 누르면 기종 페이지로 갑니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>기종 백과</h1><p>보잉 11개, 에어버스 10개 기종의 제원과 축척 도면, 개발 배경, 생산 거점, 인도 통계를 모았습니다. 행을 누르면 기종 페이지로 갑니다.</p></div></header>
 <div class="grid">
 <section class="card c12"><div class="filters"><input class="in" id="fleet-q" type="search" placeholder="기종명, ICAO 코드, 구분으로 검색" value="${esc(fq)}" aria-label="기종 목록 검색">${seg("fmk", [["all", "전체"], ["boeing", "보잉"], ["airbus", "에어버스"]], fmk, "제작사")}${seg("fcat", [["all", "전체"], ["narrow", "협동체"], ["wide", "광동체"], ["live", "생산 중"]], fcat, "구분")}<span class="sp" style="flex:1"></span>${seg("fview", [["table", "표"], ["cards", "사진 카드"]], fview, "보기 방식")}</div><div id="fleet-out">${fleetOut()}</div></section>
 <section class="card c12">${cardH(ICON.ruler, "같은 축척으로 본 크기", `<span class="hint">1 m = 1.9 px, 길이순</span>`)}<div class="card-b"><h3 class="lane-title mk-boeing">보잉</h3><div class="lineup">${lineup("boeing")}</div><h3 class="lane-title mk-airbus">에어버스</h3><div class="lineup">${lineup("airbus")}</div></div></section>
@@ -262,13 +262,13 @@ ${encyExtras()}
 <div class="legs" style="padding-top:12px"><div class="leg"><span class="lbl">${ICON.plane}초도비행</span><span class="big">${yearOf(ac.firstFlight)}</span><small>${esc(dateKo(ac.firstFlight))}</small></div><div class="leg"><span class="lbl">${ICON.flag}취항</span><span class="big">${/^\d{4}/.test(ac.intro) ? yearOf(ac.intro) : "미정"}</span><small>${esc(dateKo(ac.intro))}</small></div></div>
 <div class="pstat"><div class="pstat-h">${statusPill(ac)}<span class="val">${py.a}–${py.open ? "현재" : py.b}, ${py.b - py.a}년${py.open ? "째" : "간"}</span></div><div class="pbar-track" role="img" aria-label="생산 기간 ${py.a}년부터 ${py.open ? "현재" : py.b + "년"}까지"><span class="pbar-fill" style="left:${X(py.a)}%;width:${N(X(py.b) - X(py.a))}%"></span><span class="pbar-dot" style="left:${X(+yearOf(ac.firstFlight))}%" title="초도비행 ${yearOf(ac.firstFlight)}"></span></div><div class="pbar-ax"><span>1950</span><span>1990</span><span>2030</span></div></div>
 <div class="kvs">${kv(ICON.ruler, "길이", S.length + " m")}${kv(ICON.ruler, "날개폭", S.span + " m")}${kv(ICON.ruler, "높이", S.height + " m")}${kv(ICON.layers, "동체 폭", S.width + " m")}${kv(ICON.weight, "최대이륙중량", S.mtow + " t")}${kv(ICON.route, "항속거리", fmt(S.range) + " km")}${kv(ICON.users, "표준 좌석", S.seats + "석")}${kv(ICON.users, "최대 좌석", S.seatsMax + "석")}${kv(ICON.layers, "좌석 배치", cabinLbl(ac))}${kv(ICON.gauge, "상승한도", S.ceiling || "-")}${kv(ICON.gauge, "순항속도", S.cruise, "wide")}${kv(ICON.gauge, "엔진", S.engines, "wide txt")}${kv(ICON.chart, "생산 대수", ac.built, "wide txt")}${kv(ICON.bldg, "최종 조립", FAL[ac.id], "wide txt")}${kv(ICON.star, "출범 고객", ac.launchCustomer, "wide txt")}${kv(ICON.cal, "생산 기간", ac.production, "wide txt")}</div>
+<div class="ac-live-mini">${acLiveCard(ac).replace('<section class="card" id="ac-live">', '<div id="ac-live">').replace(/<\/section>$/, "</div>")}</div>
 </aside>
 <div class="stack">
 ${whyCard(ac)}
 <div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
 ${icaoCard(ac)}</div>
-${acLiveCard(ac)}
-<section class="card">${cardH(ICON.doc, "역사")}<div class="card-b prose">${ac.history.map(t => `<p>${esc(t)}</p>`).join("")}</div></section>
+<section class="card">${cardH(ICON.doc, "역사")}<div class="card-b prose ac-hist">${ac.history.map(t => `<p>${esc(t)}</p>`).join("")}</div></section>
 <div class="grid"><section class="card c6">${cardH(ICON.info, "설계 특징")}<div class="card-b"><ul class="feats">${ac.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div></section><section class="card c6">${cardH(ICON.flag, "한국 운항")}<div class="card-b prose"><p>${esc(ac.korea)}</p></div></section></div>
 <section class="card">${cardH(ICON.clock, "주요 연혁")}<div class="card-b"><ol class="kd mk-${ac.maker}">${ac.keyDates.map(k => `<li><span class="kd-date">${esc(k[0])}</span><span>${esc(k[1])}</span></li>`).join("")}</ol></div></section>
 <section class="card">${cardH(ICON.list, "파생형")}<div class="tbl-wrap"><table class="tbl"><thead><tr><th>형식</th><th>첫 비행</th><th>길이</th><th>최대 좌석</th><th>항속거리</th><th>비고</th></tr></thead><tbody>${ac.variants.map(v => `<tr>${v.map((c, i) => `<td>${i === 0 ? `<strong>${esc(c)}</strong>` : i < 5 ? `<span class="val">${esc(c)}</span>` : esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>
@@ -280,7 +280,7 @@ ${acLiveCard(ac)}
   function renderCompany(mk) {
     const c = COMPANIES[mk], list = AIRCRAFT.filter(a => a.maker === mk).sort((a, b) => a.firstFlight.localeCompare(b.firstFlight));
     const cp = photoOf(byId[CO_PHOTO[mk]]);
-    return heroHead({ photo: cp, mk: mk, alt: `${c.name} 여객기`, crumbs: `<a href="#home">대시보드</a> / Resources`, title: esc(c.name), sub: `<div class="en">${esc(c.en)}</div><p>${esc(c.tagline)}</p>`,
+    return heroHead({ photo: cp, mk: mk, alt: `${c.name} 여객기`, crumbs: `<a href="#home">대시보드</a> / 자료`, title: esc(c.name), sub: `<div class="en">${esc(c.en)}</div><p>${esc(c.tagline)}</p>`,
       actions: `<a class="btn ${cp ? "on-dark" : "ghost"}" href="#timeline">${ICON.clock}통합 연표</a>` }) + `
 <div class="grid">
 <div class="c8 stack">
@@ -323,7 +323,7 @@ ${cmpDiff(A, B)}${cmpPhotos}<div class="card-b" style="padding-top:0">${cmpArt(A
     const all = []; ["boeing", "airbus"].forEach(mk => COMPANIES[mk].timeline.forEach(t => all.push({ mk: mk, y: t[0], t: t[1], d: t[2] })));
     all.sort((a, b) => a.y - b.y || (a.mk === "boeing" ? -1 : 1));
     const dec = {}; all.forEach(e => { const k = Math.floor(e.y / 10) * 10; (dec[k] = dec[k] || []).push(e); });
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>연표</h1><p>시대마다 어떤 문제가 있었고 어떤 기종이 그 답이었는지 한 축에 놓았습니다. 초도비행과 두 회사의 주요 사건도 함께 표시합니다. 점이나 이름을 누르면 기종 페이지로 갑니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>연표</h1><p>시대마다 어떤 문제가 있었고 어떤 기종이 그 답이었는지 한 축에 놓았습니다. 초도비행과 두 회사의 주요 사건도 함께 표시합니다. 점이나 이름을 누르면 기종 페이지로 갑니다.</p></div></header>
 <div class="grid">
 ${whyEras()}
 <section class="card c12">${cardH(ICON.plane, "초도비행", `<div class="legend"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div>`)}<div class="card-b"><div class="plot">${firstFlightTimeline().replace('class="chart tl"', 'class="chart tl wide"')}</div></div></section>

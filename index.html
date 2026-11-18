@@ -1297,7 +1297,7 @@ a.abw:hover{background:var(--primary-soft)}
 /* ---------- 휴대폰 정리: 옆으로 밀지 않게 ---------- */
 @media (max-width:640px){
   /* 탭은 여러 줄로 감싼다 */
-  .ctabs{flex-wrap:wrap!important;overflow:visible!important;gap:4px}
+  .ctabs{flex-wrap:wrap!important;overflow:hidden!important;gap:4px}
   .ctabs a{padding:6px 10px!important;font-size:12.5px!important}
   .ctabs a .i{width:14px;height:14px}
   /* 넓은 표는 한 줄씩 카드처럼 */
@@ -1625,6 +1625,55 @@ a.abw:hover{background:var(--primary-soft)}
 .lr-wrow .lr-where-b{grid-template-columns:1fr;gap:16px}
 .lr-wrow .lr-sec2{display:flex;flex-direction:column} .lr-wrow .lr-sec2 .lr-fig{flex:1;display:flex;align-items:center} .lr-wrow .lr-sec2 .lr-fig>svg{width:100%;height:auto;display:block}
 @media (max-width:980px){.lr-wrow{grid-template-columns:1fr}}
+/* ---------- ICAO 기준 안내 ---------- */
+.icx-intro p{margin:0 0 14px;line-height:1.75;color:var(--fg-2)}
+.icx-nav{display:flex;flex-wrap:wrap;gap:8px}
+.icx-nav button{padding:7px 14px;border:0;border-radius:999px;background:var(--tile);color:var(--fg);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.icx-nav button:hover{background:color-mix(in srgb,var(--wm-accent) 14%,var(--tile))}
+.icx-lead{margin:0 0 16px;line-height:1.75;color:var(--fg-2);font-size:14px}
+.icx-note{margin:14px 0 0;font-size:12.5px;line-height:1.7;color:var(--muted)}
+.icx-k{margin:0 0 10px;font-size:12px;font-weight:700;color:var(--fg-2);letter-spacing:.01em}
+.icx-ref{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;align-items:start}
+.icx-num{display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto;gap:3px 10px;align-items:center;margin-bottom:12px}
+.icx-num b{grid-row:span 2;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--tile);font:700 14px var(--mono)}
+.icx-rwy{height:8px;border-radius:4px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden} .icx-rwy i{display:block;height:100%;border-radius:4px;background:#64748b}
+.icx-num small{font-size:12px;color:var(--muted)}
+.icx-lets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.icx-let{padding:12px;border-radius:12px;background:var(--tile);display:flex;flex-direction:column;gap:8px;opacity:.6}
+.icx-let.on{opacity:1}
+.icx-let-h{display:flex;align-items:baseline;justify-content:space-between;gap:6px} .icx-let-h b{font:800 22px var(--mono);color:var(--wm-accent)} .icx-let-h span{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.icx-span{height:6px;border-radius:3px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden} .icx-span i{display:block;height:100%;background:var(--wm-accent);border-radius:3px}
+.icx-chips{display:flex;flex-wrap:wrap;gap:5px}
+.icx-chip{display:inline-flex;align-items:baseline;gap:5px;padding:4px 8px;border-radius:7px;background:var(--surface);color:var(--fg);text-decoration:none;font:700 11.5px var(--mono);box-shadow:0 0 0 1px var(--line)}
+.icx-chip small{font:500 11px var(--font);color:var(--muted)} .icx-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--mk);align-self:center}
+.icx-chip:hover{box-shadow:0 0 0 1.5px var(--mk)}
+.icx-let .icx-chip small{display:none}
+.icx-none{margin:0;font-size:11.5px;color:var(--muted)}
+.icx-tiles{display:grid;gap:10px}
+.icx-tile{padding:12px 14px;border-radius:12px;background:var(--tile);display:grid;gap:10px;box-shadow:inset 3px 0 0 var(--c)}
+.icx-tile-h{display:flex;align-items:center;gap:12px} .icx-tile-h b{display:block;font-size:14px} .icx-tile-h small{font-size:12px;color:var(--muted)}
+.icx-badge{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--c);font:800 16px var(--mono)}
+.icx-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.icx-ex{padding:16px;border-radius:12px;background:var(--tile)}
+.icx-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.icx-pair span{display:grid;gap:2px;padding:12px;border-radius:10px;background:var(--surface)} .icx-pair em{font-style:normal;font-size:11px;color:var(--muted)} .icx-pair b{font:800 22px var(--mono);color:var(--wm-accent)} .icx-pair small{font-size:11.5px;color:var(--fg-2)}
+.icx-pres{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.icx-pre{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:var(--tile)}
+.icx-pre-k{flex:none;width:36px;height:28px;border-radius:7px;display:grid;place-items:center;background:var(--surface);font:800 13px var(--mono);color:var(--wm-accent)}
+.icx-pre b{display:block;font-size:13px;margin-bottom:3px} .icx-pre-a{display:flex;flex-wrap:wrap;gap:4px 8px} .icx-pre-a a{font:600 11.5px var(--mono);color:var(--fg-2);text-decoration:none} .icx-pre-a a:hover{color:var(--wm-accent)}
+.icx-edto{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;position:relative;margin:6px 0 4px}
+.icx-edto::before{content:"";position:absolute;left:12.5%;right:12.5%;top:9px;height:3px;border-radius:2px;background:linear-gradient(90deg,#94a3b8,var(--wm-accent))}
+.icx-step{display:grid;justify-items:center;gap:4px;text-align:center;position:relative}
+.icx-dot{width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:0 0 0 4px color-mix(in srgb,var(--wm-accent) calc(var(--k) * 100%),#94a3b8)}
+.icx-step b{font:800 16px var(--font);margin-top:6px} .icx-step small{font-size:12px;color:var(--muted)}
+@media (max-width:1100px){.icx-lets{grid-template-columns:repeat(3,minmax(0,1fr))}.icx-ref{grid-template-columns:1fr}}
+@media (max-width:640px){.icx-lets{grid-template-columns:repeat(2,minmax(0,1fr))}.icx-two{grid-template-columns:1fr}.icx-edto{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}.icx-edto::before{display:none}}
+.ac-live-mini{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.ac-live-mini .card-h{padding:0 0 8px;border:0;min-height:0}
+.ac-live-mini .aclive{display:grid!important;gap:10px;padding:0!important}
+.ac-live-mini .aclive .btn{width:100%;justify-content:center}
+/* 기종 페이지 역사: 넓은 화면에서는 두 단으로 읽게 */
+@media (min-width:1200px){.detail .stack>section .prose{max-width:none}.detail .stack>section .prose.ac-hist{column-count:2;column-gap:36px}.detail .stack>section .prose.ac-hist p{break-inside:avoid}}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}
@@ -1743,7 +1792,7 @@ a.ab-w:hover b{color:var(--primary-fg)}
   <nav class="side" id="side" aria-label="주요 메뉴"></nav>
   <div class="main">
     <main id="app"></main>
-    <footer class="foot"><span>Jetliner Virtual은 비행 시뮬레이션 기록용 가상 항공사이며 실제 항공사와 관계가 없습니다. 기종 제원은 대표 형식 기준, 생산과 인도 수치는 2025년 12월 기준 근사치입니다.</span><span>사진: Wikimedia Commons (각 사진의 라이선스 표기 참조) / Flight data: FlyItalyADSB (flyitalyadsb.com), CC BY-SA 4.0 / 지도: OpenStreetMap 기여자, OurAirports, Natural Earth</span></footer>
+    <footer class="foot"><span>Jetliner Virtual은 비행 시뮬레이션 기록용 가상 항공사이며 실제 항공사와 관계가 없습니다. 기종 제원은 대표 형식 기준, 생산과 인도 수치는 2025년 12월 기준 근사치입니다.</span><span>사진: Wikimedia Commons (각 사진의 라이선스 표기 참조) / 운항 데이터: FlyItalyADSB (flyitalyadsb.com), CC BY-SA 4.0 / 지도: OpenStreetMap 기여자, OurAirports, Natural Earth</span></footer>
   </div>
 </div>
 <div class="backdrop" id="backdrop"></div>
@@ -2103,7 +2152,7 @@ const COMPANIES = {
       [1967, "737 첫 비행", "에버렛 공장 가동, 747 생산 준비"],
       [1969, "747 첫 비행", "2월 9일, 세계 최초의 광동체 여객기"],
       [1971, "보잉 불황", "초음속기 2707 취소, 대량 감원"],
-      [1982, "757과 767 취항", "공용 조종석을 갖춘 두 기종 동시 등장"],
+      [1982, "767 취항 (757은 1983년)", "공용 조종석을 갖춘 두 기종 동시 등장"],
       [1994, "777 첫 비행", "6월 12일, 보잉 첫 플라이바이와이어 여객기"],
       [1997, "맥도넬 더글러스 합병", "8월 1일, 미국 대형기 제작사 단일화"],
       [2001, "본사 시카고 이전", "85년 만에 시애틀을 떠남"],
@@ -2203,7 +2252,7 @@ const AIRCRAFT = [
     history: [
       `707은 보잉이 B-47, B-52 폭격기로 축적한 후퇴익과 날개 밑 포드형 엔진 배치를 민간기에 옮긴 결과물입니다. 1952년 이사회는 당시 회사 순자산의 상당 부분인 1,600만 달러를 들여 시제기 367-80(대시 80)을 만들기로 했고, 1954년 7월 15일 첫 비행에 성공했습니다. 이듬해 8월 시애틀 시페어 축제 상공에서 시험비행사 텍스 존스턴이 대시 80으로 배럴롤을 선보인 일화는 지금도 잘 알려져 있습니다.`,
       `경쟁 기종 더글러스 DC-8에 맞서 보잉은 동체 폭을 3.76m로 넓혀 6열 좌석을 확보했고, 이 폭은 이후 727, 737, 757까지 그대로 이어졌습니다. 1958년 10월 26일 팬암이 뉴욕–파리 노선에 707-120을 투입하면서 미국의 제트 여객 시대가 시작되었고, 대서양 횡단 시간은 피스톤기의 절반 수준으로 줄었습니다.`,
-      `항속거리를 늘린 707-320 인터컨티넨탈과 터보팬 엔진을 단 320B/C가 1960년대 장거리 노선을 지배했습니다. 민간형 생산은 1979년에 끝났지만, 동체를 공유하는 E-3 센트리 조기경보기와 KC-135 공중급유기는 1991년까지 생산되었고 일부는 지금도 현역입니다.`
+      `항속거리를 늘린 707-320 인터컨티넨탈과 터보팬 엔진을 단 320B/C가 1960년대 장거리 노선을 지배했습니다. 민간형 생산은 1979년에 끝났지만, 동체를 공유하는 E-3 센트리 조기경보기와 E-6 통신기는 1990년대 초까지 생산되었고 일부는 지금도 현역입니다.`
     ],
     features: ["35° 후퇴익과 날개 밑 4발 포드 배치: 이후 모든 대형 제트기의 원형", "동체 폭 3.76m: 727, 737, 757까지 이어진 ‘보잉 협동체 표준’", "JT3D 터보팬(320B)으로 항속거리 1만 km 돌파", "군용 파생형 KC-135, E-3, E-6은 2020년대에도 운용"],
     korea: "대한항공이 1971년 707-320B/C를 도입해 서울–호놀룰루–로스앤젤레스 등 첫 태평양 횡단 제트 노선을 열었습니다.",
@@ -2286,7 +2335,7 @@ const AIRCRAFT = [
       `2024년 1월 알래스카항공 1282편(MAX 9)에서 볼트가 체결되지 않은 도어 플러그가 비행 중 떨어져 나가며 생산 품질 문제가 다시 불거졌고, FAA는 월 생산량을 38대로 제한했습니다. 2025년 10월 FAA가 월 42대 증산을 승인했고, 2025년 한 해 737 인도는 447대로 회복되었습니다. MAX 7과 MAX 10은 인증이 늦어지고 있습니다.`
     ],
     features: ["LEAP-1B 엔진(팬 지름 1.76m)과 AT 윙렛으로 NG 대비 연료 14% 절감", "엔진을 앞쪽 위로 옮겨 지상고 확보 → MCAS 도입 배경", "NG와 조종 자격 공유(차이 훈련만으로 전환)", "MAX 8-200은 210석 고밀도형"],
-    korea: "대한항공(737-8), 제주항공, 진에어, 티웨이항공, 이스타항공이 737-8을 운용 중이며, 2022년 12월 제주항공 등이 국내 첫 MAX 노선을 열었습니다.",
+    korea: "대한항공(737-8), 제주항공, 진에어, 티웨이항공, 이스타항공이 737-8을 운용 중이며, 국내 첫 737 MAX는 2018년 12월 이스타항공이 들여왔습니다.",
     rival: "airbus-a320neo", wiki: "Boeing_737_MAX", wikiKo: "보잉 737 MAX"
   },
   {
@@ -2460,7 +2509,7 @@ const AIRCRAFT = [
     keyDates: [["1995.10", "밸류제트 50대 주문으로 MD-95 출범"], ["1997.08", "보잉–맥도넬 더글러스 합병"], ["1998.01", "717로 개명"], ["1998.09", "첫 비행"], ["1999.10", "에어트랜 취항"], ["2006.05", "마지막 기체 인도(에어트랜, 미드웨스트)"]],
     history: [
       `717은 맥도넬 더글러스가 DC-9 계열의 마지막 발전형으로 개발한 MD-95입니다. 1997년 보잉이 맥도넬 더글러스를 합병하면서 MD 여객기 중 유일하게 살아남아 ‘717’이라는 이름을 받았습니다(원래 717은 KC-135의 사내 모델 번호였습니다). DC-9의 동체와 T-테일 꼬리 엔진 배치를 유지하면서 BR715 엔진과 글래스 콕핏을 적용했습니다.`,
-      `100석급 시장에서 봄바디어와 엠브라에르의 리저널 제트와 경쟁했지만 주문이 많지 않아 2006년 롱비치 공장에서 156대로 생산이 끝났습니다. 에어트랜의 기재를 물려받은 델타항공이 최대 운용사이며, 하와이안항공과 콴타스링크도 운용합니다.`
+      `100석급 시장에서 봄바디어와 엠브라에르의 리저널 제트와 경쟁했지만 주문이 많지 않아 2006년 롱비치 공장에서 156대로 생산이 끝났습니다. 에어트랜의 기재를 물려받은 델타항공이 최대 운용사이며, 하와이안항공이 운용하고, 콴타스링크는 2024년에 퇴역시켰습니다.`
     ],
     features: ["DC-9 계열의 꼬리 쌍발 엔진과 T-테일", "2-3 배치 객실과 짧은 회전 시간", "MD-95에서 이름만 바뀐 보잉 라인업의 ‘입양아’", "롱비치에서 생산된 마지막 더글러스 혈통 여객기"],
     korea: "국내 운용 사례가 없습니다.",
@@ -2490,7 +2539,7 @@ const AIRCRAFT = [
       `1974년 취항 이후 1976–77년에는 신규 주문이 사실상 없어 완성기가 공장에 서 있었습니다. 1977년 이스턴항공 회장 프랭크 보먼에게 4대를 6개월간 무료로 빌려주는 조건을 내걸었고, 운항 경제성을 확인한 이스턴이 1978년 23대를 주문하면서 미국 시장과 세계 시장이 열렸습니다. 이후 쌍발기 대양 횡단 규정(ETOPS) 확대에도 기여했습니다.`,
       `1983년의 A300-600은 A310의 2인 승무 조종석과 꼬리를 적용한 발전형이며, 화물형은 페덱스와 UPS가 대량 운용합니다. 동체를 거대하게 키운 부품 수송기 벨루가(A300-600ST)도 이 계열입니다. 2007년 561대로 생산이 끝났습니다.`
     ],
-    features: ["세계 최초의 쌍발 광동체(2-4-2, 8열)", "LD3 컨테이너 2열을 싣는 5.64m 동체(A310, A330, A340으로 계승)", "초음속 익형과 복합재 부품 등 당시 최신 기술 적용", "A300-600: 2인 승무 디지털 조종석의 시초"],
+    features: ["세계 최초의 쌍발 광동체(2-4-2, 8열)", "LD3 컨테이너 2열을 싣는 5.64m 동체(A310, A330, A340으로 계승)", "초음속 익형과 복합재 부품 등 당시 최신 기술 적용", "A300-600: A310과 같은 2인 승무 디지털 조종석"],
     korea: "대한항공은 1974년 유럽 밖 항공사로는 처음 A300을 주문해 1975년 A300B4를 도입했고, A300-600R을 2010년대 초까지 운용했습니다.",
     rival: "boeing-767", rivalNote: "보잉 767, 맥도넬 더글러스 DC-10", wiki: "Airbus_A300", wikiKo: "에어버스 A300"
   },
@@ -2572,7 +2621,7 @@ const AIRCRAFT = [
     id: "airbus-a330", maker: "airbus", name: "에어버스 A330", en: "Airbus A330 (ceo)", variant: "A330-300 기준",
     role: "쌍발 광동체 중장거리 여객기", category: "wide", generation: "2세대",
     status: "ceo 생산 종료, neo와 MRTT 생산 중", firstFlight: "1992-11-02", intro: "1994-01-17", launchCustomer: "에어 앵테르",
-    production: "1992–현재 (ceo 여객형은 2020년경 종료)", built: "약 1,860대 (ceo+neo, 2025년 말 기준)",
+    production: "1992–현재 (ceo 여객형은 2020년경 종료)", built: "약 1,650대 (ceo+neo, 2025년 말 기준)",
     specs: { length: 63.69, span: 60.30, height: 16.79, width: 5.64, mtow: 242.0, range: 11750, seats: 277, seatsMax: 440,
       engines: "2× GE CF6-80E1 / PW4000 / RR 트렌트 700 (각 약 316 kN)", cruise: "마하 0.82 (약 871 km/h)", ceiling: "12,500 m" },
     cabin: "2-4-2",
@@ -2652,18 +2701,18 @@ const AIRCRAFT = [
     geometry: { sweep: 31.9, wingPos: 0.38, rootChord: 0.20, engineMount: "wing", enginePos: [0.32], engineDia: 3.1, winglet: true },
     variants: [
       ["A350-900", "2013", "66.80 m", "440석", "15,000 km", "기본형, 약 600대 인도"],
-      ["A350-900ULR", "2018", "66.80 m", "173석(SQ)", "18,000 km", "싱가포르–뉴욕 세계 최장 노선"],
+      ["A350-900ULR", "2018", "66.80 m", "173석(SQ)", "18,000 km", "싱가포르–뉴욕(약 15,300 km) 최장 노선"],
       ["A350-1000", "2016", "73.79 m", "480석", "16,100 km", "트렌트 XWB-97, 777-300ER와 777X 대응"],
       ["A350F", "-", "70.80 m", "-", "8,700 km", "화물형, 2027년 인도 목표"]
     ],
     keyDates: [["2004.12", "A330 기반 초기 A350 발표"], ["2006.07", "A350 XWB로 전면 재설계 발표"], ["2013.06", "첫 비행"], ["2015.01", "카타르항공 도하–프랑크푸르트 취항"], ["2016.11", "A350-1000 첫 비행"], ["2018.10", "-900ULR 싱가포르–뉴어크 취항"], ["2023.02", "카타르항공 도장 분쟁 합의"]],
     history: [
       `에어버스는 2004년 787에 맞서 A330에 신형 엔진을 단 A350을 제안했지만 항공사와 리스사들의 혹평을 받고 2006년 전면 재설계했습니다. ‘XWB(extra wide body)’라는 이름처럼 동체를 새로 만들어 3-3-3 배치를 가능하게 했고, 기체 중량의 53%를 복합재로, 날개는 한 장의 복합재 패널로 제작했습니다. 엔진은 롤스로이스 트렌트 XWB 단일 선택입니다.`,
-      `2015년 카타르항공 취항 이후 A350-900은 777, A340, 747의 대체 수요를 흡수했고, 2018년 취항한 -900ULR은 싱가포르–뉴욕 18,000km 세계 최장 노선을 날고 있습니다. 73.8m의 -1000은 777-300ER과 777X의 시장을 겨냥하며, 콴타스는 시드니–런던 직항(프로젝트 선라이즈)용으로 주문했습니다.`,
+      `2015년 카타르항공 취항 이후 A350-900은 777, A340, 747의 대체 수요를 흡수했고, 2018년 취항한 -900ULR은 싱가포르–뉴욕(약 15,300 km) 세계 최장 노선을 날고 있습니다. 73.8m의 -1000은 777-300ER과 777X의 시장을 겨냥하며, 콴타스는 시드니–런던 직항(프로젝트 선라이즈)용으로 주문했습니다.`,
       `2021~2023년 카타르항공과의 도장 박리 분쟁으로 29대가 지상 대기하고 소송까지 갔으나 2023년 2월 합의했습니다. 에미레이트가 2024년 첫 A350을 받았고 2025년까지 약 700대가 인도되었습니다. 화물형 A350F는 2027년 인도를 목표로 개발 중입니다.`
     ],
-    features: ["복합재 53%, 단일 패널 복합재 날개와 적응형 플랩", "트렌트 XWB 단일 엔진(양산 터보팬 중 최고 효율급)", "-900ULR: 세계 최장 정기 노선(18,000km)", "A330, A380과 같은 설계의 조종석(교차 자격)"],
-    korea: "아시아나항공이 2017년부터 A350-900을, 대한항공이 2025년부터 A350-900과 -1000을 도입했습니다.",
+    features: ["복합재 53%, 단일 패널 복합재 날개와 적응형 플랩", "트렌트 XWB 단일 엔진(양산 터보팬 중 최고 효율급)", "-900ULR: 세계 최장 정기 노선(약 15,300 km)", "A330, A380과 같은 설계의 조종석(교차 자격)"],
+    korea: "아시아나항공이 2017년부터 A350-900을, 대한항공이 2025년 1월부터 A350-900을 운항하고 -1000을 도입할 예정입니다.",
     rival: "boeing-787", rivalNote: "보잉 787, 777X", wiki: "Airbus_A350", wikiKo: "에어버스 A350"
   },
   {
@@ -2682,7 +2731,7 @@ const AIRCRAFT = [
     ],
     keyDates: [["1994", "UHCA/A3XX 연구 착수"], ["2000.12", "프로그램 출범(50대 수주)"], ["2005.01", "툴루즈 공개"], ["2005.04", "첫 비행"], ["2006.06", "배선 문제로 2차 인도 연기, EADS 경영진 교체"], ["2007.10", "싱가포르항공 취항"], ["2010.11", "콴타스 32편 엔진 폭발"], ["2019.02", "단종 발표"], ["2021.12", "마지막 기체 인도"]],
     history: [
-      `A380은 747의 독점을 깨기 위한 1990년대 초대형기 연구(UHCA, A3XX)에서 출발해 2000년 12월 107억 유로를 들여 출범했습니다. 전 길이 2층 객실에 4등급 525석(최대 853석)을 싣고, 날개폭 79.8m는 공항 80m 규격에 맞춰 설계했습니다. 2005년 4월 27일 툴루즈에서 첫 비행을 했습니다.`,
+      `A380은 747의 독점을 깨기 위한 1990년대 초대형기 연구(UHCA, A3XX)에서 출발해 2000년 12월 약 107억 달러를 들여 출범했습니다. 전 길이 2층 객실에 4등급 525석(최대 853석)을 싣고, 날개폭 79.8m는 공항 80m 규격에 맞춰 설계했습니다. 2005년 4월 27일 툴루즈에서 첫 비행을 했습니다.`,
       `그러나 함부르크와 툴루즈가 서로 다른 버전의 설계 소프트웨어를 쓴 탓에 530km에 이르는 배선이 맞지 않아 2006년 인도가 2년 가까이 늦어졌고, EADS 경영진이 물러났습니다. 2007년 10월 싱가포르항공이 싱가포르–시드니 노선에 첫 상업 운항을 했고, 에미레이트항공이 123대를 운용하는 최대 고객이 되었습니다. 2010년 콴타스 32편은 비행 중 엔진이 폭발했지만 조종사들이 대처해 탑승자 전원이 무사했습니다.`,
       `허브 간 대량 수송 대신 중형 쌍발기 직항이 대세가 되면서 A380은 손익분기를 넘지 못했고, 에미레이트가 주문을 줄이자 2019년 2월 단종이 발표되었습니다. 2021년 12월 16일 에미레이트에 251번째 기체가 인도되며 생산이 끝났지만, 팬데믹 이후 수요 급증으로 많은 항공사가 보관 기체를 복귀시켰습니다.`
     ],
@@ -2793,7 +2842,7 @@ const WHY = {
   },
   "boeing-787": {
     q: "속도보다 운항비를 낮춘 중형기로 장거리 직항 노선을 열기 위해",
-    bg: "2001년 보잉은 음속에 가깝게 나는 ‘소닉 크루저’를 제안했지만, 9·11 테러와 유가 상승을 겪은 항공사들은 속도보다 연료 효율을 원했습니다. 같은 때 에어버스는 초대형 A380으로 허브 공항 사이를 잇는 전략에 걸었습니다.",
+    bg: "2001년 보잉은 음속에 가깝게 나는 ‘소닉 크루저’를 제안했지만, 2001년 9월 11일 테러와 유가 상승을 겪은 항공사들은 속도보다 연료 효율을 원했습니다. 같은 때 에어버스는 초대형 A380으로 허브 공항 사이를 잇는 전략에 걸었습니다.",
     need: "보잉은 반대로 봤습니다. 승객은 큰 허브에서 갈아타기보다 중간 크기 도시 사이를 바로 가는 직항을 원하고, 그러려면 767만 한 크기에 항속거리가 긴 고효율 중형기가 필요하다는 판단이었습니다.",
     answer: "2004년 ANA의 50대 주문으로 출범한 787은 동체와 날개를 포함해 기체 무게의 절반을 탄소섬유 복합재로 만든 첫 여객기입니다. 엔진 압축 공기를 뽑아 쓰지 않는 전기식 계통, 더 높은 객실 기압과 습도, 큰 창문을 넣었고 767보다 연료를 약 20% 줄였습니다.",
     result: "전 세계 협력사에 설계와 제작을 나눈 방식 탓에 첫 인도가 3년 넘게 늦어졌고, 2013년에는 배터리 화재로 운항이 중단되기도 했습니다. 그래도 787은 이전에 없던 장거리 직항 노선을 수백 개 열어, 허브냐 직항이냐의 논쟁에서 보잉의 예측이 맞았음을 보여 줬습니다."
@@ -3293,34 +3342,48 @@ ${spanScale([ac])}
 
   /* ---------- 문서: ICAO 기준 안내 ---------- */
   function renderIcao() {
-    const chips = list => list.length ? `<div class="tour-legs">${list.map(a => `<a class="tleg why-chip mk-${a.maker}" href="#${a.id}"><span class="dot"></span>${ICAO[a.id]} ${esc(short(a))}</a>`).join("")}</div>` : `<span class="muted">-</span>`;
+    const chip = a => `<a class="icx-chip mk-${a.maker}" href="#${a.id}"><span class="dot"></span>${ICAO[a.id]}<small>${esc(short(a))}</small></a>`;
+    const chips = list => list.length ? `<div class="icx-chips">${list.map(chip).join("")}</div>` : `<p class="icx-none">이 사이트에 해당 기종 없음</p>`;
     const byL = l => AIRCRAFT.filter(a => acLetter(a) === l), byW = w => AIRCRAFT.filter(a => wakeCat(a) === w), byR = r => AIRCRAFT.filter(a => rffCat(a) === r);
     const pre = {}; APT.forEach(a => { (pre[a[1].slice(0, 2)] = pre[a[1].slice(0, 2)] || []).push(a); });
     const PRE_KO = { RK: "대한민국", RJ: "일본 (본토)", RO: "일본 (오키나와)", RC: "대만", RP: "필리핀", ZB: "중국 화북", ZS: "중국 화동", ZG: "중국 화남", VH: "홍콩", VT: "태국", VV: "베트남", VI: "인도 북부", VA: "인도 서부", WS: "싱가포르", WM: "말레이시아", WA: "인도네시아 동부", WI: "인도네시아 서부", OM: "아랍에미리트", OT: "카타르", LT: "튀르키예", EG: "영국", LF: "프랑스", ED: "독일", EH: "네덜란드", LI: "이탈리아", LE: "스페인", LS: "스위스", LO: "오스트리아", LK: "체코", PH: "미국 하와이", PG: "괌", CY: "캐나다", YS: "호주 (시드니 권역)", YB: "호주 (브리즈번 권역)", NZ: "뉴질랜드" };
-    const preRows = Object.keys(pre).sort().filter(k => k[0] !== "K").map(k => `<tr><td><span class="code">${k}</span></td><td>${esc(PRE_KO[k] || "")}</td><td>${pre[k].map(a => `<a class="ext" href="#apt-${a[0]}">${a[1]}</a>`).join(", ")}</td></tr>`).join("");
     const kUS = APT.filter(a => a[1][0] === "K");
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Documents</div><h1>ICAO 기준 안내</h1><p>기종과 공항을 읽을 때 자주 만나는 ICAO 분류입니다. 이 사이트의 기종 ${AIRCRAFT.length}개와 공항 ${APT.length}곳이 어디에 속하는지도 보여 줍니다.</p></div><div class="actions"><a class="btn ghost" href="#fleet">${ICON.list}기종 백과</a></div></header>
+    const nav = [["icx-ref", "비행장 기준 코드"], ["icx-wake", "항적 난기류 등급"], ["icx-rff", "구조소방 등급"], ["icx-codes", "ICAO와 IATA 코드"], ["icx-etops", "ETOPS"]];
+    // 코드 숫자: 활주로 길이 막대
+    const NUM = [[1, "800 m 미만", 800], [2, "800~1,200 m", 1200], [3, "1,200~1,800 m", 1800], [4, "1,800 m 이상", 2600]];
+    const numHtml = NUM.map(n => `<div class="icx-num"><b>${n[0]}</b><span class="icx-rwy"><i style="width:${N(n[2] / 2600 * 100)}%"></i></span><small>${n[1]}</small></div>`).join("");
+    // 코드 문자: A~F 카드, 날개폭 막대
+    const letHtml = ICAO_LETTER.map(r => { const L = byL(r[0]); return `<div class="icx-let${L.length ? " on" : ""}"><div class="icx-let-h"><b>${r[0]}</b><span>${r[1] ? r[1] + "~" : "~"}${r[2]} m</span></div><div class="icx-span"><i style="width:${N(r[2] / 80 * 100)}%"></i></div>${chips(L)}</div>`; }).join("");
+    // 후류 등급
+    const WK = [["J", "A380-800 (따로 지정)", "#7c3aed"], ["H", "136 t 이상", "#dc2626"], ["M", "7 t 초과 136 t 미만", "#2563eb"], ["L", "7 t 이하", "#64748b"]];
+    const wakeHtml = WK.map(w => `<div class="icx-tile" style="--c:${w[2]}"><div class="icx-tile-h"><span class="icx-badge">${w[0]}</span><div><b>${WAKE[w[0]]}</b><small>최대이륙중량 ${w[1]}</small></div></div>${chips(byW(w[0]))}</div>`).join("");
+    // 구조소방 등급 6~10
+    const rffHtml = RFF.slice(5).map((r, i) => `<div class="icx-tile" style="--c:${["#16a34a", "#65a30d", "#ca8a04", "#ea580c", "#dc2626"][i]}"><div class="icx-tile-h"><span class="icx-badge">${r[0]}</span><div><b>길이 ${RFF[4 + i][1]}~${r[1]} m</b><small>동체 폭 ${r[2]} m 이하</small></div></div>${chips(byR(r[0]))}</div>`).join("");
+    // 공항 앞 두 글자
+    const preHtml = Object.keys(pre).sort().filter(k => k[0] !== "K").map(k => `<div class="icx-pre"><span class="icx-pre-k">${k}</span><div><b>${esc(PRE_KO[k] || "")}</b><div class="icx-pre-a">${pre[k].map(a => `<a href="#apt-${a[0]}">${a[1]}</a>`).join("")}</div></div></div>`).join("");
+    const EDTO = [["60분", "기본"], ["120분", "767 대서양 횡단 (1985)"], ["180분", "1988년 승인 (777은 취항 때부터)"], ["330분 이상", "787, A350 등"]];
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>ICAO 기준 안내</h1><p>기종과 공항을 읽을 때 자주 만나는 ICAO 분류입니다. 이 사이트의 기종 ${AIRCRAFT.length}개와 공항 ${APT.length}곳이 어디에 속하는지도 보여 줍니다.</p></div><div class="actions"><a class="btn ghost" href="#fleet">${ICON.list}기종 백과</a></div></header>
 <div class="grid">
-<section class="card c12">${cardH(ICON.info, "ICAO와 부속서")}<div class="card-b prose"><p>ICAO는 1944년 시카고 협약으로 만들어진 유엔 전문 기구입니다. 회원국이 따르는 국제 표준과 권고(SARPs)를 협약의 부속서 19개로 정하고, 세부 절차는 Doc 번호가 붙은 문서로 냅니다. 아래 분류는 부속서 14(비행장), Doc 4444(항공교통관리 절차), Doc 8643(항공기 형식 지정자), Doc 7910(지명 약어)에서 나옵니다.</p><p class="small muted">이 페이지는 이해를 돕기 위한 요약입니다. 실제 운항과 설계에는 각 문서의 최신판과 해당 국가의 규정을 써야 합니다.</p></div></section>
+<section class="card c12"><div class="card-b icx-intro"><p>ICAO는 1944년 시카고 협약으로 만들어진 유엔 전문 기구입니다. 국제 표준과 권고를 <b>부속서 19개</b>로 정하고, 세부 절차는 <b>Doc 번호</b>가 붙은 문서로 냅니다. 아래 분류는 부속서 14(비행장), Doc 4444(항공교통관리), Doc 8643(형식 지정자), Doc 7910(지명 약어)에서 나옵니다.</p><nav class="icx-nav">${nav.map(n => `<button type="button" data-icx="${n[0]}">${n[1]}</button>`).join("")}</nav></div></section>
 
-<section class="card c12">${cardH(ICON.ruler, "비행장 기준 코드 (부속서 14)", `<span class="hint">예: 4E, 4F</span>`)}<div class="card-b prose"><p>공항 시설을 어떤 크기의 비행기에 맞춰 지을지 정하는 기준입니다. 숫자와 문자를 붙여 쓰며, 숫자는 비행기가 이륙에 필요한 기준 활주로 길이, 문자는 날개폭으로 정합니다. 유도로 폭, 활주로와 유도로 사이 간격, 주기장 간격이 이 문자에 따라 달라집니다. 2018년 개정 전에는 주 착륙장치 바깥 폭도 문자를 정하는 기준이었습니다.</p></div>
-<div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>코드 숫자</th><th>기준 활주로 길이</th><th class="sp-col"></th><th>코드 문자</th><th>날개폭</th><th>이 사이트의 기종</th></tr></thead><tbody>${ICAO_LETTER.map((r, i) => `<tr><td>${i < 4 ? `<span class="code">${i + 1}</span>` : ""}</td><td>${["800 m 미만", "800 m 이상 1,200 m 미만", "1,200 m 이상 1,800 m 미만", "1,800 m 이상", "", ""][i]}</td><td class="sp-col"></td><td><span class="code">${r[0]}</span></td><td>${letterRange(r)}</td><td>${chips(byL(r[0]))}</td></tr>`).join("")}</tbody></table></div>
-<div class="card-b prose" style="padding-top:12px"><p>A380은 코드 F의 한계인 80 m 안에 들어가도록 날개폭 79.75 m로 설계됐고, 777X는 날개폭이 71.75 m지만 날개 끝을 접어 지상에서는 코드 E(64.85 m)로 다닙니다. 코드 문자가 한 단계 올라가면 공항이 유도로와 게이트를 고쳐야 하기 때문에, 제작사는 이 경계를 설계 조건으로 삼습니다.</p></div></section>
+<section class="card c12" id="icx-ref">${cardH(ICON.ruler, "비행장 기준 코드", `<span class="hint">부속서 14, 예: 4E, 4F</span>`)}<div class="card-b"><p class="icx-lead">공항 시설을 어떤 크기의 비행기에 맞출지 정하는 기준입니다. <b>숫자</b>는 이륙에 필요한 활주로 길이, <b>문자</b>는 날개폭입니다. 문자에 따라 유도로 폭과 주기장 간격이 달라집니다.</p>
+<div class="icx-ref"><div><p class="icx-k">코드 숫자 (활주로 길이)</p>${numHtml}</div><div><p class="icx-k">코드 문자 (날개폭, 막대는 80 m 기준)</p><div class="icx-lets">${letHtml}</div></div></div>
+<p class="icx-note">A380은 코드 F 한계 80 m 안에 들어가도록 날개폭 79.75 m로 설계됐고, 777X는 날개폭 71.75 m지만 날개 끝을 접어 지상에서는 코드 E(64.85 m)로 다닙니다. 문자가 한 단계 오르면 공항이 유도로와 게이트를 고쳐야 해서, 제작사는 이 경계를 설계 조건으로 삼습니다.</p></div></section>
 
-<section class="card c6">${cardH(ICON.plane, "항적 난기류 등급 (Doc 4444)")}<div class="card-b prose"><p>큰 비행기 뒤에는 날개 끝에서 생기는 강한 소용돌이가 남습니다. 관제사는 앞선 기체의 등급에 따라 뒤따르는 기체와의 간격을 넓힙니다. 등급은 최대이륙중량으로 정하고, 비행계획서에 한 글자로 적습니다.</p></div>
-<div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>등급</th><th>기준</th><th>이 사이트의 기종</th></tr></thead><tbody>${[["J", "A380-800 (형식 지정자 문서에서 따로 지정)"], ["H", "136 t 이상"], ["M", "7 t 초과 136 t 미만"], ["L", "7 t 이하"]].map(r => `<tr><td><span class="code">${r[0]}</span> ${WAKE[r[0]].split(" ")[0]}</td><td>${r[1]}</td><td>${chips(byW(r[0]))}</td></tr>`).join("")}</tbody></table></div>
-<div class="card-b"><p class="small muted" style="margin:0">보잉 757은 중량으로는 M이지만 항적이 강해, 미국 등 일부 국가는 뒤따르는 기체에 대형기와 같은 간격을 적용합니다.</p></div></section>
+<section class="card c6" id="icx-wake">${cardH(ICON.plane, "항적 난기류 등급", `<span class="hint">Doc 4444</span>`)}<div class="card-b"><p class="icx-lead">큰 비행기 날개 끝 소용돌이 때문에, 관제사는 앞선 기체 등급에 따라 뒤따르는 기체 간격을 넓힙니다. 등급은 최대이륙중량으로 정하고 비행계획서에 한 글자로 적습니다.</p><div class="icx-tiles">${wakeHtml}</div><p class="icx-note">보잉 757은 중량으로는 M이지만 항적이 강해, 일부 국가는 대형기와 같은 간격을 적용합니다.</p></div></section>
 
-<section class="card c6">${cardH(ICON.bell, "구조소방 등급 (부속서 14)")}<div class="card-b prose"><p>공항이 갖춰야 하는 소방차 수와 소화제 양을 정하는 등급입니다. 그 공항을 정기적으로 쓰는 가장 큰 비행기의 전체 길이로 정하고, 동체 폭이 그 등급의 한계를 넘으면 한 단계 올립니다.</p></div>
-<div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>등급</th><th>전체 길이</th><th>동체 폭</th><th>이 사이트의 기종</th></tr></thead><tbody>${RFF.slice(5).map((r, i) => `<tr><td><span class="code">${r[0]}</span></td><td>${RFF[4 + i][1]} m 이상 ${r[1]} m 미만</td><td>${r[2]} m 이하</td><td>${chips(byR(r[0]))}</td></tr>`).join("")}</tbody></table></div>
-<div class="card-b"><p class="small muted" style="margin:0">1~5등급(길이 28 m 미만)은 소형기용이라 표에서 뺐습니다. A380은 길이로는 9등급이지만 동체 폭이 7 m를 넘어 10등급입니다.</p></div></section>
+<section class="card c6" id="icx-rff">${cardH(ICON.bell, "구조소방 등급", `<span class="hint">부속서 14</span>`)}<div class="card-b"><p class="icx-lead">공항이 갖춰야 하는 소방차 수와 소화제 양을 정합니다. 가장 큰 정기 운항 기종의 전체 길이로 정하고, 동체 폭이 한계를 넘으면 한 단계 올립니다.</p><div class="icx-tiles">${rffHtml}</div><p class="icx-note">1~5등급(길이 28 m 미만)은 소형기용이라 뺐습니다. A380은 길이로는 9등급이지만 동체 폭 때문에 10등급입니다.</p></div></section>
 
-<section class="card c12">${cardH(ICON.doc, "코드 읽는 법: ICAO와 IATA")}<div class="card-b prose"><p><b>기종.</b> ICAO 형식 지정자(Doc 8643)는 최대 네 글자로, 비행계획서와 관제 화면에 쓰입니다. 같은 계열이라도 형식마다 다릅니다. 예를 들어 보잉 747-400은 <span class="code">B744</span>, 747-8은 <span class="code">B748</span>, A320neo는 <span class="code">A20N</span>입니다. 항공권과 시간표에는 IATA의 세 글자 코드(744, 74H, 32N)가 쓰입니다.</p><p><b>공항.</b> ICAO 지명 약어(Doc 7910)는 네 글자입니다. 첫 글자는 지역, 둘째 글자는 대체로 국가를 뜻하고 나머지가 공항입니다. 인천은 <span class="code">RKSI</span>로, R(동아시아 일부) + K(대한민국) + SI입니다. 승객이 보는 세 글자 코드 <span class="code">ICN</span>은 IATA 코드입니다. 미국 본토는 K 뒤에 IATA 코드를 그대로 붙입니다${kUS.length ? ` (${kUS.slice(0, 3).map(a => `<a class="ext" href="#apt-${a[0]}">${a[1]}</a>`).join(", ")} 등 ${kUS.length}곳)` : ""}.</p></div>
-<div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>앞 두 글자</th><th>지역</th><th>이 사이트의 공항</th></tr></thead><tbody>${preRows}</tbody></table></div></section>
+<section class="card c12" id="icx-codes">${cardH(ICON.doc, "코드 읽는 법: ICAO와 IATA")}<div class="card-b"><div class="icx-two"><div class="icx-ex"><p class="icx-k">기종</p><div class="icx-pair"><span><em>ICAO (4글자)</em><b>B744</b><small>관제, 비행계획서</small></span><span><em>IATA (3글자)</em><b>744</b><small>항공권, 시간표</small></span></div><p class="icx-note">같은 계열도 형식마다 다릅니다. 747-8은 B748, A320neo는 A20N.</p></div>
+<div class="icx-ex"><p class="icx-k">공항</p><div class="icx-pair"><span><em>ICAO (4글자)</em><b>RKSI</b><small>R 지역 + K 국가 + SI</small></span><span><em>IATA (3글자)</em><b>ICN</b><small>승객이 보는 코드</small></span></div><p class="icx-note">미국 본토는 K 뒤에 IATA 코드를 붙입니다${kUS.length ? ` (${kUS.slice(0, 3).map(a => `<a class="ext" href="#apt-${a[0]}">${a[1]}</a>`).join(", ")} 등 ${kUS.length}곳)` : ""}.</p></div></div>
+<p class="icx-k" style="margin-top:18px">ICAO 공항 코드 앞 두 글자 (이 사이트의 공항)</p><div class="icx-pres">${preHtml}</div></div></section>
 
-<section class="card c12">${cardH(ICON.route, "쌍발기 장거리 운항: ETOPS와 EDTO (부속서 6)")}<div class="card-b prose"><p>엔진이 두 개인 비행기는 엔진 하나가 꺼졌을 때 갈 수 있는 비상 공항에서 일정 시간 이상 떨어진 항로를 날 수 없습니다. 기본은 60분이고, 기종과 항공사가 따로 승인을 받으면 120분, 180분, 그 이상으로 늘어납니다. 이 승인을 오랫동안 ETOPS라 불렀고, ICAO는 2012년부터 엔진 수와 상관없이 적용하는 EDTO(회항 시간 연장 운항)라는 이름을 씁니다.</p><p>이 규정이 여객기의 역사를 바꿨습니다. 1985년 767이 120분 승인으로 대서양을 건너기 시작했고, 777은 취항 때부터 180분 승인을 받았습니다. 쌍발기가 바다를 자유롭게 건너게 되자 3발기와 4발기는 설 자리를 잃었습니다. <a class="ext" href="#timeline">시대별 개발 배경</a>에서 흐름을 볼 수 있습니다.</p></div></section>
+<section class="card c12" id="icx-etops">${cardH(ICON.route, "쌍발기 장거리 운항: ETOPS와 EDTO", `<span class="hint">부속서 6</span>`)}<div class="card-b"><p class="icx-lead">엔진이 두 개인 비행기는 엔진 하나가 꺼졌을 때 갈 수 있는 공항에서 일정 시간 이상 떨어진 항로를 날 수 없습니다. 승인을 받으면 그 시간이 늘어납니다. ICAO는 2012년부터 엔진 수와 상관없이 EDTO라 부릅니다.</p>
+<div class="icx-edto">${EDTO.map((e, i) => `<div class="icx-step"><span class="icx-dot" style="--k:${(i + 1) / EDTO.length}"></span><b>${e[0]}</b><small>${e[1]}</small></div>`).join("")}</div>
+<p class="icx-note">쌍발기가 바다를 자유롭게 건너게 되자 3발기와 4발기는 설 자리를 잃었습니다. <a class="ext" href="#timeline">시대별 개발 배경</a>에서 흐름을 볼 수 있습니다. 이 페이지는 이해를 돕기 위한 요약이며, 실제 운항에는 각 문서의 최신판과 국가 규정을 따릅니다.</p></div></section>
 </div>`;
   }
+  document.addEventListener("click", e => { const b = e.target.closest && e.target.closest("[data-icx]"); if (!b) return; const el = document.getElementById(b.getAttribute("data-icx")); if (el) el.scrollIntoView({ behavior: typeof fxCalm === "function" && fxCalm() ? "auto" : "smooth", block: "start" }); });
 
   /* ================= 기종 비교 그림 =================
      두 기종을 같은 축척으로 나란히 놓은 측면·평면·정면 그림.
@@ -3548,7 +3611,7 @@ ${spanScale([ac])}
     const hv = cv.d.hourly || [], n = hv.length; if (!n) return "";
     const W = 272, H = 84, m = { l: 4, r: 4, t: 6, b: 16 }, max = Math.max.apply(null, hv.concat([1])), bw = (W - m.l - m.r) / n, start = new Date(cv.d.from).getTime();
     let o = "";
-    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시대 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(i === 0 ? m.l : i === n - 1 ? W - m.r : m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${String(hr).padStart(2, "0")}시</text>`; });
+    hv.forEach((v, i) => { const h = v / max * (H - m.t - m.b), hr = new Date(start + i * 3600000 + 9 * 3600000).getUTCHours(); o += `<g data-tip="${esc(`<b>${String(hr).padStart(2, "0")}시 (KST)</b><br>${fmt(v)}대`)}"><rect class="hit" x="${N(m.l + i * bw)}" y="0" width="${N(bw)}" height="${H - m.b}"/><rect class="hbar${i === n - 1 ? " last" : ""}" x="${N(m.l + i * bw + 1)}" y="${N(H - m.b - h)}" width="${N(bw - 2)}" height="${N(Math.max(h, 1))}" rx="1.5"/></g>`; if (i % 6 === 0 || i === n - 1) o += `<text class="tick" x="${N(i === 0 ? m.l : i === n - 1 ? W - m.r : m.l + i * bw + bw / 2)}" y="${H - 4}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${String(hr).padStart(2, "0")}시</text>`; });
     return `<svg class="chart hchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="지난 24시간의 시간대별 항공기 수. 최대 ${fmt(max)}대">${o}</svg>`;
   }
   const sparkline = hv => { if (!hv || !hv.length) return ""; const W = 120, H = 28, max = Math.max.apply(null, hv.concat([1])), bw = W / hv.length; return `<svg class="spark" viewBox="0 0 ${W} ${H}" aria-hidden="true">${hv.map((v, i) => `<rect x="${N(i * bw + 0.5)}" y="${N(H - Math.max(1, v / max * H))}" width="${N(bw - 1)}" height="${N(Math.max(1, v / max * H))}" rx="1"/>`).join("")}</svg>`; };
@@ -3584,7 +3647,7 @@ ${demo ? `<p class="live-demo">${ICON.info}<span><b>예시 항공편입니다.</
 ${p ? `<div class="fl-shot">${pimg(p, true, ac.name)}<span>${esc(ac.name)} 자료 사진</span></div>` : ""}
 <div class="legs"><div class="leg"><span class="lbl">콜사인</span><span class="big">${esc(a.flight || "-")}</span><small>${esc(a.r || "")}</small></div><div class="leg"><span class="lbl">기종</span><span class="big">${esc(a.t || "-")}</span><small>${ac ? `<a class="ext" href="#${ac.id}">${esc(ac.name)}</a>` : "수록되지 않은 기종"}</small></div></div>
 ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span><span class="val">${esc(a.route.from_iata)} → ${esc(a.route.to_iata || "?")}</span></div><p class="small muted" style="margin:0">${a.demo ? "시연용 예시 노선입니다." : "최근 7일 기록에서 가장 잦았던 노선입니다. 운항 스케줄이 아닙니다."}</p></div>` : `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span></div></div>`}
-<div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상 속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> (${fmt(kmh)} km/h)</small>` : "-")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "-")}${kv(ICON.chart, "승강률", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "-")}${kv(ICON.info, "스퀵", esc(a.squawk || "-"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")}, ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
+<div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> (${fmt(kmh)} km/h)</small>` : "-")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "-")}${kv(ICON.chart, "승강률", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "-")}${kv(ICON.info, "스퀵", esc(a.squawk || "-"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")}, ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
 <div class="live-sec"><button type="button" class="btn" data-live="trail" id="live-trail">${ICON.route}${a.demo ? "예시 경로 보기" : "오늘 궤적 보기"}</button>${LV.trailNote ? `<p class="small muted" style="margin:8px 0 0">${esc(LV.trailNote)}</p>` : ""}</div>
 </div>`;
   }
@@ -3766,7 +3829,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     document.addEventListener("visibilitychange", () => { if (!document.hidden && $("#live-panel")) refreshLive(); });
   }
   function renderLive() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>실시간 운항 <span class="pill off" id="live-badge">확인 중</span></h1><p>FlyItalyADSB 수신 네트워크가 지금 보고 있는 항공기와 지난 24시간의 교통량입니다. 지점을 고르면 그 공역으로, 기종을 고르면 전 세계로 지도가 맞춰집니다.</p></div><div class="actions"><button type="button" class="btn ghost" data-live="conn" id="live-conn">${ICON.info}API 연결</button></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 비행</div><h1>실시간 운항 <span class="pill off" id="live-badge">확인 중</span></h1><p>FlyItalyADSB 수신 네트워크가 지금 보고 있는 항공기와 지난 24시간의 교통량입니다. 지점을 고르면 그 공역으로, 기종을 고르면 전 세계로 지도가 맞춰집니다.</p></div><div class="actions"><button type="button" class="btn ghost" data-live="conn" id="live-conn">${ICON.info}API 연결</button></div></header>
 <section class="card" id="live-conn-card" hidden></section>
 <section class="card livecard" id="livecard"><div class="mapwrap livewrap"><div id="livemap" class="sitemap livemap" role="img" aria-label="실시간 항공기 지도"></div><svg id="live-ov" class="live-ov"></svg><div class="float-panel live-panel" id="live-panel"></div></div></section>`;
   }
@@ -4162,7 +4225,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     { p: "med", date: "새 기능", title: "비행 지도와 패스포트", text: "비행한 노선은 지구본에, 방문한 공항과 나라는 패스포트에 모입니다.", href: "map" },
     { p: "low", date: "문서", title: "ICAO 기준 안내", text: "비행장 기준 코드, 항적 난기류 등급 같은 ICAO 분류를 기종별로 정리했습니다.", href: "icao" },
     { p: "med", date: "실시간", title: "공항 주변 교통량", text: "국내 공항 4곳과 조립 공장 9곳의 실제 교통량을 FlyItalyADSB 데이터로 보여 줍니다.", href: "live" },
-    { p: "low", date: "자료실", title: "기종 백과 21개 기종", text: "보잉과 에어버스 여객기의 제원, 축척 도면, 개발사는 자료실에 있습니다.", href: "fleet" }
+    { p: "low", date: "자료", title: "기종 백과 21개 기종", text: "보잉과 에어버스 여객기의 제원, 축척 도면, 개발 배경는 자료에 있습니다.", href: "fleet" }
   ];
 
   /* ---------- 점수와 기록 ---------- */
@@ -4302,7 +4365,7 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
     if (bookMap) { bookMap.redraw(); if (refocus) { const b = PS.booking, here = aptBy[PS.pilot.loc], from = b ? aptBy[b.dep] : here, dest = b ? b.arr : BK.dest; if (dest) focusRoute(bookMap, [from.lat, from.lon], [aptBy[dest].lat, aptBy[dest].lon], true); else { const ac = byId[BK.ac], pts = [[here.lat, here.lon]]; APT.forEach(a => { if (a[0] !== here.iata && ac && aptKm(here.iata, a[0]) <= ac.specs.range) { const q = aptBy[a[0]]; if (q) pts.push([q.lat, q.lon]); } }); if (pts.length > 1) bookMap.fit(pts, true); else bookMap.focus(here.lat, here.lon, 4200, true); } } }
   }
   function renderBook() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>비행 예약</h1><p>현재 위치에서 갈 수 있는 공항이 지도에 표시됩니다. 도착 공항과 기종을 고르면 거리와 예상 시간이 계산됩니다.</p></div><div class="actions"><a class="btn ghost" href="#airports">${ICON.list}공항 목록</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 비행</div><h1>비행 예약</h1><p>현재 위치에서 갈 수 있는 공항이 지도에 표시됩니다. 도착 공항과 기종을 고르면 거리와 예상 시간이 계산됩니다.</p></div><div class="actions"><a class="btn ghost" href="#airports">${ICON.list}공항 목록</a></div></header>
 <section class="card" id="bookcard"><div class="mapwrap livewrap"><div id="bookmap" class="sitemap livemap" role="img" aria-label="비행 예약 지도"></div><svg id="book-ov" class="live-ov"></svg><div class="float-panel bk-panel" id="bk-panel"></div></div></section>`;
   }
   function initBook() {
@@ -4330,7 +4393,7 @@ ${dest ? `<div class="rcards">${rcard(ICON.route, "거리", distTxt(km), far ? `
 <div class="fld" style="margin-top:16px"><label for="pf-notes">메모</label><textarea class="in" id="pf-notes" rows="2" maxlength="300" placeholder="날씨, 활주로, 특이 사항"></textarea></div>
 <div class="actions" style="margin-top:16px"><button type="submit" class="btn go" id="pf-submit">${ICON.doc}PIREP 제출</button></div></form></section>`;
     } else top = `<section class="card c12"><div class="card-b aclive"><div><h2>예약된 비행이 없습니다</h2><p class="muted" style="margin:4px 0 0">현재 위치는 ${here.iata} ${esc(here.name)}입니다. 지도에서 목적지를 골라 다음 비행을 예약하세요.</p></div><a class="btn" href="#book">${ICON.plane}비행 예약</a></div></section>`;
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Flight Center</div><h1>내 예약</h1><p>예약한 비행입니다. 비행을 마치면 여기서 PIREP을 제출합니다. 예약은 한 번에 하나만 둘 수 있습니다.</p></div><div class="actions"><span class="sync" data-sync>${syncText()}</span><a class="btn ghost" href="#rosters">${ICON.list}내 로스터</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 비행</div><h1>내 예약</h1><p>예약한 비행입니다. 비행을 마치면 여기서 PIREP을 제출합니다. 예약은 한 번에 하나만 둘 수 있습니다.</p></div><div class="actions"><span class="sync" data-sync>${syncText()}</span><a class="btn ghost" href="#rosters">${ICON.list}내 로스터</a></div></header>
 <div class="grid">${PS.demo ? demoNote() : ""}${top}<section class="card c12">${cardH(ICON.list, "최근 PIREP", `<a class="ext small" href="#pireps">전체 ${PS.pireps.length}건 보기 →</a>`)}${pirepTable(PS.pireps.slice(0, 5))}</section></div>`;
   }
   function renderPirep(p) {
@@ -4377,7 +4440,7 @@ ${p.notes ? `<p style="margin:16px 0 0"><span class="lbl" style="margin-bottom:4
       return `<svg class="st-area" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path class="a" d="${d} L${W} ${H} Z"/><path class="l" d="${d.replace(/^M0 \S+ L/, "M")}"/></svg>`;
     };
     const delta = (k, unit, digits) => {
-      const a = KEYS[k](cur), b = KEYS[k](prev); if (a == null || b == null) return `<span class="st-d none">비교할 기록이 아직 없어요</span>`;
+      const a = KEYS[k](cur), b = KEYS[k](prev); if (a == null || b == null) return `<span class="st-d none">비교할 기록이 아직 없습니다</span>`;
       const dlt = a - b, val = digits ? Math.abs(dlt).toFixed(digits) : fmt(Math.round(Math.abs(dlt)));
       if (Math.abs(dlt) < (digits ? 0.05 : 0.5)) return `<span class="st-d flat">${than} 그대로</span>`;
       const good = k === "land" ? dlt < 0 : dlt > 0, sign = k === "land" ? "" : dlt > 0 ? "+" : "−";
@@ -4401,7 +4464,7 @@ ${p.notes ? `<p style="margin:16px 0 0"><span class="lbl" style="margin-bottom:4
     const pbox = p => `<a class="card pbox c3" href="#pirep-${p.id}"><span class="row1"><span class="lbl">${ICON.doc}PIREP</span>${pirepStatus(p)}</span><span class="rte">${p.dep} → ${p.arr}</span><span class="sub">${esc(p.cs)}, ${esc(short(byId[p.ac]))}, ${hm(p.time)}</span><span class="box-meta">${p.points}점, ${p.land} fpm, ${dayKo(p.filed)}</span></a>`;
     const last = PS.pireps.slice(0, 3), blanks = Array(3 - last.length).fill(`<div class="card pbox c3"><span class="lbl">${ICON.doc}PIREP</span><span class="rte muted">-</span><span class="sub">제출한 기록이 여기에 나옵니다.</span></div>`);
     return `<div class="grid">
-<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)}, Pilot Hub</p><h1>${esc(nm)}님, 좋은 비행 되세요</h1><p>${esc(rk.name)}, 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.cal}내 예약</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
+<section class="banner c12">${hero ? pimg(hero, false, hero.alt || "비행 중인 여객기", true) + `<div class="pcr">${pcredit(hero)}</div>` : ""}<div class="banner-in"><p class="lbl">${esc(VA.name)}, Pilot Hub</p><h1>${esc(nm)}님, 오늘도 안전한 비행 하세요</h1><p>${esc(rk.name)}, 현재 위치 ${here.iata} ${esc(here.name)}. 다음 비행을 예약하거나 마친 비행의 PIREP을 제출하세요.</p><div class="actions"><a class="btn" href="#book">${ICON.plane}비행 예약</a><a class="btn on-dark" href="#flights">${ICON.cal}내 예약</a><a class="btn on-dark" href="#live">${ICON.map}실시간 운항</a></div></div></section>
 ${PS.demo ? demoNote() : ""}
 ${bookBox}${last.map(pbox).join("")}${blanks.join("")}
 <section class="card c8">${cardH(ICON.chart, "내 통계", seg("days", [[0, "전체"], [90, "90일"], [30, "30일"], [7, "7일"]], statDays, "통계 기간"))}<div class="stats" id="pstats-out">${statTiles(pstats(statDays), statDays)}</div></section>
@@ -4409,7 +4472,7 @@ ${bookBox}${last.map(pbox).join("")}${blanks.join("")}
 ${liveStrip()}
 <section class="card c6">${cardH(ICON.target, "활동", `<a class="ext small" href="#activities">전체 보기 →</a>`)}<div class="goal-sec">${pbar(`계급, ${esc(rk.name)}`, rk.pct, rk.next ? `${esc(rk.next)}까지 ${N(Math.round(rk.left * 10) / 10)}시간` : "최고 계급", "")}</div><div class="goal-sec">${pbar(`투어, ${esc(tour.name)}`, done / tour.legs.length * 100, `${done} / ${tour.legs.length} 구간`, esc(tour.desc))}<div class="tour-legs">${tour.legs.map(l => `<span class="tleg${legDone(l) ? " done" : ""}">${l[0]} → ${l[1]}</span>`).join("")}</div></div></section>
 <section class="card c6">${cardH(ICON.cup, "리더보드", `<a class="ext small" href="#community">전체 보기 →</a>`)}${leaderTable(5)}</section>
-<p class="lbl sec-lbl">${ICON.star}자료실, 기종 백과</p>
+<p class="lbl sec-lbl">${ICON.star}자료, 기종 백과</p>
 ${recentIds().map(id => box(byId[id])).join("")}
 </div>`;
   }
@@ -4422,7 +4485,7 @@ ${recentIds().map(id => box(byId[id])).join("")}
     const cnt = {}, acn = {}; L.forEach(p => { cnt[p.dep] = (cnt[p.dep] || 0) + 1; cnt[p.arr] = (cnt[p.arr] || 0) + 1; acn[p.ac] = (acn[p.ac] || 0) + 1; });
     const topA = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 5), topC = Object.keys(acn).sort((a, b) => acn[b] - acn[a]).slice(0, 5), B = badgeList(), got = B.filter(x => x[2]);
     const cc = new Set(Object.keys(cnt).map(c => aptBy[c].cc)).size;
-    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / My Profile</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)}, ${esc(PS.pilot.joined)} 합류, 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
+    return `<header class="card ph"><div style="display:flex;gap:16px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:22px">${esc(nm.slice(0, 1).toUpperCase())}</span><div><div class="crumbs"><a href="#home">대시보드</a> / 내 기록</div><h1>${esc(nm)} <span class="code">${VA.code}${String(PS.pilot.num).padStart(4, "0")}</span></h1><p>${esc(rk.name)}, ${esc(PS.pilot.joined)} 합류, 현재 위치 ${here.iata} ${esc(here.name)}</p></div></div><span class="sync" data-sync>${syncText()}</span></header>
 ${profTabs("profile")}
 <div class="grid">${PS.demo ? demoNote() : ""}
 <div class="c8 stack">
@@ -4453,7 +4516,7 @@ ${PS.booking ? `<section class="card">${cardH(ICON.plane, "예약된 비행", `<
     return `<section class="card c12 myrank"><div class="card-b"><div class="myrank-n"><span class="stat-n">${i + 1}</span><small>위 / ${L.length}명</small></div><div class="myrank-t">${up ? `<p><b>${esc(up.name)}</b> 님까지 <b>${fmt(gap)}점</b> 남았습니다. 보통 PIREP 한 건이 ${per}점 안팎이라 <b>${need}건</b>쯤 더 날면 됩니다.</p>` : `<p><b>1위</b>입니다.</p>`}<div class="prog-t"><span class="prog-f" style="width:${N(pct)}%"></span></div></div>${up ? `<a class="btn" href="#book">${ICON.plane}비행 예약</a>` : ""}</div></section>`;
   }
   function renderCommunity() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 커뮤니티</div><h1>리더보드</h1><p>점수 순위입니다. 혼자 쓰는 허브라서 다른 조종사는 비교용 예시입니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 커뮤니티</div><h1>리더보드</h1><p>점수 순위입니다. 혼자 쓰는 사이트라 다른 조종사는 비교를 위해 넣은 예시입니다.</p></div></header>
 <div class="grid">${myRankCard()}<section class="card c12">${cardH(ICON.cup, "점수 순위", `<span class="hint">예시 조종사 ${ROSTER.length}명 포함</span>`)}${leaderTable(0)}</section></div>`;
   }
 
@@ -4465,7 +4528,7 @@ ${PS.booking ? `<section class="card">${cardH(ICON.plane, "예약된 비행", `<
     return L.length ? L.map(a => `<tr class="row-link" data-href="#apt-${a[0]}" tabindex="0"><td><span class="code">${a[1]}</span></td><td><span class="code">${a[0]}</span></td><td><strong>${esc(a[2])}</strong>${a[0] === here ? ` <span class="pill warn">현재 위치</span>` : ""}</td><td>${esc(CCN[a[3]] || a[3])}</td><td class="num">${a[0] === here ? "-" : distTxt(aptKm(here, a[0]))}</td><td class="num">${visits[a[0]] || 0}</td></tr>`).join("") : `<tr><td colspan="6" class="muted">일치하는 공항이 없습니다. 이름이나 코드를 다시 확인하세요.</td></tr>`;
   }
   function renderAirports() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>공항</h1><p>${VA.name}이 운항하는 공항 ${APT.length}곳입니다. 행을 누르면 비행장 차트와 공항 정보가 열리고, 거기서 출발지를 옮기거나 목적지로 고를 수 있습니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>공항</h1><p>${VA.name}이 운항하는 공항 ${APT.length}곳입니다. 행을 누르면 비행장 차트와 공항 정보가 열리고, 거기서 출발지를 옮기거나 목적지로 고를 수 있습니다.</p></div></header>
 <div class="grid"><section class="card c12"><div class="filters"><input class="in" id="apt-q" type="search" placeholder="이름, ICAO 또는 IATA 코드, 국가" value="${esc(aq)}" aria-label="공항 검색" autocomplete="off"></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>ICAO</th><th>IATA</th><th>공항</th><th>국가</th><th class="num">현재 위치에서</th><th class="num">내 이착륙</th></tr></thead><tbody id="apt-rows">${aptRows()}</tbody></table></div></section></div>`;
   }
   function renderApt(code) {
@@ -4485,7 +4548,7 @@ ${chartCard(code).replace('class="card c8 ch-card"', 'class="card c12 ch-card"')
 <section class="card">${cardH(ICON.plane, "주변 교통량", cv ? `<span class="hint">${esc(kst(cv.d.g))}, 반경 100 km</span>` : "")}<div class="card-b">${traffic}</div></section>
 </div>
 <section class="card c12">${cardH(ICON.route, "가까운 공항", `<span class="hint">A321neo 기준 예상 시간</span>`)}<div class="card-b ap-near">${near.map(x => `<a class="ap-nc" href="#apt-${x[0][0]}"><span class="code">${x[0][0]}</span><b>${esc(x[0][2])}</b><small>${esc(CCN[x[0][3]] || x[0][3])}</small><span class="ap-nc-d">${distTxt(x[1])}<em>${hm(eteMin(x[1], byId["airbus-a320neo"]))}</em></span></a>`).join("")}</div></section>
-${cp ? `<section class="card c12">${cardH(ICON.ext, "실제 차트 보기")}<div class="card-b"><div class="ap-exts">${cp.ext}</div><p class="small muted" style="margin:12px 0 0">Jeppesen 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. 점프시트는 비행 없이 현재 위치를 옮기는 기능이며, 예약된 비행이 있으면 쓸 수 없습니다.</p></div></section>` : ""}
+${cp ? `<section class="card c12">${cardH(ICON.ext, "실제 차트 보기")}<div class="card-b"><div class="ap-exts">${cp.ext}</div><p class="small muted" style="margin:12px 0 0">상용 항법 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. 점프시트는 비행 없이 현재 위치를 옮기는 기능이며, 예약된 비행이 있으면 쓸 수 없습니다.</p></div></section>` : ""}
 </div>`;
   }
 
@@ -4705,7 +4768,7 @@ ${mapCard()}
     if (!nx) act = `<span class="pill ok">완료</span>`;
     else if (PS.booking) act = `<span class="small muted">예약된 비행을 마치면 다음 구간을 예약할 수 있습니다.</span>`;
     else if (nx[0] === here) act = `<button type="button" class="btn" data-po="ros-book:${r.id}" id="ros-book-${r.id}">${ICON.plane}다음 구간 예약 (${nx[0]} → ${nx[1]})</button>`;
-    else act = `<span class="small muted">다음 구간은 ${nx[0]} 출발입니다. 지금 위치는 ${here}입니다.</span><button type="button" class="btn ghost" data-pilot="jump:${nx[0]}" id="ros-jump-${r.id}">${ICON.swap}${nx[0]}로 점프시트 이동</button>`;
+    else act = `<span class="small muted">다음 구간은 ${nx[0]} 출발입니다. 지금 위치는 ${here}입니다.</span><button type="button" class="btn ghost" data-pilot="jump:${nx[0]}" id="ros-jump-${r.id}">${ICON.swap}${nx[0]}로 점프시트로 이동</button>`;
     return `<section class="card c12">${cardH(ICON.list, r.name, `<span class="hint">${legTotals(r.legs, r.ac)}, ${esc(short(byId[r.ac]))}</span><button type="button" class="btn warn sm" data-po="ros-del:${r.id}" id="ros-del-${r.id}">삭제</button>`)}
 <div class="card-b" style="display:grid;gap:12px">${pbar("진행", d / r.legs.length * 100, `${d} / ${r.legs.length} 구간`, `${dayKo(r.created)} 저장, 저장한 뒤 제출한 PIREP만 집계합니다`)}<div class="actions" style="align-items:center">${act}</div></div>
 <div class="tbl-wrap"><table class="tbl"><thead><tr><th class="num">#</th><th>구간</th><th>공항</th><th class="num">거리</th><th class="num">예상 시간</th><th>상태</th></tr></thead><tbody>${legRows(r.legs, r.ac, r.created)}</tbody></table></div></section>`;
@@ -4763,7 +4826,7 @@ ${mapCard()}
     const M = monthSeries(), n = Math.max(1, L.length);
     const row = (name, b, strong) => `<tr${strong ? ' class="me-row"' : ""}><td>${name}</td><td class="num">${fmt(b.n)}</td><td class="num">${fmt(b.pax)}</td><td class="num">${fmt(Math.round(b.cargo / 1000))} t</td><td class="num">${hm(b.min)}</td><td class="num">${distTxt(b.km)}</td><td class="num">${fmt(Math.round(b.fuel / 1000))} t</td><td class="num">${b.n ? Math.round(b.land / b.n) : "-"} fpm</td></tr>`;
     const mxType = Math.max(1, ...ids.map(id => by[id].n));
-    const typeRows = ids.length ? ids.map(id => { const ac = byId[id], b = by[id]; return `<a class="sx-type mk-${ac.maker}" href="#${id}"><span class="sx-sil">${silhouette(ac, 0.9, 120, 60)}</span><span class="sx-tn"><b>${esc(short(ac))}</b><small>${ICAO[id]} · ${hm(b.min)} · ${distTxt(b.km)}</small></span><span class="sx-bar"><i style="width:${N(b.n / mxType * 100)}%"></i></span><span class="sx-n">${fmt(b.n)}<small>회</small></span></a>`; }).join("") : `<p class="empty">아직 제출한 비행이 없습니다.</p>`;
+    const typeRows = ids.length ? ids.map(id => { const ac = byId[id], b = by[id]; return `<a class="sx-type mk-${ac.maker}" href="#${id}"><span class="sx-sil">${silhouette(ac, 0.9, 120, 60)}</span><span class="sx-tn"><b>${esc(short(ac))}</b><small>${ICAO[id]}, ${hm(b.min)}, ${distTxt(b.km)}</small></span><span class="sx-bar"><i style="width:${N(b.n / mxType * 100)}%"></i></span><span class="sx-n">${fmt(b.n)}<small>회</small></span></a>`; }).join("") : `<p class="empty">아직 제출한 비행이 없습니다.</p>`;
     // 제작사 도넛
     const tb = mk.boeing + mk.airbus, C = 2 * Math.PI * 42, fb = tb ? mk.boeing / tb : 0;
     const donut = `<svg class="sx-donut" viewBox="0 0 120 120" role="img" aria-label="보잉 ${mk.boeing}회, 에어버스 ${mk.airbus}회"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--line)" stroke-width="14"/>${tb ? `<circle cx="60" cy="60" r="42" fill="none" stroke="var(--airbus)" stroke-width="14" stroke-dasharray="${N(C)} ${N(C)}" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="42" fill="none" stroke="var(--boeing)" stroke-width="14" stroke-dasharray="${N(C * fb)} ${N(C)}" transform="rotate(-90 60 60)"/>` : ""}<text x="60" y="58" text-anchor="middle" class="sx-dn">${fmt(tb)}</text><text x="60" y="74" text-anchor="middle" class="sx-dl">비행</text></svg>`;
@@ -4781,6 +4844,15 @@ ${mapCard()}
 <section class="card c12">${cardH(ICON.gauge, "착륙률 분포", `<span class="hint">접지 순간 하강률, fpm</span>`)}<div class="card-b">${landCols}</div></section>
 <section class="card c12">${cardH(ICON.book, "로그북", `<span class="hint">기종별 합계</span>`)}${ids.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>기종</th><th class="num">비행</th><th class="num">승객</th><th class="num">화물</th><th class="num">비행 시간</th><th class="num">거리</th><th class="num">연료</th><th class="num">평균 착륙률</th></tr></thead><tbody>${ids.map(id => row(`<a class="ext" href="#${id}"><span class="code">${ICAO[id]}</span> ${esc(byId[id].name)}</a>`, by[id])).join("")}${row("<strong>합계</strong>", tot, true)}</tbody></table></div>` : `<p class="empty">아직 제출한 PIREP이 없습니다.</p>`}</section></div>`;
   }
+  /* 패스포트 도우미: 국기 그림, 도장 색과 모양을 정하는 해시, 공항의 나라, 나라 영어 이름 */
+  const flagImg = (cc, cls) => `<img class="${cls || "flag"}" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${String(cc).toLowerCase()}.svg" alt="" loading="lazy" onerror="this.remove()">`;
+  const ppHash = str => { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+  const PP_INK = ["#8e1f2f", "#1d3b75", "#1f5a46", "#5a3a7a", "#8a5a1c", "#24576b"];
+  const ppCC = code => (APT.find(x => x[0] === code) || [])[3];
+  const ccEn = cc => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(cc).toUpperCase(); } catch (e) { return cc; } };
+  // 도장 잉크: 넓은 면적에서만 아주 옅게 농도가 달라지고 가장자리가 살짝 부드럽다 (빈 구멍 없이 깔끔하게)
+  const PP_DEFS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="ppInk" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="lo"/><feColorMatrix in="lo" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0.5" result="loA"/><feComposite in="SourceGraphic" in2="loA" operator="in" result="ink"/><feGaussianBlur in="ink" stdDeviation="0.22"/></filter></defs></svg>`;
+  const PP_PLANE = `<path d="M0-6.5l1.3 4.2 5.2 2.3v1.3l-5.2-1.2-.4 3.6 1.7 1.3v1l-2.6-.7-2.6.7v-1l1.7-1.3-.4-3.6-5.2 1.2V0l5.2-2.3z" fill="currentColor"/>`;
   function ppStamp(cc, info, i) {
     const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = Math.round(Math.random() * 28 - 14), shape = ["circ", "rect", "oval"][h % 3];
     const d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "", ko = esc(CCN[cc] || cc), en = esc(ccEn(cc)), ap = esc(info.apts.slice(0, 3).join("  "));
@@ -4903,7 +4975,7 @@ ${flag(58, 75, 8)}<text x="72" y="80" font-size="13" font-weight="700" fill="cur
 
   /* ---------- Documents: NOTAM · 계급 · 점수 ---------- */
   function renderNotams() {
-    return phead("Documents", "NOTAM", "운영진 공지입니다. 중요한 것부터 놓았습니다.", "") + `
+    return phead("Documents", "NOTAM", "운영진 공지입니다. 중요한 순서대로 정리했습니다.", "") + `
 <div class="grid"><section class="card c12">${cardH(ICON.bell, "운영 공지", `<span class="hint">${VA_NOTAMS.length}건</span>`)}<div>${VA_NOTAMS.map(n => `<a class="notam p-${n.p}" href="#${n.href}"><i></i><div><div class="notam-h"><span class="tag">${PRI[n.p]}</span><strong>${esc(n.title)}</strong><span class="date">${esc(n.date)}</span></div><p>${esc(n.text)}</p></div></a>`).join("")}</div></section>
 <section class="card c12">${cardH(ICON.info, "업계 소식", `<span class="hint">기종 백과</span>`)}<div>${NOTAMS.map(n => `<a class="notam p-${n.p}" href="#${n.href}"><i></i><div><div class="notam-h"><span class="tag">${PRI[n.p]}</span><strong>${esc(n.title)}</strong><span class="date">${esc(n.date)}</span></div><p>${esc(n.text)}</p></div></a>`).join("")}</div></section></div>`;
   }
@@ -5842,7 +5914,7 @@ ${detail}<div class="lbl" style="margin-top:4px">노선 ${fmt(D.routes.length)}�
 
   /* ---------- 1. 네 가지 힘 ---------- */
   function renderLearnForces() {
-    return lrHead("네 가지 힘", "날고 있는 여객기에는 늘 네 힘이 함께 작용합니다. 위로 드는 양력, 아래로 당기는 무게, 앞으로 미는 추력, 뒤로 잡아끄는 항력입니다. 두 쌍이 어떻게 맞서는지에 따라 빨라지거나 느려지고, 오르거나 내려갑니다.") + `
+    return lrHead("네 가지 힘", "날고 있는 여객기에는 늘 네 가지 힘이 함께 작용합니다. 위로 드는 양력, 아래로 당기는 무게, 앞으로 미는 추력, 뒤로 잡아끄는 항력입니다. 두 쌍이 어떻게 맞서는지에 따라 빨라지거나 느려지고, 오르거나 내려갑니다.") + `
 <div class="grid lr">
 <section class="card c12 lr-stage"><div class="lr-fig"><svg id="lr-f-svg" viewBox="0 0 860 340" role="img" aria-label="여객기에 작용하는 네 가지 힘">${lrSky(860, 340)}
 <g id="lr-f-plane" transform="translate(430 170)">${lrPlaneSide}
@@ -5853,7 +5925,7 @@ ${detail}<div class="lbl" style="margin-top:4px">노선 ${fmt(D.routes.length)}�
 <div class="lr-side">${lrRange("lr-f-thr", "추력", 0, 100, 1, 62, "%")}${lrRange("lr-f-aoa", "기수 들기 (받음각)", 0, 10, 0.5, 3, "°")}<div class="lr-state" id="lr-f-state"></div><p class="small muted">막대를 움직이면 화살표 길이와 비행기 움직임이 바뀝니다. 화살표 길이는 크기를 비교하기 위한 것입니다.</p></div></section>
 ${lrCard("c7", "info", "두 쌍의 힘", `<p><b>양력과 무게.</b> 양력은 날개가 공기를 아래로 밀어 내리면서 생기는 반작용입니다. 양력이 무게보다 크면 오르고, 작으면 내려갑니다. 순항 중 고도를 지키고 있다면 두 힘은 거의 같습니다.</p><p><b>추력과 항력.</b> 엔진이 공기를 뒤로 세게 내보내면 그 반작용으로 기체가 앞으로 밀립니다. 항력은 공기가 기체를 붙잡는 힘이라 속도가 빠를수록 커집니다. 추력이 항력보다 크면 빨라지고, 같아지면 그 속도로 계속 납니다.</p><p><b>속도와 양력은 붙어 있습니다.</b> 빨라지면 양력도 커지기 때문에, 조종사는 속도를 바꿀 때 기수 각도도 함께 맞춥니다.</p>`)}
 ${lrChartCard("c12", "필요 추력 곡선: 속도에 따른 항력", "lr-f-chart", "항력은 두 가지가 더해진 것입니다. 공기 마찰과 모양 때문에 생기는 유해항력은 속도의 제곱에 비례해 커지고, 양력을 만들며 생기는 유도항력은 속도의 제곱에 반비례해 줄어듭니다. 둘의 합이 가장 작은 속도(최소 항력 속도)에서 같은 무게를 가장 적은 추력으로 들 수 있습니다. 점은 지금 추력으로 낼 수 있는 속도입니다.")}
-${lrCard("c5", "gauge", "숫자로 보면", `<div class="lr-facts"><div><b>약 79 t</b><span>737-800 최대 이륙 중량. 이륙할 때 날개가 이만큼을 들어 올립니다.</span></div><div><b>약 1 : 17</b><span>여객기 순항 중 항력과 양력의 비(양항비). 무게 17을 드는 데 항력 1 정도면 된다는 뜻입니다.</span></div><div><b>추력 ≈ 항력</b><span>순항에서 속도를 지키고 있으면 두 힘이 거의 같습니다.</span></div></div>`)}
+${lrCard("c5", "gauge", "숫자로 보면", `<div class="lr-facts"><div><b>약 79 t</b><span>737-800 최대이륙중량. 이륙할 때 날개가 이만큼을 들어 올립니다.</span></div><div><b>약 1 : 17</b><span>여객기 순항 중 항력과 양력의 비(양항비). 무게 17을 드는 데 항력 1 정도면 된다는 뜻입니다.</span></div><div><b>추력 ≈ 항력</b><span>순항에서 속도를 지키고 있으면 두 힘이 거의 같습니다.</span></div></div>`)}
 <section class="card c12">${lrNote}</section></div>`;
   }
   function lrForces() {
@@ -5886,7 +5958,7 @@ ${lrFlows(F, [50, 85, 115, 145, 160])}${lrFlows(F, [215, 245, 275, 305])}
 <g class="lr-arw lift"><line x1="390" y1="160" x2="390" y2="40"/><text x="400" y="52">양력</text></g>
 <g class="lr-arw down"><line x1="700" y1="205" x2="760" y2="250"/><text x="640" y="285">아래로 휘어 나가는 공기 (내리흐름)</text></g>
 <text class="lr-lab low" x="440" y="128">압력 낮음, 흐름 빠름</text><text class="lr-lab high" x="440" y="238">압력 높음, 흐름 느림</text></svg></div>
-<div class="lr-side">${lrRange("lr-l-v", "속도", 200, 950, 10, 480, " km/h")}${lrRange("lr-l-h", "고도", 0, 12000, 250, 0, " m")}${lrRange("lr-l-cl", "양력계수 CL (날개 기울기)", 0.2, 1.6, 0.05, 0.5, "")}<p class="lr-hint">양력계수는 <b>날개가 공기를 얼마나 잘 아래로 미는지</b>를 나타내는 숫자입니다. 기수를 들어 날개를 더 기울이거나(받음각) 플랩을 펴면 커집니다. 순항은 약 0.5, 착륙 직전은 1.5 근처이고, 더 키우려 하면 실속합니다.</p><div class="lr-big"><span>737-800 날개(124.6 m²)가 드는 무게</span><b id="lr-l-out">-</b><small id="lr-l-cmp"></small></div></div></section>
+<div class="lr-side">${lrRange("lr-l-v", "속도", 200, 950, 10, 480, " km/h")}${lrRange("lr-l-h", "고도", 0, 12000, 250, 0, " m")}${lrRange("lr-l-cl", "양력계수 CL (날개 기울기)", 0.2, 1.6, 0.05, 0.5, "")}<p class="lr-hint">양력계수는 <b>날개가 공기를 얼마나 잘 아래로 미는지</b>를 나타내는 숫자입니다. 기수를 들어 날개를 더 기울이거나(받음각) 플랩을 펴면 커집니다. 순항은 약 0.5, 착륙 접근은 1.5 안팎입니다. 플랩을 편 날개의 한계는 2.3~2.6쯤이고, 그보다 키우려 하면 실속합니다.</p><div class="lr-big"><span>737-800 날개(124.6 m²)가 드는 무게</span><b id="lr-l-out">-</b><small id="lr-l-cmp"></small></div></div></section>
 ${lrCard("c7", "info", "압력 차이와 내리흐름, 같은 이야기의 두 면", `<p>날개 윗면은 볼록하고 공기를 받는 각도(받음각)가 있어서, 위쪽 공기는 더 빨리 흐르며 압력이 내려갑니다. 아랫면은 공기를 막아 압력이 조금 올라갑니다. 이 압력 차이가 넓은 날개 전체에 걸려 큰 힘이 됩니다.</p><p>같은 일을 뉴턴 법칙으로 보면, 날개가 공기를 아래로 밀어 내리고 그 반작용으로 위로 밀리는 것입니다. 두 설명은 서로 다른 이론이 아니라 같은 흐름을 다르게 본 것입니다.</p><p><b>틀린 설명 하나.</b> 날개 앞에서 나뉜 공기가 뒤에서 같은 시간에 다시 만나야 한다는 규칙은 없습니다. 실제로는 위쪽 공기가 훨씬 먼저 뒤끝에 닿습니다.</p>`)}
 ${lrChartCard("c12", "압력계수 분포: 시위를 따라", "lr-l-cp", "위쪽으로 갈수록 압력이 낮습니다(−Cp). 윗면은 앞전 바로 뒤에서 압력이 크게 떨어졌다가 뒤로 갈수록 회복하고, 아랫면은 조금 높습니다. 두 선 사이 넓이가 양력입니다. 양력계수 막대를 움직이면 받음각이 바뀌어 모양이 달라집니다. 얇은 날개 이론에 두께 효과를 더한 근사입니다.")}
 ${lrCard("c5", "doc", "양력 공식", `<div class="lr-eq">L = ½ ρ v² S C<sub>L</sub></div><ul class="lr-list"><li><b>ρ</b> 공기 밀도. 높이 올라갈수록 작아집니다.</li><li><b>v</b> 속도. 제곱으로 들어가서 두 배 빨라지면 양력은 네 배가 됩니다.</li><li><b>S</b> 날개 넓이.</li><li><b>C<sub>L</sub></b> 양력계수. 날개 모양과 받음각에 따라 정해집니다.</li></ul><p class="small muted">고도를 올려 보세요. 공기가 옅어지면 같은 무게를 들기 위해 더 빨리 날아야 합니다. 여객기가 높은 곳에서 빠르게 나는 이유 중 하나입니다.</p>`)}
@@ -5900,7 +5972,7 @@ ${lrCard("c5", "doc", "양력 공식", `<div class="lr-eq">L = ½ ρ v² S C<sub
     const al = (cl - 0.2) / 0.095 * LR_TOR + 0.035, U = [], Lo = [];
     for (let i = 1; i <= 60; i++) { const x = i / 60, load = 4 * al * Math.sqrt((1 - x) / x) + 0.6 * Math.sin(Math.PI * x) * 0.5, th = 0.32 * Math.sin(Math.PI * Math.pow(x, 0.7)); U.push([x, Math.min(4, load / 2 + th)]); Lo.push([x, Math.max(-0.95, -load / 2 + th * 0.55)]); }
     $("#lr-l-cp").innerHTML = lrChart({ id: "cp", w: 860, h: 250, x: [0, 1, "시위 위치 x/c (앞전 0, 뒷전 1)", [0, 0.2, 0.4, 0.6, 0.8, 1]], y: [-1, Math.max(2, Math.ceil(Math.max(...U.map(q => q[1])) + 0.3)), "−Cp (위가 낮은 압력)", [-1, 0, 1, 2, 3, 4].filter(v => v <= Math.max(2, Math.ceil(Math.max(...U.map(q => q[1])) + 0.3)))], series: [{ d: U, cls: "c1", label: "윗면", at: 8 }, { d: Lo, cls: "c3", label: "아랫면", at: 30 }] });
-    $("#lr-l-cmp").textContent = `공기 밀도 ${rho.toFixed(3)} kg/m³. ` + (t >= 79 ? "최대 이륙 중량(약 79 t)보다 큽니다." : t >= 41 ? "빈 기체 무게(약 41 t)와 최대 이륙 중량 사이입니다." : "빈 기체 무게(약 41 t)도 들지 못합니다.");
+    $("#lr-l-cmp").textContent = `공기 밀도 ${rho.toFixed(3)} kg/m³. ` + (t >= 79 ? "최대이륙중량(약 79 t)보다 큽니다." : t >= 41 ? "빈 기체 무게(약 41 t)와 최대이륙중량 사이입니다." : "빈 기체 무게(약 41 t)도 들지 못합니다.");
   }
 
   /* ---------- 3. 받음각과 실속 ---------- */
@@ -5943,7 +6015,7 @@ ${lrCard("c5", "bell", "여객기는 어떻게 막나", `<ul class="lr-list"><li
   /* ---------- 4. 날개 끝 소용돌이와 윙렛 ---------- */
   const LR_WL = [
     ["none", "윙렛 없음", 1.0, "날개 끝에서 아래쪽 높은 압력의 공기가 위로 돌아 올라가 큰 소용돌이를 만듭니다.", null],
-    ["blend", "블렌디드 윙렛", 0.72, "날개 끝을 부드럽게 위로 꺾어 올린 모양입니다. 737NG와 757, 767에 많이 붙였습니다. 제조사 발표로 장거리에서 연료를 약 3~5% 아낍니다.", ["boeing-737", "737NG"]],
+    ["blend", "블렌디드 윙렛", 0.72, "날개 끝을 부드럽게 위로 꺾어 올린 모양입니다. 737NG와 757, 767에 많이 붙였습니다. 제작사 발표로는 장거리에서 연료를 약 3~5% 아낍니다.", ["boeing-737", "737NG"]],
     ["shark", "샤크렛", 0.74, "에어버스 A320 계열의 위로 솟은 날개 끝입니다. 에어버스는 긴 구간에서 연료를 최대 약 4% 아낀다고 밝혔습니다.", ["airbus-a320neo", "A320neo"]],
     ["scim", "분할 시미터 윙렛", 0.66, "위아래로 갈라진 날개 끝입니다. 737 MAX의 'AT 윙렛'도 위아래 두 갈래 모양입니다. 블렌디드 윙렛보다 1~2% 정도 더 아낀다고 알려져 있습니다.", ["boeing-737max", "737 MAX"]],
     ["raked", "레이크드 윙팁", 0.78, "위로 꺾지 않고 날개 끝을 뒤로 길게 늘린 모양입니다. 787과 777-300ER, 777X가 이 방식입니다. 날개폭을 키운 것과 비슷한 효과를 냅니다.", ["boeing-787", "787"]]
@@ -6042,7 +6114,7 @@ ${lrCard("c5", "doc", "실속 속도 공식", `<div class="lr-eq">V<sub>s</sub> 
   /* ---------- 7. 조종면과 세 축 ---------- */
   let lrAxis = "roll";
   function renderLearnControl() {
-    const ax = [["roll", "롤 (에일러론)", "날개 끝 뒤쪽의 에일러론이 한쪽은 올라가고 한쪽은 내려가, 한쪽 날개 양력만 커져 기체가 옆으로 기웁니다. 선회는 이렇게 기울여서 양력의 방향을 옆으로 돌려 합니다."], ["pitch", "피치 (엘리베이터)", "꼬리 수평 날개의 엘리베이터가 꼬리를 아래나 위로 눌러, 기수가 들리거나 숙여집니다. 받음각과 속도를 바꾸는 주된 장치입니다."], ["yaw", "요 (러더)", "꼬리 수직 날개의 러더가 꼬리를 옆으로 밀어 기수 방향을 돌립니다. 선회 중 미끄러짐을 바로잡고, 엔진 하나가 멈췄을 때 기체가 돌지 않게 잡아 줍니다."]];
+    const ax = [["roll", "롤 (에일러론)", "날개 끝 뒤쪽의 에일러론이 한쪽은 올라가고 한쪽은 내려가, 한쪽 날개 양력만 커져 기체가 옆으로 기웁니다. 선회는 이렇게 기울여서 양력의 일부를 옆으로 돌려서 합니다."], ["pitch", "피치 (엘리베이터)", "꼬리 수평 날개의 엘리베이터가 꼬리를 아래나 위로 눌러, 기수가 들리거나 숙여집니다. 받음각과 속도를 바꾸는 주된 장치입니다."], ["yaw", "요 (러더)", "꼬리 수직 날개의 러더가 꼬리를 옆으로 밀어 기수 방향을 돌립니다. 선회 중 미끄러짐을 바로잡고, 엔진 하나가 멈췄을 때 기체가 돌지 않게 잡아 줍니다."]];
     return lrHead("조종면과 세 축", "비행기는 세 축으로 돕니다. 날개 끝이 오르내리는 롤, 기수가 들리고 숙여지는 피치, 기수가 좌우로 도는 요입니다. 각 축은 날개와 꼬리에 달린 움직이는 판(조종면)으로 다룹니다.") + `
 <div class="grid lr">
 <section class="card c12 lr-stage"><div class="lr-fig lr-3d"><div class="lr-3d-in" id="lr-c-plane"><svg viewBox="-200 -170 400 340" aria-label="위에서 본 여객기와 조종면"><path class="lr-body" d="M-10 -150 C-10 -168 10 -168 10 -150 L12 120 C12 140 -12 140 -12 120Z"/><path class="lr-wing" d="M-10 -20 L-180 40 L-180 56 L-10 30Z"/><path class="lr-wing" d="M10 -20 L180 40 L180 56 L10 30Z"/><path class="lr-wing" d="M-10 100 L-70 130 L-70 140 L-10 128Z"/><path class="lr-wing" d="M10 100 L70 130 L70 140 L10 128Z"/><path class="lr-fin" d="M-3 90 L-3 140 L3 140 L3 90Z"/>
@@ -6070,7 +6142,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "learn-forces": ["두 쌍의 힘", `<p><mark>양력 ↑ 과 무게 ↓</mark> 양력이 더 크면 올라가고, 작으면 내려갑니다.</p><p><mark class="b">추력 → 과 항력 ←</mark> 추력이 더 크면 빨라지고, 작으면 느려집니다.</p><p>둘 다 똑같으면? <b>지금 속도와 고도 그대로</b> 날아갑니다. 이것이 순항입니다.</p><p class="lr-key">기억할 것: 빨라지면 양력도 커집니다. 그래서 속도를 바꿀 때는 기수 각도도 같이 맞춥니다.</p>`],
     "learn-lift": ["날개가 비행기를 드는 방법", `<p>날개는 <mark>공기를 아래로 밀어 내리는 판</mark>입니다. 공기를 아래로 밀면, 그 반대로 날개는 위로 밀립니다.</p><p>그래서 <mark class="b">윗면은 압력이 낮고</mark>, <mark class="o">아랫면은 압력이 조금 높습니다</mark>. 넓은 날개 전체에 이 차이가 걸려 비행기를 듭니다.</p><p class="lr-key">양력을 키우는 세 가지: 더 빨리(속도), 더 기울여(받음각), 더 짙은 공기(낮은 고도).</p><p class="small muted">'위아래 공기가 뒤에서 동시에 만난다'는 설명은 틀렸습니다. 위쪽 공기가 먼저 도착합니다.</p>`],
     "learn-stall": ["왜 갑자기 떨어지나", `<p>날개를 조금씩 더 기울이면(받음각 증가) <mark>양력이 계속 커집니다</mark>.</p><p>그런데 <mark class="o">약 15도를 넘으면</mark> 윗면 공기가 날개를 따라오지 못하고 떨어져 나갑니다. 그 순간 <mark class="r">양력은 뚝 떨어지고 항력은 커집니다</mark>. 이것이 실속입니다.</p><p class="lr-key">실속은 '느려서'가 아니라 '너무 기울여서' 생깁니다. 느릴 때 무게를 들려면 많이 기울여야 해서 실속에 가까워질 뿐입니다.</p>`],
-    "learn-winglet": ["날개 끝에서 생기는 손해", `<p>날개 아래 공기는 압력이 높아서 <mark>날개 끝을 돌아 위로 말려 올라갑니다</mark>. 이것이 날개 끝 소용돌이입니다.</p><p>이 소용돌이가 날개 뒤 공기를 끌어내려 <mark class="o">양력을 조금 뒤로 기울게</mark> 만들고, 그만큼이 항력(유도항력)이 됩니다.</p><p class="lr-key">윙렛은 날개 끝에서 공기가 돌아 나가는 것을 막아 소용돌이를 줄입니다. 연료가 줄고, 무겁게 이륙해 오를 때 효과가 큽니다.</p>`],
+    "learn-winglet": ["날개 끝에서 생기는 손해", `<p>날개 아래 공기는 압력이 높아서 <mark>날개 끝을 돌아 위로 말려 올라갑니다</mark>. 이것이 날개 끝 소용돌이입니다.</p><p>이 소용돌이가 날개 뒤 공기를 끌어내려 <mark class="o">양력을 조금 뒤로 기울게</mark> 만들고, 그만큼이 항력(유도항력)이 됩니다.</p><p class="lr-key">윙렛은 날개 끝에서 공기가 돌아 나가는 것을 막아 소용돌이를 줄입니다. 연료를 아끼고, 무겁게 이륙해 오를 때 효과가 큽니다.</p>`],
     "learn-sweep": ["날개를 뒤로 젖히는 이유", `<p>비행기가 음속보다 느려도 날개 윗면 공기는 더 빨라서 <mark class="o">일부가 먼저 음속을 넘습니다</mark>. 그러면 충격파가 생겨 항력이 확 늘고 기체가 흔들립니다.</p><p>날개를 뒤로 젖히면 날개가 정면으로 받는 바람이 줄어듭니다. <mark>마하 0.8로 날아도 날개는 마하 0.72 정도로 느끼는</mark> 셈입니다(후퇴각 25도).</p><p class="lr-key">대신 젖힌 날개는 느릴 때 양력이 약합니다. 그래서 이착륙에는 플랩과 슬랫이 꼭 필요합니다.</p>`],
     "learn-highlift": ["날개 모양을 바꾸는 장치", `<p><mark>슬랫</mark>은 날개 앞쪽에서 앞아래로 미끄러져 나오는 판입니다. 더 많이 기울여도 흐름이 떨어지지 않게 해 줍니다.</p><p><mark class="b">플랩</mark>은 날개 뒤쪽에서 뒤로 나오며 아래로 꺾이는 판입니다. 날개가 넓어지고 더 휘어져 <mark>같은 속도에서 양력이 크게 늘어납니다</mark>.</p><p class="lr-key">이륙은 적게(양력은 늘고 항력은 덜), 착륙은 많이(양력도 항력도 크게) 펼칩니다.</p>`],
     "learn-control": ["세 축을 함께 쓰기", `<p><mark>롤</mark> 에일러론으로 좌우로 기울입니다. <mark class="b">피치</mark> 엘리베이터로 기수를 들거나 숙입니다. <mark class="o">요</mark> 러더로 기수를 좌우로 돌립니다.</p><p>세 축은 따로 놀지 않습니다. 기울이면 양력이 옆으로 쏠려 <b>고도가 떨어지니 조금 당기고</b>, 기수가 바깥으로 도는 것은 <b>러더로 잡아 줍니다</b>.</p><p class="lr-key">요즘 여객기는 컴퓨터가 이 조정을 상당 부분 대신해 줍니다(플라이 바이 와이어).</p>`]
@@ -6088,8 +6160,8 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
       steps: ["순항 중 오토스로틀을 끄고 추력을 조금 줄여 보세요. 고도를 지키려고 기수가 서서히 들리고 속도가 떨어집니다.", "3도 활공로로 내려올 때 강하율은 <b>지상속도 × 5</b> fpm이 기준입니다. 지상속도 140 kt면 약 700 fpm입니다.", "활주로 바로 위(약 30 ft)에서 추력을 줄이며 기수를 2~3도 들어(플레어) 강하율을 줄입니다."],
       link: ["착륙률이 점수가 되는 방식", "scores"] },
     "learn-lift": { sum: "속도계(IAS)가 같으면 날개가 내는 양력도 같습니다. 높이 오를수록 실제 속도(TAS)는 훨씬 빠릅니다.",
-      steps: ["상승할 때는 IAS를 고정(예: 280 kt)하고 오르다가, 높은 고도(대략 FL280~300)에서 마하수 기준으로 바꿉니다.", "FL350에서 속도계가 270 kt쯤이면 실제 속도는 약 1.8배인 480 kt 안팎입니다. 비행 계기에서 TAS와 비교해 보세요.", "고도가 높은 공항이나 더운 날에는 같은 무게로도 이륙 거리가 길어집니다. 짧은 활주로라면 무게를 줄이거나 플랩을 더 씁니다."],
-      link: ["지도에서 예약해 고도별 비행 해 보기", "book"] },
+      steps: ["상승할 때는 IAS를 고정(예: 290 kt)하고 오르다가, 높은 고도(대략 FL300 안팎)에서 마하수 기준으로 바꿉니다.", "FL350에서 속도계가 270 kt쯤이면 실제 속도는 약 1.7배인 460 kt 안팎입니다. 비행 계기에서 TAS와 비교해 보세요.", "고도가 높은 공항이나 더운 날에는 같은 무게로도 이륙 거리가 길어집니다. 짧은 활주로라면 무게를 줄이거나 플랩을 더 씁니다."],
+      link: ["지도에서 예약해 고도를 바꿔 가며 비행해 보기", "book"] },
     "learn-stall": { sum: "실속은 속도가 아니라 받음각 문제입니다. 경고가 울리면 먼저 기수를 숙여 받음각을 줄입니다.",
       steps: ["여객기는 보통 25도 넘게 기울여 선회하지 않습니다. 오토파일럿의 경사 제한(대개 25~30도)을 확인해 보세요.", "접근 속도는 Vref + 5 kt 밑으로 줄이지 않습니다. 바람이 세면 더 붙입니다.", "실속 경고(스틱 셰이커)가 나면 순서대로: 기수 숙이기, 날개 수평, 추력 조절, 원래 경로."],
       link: ["점수 기준에서 착륙률 영향 보기", "scores"] },
@@ -6114,7 +6186,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
   document.addEventListener("change", e => { const c = e.target && e.target.getAttribute && e.target.getAttribute("data-lrdo"); if (!c) return; if (e.target.checked) lrDone[c] = 1; else delete lrDone[c]; try { localStorage.setItem("hub-lr-done", JSON.stringify(lrDone)); } catch (er) { /* 무시 */ } e.target.closest(".lr-chk").classList.toggle("on", e.target.checked); });
   /* ---------- 조종석에서는: 원리가 실제 비행에서 뜻하는 것 ---------- */
   const LR_PILOT = {
-    "learn-forces": `<p>조종사가 직접 다루는 것은 두 가지, <b>자세(기수 각도)</b>와 <b>추력</b>입니다. 네 힘은 이 둘을 통해 간접적으로 조절됩니다.</p><ul class="lr-list"><li><b>추력을 올리면</b> 남는 힘이 생겨 빨라지거나(자세를 그대로 두면) 올라갑니다(기수를 들면).</li><li><b>기수를 들면</b> 속도를 고도로 바꾸는 셈입니다. 추력을 그대로 두면 오르면서 느려집니다.</li><li><b>순항</b>은 네 힘이 맞선 상태라 자동조종이 고도를, 자동 추력(오토스로틀)이 속도를 지킵니다.</li><li><b>착륙 접근</b>에서는 자세로 활공로를, 추력으로 속도를 맞추는 식으로 두 손잡이를 함께 씁니다.</li></ul>`,
+    "learn-forces": `<p>조종사가 직접 다루는 것은 두 가지, <b>자세(기수 각도)</b>와 <b>추력</b>입니다. 네 힘은 이 둘을 통해 간접적으로 조절됩니다.</p><ul class="lr-list"><li><b>추력을 올리면</b> 남는 힘이 생겨 빨라지거나(자세를 그대로 두면) 올라갑니다(기수를 들면).</li><li><b>기수를 들면</b> 속도를 고도로 바꾸는 셈입니다. 추력을 그대로 두면 오르면서 느려집니다.</li><li><b>순항</b>은 네 힘이 맞선 상태라 오토파일럿이 고도를, 자동 추력(오토스로틀)이 속도를 지킵니다.</li><li><b>착륙 접근</b>에서는 자세로 활공로를, 추력으로 속도를 맞추는 식으로 두 손잡이를 함께 씁니다.</li></ul>`,
     "learn-lift": `<p>속도계가 보여 주는 <b>지시 대기속도(IAS)</b>는 사실 양력 공식의 ½ρv², 곧 날개가 받는 공기 압력을 재는 값입니다. 그래서 고도가 달라도 같은 IAS면 날개는 비슷한 양력을 냅니다.</p><div class="lr-big"><span>지금 막대 값으로 본 계기 속도</span><b id="lr-p-ias">-</b><small id="lr-p-tas"></small></div><ul class="lr-list"><li>높이 오르면 공기가 옅어져, 같은 IAS를 내려면 실제 속도(진대기속도, TAS)가 훨씬 빨라야 합니다.</li><li>실속 속도와 이착륙 속도는 IAS로 정해져 있어, 높은 공항이나 더운 날(공기가 옅을 때) 활주로를 더 길게 씁니다.</li></ul>`,
     "learn-stall": `<p><b>실속은 어떤 속도에서도 일어날 수 있습니다.</b> 날개가 받는 무게가 커지면, 예를 들어 비행기를 기울여 선회하면 같은 속도에서도 받음각이 커지기 때문입니다.</p><div class="lr-ctl"><label for="lr-s-bank">선회 경사각 <b id="lr-s-bank-v">30°</b></label><input type="range" id="lr-s-bank" min="0" max="60" step="5" value="30"></div><div class="lr-big"><span>수평 비행보다 실속 속도가</span><b id="lr-p-vs">-</b><small id="lr-p-n"></small></div><ul class="lr-list"><li><b>회복의 첫 동작은 기수를 숙여 받음각을 줄이는 것</b>입니다. 그다음 날개를 수평으로, 추력을 맞추고, 원래 경로로 돌아옵니다(FAA 권고 순서).</li><li>추력만 올리고 기수를 계속 들고 있으면 실속에서 빠져나오지 못합니다.</li></ul>`,
     "learn-winglet": `<ul class="lr-list"><li><b>이륙과 상승</b>에서 유도항력이 가장 크기 때문에, 윙렛의 효과도 무겁게 이륙해 오를 때 잘 드러납니다. 상승 성능이 조금 좋아지고 연료가 줄어듭니다.</li><li><b>후류 간격</b> 관제사는 앞 비행기의 무게 등급에 따라 간격을 띄웁니다. 무거운 기종은 무선 호출에 'Heavy'를 붙여 알립니다.</li><li><b>후류 피하기</b> 앞 비행기의 비행 경로보다 위에 머물고, 착륙할 때는 앞 비행기가 땅에 닿은 지점보다 더 멀리 내려앉는 것이 기본입니다(미국 항공정보 매뉴얼).</li><li>바람이 약한 날 소용돌이가 활주로 위에 오래 남아, 간격이 더 필요할 수 있습니다.</li></ul>`,
@@ -6413,7 +6485,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "learn-lift": [{ cap: "날개를 옆에서 봅니다. 공기는 앞에서 뒤로 흐릅니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 480, "lr-l-h": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "윗면(파랑)은 공기가 빨리 흐르고 압력이 낮아집니다.", view: [-0.5, 0.35, 1.3] }, { cap: "아랫면(주황)은 압력이 조금 높습니다. 이 차이가 날개를 들어 올립니다.", view: [-0.5, -0.1, 1.3] }, { cap: "더 기울이면(받음각) 공기를 더 아래로 밀어 양력이 커집니다.", set: { "lr-l-cl": 1.2 }, view: [-0.22, 0.1, 1.25] }, { cap: "속도가 두 배가 되면 양력은 네 배가 됩니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 900 } }, { cap: "높이 오르면 공기가 옅어져 같은 속도에서도 양력이 줄어듭니다.", set: { "lr-l-h": 11000 } }, { cap: "그래서 높은 곳에서는 더 빠르게 날아야 합니다.", set: { "lr-l-h": 0, "lr-l-v": 480 } }],
     "learn-stall": [{ cap: "받음각 4도. 공기가 날개 윗면을 따라 붙어 흐릅니다.", set: { "lr-s-a": 4 }, view: [-0.22, 0.1, 1.25] }, { cap: "더 기울이면 양력이 계속 커집니다.", set: { "lr-s-a": 11 } }, { cap: "15도 근처가 한계입니다. 이때 실속 경고가 울립니다.", set: { "lr-s-a": 14.5 } }, { cap: "넘으면 윗면 흐름이 떨어져 나가고 양력이 뚝 떨어집니다. 실속입니다.", set: { "lr-s-a": 19 } }, { cap: "회복은 기수를 숙여 받음각을 줄이는 것부터입니다.", set: { "lr-s-a": 5 } }],
     "learn-winglet": [{ cap: "윙렛이 없는 날개 끝. 아래 공기가 위로 말려 큰 소용돌이가 생깁니다.", click: '[data-lrw="none"]', view: [2.45, 0.42, 0.95] }, { cap: "블렌디드 윙렛. 끝을 위로 꺾어 소용돌이가 작아집니다.", click: '[data-lrw="blend"]' }, { cap: "분할 시미터 윙렛. 위아래로 갈라져 더 줄입니다.", click: '[data-lrw="scim"]', view: [2.2, 0.35, 1.05] }, { cap: "레이크드 윙팁. 꺾지 않고 날개 끝을 뒤로 길게 늘립니다.", click: '[data-lrw="raked"]', view: [2.7, 0.5, 0.75] }],
-    "learn-sweep": [{ cap: "곧은 날개는 바람을 정면으로 다 받습니다.", set: { "lr-sw-a": 0, "lr-sw-m": 0.78 }, view: [-0.15, 1.3, 0.85] }, { cap: "날개를 젖히면 날개가 정면으로 받는 바람(초록)이 줄어듭니다.", set: { "lr-sw-a": 30 } }, { cap: "그래서 마하 0.85로 빨리 날아도 충격파를 늦출 수 있습니다.", set: { "lr-sw-m": 0.85 } }, { cap: "덜 젖힌 날개로 빨리 날면 빨간색, 충격파 구간에 들어갑니다.", set: { "lr-sw-a": 10 } }, { cap: "여객기는 보통 25~38도 정도로 젖힙니다.", set: { "lr-sw-a": 25, "lr-sw-m": 0.78 } }],
+    "learn-sweep": [{ cap: "곧은 날개는 바람을 정면으로 다 받습니다.", set: { "lr-sw-a": 0, "lr-sw-m": 0.78 }, view: [-0.15, 1.3, 0.85] }, { cap: "날개를 젖히면 날개가 정면으로 받는 바람(초록)이 줄어듭니다.", set: { "lr-sw-a": 30 } }, { cap: "그래서 마하 0.85로 빨리 날아도 충격파를 늦출 수 있습니다.", set: { "lr-sw-m": 0.85 } }, { cap: "덜 젖힌 날개로 빨리 날면 충격파 구간(빨간색)에 들어갑니다.", set: { "lr-sw-a": 10 } }, { cap: "여객기는 보통 25~38도 정도로 젖힙니다.", set: { "lr-sw-a": 25, "lr-sw-m": 0.78 } }],
     "learn-highlift": [{ cap: "순항 때 날개. 얇고 매끈합니다.", set: { "lr-h-f": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "이륙: 슬랫과 플랩을 조금 펼칩니다.", set: { "lr-h-f": 1 } }, { cap: "더 펼치면 날개가 넓고 휘어져 양력이 커집니다.", set: { "lr-h-f": 3 }, view: [-0.6, 0.25, 1.2] }, { cap: "착륙: 가장 깊이 펼쳐 느린 속도에서도 날 수 있게 합니다.", set: { "lr-h-f": 4 } }, { cap: "펼칠수록 실속 속도가 내려가 더 천천히 내릴 수 있습니다.", view: [-0.22, 0.1, 1.25] }],
     "learn-control": [{ cap: "롤: 에일러론이 반대로 꺾여 한쪽 날개 양력만 커지고 기체가 기웁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 70 } }, { cap: "반대로 입력하면 반대쪽으로 기웁니다.", set: { "lr-c-in": -70 } }, { cap: "피치: 엘리베이터가 꼬리를 눌러 기수가 들립니다.", click: '[data-lra="pitch"]', set: { "lr-c-in": 70 } }, { cap: "요: 러더가 꼬리를 옆으로 밀어 기수가 돕니다.", click: '[data-lra="yaw"]', set: { "lr-c-in": 70 } }, { cap: "실제 선회에서는 세 축을 함께 씁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 40 } }]
   };
@@ -6463,7 +6535,8 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
   function isaAt(ft) {
     const T = ft <= 36089 ? 288.15 - 0.0019812 * ft : 216.65;
     const sig = ft <= 36089 ? Math.pow(T / 288.15, 4.2559) : 0.2971 * Math.exp(-(ft - 36089) / 20806);
-    return { T: T, sig: sig, a: 38.967854 * Math.sqrt(T) };
+    const del = ft <= 36089 ? Math.pow(T / 288.15, 5.2559) : 0.22336 * Math.exp(-(ft - 36089) / 20806);
+    return { T: T, sig: sig, del: del, a: 38.967854 * Math.sqrt(T) };
   }
 
   /* ---------- 속도의 종류 ---------- */
@@ -6477,15 +6550,16 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
 <div class="lr-ctl"><label for="lr-sp-v">속도계(IAS) <b id="lr-sp-v-v">250 kt</b></label><input type="range" id="lr-sp-v" min="120" max="340" step="5" value="250"></div>
 <div class="lr-ctl"><label for="lr-sp-w">바람 <b id="lr-sp-w-v">맞바람 40 kt</b></label><input type="range" id="lr-sp-w" min="-120" max="120" step="10" value="-40"></div>
 <div class="lr-spd" id="lr-sp-out"></div></div></section>
-<section class="card c7">${cardH(ICON.info, "네 가지 속도")}<div class="card-b lr-prose lr-easy"><p><mark>IAS (지시 대기속도)</mark> 속도계 바늘이 가리키는 값입니다. 날개가 받는 공기의 세기라서 <b>양력과 실속은 IAS로 판단</b>합니다.</p><p><mark class="b">TAS (진대기속도)</mark> 공기 속을 실제로 지나가는 빠르기입니다. 높이 올라 공기가 옅어지면 같은 IAS라도 <b>TAS는 훨씬 빨라집니다</b>.</p><p><mark class="o">GS (대지속도)</mark> 땅에서 본 속도입니다. 맞바람이면 TAS보다 느리고, 뒷바람이면 빠릅니다. <b>도착 시간과 연료</b>는 GS로 계산합니다.</p><p><mark class="r">마하수</mark> TAS를 그 높이의 음속으로 나눈 값입니다. 높은 고도에서는 공기가 차가워 음속이 느려지므로 <b>순항은 마하로 맞춥니다</b>.</p><p class="lr-key">기억할 것: 낮은 고도에서는 IAS, 높은 고도에서는 마하가 한계 속도의 기준입니다.</p></div></section>
+<section class="card c7">${cardH(ICON.info, "네 가지 속도")}<div class="card-b lr-prose lr-easy"><p><mark>IAS (지시 대기속도)</mark> 속도계 바늘이 가리키는 값입니다. 날개가 받는 공기의 세기라서 <b>양력과 실속은 IAS로 판단</b>합니다.</p><p><mark class="b">TAS (진대기속도)</mark> 공기 속을 실제로 지나가는 빠르기입니다. 높이 올라 공기가 옅어지면 같은 IAS라도 <b>TAS는 훨씬 빨라집니다</b>.</p><p><mark class="o">GS (지상속도)</mark> 땅에서 본 속도입니다. 맞바람이면 TAS보다 느리고, 뒷바람이면 빠릅니다. <b>도착 시간과 연료</b>는 GS로 계산합니다.</p><p><mark class="r">마하수</mark> TAS를 그 높이의 음속으로 나눈 값입니다. 높은 고도에서는 공기가 차가워 음속이 느려지므로 <b>순항은 마하로 맞춥니다</b>.</p><p class="lr-key">기억할 것: 낮은 고도에서는 IAS, 높은 고도에서는 마하가 한계 속도의 기준입니다.</p></div></section>
 <section class="card c5">${cardH(ICON.gauge, "숫자로 보기")}<div class="card-b lr-prose"><ul class="lr-list"><li>해면에서 IAS 250 kt면 TAS도 약 250 kt입니다.</li><li>35,000 ft에서 IAS 250 kt면 TAS는 약 430 kt, 마하 0.75쯤입니다.</li><li>음속은 해면 약 661 kt, 36,000 ft 위에서는 약 573 kt입니다.</li><li>뒷바람 100 kt 제트기류를 타면 같은 TAS로도 한 시간에 100 nm를 더 갑니다.</li></ul></div></section>
-<section class="card c12 lr-pilot">${cardH(ICON.plane, "그래서 조종할 때는")}<div class="card-b lr-prose"><ul class="lr-list"><li><b>이륙, 접근, 착륙 속도는 모두 IAS</b>입니다. 높은 공항이나 더운 날에는 같은 IAS라도 TAS가 빨라 활주 거리가 길어집니다.</li><li><b>상승 중 속도 기준이 바뀝니다.</b> 보통 IAS 290~300 kt로 오르다가 약 28,000~31,000 ft에서 마하 0.78~0.80으로 바꿉니다(크로스오버 고도).</li><li><b>높이 갈수록 여유가 줄어듭니다.</b> 실속 속도(IAS)는 그대로지만 최대 마하는 IAS로 보면 점점 낮아져, 둘 사이 간격이 좁아집니다. 무거운데 너무 높이 오르지 않는 이유입니다.</li><li><b>연료 계획은 GS</b>로 합니다. 같은 노선도 계절 제트기류 때문에 서쪽으로 갈 때 한 시간 넘게 더 걸릴 수 있습니다.</li></ul></div></section>
+<section class="card c12 lr-pilot">${cardH(ICON.plane, "그래서 조종할 때는")}<div class="card-b lr-prose"><ul class="lr-list"><li><b>이륙, 접근, 착륙 속도는 모두 IAS</b>입니다. 높은 공항이나 더운 날에는 같은 IAS라도 TAS가 빨라 활주 거리가 길어집니다.</li><li><b>상승 중 속도 기준이 바뀝니다.</b> 보통 IAS 290~300 kt로 오르다가 약 28,000~31,000 ft에서 마하 0.78~0.80으로 바꿉니다(크로스오버 고도).</li><li><b>높이 갈수록 여유가 줄어듭니다.</b> 실속 속도(IAS)는 그대로지만 최대 마하는 IAS로 보면 점점 낮아져, 둘 사이 간격이 좁아집니다. 무거울 때 너무 높이 오르지 않는 이유입니다.</li><li><b>연료 계획은 GS</b>로 합니다. 같은 노선도 계절 제트기류 때문에 서쪽으로 갈 때 한 시간 넘게 더 걸릴 수 있습니다.</li></ul></div></section>
 <section class="card c12">${lrNote}</section></div>`;
   }
   function lrSpeed() {
     const hI = $("#lr-sp-h"); if (!hI) return;
     const ft = +hI.value, ias = +$("#lr-sp-v").value, wind = +$("#lr-sp-w").value, A = isaAt(ft);
-    const tas = ias / Math.sqrt(A.sig), gs = tas + wind, mach = tas / A.a;
+    // 압축성까지 넣은 계산: 속도계(CAS) → 충격압 → 그 고도의 마하수 → 실제 속도
+    const qc = Math.pow(1 + 0.2 * Math.pow(ias / 661.47, 2), 3.5) - 1, mach = Math.sqrt(5 * (Math.pow(qc / A.del + 1, 2 / 7) - 1)), tas = mach * A.a, gs = tas + wind;
     $("#lr-sp-h-v").textContent = fmt(ft) + " ft"; $("#lr-sp-v-v").textContent = ias + " kt";
     $("#lr-sp-w-v").textContent = wind === 0 ? "바람 없음" : wind < 0 ? `맞바람 ${-wind} kt` : `뒷바람 ${wind} kt`;
     const mx = 700, bar = (k, label, v, unit, cls, note) => `<div class="lr-spd-r ${cls}"><span class="k">${k}</span><span class="t"><i style="width:${Math.max(2, Math.min(100, v / mx * 100)).toFixed(1)}%"></i></span><b>${unit === "M" ? "M " + v.toFixed(2) : Math.round(v) + " kt"}</b><small>${label}${note ? ", " + note : ""}</small></div>`;
@@ -6549,15 +6623,15 @@ ${[0, 25, 50, 75, 100].map(q => `<line x1="${R(q)}" y1="-12" x2="${R(q)}" y2="12
   }
   /* ---------- 확인 퀴즈: 쪽마다 세 문제. 고르면 바로 맞고 틀림과 이유를 보여 주고, 맞힌 수를 이 브라우저에 남긴다 ---------- */
   const LR_QUIZ = {
-    "learn-forces": [["순항 중 고도와 속도가 그대로라면 네 힘은?", ["양력이 무게보다 크다", "양력과 무게, 추력과 항력이 각각 같다", "추력이 항력보다 훨씬 크다", "네 힘이 모두 0이다"], 1, "등속 수평 비행은 힘이 서로 맞서 균형을 이룬 상태입니다."], ["추력만 올리고 기수 각도를 그대로 두면 보통 어떻게 될까?", ["속도가 늘고 결국 상승한다", "바로 강하한다", "아무 변화가 없다", "실속한다"], 0, "빨라지면 양력도 커져서 비행기가 오르기 시작합니다."], ["오르내림을 주로 다루는 것은?", ["추력", "기수 각도(자세)", "러더", "스포일러"], 1, "자세로 오르내림을, 추력으로 에너지(속도)를 다룹니다. 둘은 함께 움직입니다."]],
+    "learn-forces": [["순항 중 고도와 속도가 그대로라면 네 힘은?", ["양력이 무게보다 크다", "양력과 무게, 추력과 항력이 각각 같다", "추력이 항력보다 훨씬 크다", "네 힘이 모두 0이다"], 1, "등속 수평 비행은 힘이 서로 맞서 균형을 이룬 상태입니다."], ["추력만 올리고 기수 각도를 그대로 두면 보통 어떻게 될까요?", ["속도가 늘고 결국 상승한다", "바로 강하한다", "아무 변화가 없다", "실속한다"], 0, "빨라지면 양력도 커져서 비행기가 오르기 시작합니다."], ["오르내림을 주로 다루는 것은?", ["추력", "기수 각도(자세)", "러더", "스포일러"], 1, "자세로 오르내림을, 추력으로 에너지(속도)를 다룹니다. 둘은 함께 움직입니다."]],
     "learn-lift": [["양력을 키우는 방법이 아닌 것은?", ["속도를 높인다", "받음각을 키운다", "공기가 더 옅은 높은 곳으로 간다", "플랩을 편다"], 2, "공기가 옅으면 같은 속도에서 양력이 줄어듭니다."], ["날개 윗면 압력은?", ["아랫면보다 낮다", "아랫면보다 높다", "아랫면과 같다", "항상 대기압과 같다"], 0, "윗면이 낮고 아랫면이 조금 높아 그 차이가 날개를 듭니다."], ["양력과 실속을 판단하는 속도는?", ["GS", "TAS", "IAS", "마하"], 2, "IAS는 날개가 받는 공기 압력이라 양력과 바로 이어집니다."]],
     "learn-stall": [["실속의 직접적인 원인은?", ["속도가 느려서", "받음각이 임계값을 넘어서", "엔진이 멈춰서", "고도가 높아서"], 1, "실속은 받음각 문제입니다. 느릴 때는 큰 받음각이 필요해 가까워질 뿐입니다."], ["실속 경고가 울리면 가장 먼저?", ["기수를 든다", "기수를 숙여 받음각을 줄인다", "플랩을 접는다", "러더를 크게 쓴다"], 1, "받음각을 줄이는 것이 먼저입니다. 추력과 날개 수평은 그다음입니다."], ["60도 경사 선회에서 실속 속도는?", ["그대로", "약 41% 늘어난다", "절반이 된다", "두 배가 된다"], 1, "하중계수 2g, 실속 속도는 √2배(약 1.41배)가 됩니다."]],
-    "learn-winglet": [["유도항력이 가장 큰 때는?", ["고속 순항", "무겁고 느린 이륙과 상승", "하강 중 아이들", "지상 활주"], 1, "양력을 많이 만들고 느릴수록 유도항력이 커집니다."], ["윙렛이 주로 하는 일은?", ["양력을 두 배로", "날개 끝 소용돌이를 줄여 유도항력을 낮춘다", "착륙 속도를 높인다", "날개를 가볍게"], 1, "날개 끝에서 공기가 돌아 나가는 것을 막아 손실을 줄입니다."], ["큰 비행기 뒤에서 간격을 띄우는 이유는?", ["소음", "후류(날개 끝 소용돌이)", "연료 냄새", "레이더 간섭"], 1, "큰 비행기의 소용돌이는 몇 분 동안 남아 뒤 비행기를 흔듭니다."]],
+    "learn-winglet": [["유도항력이 가장 큰 때는?", ["고속 순항", "무겁고 느린 이륙과 상승", "강하 중 아이들", "지상 활주"], 1, "양력을 많이 만들고 느릴수록 유도항력이 커집니다."], ["윙렛이 주로 하는 일은?", ["양력을 두 배로", "날개 끝 소용돌이를 줄여 유도항력을 낮춘다", "착륙 속도를 높인다", "날개를 가볍게"], 1, "날개 끝에서 공기가 돌아 나가는 것을 막아 손실을 줄입니다."], ["큰 비행기 뒤에서 간격을 띄우는 이유는?", ["소음", "후류(날개 끝 소용돌이)", "연료 냄새", "레이더 간섭"], 1, "큰 비행기의 소용돌이는 몇 분 동안 남아 뒤 비행기를 흔듭니다."]],
     "learn-sweep": [["날개를 뒤로 젖히는 주된 이유는?", ["보기 좋아서", "고속에서 충격파와 항력 증가를 늦추려고", "착륙을 쉽게", "연료 탱크를 넓히려고"], 1, "날개가 느끼는 속도 성분을 줄여 높은 마하에서도 날 수 있게 합니다."], ["높은 고도에서 순항 속도의 기준은?", ["IAS", "GS", "마하수", "VS"], 2, "공기가 차가워 음속이 느려지므로 마하로 한계를 봅니다."], ["후퇴익의 단점은?", ["느린 속도에서 양력이 약하다", "고속에서 항력이 크다", "무게가 줄어든다", "없다"], 0, "그래서 이착륙에는 플랩과 슬랫이 꼭 필요합니다."]],
     "learn-highlift": [["착륙 때 플랩을 많이 펴는 이유는?", ["더 빨리 가려고", "느린 속도에서 양력을 키우고 항력으로 감속하려고", "연료를 아끼려고", "소음을 줄이려고"], 1, "양력과 항력을 함께 키워 느리고 가파르게 내려올 수 있습니다."], ["슬랫의 역할은?", ["큰 받음각에서도 흐름이 떨어지지 않게", "추력을 늘린다", "방향을 바꾼다", "바퀴를 내린다"], 0, "날개 앞에 틈을 만들어 윗면 흐름을 붙잡아 둡니다."], ["플랩마다 정해진 것은?", ["최소 고도", "넘으면 안 되는 최대 속도", "연료량", "승객 수"], 1, "플랩 구조를 보호하려고 단계마다 최대 속도가 있습니다."]],
-    "learn-control": [["롤(좌우 기울기)을 만드는 조종면은?", ["엘리베이터", "에일러론", "러더", "플랩"], 1, "양쪽 에일러론이 반대로 움직여 기울입니다."], ["선회 중 고도가 떨어지려 할 때?", ["살짝 당긴다", "추력을 끈다", "러더만 쓴다", "플랩을 접는다"], 0, "기울면 양력이 옆으로 쏠리므로 조금 당겨 수직 성분을 채웁니다."], ["엔진 하나가 멈추면 쏠림을 막는 것은?", ["에일러론만", "러더", "스포일러", "트림 없음"], 1, "멈춘 엔진 쪽으로 기수가 돌려는 것을 러더로 잡습니다."]],
-    "learn-speed": [["35,000 ft에서 IAS 250 kt일 때 TAS는?", ["약 250 kt", "약 430 kt", "약 150 kt", "약 600 kt"], 1, "공기가 옅어 같은 IAS라도 실제 속도는 훨씬 빠릅니다."], ["도착 시간 계산에 쓰는 속도는?", ["IAS", "TAS", "GS", "마하"], 2, "땅 위를 얼마나 빨리 가는지가 시간과 연료를 정합니다."], ["상승 중 IAS 기준에서 마하 기준으로 바꾸는 높이를 무엇이라 할까?", ["전이 고도", "크로스오버 고도", "결심 고도", "순항 고도"], 1, "보통 28,000~31,000 ft 근처에서 바뀝니다."]],
-    "learn-cg": [["무게중심이 앞쪽일 때 맞는 것은?", ["더 불안정하다", "더 안정적이지만 연료가 조금 더 든다", "실속 속도가 낮아진다", "아무 차이 없다"], 1, "꼬리날개가 더 눌러야 해서 날개 짐이 늘어납니다."], ["가장 위험한 경우는?", ["앞쪽 한계 바로 안", "가운데", "뒤쪽 한계를 넘었을 때", "연료가 가득일 때"], 2, "뒤쪽 한계를 넘으면 기수가 들릴 때 막지 못할 수 있습니다."], ["이륙 전에 무게중심에 맞춰 넣는 것은?", ["이륙 트림", "착륙등", "트랜스폰더", "산소"], 0, "트림이 맞아야 회전할 때 기수가 알맞게 들립니다."]]
+    "learn-control": [["롤(좌우 기울기)을 만드는 조종면은?", ["엘리베이터", "에일러론", "러더", "플랩"], 1, "양쪽 에일러론이 반대로 움직여 기울입니다."], ["선회 중 고도가 떨어지려 할 때?", ["살짝 당긴다", "추력을 끈다", "러더만 쓴다", "플랩을 접는다"], 0, "기울면 양력이 옆으로 쏠리므로 조금 당겨 수직 성분을 채웁니다."], ["엔진 하나가 멈추면 쏠림을 막는 것은?", ["에일러론만", "러더", "스포일러", "트림"], 1, "멈춘 엔진 쪽으로 기수가 돌려는 것을 러더로 잡습니다."]],
+    "learn-speed": [["35,000 ft에서 IAS 250 kt일 때 TAS는?", ["약 250 kt", "약 430 kt", "약 150 kt", "약 600 kt"], 1, "공기가 옅어 같은 IAS라도 실제 속도는 훨씬 빠릅니다."], ["도착 시간 계산에 쓰는 속도는?", ["IAS", "TAS", "GS", "마하"], 2, "땅 위를 얼마나 빨리 가는지가 시간과 연료를 정합니다."], ["상승 중 IAS 기준에서 마하 기준으로 바꾸는 높이를 무엇이라고 할까요?", ["전이 고도", "크로스오버 고도", "결심 고도", "순항 고도"], 1, "보통 28,000~31,000 ft 근처에서 바뀝니다."]],
+    "learn-cg": [["무게중심이 앞쪽일 때 맞는 것은?", ["더 불안정하다", "더 안정적이지만 연료가 조금 더 든다", "실속 속도가 낮아진다", "아무 차이 없다"], 1, "꼬리날개가 더 눌러야 해서 날개 짐이 늘어납니다."], ["가장 위험한 경우는?", ["앞쪽 한계 바로 안", "가운데", "뒤쪽 한계를 넘었을 때", "연료가 가득 찼을 때"], 2, "뒤쪽 한계를 넘으면 기수가 들릴 때 막지 못할 수 있습니다."], ["이륙 전에 무게중심에 맞춰 넣는 것은?", ["이륙 트림", "착륙등", "트랜스폰더", "산소"], 0, "트림이 맞아야 회전할 때 기수가 알맞게 들립니다."]]
   };
   let lrQz = {}; try { lrQz = JSON.parse(localStorage.getItem("hub-lr-quiz") || "{}"); } catch (e) { lrQz = {}; }
   function lrQuizHtml(k) {
@@ -9206,36 +9280,36 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
   // 상황별 대응: [id, 단계, 제목, 언제, 즉시 할 일(순서), 이어서, 흔한 실수, 관련 원리 탭, 시뮬레이터 연습]
   const MN_SIT = [
     ["rto", "이륙", "이륙 중단 (RTO)", "V1에 닿기 전에 엔진 고장, 화재 경고, 이륙 형태 경고처럼 계속 이륙하면 위험한 문제가 생겼을 때.", ["\"STOP\"을 외친다", "추력 레버를 아이들로", "자동 제동(RTO) 작동 확인, 안 되면 최대 수동 제동", "스피드브레이크를 올린다", "역추력을 쓴다"], ["완전히 멈춘 뒤 관제에 알린다", "화재나 연기가 있으면 비상 탈출을 판단한다", "브레이크가 매우 뜨거우니 소방 지원을 요청한다"], ["V1을 넘긴 뒤 멈추려 한다. 남은 활주로로는 멈출 수 없을 수 있다", "작은 경고등 하나로 고속에서 중단해 더 큰 위험을 만든다"], "learn-forces", "짧은 활주로 공항에서 V1 직전 엔진 고장을 설정해 멈추는 거리를 확인한다."],
-    ["eng-v1", "이륙", "V1 이후 엔진 고장", "V1을 지난 뒤 엔진 하나가 멈췄을 때. 이때는 이륙을 계속하는 것이 원칙이다.", ["러더로 활주로 중심선을 지킨다", "VR에서 평소처럼 기수를 든다", "V2 ~ V2+15 kt를 유지한다", "상승률이 양(+)인지 확인하고 기어를 올린다"], ["절차 고도(보통 400 ft 이상) 전에는 엔진 조작을 하지 않는다", "두 조종사가 함께 멈춘 엔진을 확인한 뒤 체크리스트를 수행한다", "가속 고도에서 수평으로 가속하며 플랩을 접고, 가까운 공항으로 돌아간다"], ["러더가 모자라 기체가 옆으로 미끄러진다", "급한 마음에 멀쩡한 엔진을 끈다 (1989년 케그워스 사고)"], "learn-control", "V1 바로 뒤 엔진 고장 실패를 걸고 러더로 직진을 유지하는 연습을 반복한다."],
+    ["eng-v1", "이륙", "V1 이후 엔진 고장", "V1을 지난 뒤 엔진 하나가 멈췄을 때. 이때는 이륙을 계속하는 것이 원칙이다.", ["러더로 활주로 중심선을 지킨다", "VR에서 평소처럼 기수를 든다", "V2 ~ V2+15 kt를 유지한다", "상승률이 양(+)인지 확인하고 기어를 올린다"], ["절차 고도(보통 400 ft 이상) 전에는 엔진 조작을 하지 않는다", "두 조종사가 함께 멈춘 엔진을 확인한 뒤 체크리스트를 수행한다", "가속 고도에서 수평으로 가속하며 플랩을 접고, 가까운 공항으로 돌아간다"], ["러더가 모자라 기체가 옆으로 미끄러진다", "급한 마음에 멀쩡한 엔진을 끈다 (1989년 케그워스 사고)"], "learn-control", "V1 바로 뒤 엔진 고장을 설정하고 러더로 직진을 유지하는 연습을 반복한다."],
     ["stall", "모든 단계", "실속 경고와 회복", "스틱 셰이커가 울리거나 실속 경고가 나왔을 때, 또는 기체가 흔들리며 기수가 처질 때.", ["기수를 숙여 받음각을 줄인다 (가장 먼저)", "날개를 수평으로", "추력을 필요한 만큼 조절한다", "속도가 회복되면 원래 경로로 돌아온다"], ["회복 뒤 원인(속도 설정, 자동화 모드, 결빙)을 확인한다"], ["추력만 올리고 기수를 계속 당긴다. 받음각이 그대로라 실속에서 벗어나지 못한다", "높은 고도에서 실속을 과속으로 착각한다"], "learn-stall", "오토파일럿을 끄고 고도를 지킨 채 천천히 감속해 경고가 울리는 순간 회복 동작을 연습한다."],
     ["windshear", "접근", "윈드시어", "이륙이나 접근 중 윈드시어 경고가 울리거나, 속도가 갑자기 15 kt 넘게 변하고 강하율이 커질 때.", ["최대 추력(TOGA)", "기수를 약 15도로 들고, 필요하면 스틱 셰이커 직전까지", "기어와 플랩 형태는 바꾸지 않는다", "벗어날 때까지 자세를 유지한다"], ["벗어난 뒤 관제에 보고한다 (다음 비행기를 위해)", "같은 활주로로 다시 접근할지 신중히 판단한다"], ["속도를 되찾으려고 기수를 숙인다. 땅과 가까워진다", "형태를 바꿔 양력을 잃는다"], "learn-forces", "뇌우가 있는 날씨로 설정하고 짧은 최종 접근에서 윈드시어 탈출 동작을 연습한다."],
     ["goaround", "접근", "불안정 접근과 복행", "계기 비행에서 1,000 ft, 시계 비행에서 500 ft에 경로, 속도, 형태, 강하율이 안정되지 않았을 때. 대표 기준은 속도 Vref ~ Vref+20 kt, 강하율 1,000 fpm 이하.", ["\"GO AROUND\"를 외치고 TOGA", "기수를 약 15도로", "플랩을 한 단계 접는다", "상승률이 양(+)이면 기어를 올린다"], ["복행 절차대로 고도와 방향을 맞춘다", "관제에 알리고 다음 접근을 준비한다. 원인(바람, 늦은 강하)을 고친다"], ["낮은 고도에서 억지로 맞춰 내리려 한다", "복행 때 기수를 너무 빨리, 너무 많이 든다"], "learn-highlift", "일부러 높고 빠르게 접근해 기준 고도에서 복행을 결정하는 연습을 한다."],
-    ["xwind", "착륙", "옆바람 착륙", "활주로와 비스듬히 바람이 불 때.", ["최종 접근은 바람 쪽으로 기수를 틀어(크랩) 활주로 연장선을 따라간다", "닿기 직전 러더로 기수를 활주로에 맞춘다(디크랩)", "에일러론으로 바람 쪽 날개를 살짝 낮춘다", "닿은 뒤에도 에일러론을 바람 쪽으로 유지한다"], ["기종별로 시연된 최대 옆바람 값을 미리 확인한다", "돌풍 성분의 절반을 접근 속도에 더하는 것이 흔한 방식이다"], ["디크랩을 너무 일찍 해서 바람에 밀린다", "닿은 뒤 에일러론을 풀어 날개가 들린다"], "learn-control", "옆바람 15 kt, 25 kt로 바꿔 가며 같은 공항에 착륙해 본다."],
-    ["decomp", "순항", "급감압", "객실 고도 경고가 울리거나 귀가 아프고 안개가 생기며 객실 압력이 급히 떨어질 때.", ["산소 마스크를 쓴다", "조종사끼리 통신을 확보한다", "비상 강하를 시작한다 (추력 아이들, 스피드브레이크)", "7700을 설정하고 MAYDAY를 선언한다"], ["10,000 ft 또는 그 지역 최저 안전 고도까지 내려간다", "구조 손상이 의심되면 속도를 낮게 잡는다"], ["마스크보다 다른 일을 먼저 한다. 높은 고도에서 의식을 유지할 시간은 수십 초 수준이다"], "learn-sweep", "FL370에서 감압 실패를 걸고 10,000 ft까지 비상 강하에 걸리는 시간을 재 본다."],
+    ["xwind", "착륙", "옆바람 착륙", "활주로와 비스듬히 바람이 불 때.", ["최종 접근은 바람 쪽으로 기수를 틀어(크랩) 활주로 연장선을 따라간다", "닿기 직전 러더로 기수를 활주로에 맞춘다(디크랩)", "에일러론으로 바람 쪽 날개를 살짝 낮춘다", "닿은 뒤에도 에일러론을 바람 쪽으로 유지한다"], ["기종별로 시연된 최대 옆바람 값을 미리 확인한다", "보잉 기준으로는 정풍 성분의 절반에 돌풍 증가분 전체를 접근 속도에 더하는 것이 흔한 방식이다"], ["디크랩을 너무 일찍 해서 바람에 밀린다", "닿은 뒤 에일러론을 풀어 날개가 들린다"], "learn-control", "옆바람 15 kt, 25 kt로 바꿔 가며 같은 공항에 착륙해 본다."],
+    ["decomp", "순항", "급감압", "객실 고도 경고가 울리거나 귀가 아프고 안개가 생기며 객실 압력이 급히 떨어질 때.", ["산소 마스크를 쓴다", "조종사끼리 통신을 확보한다", "비상 강하를 시작한다 (추력 아이들, 스피드브레이크)", "7700을 설정하고 MAYDAY를 선언한다"], ["10,000 ft 또는 그 지역 최저 안전 고도까지 내려간다", "구조 손상이 의심되면 속도를 낮게 잡는다"], ["마스크보다 다른 일을 먼저 한다. 높은 고도에서 의식을 유지할 시간은 수십 초 수준이다"], "learn-sweep", "FL370에서 감압 고장을 설정하고 10,000 ft까지 비상 강하에 걸리는 시간을 재 본다."],
     ["engfire", "모든 단계", "엔진 화재", "엔진 화재 경고가 울렸을 때.", ["두 조종사가 함께 해당 엔진을 확인한다", "추력 레버를 아이들로", "연료를 차단한다", "소화기를 발사한다 (경고가 남으면 정해진 시간 뒤 두 번째)"], ["가장 가까운 적절한 공항에 내린다", "착륙 뒤 소방대와 확인한다"], ["다른 엔진을 끈다. 그래서 확인을 두 번 한다"], "learn-control", "이륙 상승 중 엔진 화재를 걸고 확인 절차를 소리 내어 해 본다."],
     ["dualeng", "모든 단계", "양쪽 엔진 고장 (조류 충돌, 연료)", "두 엔진이 모두 멈췄을 때.", ["기종 교범의 최적 활공 속도를 잡는다", "APU를 켠다 (전기와 공기)", "고도 여유가 있으면 재시동을 시도한다", "MAYDAY, 7700"], ["닿을 수 있는 공항이나 착륙 지점을 일찍 정한다", "닿을 수 없으면 수면이나 평지 착륙을 준비한다"], ["재시동에 매달려 착륙 지점 결정을 늦춘다"], "learn-lift", "2,000 ft 이상에서 양쪽 엔진을 끄고 최적 활공 속도로 얼마나 멀리 가는지 확인한다."],
-    ["fuel", "순항", "연료 부족", "도착 예상 연료가 계획보다 크게 줄었을 때.", ["관제에 'MINIMUM FUEL'을 알린다 (더 이상의 지연을 감당하기 어렵다는 뜻)", "최종 예비 연료(보통 30분) 아래로 내려갈 것 같으면 'MAYDAY FUEL'을 선언한다", "가장 가까운 적절한 공항을 다시 고른다"], ["연료 누출 가능성을 점검한다 (연료 사용량과 남은 양이 맞지 않는지)"], ["목적지에 집착해 교체 공항 결정을 늦춘다 (1983 김리 글라이더, 2001 에어 트랜샛 236)"], "learn-sweep", "출발 연료를 줄여 놓고 교체 공항으로 바꾸는 결정 시점을 연습한다."],
-    ["tcas", "모든 단계", "TCAS 회피 지시 (RA)", "충돌 경고 장치가 'CLIMB'이나 'DESCEND' 같은 회피 지시를 냈을 때.", ["오토파일럿을 풀고 지시대로 즉시 움직인다", "관제 지시와 달라도 RA를 따른다", "관제에 'TCAS RA'를 알린다"], ["'CLEAR OF CONFLICT' 뒤 원래 허가 고도로 돌아간다"], ["관제 지시를 따르느라 RA와 반대로 움직인다 (2002 위버링겐 공중 충돌)"], "learn-control", "온라인 관제 비행에서 RA 콜아웃 순서를 미리 외워 둔다."],
+    ["fuel", "순항", "연료 부족", "도착 예상 연료가 계획보다 크게 줄었을 때.", ["관제에 'MINIMUM FUEL'을 알린다 (더 이상의 지연을 감당하기 어렵다는 뜻)", "최종 예비 연료(보통 30분) 아래로 내려갈 것 같으면 'MAYDAY FUEL'을 선언한다", "가장 가까운 적절한 공항을 다시 고른다"], ["연료 누출 가능성을 점검한다 (연료 사용량과 남은 양이 맞지 않는지)"], ["목적지에 집착해 교체 공항 결정을 늦춘다 (연료 부족을 늦게 알아챈 사례: 2001년 에어 트랜샛 236편)"], "learn-sweep", "출발 연료를 줄여 놓고 교체 공항으로 바꾸는 결정 시점을 연습한다."],
+    ["tcas", "모든 단계", "TCAS 회피 지시 (RA)", "충돌 경고 장치가 'CLIMB'이나 'DESCEND' 같은 회피 지시를 냈을 때.", ["오토파일럿을 풀고 지시대로 즉시 움직인다", "관제 지시와 달라도 RA를 따른다", "관제에 'TCAS RA'를 알린다"], ["'CLEAR OF CONFLICT' 뒤 원래 허가 고도로 돌아간다"], ["관제 지시를 따르느라 RA와 반대로 움직인다 (2002년 위버링겐 공중 충돌)"], "learn-control", "온라인 관제 비행에서 RA 콜아웃 순서를 미리 외워 둔다."],
     ["gpws", "강하", "지형 경고 'PULL UP'", "지상 접근 경고 장치가 'TERRAIN, PULL UP'을 냈을 때.", ["오토파일럿과 자동 추력을 푼다", "최대 추력", "날개 수평으로 기수를 약 20도로 (스틱 셰이커 범위 안)", "스피드브레이크를 집어넣는다"], ["경고가 그칠 때까지 상승하고 관제에 알린다"], ["경고를 오작동이라 여기고 무시한다"], "learn-forces", "산악 공항 접근에서 일부러 낮게 내려가 경고 회피 동작을 연습한다."],
     ["turb", "순항", "심한 난기류", "흔들림이 커지거나 난기류 예보 지역에 들어갈 때.", ["좌석벨트 신호", "기종의 난기류 통과 속도로 맞춘다", "자세를 지키고 급한 조종을 피한다"], ["고도 변화는 어느 정도 허용한다. 고도를 억지로 지키려 하면 기체에 무리가 간다", "가능하면 고도나 경로를 바꿔 벗어난다"], ["속도와 고도를 억지로 잡으려 크게 조작한다"], "learn-sweep", "날씨 설정에서 난기류를 강하게 하고 오토파일럿 상태와 수동 상태를 비교한다."],
-    ["nordo", "모든 단계", "무선 두절", "관제와 교신이 끊겼을 때.", ["7600을 설정한다", "다른 주파수와 장비로 연락을 시도한다", "마지막 허가 받은 경로와 고도를 따른다 (지역 규정에 따라)"], ["도착 공항의 절차대로 접근한다"], ["허가 없이 경로를 바꾼다"], "learn-forces", "비행 계획을 세울 때 무선 두절 시 따를 경로와 고도를 적어 둔다."],
-    ["smoke", "모든 단계", "객실 연기와 화재", "객실이나 조종석에 연기, 타는 냄새가 나거나 화물칸 화재 경고가 울렸을 때.", ["산소 마스크와 연기 보호 안경을 쓴다", "조종사끼리 통신을 확보한다", "MAYDAY를 선언하고 가장 가까운 적절한 공항으로 회항을 시작한다", "연기 체크리스트로 의심되는 계통을 하나씩 끈다"], ["연기가 계속 짙어지면 체크리스트를 다 끝내기보다 착륙을 우선한다", "객실 승무원에게 연기 위치와 진행 상황을 계속 보고받는다", "착륙 뒤 비상 탈출을 판단하고 소방대를 대기시킨다"], ["원인 찾기에 시간을 쓰며 착륙을 미룬다. 기내 화재는 몇 분 안에 번질 수 있다", "마스크를 늦게 써서 판단력이 떨어진다"], "learn-forces", "순항 중 연기 실패를 걸고 가장 가까운 공항까지 몇 분 안에 내릴 수 있는지 재 본다."],
-    ["elec", "모든 단계", "전기 계통 고장", "발전기 고장 경고가 뜨거나 여러 화면과 계기가 한꺼번에 꺼질 때.", ["대기 계기로 자세를 확인하며 기체 조종을 먼저 한다", "남은 발전기가 버스를 잇고 있는지 확인한다", "APU를 켜 발전기를 연결한다", "전기 체크리스트로 꺼진 버스와 원인을 확인한다"], ["배터리만 남았다면 쓸 수 있는 시간이 한정되므로 가까운 공항에 내린다", "꺼진 장비(연료 펌프, 결빙 방지, 항법 장비)를 정리해 접근 계획에 반영한다", "관제에 상황을 알리고 단순한 접근을 요청한다"], ["화면이 꺼진 데 놀라 기체 자세를 놓친다", "튀어나온 회로 차단기를 여러 번 다시 넣는다. 과열이나 화재로 이어질 수 있다"], "learn-control", "발전기 고장 실패를 걸고 대기 계기만으로 접근하는 연습을 한다."],
+    ["nordo", "모든 단계", "무선 두절", "관제와 교신이 끊겼을 때.", ["7600을 설정한다", "다른 주파수와 장비로 연락을 시도한다", "마지막으로 허가받은 경로와 고도를 따른다 (지역 규정에 따라)"], ["도착 공항의 절차대로 접근한다"], ["허가 없이 경로를 바꾼다"], "learn-forces", "비행 계획을 세울 때 무선 두절 시 따를 경로와 고도를 적어 둔다."],
+    ["smoke", "모든 단계", "객실 연기와 화재", "객실이나 조종석에 연기, 타는 냄새가 나거나 화물칸 화재 경고가 울렸을 때.", ["산소 마스크와 연기 보호 안경을 쓴다", "조종사끼리 통신을 확보한다", "MAYDAY를 선언하고 가장 가까운 적절한 공항으로 회항을 시작한다", "연기 체크리스트로 의심되는 계통을 하나씩 끈다"], ["연기가 계속 짙어지면 체크리스트를 다 끝내기보다 착륙을 우선한다", "객실 승무원에게 연기 위치와 진행 상황을 계속 보고받는다", "착륙 뒤 비상 탈출을 판단하고 소방대를 대기시킨다"], ["원인 찾기에 시간을 쓰며 착륙을 미룬다. 기내 화재는 몇 분 안에 번질 수 있다", "마스크를 늦게 써서 판단력이 떨어진다"], "learn-forces", "순항 중 연기 고장을 설정하고 가장 가까운 공항까지 몇 분 안에 내릴 수 있는지 재 본다."],
+    ["elec", "모든 단계", "전기 계통 고장", "발전기 고장 경고가 뜨거나 여러 화면과 계기가 한꺼번에 꺼질 때.", ["대기 계기로 자세를 확인하며 기체 조종을 먼저 한다", "남은 발전기가 버스를 잇고 있는지 확인한다", "APU를 켜 발전기를 연결한다", "전기 체크리스트로 꺼진 버스와 원인을 확인한다"], ["배터리만 남았다면 쓸 수 있는 시간이 한정되므로 가까운 공항에 내린다", "꺼진 장비(연료 펌프, 결빙 방지, 항법 장비)를 정리해 접근 계획에 반영한다", "관제에 상황을 알리고 단순한 접근을 요청한다"], ["화면이 꺼진 데 놀라 기체 자세를 놓친다", "튀어나온 회로 차단기를 여러 번 다시 넣는다. 과열이나 화재로 이어질 수 있다"], "learn-control", "발전기 고장 고장을 설정하고 대기 계기만으로 접근하는 연습을 한다."],
     ["hyd", "모든 단계", "유압 계통 고장", "유압 압력 저하 경고가 뜨거나 조종면, 플랩, 기어, 브레이크 작동이 둔해질 때.", ["기체 조종과 경로를 먼저 안정시킨다", "어느 유압 계통을 잃었는지 확인한다", "유압 체크리스트를 수행한다", "관제에 알리고 대기해 시간을 확보한다"], ["대체 방식으로 기어를 내리는 절차를 미리 확인한다", "플랩이 덜 펴지고 제동과 조향이 약해지므로 긴 활주로를 고르고 착륙 거리를 다시 계산한다", "활주로에서 멈춘 뒤 무리하게 이동하지 말고 견인을 요청한다"], ["서둘러 접근하며 줄어든 성능을 계산하지 않는다", "모든 유압을 잃었을 때는 조종면 대신 좌우 엔진 추력 차이로 방향과 기수를 조절해야 했다 (1989년 유나이티드 232편)"], "learn-control", "유압 계통 하나를 고장 내고 플랩과 제동이 줄어든 상태로 착륙 거리를 비교한다."],
-    ["gear", "접근", "착륙 장치가 내려오지 않을 때", "기어를 내렸는데 초록 표시등 3개가 다 들어오지 않거나 기어 경고가 울릴 때.", ["복행하거나 접근을 멈추고 안전한 고도에서 대기한다", "한 조종사는 비행에만 집중하고 다른 조종사가 문제를 맡는다", "체크리스트가 허락하면 기어를 올렸다가 다시 내린다", "대체(중력) 내림 절차를 수행한다"], ["관제탑 앞을 낮게 지나가며 기어 상태를 눈으로 확인해 달라고 할 수 있다", "끝내 내려오지 않으면 연료를 줄이고 소방대를 대기시킨 뒤 비상 착륙을 준비한다", "객실 승무원에게 충격 대비 자세 안내를 맡긴다"], ["두 조종사가 모두 표시등에 매달려 고도가 떨어지는 것을 놓친다 (1972년 이스턴 항공 401편)"], "learn-forces", "기어 고장 실패를 걸고 대기 패턴에서 대체 내림 절차를 해 본다."],
-    ["flaps", "접근", "플랩이나 슬랫 고장", "접근 중 플랩이나 슬랫이 펴지지 않거나 한쪽만 펴져 비대칭 경고가 뜰 때.", ["레버 조작을 멈추고 지금 형태의 최소 속도보다 빠르게 유지한다", "복행하거나 대기해 시간을 확보한다", "체크리스트에서 형태별 접근 속도 보정값을 찾는다", "착륙 거리를 다시 계산하고 긴 활주로를 고른다"], ["접근 속도가 높아 기수 자세와 플레어 느낌이 평소와 다르다는 것을 미리 알고 내려간다", "관제에 알리고 길고 곧은 최종 접근을 요청한다"], ["비대칭 상태에서 레버를 계속 움직여 기울어짐을 키운다", "평소 접근 속도로 내려가 실속 여유가 줄어든다"], "learn-highlift", "플랩 고장 실패를 걸고 플랩이 작을 때 접근 속도와 착륙 거리가 얼마나 늘어나는지 확인한다."],
+    ["gear", "접근", "착륙 장치가 내려오지 않을 때", "기어를 내렸는데 초록 표시등 3개가 다 들어오지 않거나 기어 경고가 울릴 때.", ["복행하거나 접근을 멈추고 안전한 고도에서 대기한다", "한 조종사는 비행에만 집중하고 다른 조종사가 문제를 맡는다", "체크리스트가 허락하면 기어를 올렸다가 다시 내린다", "대체(중력) 내림 절차를 수행한다"], ["관제탑 앞을 낮게 지나가며 기어 상태를 눈으로 확인해 달라고 할 수 있다", "끝내 내려오지 않으면 연료를 줄이고 소방대를 대기시킨 뒤 비상 착륙을 준비한다", "객실 승무원에게 충격 대비 자세 안내를 맡긴다"], ["두 조종사가 모두 표시등에 매달려 고도가 떨어지는 것을 놓친다 (1972년 이스턴 항공 401편)"], "learn-forces", "기어 고장 고장을 설정하고 대기 패턴에서 대체 내림 절차를 해 본다."],
+    ["flaps", "접근", "플랩이나 슬랫 고장", "접근 중 플랩이나 슬랫이 펴지지 않거나 한쪽만 펴져 비대칭 경고가 뜰 때.", ["레버 조작을 멈추고 지금 형태의 최소 속도보다 빠르게 유지한다", "복행하거나 대기해 시간을 확보한다", "체크리스트에서 형태별 접근 속도 보정값을 찾는다", "착륙 거리를 다시 계산하고 긴 활주로를 고른다"], ["접근 속도가 높아 기수 자세와 플레어 느낌이 평소와 다르다는 것을 미리 알고 내려간다", "관제에 알리고 길고 곧은 최종 접근을 요청한다"], ["비대칭 상태에서 레버를 계속 움직여 기울어짐을 키운다", "평소 접근 속도로 내려가 실속 여유가 줄어든다"], "learn-highlift", "플랩 고장 고장을 설정하고 플랩이 작을 때 접근 속도와 착륙 거리가 얼마나 늘어나는지 확인한다."],
     ["icing", "모든 단계", "결빙", "기온이 영하 근처인 구름이나 비, 눈 속을 지날 때, 또는 결빙 경고가 뜨거나 와이퍼와 날개에 얼음이 보일 때.", ["엔진 결빙 방지를 켠다", "기종 기준에 맞춰 날개 결빙 방지를 켠다", "속도를 평소보다 여유 있게 유지한다", "얼음이 계속 쌓이면 고도를 바꿔 결빙층을 벗어난다"], ["관제에 결빙 정도를 보고한다", "날개에 얼음이 남아 있으면 실속 경고보다 먼저 실속할 수 있으니 접근 속도를 보정한다", "지상에서는 제빙, 방빙 처리를 하고 허용 시간 안에 이륙한다"], ["지상과 이륙에서 엔진 결빙 방지를 켜지 않아 잘못된 추력 표시를 믿는다 (1982년 에어 플로리다 90편)", "오토파일럿이 얼음 때문에 생긴 쏠림을 감추고 있다가 풀리는 순간 크게 기운다"], "learn-stall", "기온을 영하 근처로 두고 구름 속 접근에서 결빙 방지 스위치를 켜는 시점을 연습한다."],
-    ["birdeng", "이륙", "조류 충돌 (엔진 하나)", "이륙이나 초기 상승 중 새와 부딪힌 뒤 한쪽 엔진에서 진동, 소음, 추력 감소가 생길 때.", ["속도와 상승 경로를 지키며 기체를 먼저 조종한다", "러더로 방향을 잡는다", "두 조종사가 함께 어느 엔진인지 계기로 확인한다", "절차 고도 전에는 엔진 조작을 하지 않는다"], ["진동과 배기 온도를 보고 체크리스트대로 추력을 줄이거나 엔진을 끈다", "관제에 조류 충돌을 알리고 돌아가 내린다", "다른 엔진도 손상됐을 수 있으니 계기를 계속 지켜본다"], ["소리나 느낌만으로 엔진을 골라 멀쩡한 쪽을 줄인다", "낮은 고도에서 서둘러 엔진을 만져 추력을 더 잃는다"], "learn-control", "이륙 직후 엔진 하나 손상 실패를 걸고 한 엔진으로 장주를 돌아 내리는 연습을 한다."],
+    ["birdeng", "이륙", "조류 충돌 (엔진 하나)", "이륙이나 초기 상승 중 새와 부딪힌 뒤 한쪽 엔진에서 진동, 소음, 추력 감소가 생길 때.", ["속도와 상승 경로를 지키며 기체를 먼저 조종한다", "러더로 방향을 잡는다", "두 조종사가 함께 어느 엔진인지 계기로 확인한다", "절차 고도 전에는 엔진 조작을 하지 않는다"], ["진동과 배기 온도를 보고 체크리스트대로 추력을 줄이거나 엔진을 끈다", "관제에 조류 충돌을 알리고 돌아가 내린다", "다른 엔진도 손상됐을 수 있으니 계기를 계속 지켜본다"], ["소리나 느낌만으로 엔진을 골라 멀쩡한 쪽을 줄인다", "낮은 고도에서 서둘러 엔진을 만져 추력을 더 잃는다"], "learn-control", "이륙 직후 엔진 하나 손상 고장을 설정하고 한 엔진으로 장주를 돌아 내리는 연습을 한다."],
     ["tailstrike", "이륙", "꼬리 닿음 (테일스트라이크) 위험", "무게가 무겁거나 속도 계산이 틀렸을 때, 또는 기수를 너무 빨리 들 때. 동체가 긴 기종일수록 위험이 크다.", ["이륙 전 무게와 V 속도를 두 사람이 교차 확인한다", "VR 전에는 기수를 들지 않는다", "초당 약 3도로 부드럽게 기수를 든다", "떠오를 때까지 자세를 더 키우지 않는다"], ["꼬리가 닿았다고 의심되면 객실 여압을 올리지 않고 돌아가 내린다", "착륙에서도 플레어를 길게 끌거나 바운스 뒤 기수를 크게 들면 꼬리가 닿을 수 있다"], ["무게를 잘못 넣어 너무 낮은 속도로 기수를 든다 (2009년 에미레이트 407편)", "기수를 한 번에 세게 당긴다"], "learn-lift", "무게를 무겁게 두고 기수를 드는 빠르기를 바꿔 가며 기수 자세가 어떻게 달라지는지 본다."],
     ["rwyobs", "착륙", "활주로 위 장애물과 침범", "최종 접근이나 이륙 활주 중 활주로에 다른 비행기, 차량, 사람이 보이거나 관제가 활주로가 비지 않았다고 알릴 때.", ["보이는 것을 크게 말해 두 조종사가 함께 확인한다", "접근 중이면 망설이지 말고 복행한다", "이륙 활주 중이면 V1 전인지 확인하고 멈출지 판단한다", "관제에 보고한다"], ["관제 지시를 받은 뒤 다시 접근한다", "지상 이동 중에는 활주로에 들어가기 전 허가를 소리 내어 확인한다"], ["상대가 곧 비킬 것이라 믿고 접근을 계속한다", "이륙 허가를 확실히 받지 않고 이륙을 시작한다 (1977년 테네리페 참사)"], "learn-forces", "온라인 관제 비행에서 활주로 진입과 이륙 허가 문구를 정확히 따라 읽는다."],
     ["slippery", "착륙", "미끄러운 활주로 착륙", "비, 눈, 얼음으로 활주로 제동 상태가 나쁘다고 보고되거나 물이 고였을 때.", ["보고된 제동 상태로 착륙 거리를 다시 계산한다", "자동 제동을 더 강한 단계로 둔다", "플로트 없이 정해진 지점에 단단히 내린다", "닿자마자 스피드브레이크와 역추력을 쓴다"], ["옆바람 한계가 줄어드니 바람을 다시 확인한다", "속도가 충분히 줄 때까지 앞바퀴 조향보다 러더로 방향을 잡는다", "여유가 부족하면 다른 활주로나 교체 공항으로 간다"], ["부드럽게 내리려고 오래 떠 있다가 활주로를 다 쓴다", "역추력을 늦게 써서 멈추지 못한다 (2005년 사우스웨스트 항공 1248편)"], "learn-forces", "활주로를 젖거나 얼음으로 설정하고 자동 제동 단계별로 멈추는 거리를 비교한다."],
-    ["uas", "모든 단계", "속도계 이상", "두 속도계 값이 서로 다르거나, 속도가 고도, 추력, 자세와 맞지 않게 변할 때. 피토관 결빙이나 막힘이 흔한 원인이다.", ["오토파일럿과 자동 추력을 푼다", "기종 교범의 기억 항목 자세와 추력으로 맞춘다", "날개를 수평으로 유지한다", "피토 열선이 켜져 있는지 확인한다"], ["안정되면 체크리스트의 자세와 추력 표로 비행한다", "GPS 지상속도와 받음각 정보를 참고한다", "관제에 알리고 높은 고도에서는 서두르지 않는다"], ["틀린 속도계를 믿고 기수를 크게 당긴다 (2009년 에어 프랑스 447편)", "막힌 피토관 때문에 속도가 오르는 것처럼 보여 추력을 줄이고 기수를 든다 (1996년 비르겐에어 301편)"], "learn-stall", "피토관 막힘 실패를 걸고 자세와 추력만으로 수평 비행을 유지해 본다."],
-    ["upset-nh", "모든 단계", "불안정 자세 회복 (기수 높음)", "기수가 크게 들리고 속도가 빠르게 줄어들 때. 대략 기수 25도 이상을 기준으로 흔히 쓴다.", ["오토파일럿과 자동 추력을 푼다", "조종간을 밀어 받음각을 줄인다", "필요하면 기수를 숙이는 쪽으로 트림한다", "추력을 줄여 기수를 드는 힘을 줄인다", "그래도 부족하면 기울여서 기수를 수평선 쪽으로 내린다 (60도를 넘기지 않는다)"], ["기수가 수평선에 가까워지면 날개를 수평으로 맞춘다", "속도가 회복되면 천천히 수평 비행으로 돌아온다", "원인(자동화 모드, 트림, 난기류)을 확인한다"], ["추력을 더 넣어 기수가 더 들린다. 날개 밑에 엔진이 달린 기종은 추력이 기수를 든다", "조종간을 너무 세게 밀어 몸이 뜨는 음(-)의 G를 만든다"], "learn-stall", "오토파일럿을 끄고 기수를 30도까지 든 뒤 회복 순서를 소리 내어 해 본다."],
-    ["upset-nl", "모든 단계", "불안정 자세 회복 (기수 낮음)", "기수가 크게 숙여지고 속도가 빠르게 늘어날 때. 기울기가 큰 경우가 많다.", ["오토파일럿과 자동 추력을 푼다", "실속 경고가 있으면 먼저 받음각을 줄인다", "날개를 수평으로 맞춘다", "추력을 줄이고 필요하면 스피드브레이크를 쓴다", "날개가 수평이 된 뒤 기수를 들어 회복한다"], ["과속 한계와 하중 한계를 넘지 않게 부드럽게 당긴다", "회복 뒤 기체 점검이 필요한지 판단하고 관제에 알린다"], ["기울어진 채로 조종간을 당긴다. 나선을 그리며 더 빠르게 내려간다", "급하게 당겨 기체 한계 하중을 넘긴다"], "learn-control", "오토파일럿을 끄고 60도 기울기에 기수 20도 아래 자세를 만든 뒤 날개 수평이 먼저인 회복을 반복한다."],
+    ["uas", "모든 단계", "속도계 이상", "두 속도계 값이 서로 다르거나, 속도가 고도, 추력, 자세와 맞지 않게 변할 때. 피토관 결빙이나 막힘이 흔한 원인이다.", ["오토파일럿과 자동 추력을 푼다", "기종 교범의 기억 항목 자세와 추력으로 맞춘다", "날개를 수평으로 유지한다", "피토 열선이 켜져 있는지 확인한다"], ["안정되면 체크리스트의 자세와 추력 표로 비행한다", "GPS 지상속도와 받음각 정보를 참고한다", "관제에 알리고 높은 고도에서는 서두르지 않는다"], ["틀린 속도계를 믿고 기수를 크게 당긴다 (2009년 에어 프랑스 447편)", "막힌 피토관 때문에 속도가 오르는 것처럼 보여 추력을 줄이고 기수를 든다 (1996년 비르겐에어 301편)"], "learn-stall", "피토관 막힘 고장을 설정하고 자세와 추력만으로 수평 비행을 유지해 본다."],
+    ["upset-nh", "모든 단계", "비정상 자세 회복 (기수 높음)", "기수가 크게 들리고 속도가 빠르게 줄어들 때. 대략 기수 25도 이상을 기준으로 흔히 쓴다.", ["오토파일럿과 자동 추력을 푼다", "조종간을 밀어 받음각을 줄인다", "필요하면 기수를 숙이는 쪽으로 트림한다", "추력을 줄여 기수를 드는 힘을 줄인다", "그래도 부족하면 기울여서 기수를 수평선 쪽으로 내린다 (60도를 넘기지 않는다)"], ["기수가 수평선에 가까워지면 날개를 수평으로 맞춘다", "속도가 회복되면 천천히 수평 비행으로 돌아온다", "원인(자동화 모드, 트림, 난기류)을 확인한다"], ["추력을 더 넣어 기수가 더 들린다. 날개 밑에 엔진이 달린 기종은 추력이 기수를 든다", "조종간을 너무 세게 밀어 몸이 뜨는 음(-)의 G를 만든다"], "learn-stall", "오토파일럿을 끄고 기수를 30도까지 든 뒤 회복 순서를 소리 내어 해 본다."],
+    ["upset-nl", "모든 단계", "비정상 자세 회복 (기수 낮음)", "기수가 크게 숙여지고 속도가 빠르게 늘어날 때. 기울기가 큰 경우가 많다.", ["오토파일럿과 자동 추력을 푼다", "실속 경고가 있으면 먼저 받음각을 줄인다", "날개를 수평으로 맞춘다", "추력을 줄이고 필요하면 스피드브레이크를 쓴다", "날개가 수평이 된 뒤 기수를 들어 회복한다"], ["과속 한계와 하중 한계를 넘지 않게 부드럽게 당긴다", "회복 뒤 기체 점검이 필요한지 판단하고 관제에 알린다"], ["기울어진 채로 조종간을 당긴다. 나선을 그리며 더 빠르게 내려간다", "급하게 당겨 기체 한계 하중을 넘긴다"], "learn-control", "오토파일럿을 끄고 60도 기울기에 기수 20도 아래 자세를 만든 뒤 날개 수평이 먼저인 회복을 반복한다."],
     ["incap", "모든 단계", "조종사 무력화", "다른 조종사가 부르는 말에 답하지 않거나 평소와 다른 행동을 할 때. 두 번 불러도 알맞은 답이 없으면 무력화를 의심한다.", ["\"I HAVE CONTROL\"을 말하고 조종을 맡는다", "오토파일럿을 켜 일의 양을 줄인다", "객실 승무원을 불러 무력해진 조종사가 조종 장치에 닿지 않게 한다", "무력해진 조종사에게 산소를 준다"], ["관제에 MAYDAY나 PAN PAN을 선언하고 가까운 적절한 공항으로 간다", "승객 중 의사가 있는지 찾는다", "혼자서 체크리스트와 접근 준비를 한 단계씩 천천히 한다"], ["상대가 피곤한 것으로 여기고 조치를 늦춘다", "혼자 일을 다 하려다 비행 경로를 놓친다"], "learn-control", "오토파일럿을 활용해 혼자 체크리스트, 무선, 접근 준비를 처리하는 순서를 정해 두고 연습한다."],
     ["ash", "순항", "화산재 구역 진입", "밤에 앞 유리에 정전기 불꽃이 보이거나, 유황 냄새, 객실의 먼지, 엔진 배기 온도 상승, 출력 이상이 생길 때.", ["가능하면 추력을 아이들 쪽으로 줄인다", "화산재를 벗어나도록 180도 돌린다 (보통 강하하며)", "산소 마스크를 쓴다", "결빙 방지와 공기 공급 장치를 켜고 APU를 켠다"], ["엔진이 꺼지면 재시동을 시도한다. 맑은 공기로 내려온 뒤 다시 살아난 사례가 있다 (1982년 브리티시 항공 9편)", "속도계가 이상해질 수 있으니 자세와 추력도 함께 본다", "관제에 화산재를 보고하고 가까운 공항으로 간다"], ["추력을 올려 상승으로 벗어나려 한다. 엔진이 뜨거울수록 화산재가 녹아 엔진 안에 달라붙는다"], "learn-forces", "화산재 실패가 없다면 양쪽 엔진 고장 실패로 재시동 절차를 연습한다."],
     ["medical", "순항", "의료 비상과 회항 결정", "객실 승무원이 승객의 심한 통증, 의식 저하, 호흡 곤란 같은 상황을 알릴 때.", ["비행은 한 조종사가 계속 맡는다", "객실에 의사가 있는지 방송으로 찾는다", "환자 상태와 예상 도착 시간을 객실 승무원과 나눈다", "항공사 운항 관리나 지상 의료 상담과 연결한다"], ["회항 공항은 거리만이 아니라 활주로, 날씨, 의료 시설, 착륙 무게를 함께 본다", "최대 착륙 무게를 넘으면 연료 방출이나 과중량 착륙을 판단한다", "관제에 PAN PAN이나 MAYDAY로 우선 처리를 요청한다"], ["가장 가까운 공항만 보고 날씨나 활주로가 맞지 않는 곳으로 간다", "두 조종사가 모두 객실 상황에 매달려 비행을 놓친다"], "learn-forces", "장거리 비행 중간에 회항 공항 두세 곳을 정해 두고 각 공항의 활주로와 날씨를 미리 본다."],
-    ["trim", "모든 단계", "트림 폭주와 자동 조종 이상", "트림이 멈추지 않고 계속 돌거나, 오토파일럿이 지시와 다르게 움직여 기체가 한쪽으로 계속 쏠릴 때.", ["조종간을 단단히 잡고 자세를 지킨다", "오토파일럿과 자동 추력을 푼다", "전기 트림으로 반대 방향을 맞춰 본다", "그래도 계속되면 트림 차단 스위치를 끈다"], ["수동 트림 휠이 있는 기종은 손으로 트림을 맞춘다", "속도가 높을수록 수동 트림이 무거워지므로 속도를 적당히 유지한다", "가까운 적절한 공항에 내린다"], ["트림이 반복해서 움직이는데 차단 스위치를 쓰지 않고 계속 반대로 맞춘다 (2018년 라이온에어 610편)"], "learn-control", "트림 폭주 실패를 걸고 차단 스위치까지의 순서를 소리 내어 해 본다."],
+    ["trim", "모든 단계", "트림 폭주와 자동 조종 이상", "트림이 멈추지 않고 계속 돌거나, 오토파일럿이 지시와 다르게 움직여 기체가 한쪽으로 계속 쏠릴 때.", ["조종간을 단단히 잡고 자세를 지킨다", "오토파일럿과 자동 추력을 푼다", "전기 트림으로 반대 방향을 맞춰 본다", "그래도 계속되면 트림 차단 스위치를 끈다"], ["수동 트림 휠이 있는 기종은 손으로 트림을 맞춘다", "속도가 높을수록 수동 트림이 무거워지므로 속도를 적당히 유지한다", "가까운 적절한 공항에 내린다"], ["트림이 반복해서 움직이는데 차단 스위치를 쓰지 않고 계속 반대로 맞춘다 (2018년 라이온에어 610편)"], "learn-control", "트림 폭주 고장을 설정하고 차단 스위치까지의 순서를 소리 내어 해 본다."],
     ["blackhole", "접근", "야간 착시 (블랙홀 접근)", "밤에 활주로 주변이 깜깜하고 활주로 불빛만 보일 때. 바다나 사막 쪽 접근에서 실제보다 높다고 느껴 너무 낮게 내려가기 쉽다.", ["ILS나 RNAV 활공로를 함께 띄워 둔다", "PAPI를 계속 확인한다", "강하율을 기준값(지상속도 × 5)과 비교한다", "기준 고도에서 안정되지 않으면 복행한다"], ["시계 접근 허가를 받아도 계기 접근 경로를 따라간다", "낯선 공항이라면 주변 지형과 장애물을 미리 확인한다"], ["눈에 보이는 활주로 모양만 믿고 계속 낮게 내려간다", "PAPI가 빨간 불 4개인데도 접근을 계속한다"], "learn-forces", "밤 시간으로 해안 공항을 골라 계기를 보지 않고 접근한 뒤 활공로와 얼마나 어긋났는지 확인한다."]
   ];
   // 경험과 요령: [분류, 제목, 내용]
@@ -9251,7 +9325,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
     ["연료", "연료 계획의 기본", "목적지까지 연료 + 교체 공항까지 연료 + 최종 예비 연료(대략 30분 대기분) + 비상 여유. 계획보다 많이 쓰고 있으면 일찍 알아챌수록 선택지가 많다."],
     ["날씨", "옆바람과 활주로 고르기", "바람과 가장 맞서는 활주로를 고르는 것이 기본이다. 옆바람이 기종 한계에 가까우면 다른 활주로나 교체 공항을 생각한다."],
     ["판단", "'지금 괜찮나'를 계속 묻기", "접근에서 기준 고도마다 속도, 경로, 형태를 확인하고 하나라도 어긋나면 복행한다. 복행은 실패가 아니라 정상 절차다."],
-    ["연습", "실패는 하나씩", "시뮬레이터에서 비상 상황을 연습할 때는 한 번에 하나만 걸고, 절차를 익힌 뒤에 조합한다. 처음부터 여러 개를 겹치면 배우는 것이 적다."],
+    ["연습", "고장은 하나씩", "시뮬레이터에서 비상 상황을 연습할 때는 한 번에 하나만 걸고, 절차를 익힌 뒤에 조합한다. 처음부터 여러 개를 겹치면 배우는 것이 적다."],
     ["착륙", "접지 지점을 정해 두기", "활주로 끝이 아니라 접지 구역 표지(보통 문턱에서 약 1,000 ft 지점의 굵은 표지)를 목표로 삼는다. 접근 내내 이 지점이 창 안에서 같은 자리에 머물면 활공로를 잘 타고 있는 것이다. 위로 올라가면 낮고, 아래로 내려가면 높다."],
     ["착륙", "닿은 뒤가 착륙의 절반", "접지하면 스포일러가 올라갔는지 확인하고 기수를 부드럽게 내린 뒤 역추력과 브레이크로 감속한다. 활주로 길이가 넉넉해도 젖었거나 짧으면 자동 제동 단계를 한 칸 높여 둔다."],
     ["강하", "감속에 필요한 거리", "수평 비행에서 속도 10 kt를 줄이는 데 대략 1 nm가 든다고 생각한다. 강하하면서 동시에 감속하기는 어려우니, 감속 구간을 3배 규칙 거리에 따로 더해 둔다."],
@@ -9265,8 +9339,8 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
     ["연료", "구간마다 연료 확인", "주요 지점을 지날 때마다 실제 남은 연료와 계획 연료를 비교한다. 차이가 조금씩 커지면 바람, 고도, 누출 가능성을 점검하고 교체 공항 계획을 미리 다시 본다."],
     ["연료", "연료를 더 싣는 것도 비용이다", "연료가 싼 공항에서 다음 구간 연료까지 실어 가는 것(탱커링)은 무게가 늘어 그만큼 연료를 더 태운다. 가격 차이, 구간 거리, 착륙 중량 한계를 함께 따져 이득일 때만 한다."],
     ["날씨", "METAR 읽는 순서", "METAR는 공항, 시각, 바람, 시정, 날씨 현상, 구름, 기온과 이슬점, 기압 순으로 적혀 있다. 기온과 이슬점 차이가 2~3도 안으로 좁으면 안개나 낮은 구름이 생기기 쉽다."],
-    ["날씨", "옆바람 성분 어림셈", "옆바람 성분은 풍속 x sin(바람과 활주로 사이 각도)이다. 30도면 풍속의 절반, 45도면 약 0.7배, 60도 이상이면 거의 전부가 옆바람이라고 기억하면 빠르다."],
-    ["판단", "출발 전 IMSAFE 점검", "병(Illness), 약(Medication), 스트레스(Stress), 술(Alcohol), 피로(Fatigue), 감정과 식사(Emotion, Eating)를 스스로 점검한다. 하나라도 걸리면 비행을 미루는 것이 조종사의 판단이다."],
+    ["날씨", "옆바람 성분 어림셈", "옆바람 성분은 풍속 × sin(바람과 활주로 사이 각도)이다. 30도면 풍속의 절반, 45도면 약 0.7배, 60도 이상이면 거의 전부가 옆바람이라고 기억하면 빠르다."],
+    ["판단", "출발 전 IMSAFE 점검", "병(Illness), 약(Medication), 스트레스(Stress), 술(Alcohol), 피로(Fatigue), 감정과 식사(Emotion, Eating)를 스스로 점검한다. 하나라도 걸리면 비행을 미루는 것이 옳은 판단이다."],
     ["판단", "'끝까지 가고 싶은 마음' 경계", "목적지가 가까울수록 날씨나 연료가 나빠져도 계획대로 밀고 가려는 마음이 커진다. 회항이나 복행 기준을 출발 전에 정해 두고, 그 기준에 닿으면 고민 없이 따른다."],
     ["연습", "한 공항에서 장주 비행 반복", "익숙한 공항 하나를 정해 이륙, 장주, 착륙을 여러 번 되풀이한다. 같은 조건에서 반복해야 무엇이 좋아졌는지 비교할 수 있다."],
     ["연습", "비행 뒤 짧게 되돌아보기", "착륙 뒤 잘된 것 하나와 고칠 것 하나를 적어 둔다. 다음 비행 브리핑에서 그 한 가지를 목표로 삼으면 실력이 꾸준히 는다."],
@@ -9293,7 +9367,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
     return mnHead("상황별 대응", "비정상 상황과 비상 상황에서 무엇을 어떤 순서로 하는지 정리했습니다. 맨 위 '즉시 할 일'은 체크리스트를 꺼내기 전에 외워서 하는 동작(메모리 아이템)에 해당하는 일반 원칙입니다.") + `
 <div class="grid lr mn">
 <section class="card c12"><div class="card-b"><div class="lr-seg mn-ph-seg" role="group" aria-label="비행 단계">${MN_PHASE.filter(p => p !== "모든 단계").map(p => `<button type="button" data-mn="phase:${p}" class="${p === mnPhase ? "on" : ""}">${p}</button>`).join("")}</div></div><div id="mn-sit-list" class="mn-sit-list">${mnSitList()}</div></section>
-<section class="card c12">${cardH(ICON.info, "비상 신호 코드")}<div class="card-b mn-codes"><div><b>7700</b><span>비상 (MAYDAY)</span></div><div><b>7600</b><span>무선 두절</span></div><div><b>7500</b><span>불법 간섭 (납치)</span></div><div><b>MAYDAY</b><span>생명이나 기체가 위험한 긴급 상황</span></div><div><b>PAN-PAN</b><span>긴급하지만 당장 위험은 아닌 상황</span></div></div></section>
+<section class="card c12">${cardH(ICON.info, "비상 신호 코드")}<div class="card-b mn-codes"><div><b>7700</b><span>비상 (MAYDAY)</span></div><div><b>7600</b><span>무선 두절</span></div><div><b>7500</b><span>불법 간섭 (납치)</span></div><div><b>MAYDAY</b><span>생명이나 기체가 위험한 긴급 상황</span></div><div><b>PAN PAN</b><span>긴급하지만 당장 위험은 아닌 상황</span></div></div></section>
 </div>${mnNote}`;
   }
   function renderManualTips() {
@@ -9356,7 +9430,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
     const tags = ["전체"].concat(Array.from(new Set(MN_ACC.flatMap(a => a.related || []))));
     const cnt = {}; MN_ACC.forEach(a => ctryOf(a).forEach(c => { cnt[c] = (cnt[c] || 0) + 1; })); const ctrys = [["전체", 0]].concat(Object.keys(cnt).sort((x, y) => cnt[y] - cnt[x] || x.localeCompare(y)).map(c => [c, cnt[c]]));
     const decs = ["전체"].concat(Array.from(new Set(MN_ACC.map(decOf))).sort((x, y) => y - x).map(String));
-    return mnHead("사건사고", "널리 알려진 여객기 사고와 사건을 공식 조사 결과를 바탕으로 정리했습니다. 무엇이 있었고, 조사에서 무엇이 밝혀졌고, 조종사가 무엇을 가져가야 하는지에 초점을 맞췄습니다.") + `
+    return mnHead("사건사고", "널리 알려진 여객기 사고와 사건을 공식 조사 결과를 바탕으로 정리했습니다. 무엇이 있었고, 조사에서 무엇이 밝혀졌고, 조종사가 무엇을 배워야 하는지에 초점을 맞췄습니다.") + `
 <div class="grid lr mn">${mnTypeStats()}<section class="card c12">${cardH(ICON.clock, "연표", `<span class="hint">${MN_ACC.length}건</span>`)}<div class="card-b">${mnTimeline()}</div></section>
 <section class="card c12"><div class="card-b mn-filters"><div><p class="mn-k">국가 <small>사고 장소 또는 항공사 국적</small></p><div class="lr-seg" role="group" aria-label="국가">${ctrys.map(c => `<button type="button" data-mn="ctry:${c[0]}" class="${c[0] === mnCtry ? "on" : ""}">${c[0]}${c[1] ? ` <small>${c[1]}</small>` : ""}</button>`).join("")}</div></div><div><p class="mn-k">연대</p><div class="lr-seg" role="group" aria-label="연대">${decs.map(t => `<button type="button" data-mn="dec:${t}" class="${t === mnDec ? "on" : ""}">${t === "전체" ? "전체" : t + "년대"}</button>`).join("")}</div></div><div><p class="mn-k">분류</p><div class="lr-seg" role="group" aria-label="분류">${tags.map(t => `<button type="button" data-mn="tag:${t}" class="${t === mnTag ? "on" : ""}">${t}</button>`).join("")}</div></div></div><div id="mn-acc-list" class="mn-acc-list">${mnAccList()}</div></section>
 </div><p class="lr-note">희생자와 가족에게 깊은 애도를 표합니다. 요약은 공식 조사 보고서를 기준으로 했으며, 자세한 내용은 각 출처를 확인하세요. 그림은 기종의 모양을 보여 주는 측면 그림입니다.</p>`;
@@ -9407,7 +9481,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
   const NOTAMS = [
     { p: "high", date: "2026", title: "777-9 첫 인도, 2027년 목표", text: "보잉은 2026년 한 해를 FAA 형식 인증에 쓰고 2027년에 첫 기체를 인도할 계획입니다.", href: "boeing-777x" },
     { p: "med", date: "2026.01", title: "2025년 인도: 에어버스 793대, 보잉 600대", text: "에어버스는 7년 연속 1위를 지켰고, 보잉은 2018년 이후 가장 많이 인도했습니다.", href: "airbus" },
-    { p: "med", date: "2025.10", title: "A320 패밀리, 737 누적 인도 추월", text: "누적 12,260대를 넘어 역사상 가장 많이 인도된 여객기가 되었습니다.", href: "airbus-a320" },
+    { p: "med", date: "2025.10", title: "A320 패밀리, 737 누적 인도 추월", text: "누적 12,260대를 넘어 역사상 가장 많이 인도된 여객기가 됐습니다.", href: "airbus-a320" },
     { p: "low", date: "2025.10", title: "737 MAX 월 42대 증산 승인", text: "FAA가 2024년 1월 사고 이후 유지한 월 38대 상한을 풀었습니다.", href: "boeing-737max" },
     { p: "low", date: "2024.11", title: "A321XLR 취항", text: "이베리아항공이 첫 상업 운항을 시작했습니다. 협동체 항속거리 8,700 km.", href: "airbus-a320neo" },
     { p: "low", date: "2023.01", title: "마지막 747 인도", text: "1,574번째 기체가 아틀라스항공에 인도되며 54년의 생산이 끝났습니다.", href: "boeing-747" }
@@ -9558,7 +9632,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
   const mini = rows => `<div class="mini">${rows.map(r => `<div><span class="lbl">${esc(r[0])}</span><span class="val">${fmt(r[1])}</span></div>`).join("")}</div>`;
   function mapCard() {
     return `<section class="card c12 mapcard" id="mapcard"><div class="mapwrap"><div id="sitemap" class="sitemap" role="img" aria-label="보잉과 에어버스 최종 조립 라인 위치 지도"></div>
-<div class="float-panel"><div class="fp-h"><h2>${ICON.map}최종 조립 라인</h2><p>여객기가 완성되어 출고되는 공장 9곳. 지도의 점에 올리면 생산 기종이 보입니다.</p><div class="legend" style="margin-top:8px"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div></div>
+<div class="float-panel"><div class="fp-h"><h2>${ICON.map}최종 조립 라인</h2><p>여객기가 완성되어 출고되는 공장 9곳. 지도의 점에 마우스를 올리면 생산 기종이 보입니다.</p><div class="legend" style="margin-top:8px"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div></div>
 <div class="fp-list">${SITES.map(s => `<div class="site mk-${s.maker}${s.closed ? " closed" : ""}"><div class="site-h"><span class="dot"></span>${esc(s.name)}<small>${esc(s.region)}</small></div><span class="val">${esc(s.builds)}</span>${siteLive(s)}</div>`).join("")}</div></div></div></section>`;
   }
   const siteLive = s => { const cv = coverOf(SITE_PLACE[s.name]); return cv ? `<button type="button" class="linkbtn site-live" data-live="goto:area/${SITE_PLACE[s.name]}" id="site-${SITE_PLACE[s.name]}">상공 ${fmt(cv.d.now || 0)}대, 24시간 ${fmt(cv.d.a24 || 0)}대</button>` : ""; };
@@ -9595,7 +9669,7 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
   }
   function renderFleet() {
     const lineup = mk => AIRCRAFT.filter(a => a.maker === mk).sort((a, b) => a.specs.length - b.specs.length).map(ac => `<a class="lu-item mk-${ac.maker}" href="#${ac.id}" data-tip="${esc(`<b>${ac.name}</b><br>길이 ${ac.specs.length} m, 날개폭 ${ac.specs.span} m`)}">${silhouette(ac, 1.9, 180, 170)}<span>${esc(short(ac))}</span><small>${ac.specs.length} × ${ac.specs.span} m</small></a>`).join("");
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>기종 백과</h1><p>보잉 11개, 에어버스 10개 기종의 제원과 축척 도면, 개발사, 생산 거점, 인도 통계를 모았습니다. 행을 누르면 기종 페이지로 갑니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>기종 백과</h1><p>보잉 11개, 에어버스 10개 기종의 제원과 축척 도면, 개발 배경, 생산 거점, 인도 통계를 모았습니다. 행을 누르면 기종 페이지로 갑니다.</p></div></header>
 <div class="grid">
 <section class="card c12"><div class="filters"><input class="in" id="fleet-q" type="search" placeholder="기종명, ICAO 코드, 구분으로 검색" value="${esc(fq)}" aria-label="기종 목록 검색">${seg("fmk", [["all", "전체"], ["boeing", "보잉"], ["airbus", "에어버스"]], fmk, "제작사")}${seg("fcat", [["all", "전체"], ["narrow", "협동체"], ["wide", "광동체"], ["live", "생산 중"]], fcat, "구분")}<span class="sp" style="flex:1"></span>${seg("fview", [["table", "표"], ["cards", "사진 카드"]], fview, "보기 방식")}</div><div id="fleet-out">${fleetOut()}</div></section>
 <section class="card c12">${cardH(ICON.ruler, "같은 축척으로 본 크기", `<span class="hint">1 m = 1.9 px, 길이순</span>`)}<div class="card-b"><h3 class="lane-title mk-boeing">보잉</h3><div class="lineup">${lineup("boeing")}</div><h3 class="lane-title mk-airbus">에어버스</h3><div class="lineup">${lineup("airbus")}</div></div></section>
@@ -9638,13 +9712,13 @@ ${encyExtras()}
 <div class="legs" style="padding-top:12px"><div class="leg"><span class="lbl">${ICON.plane}초도비행</span><span class="big">${yearOf(ac.firstFlight)}</span><small>${esc(dateKo(ac.firstFlight))}</small></div><div class="leg"><span class="lbl">${ICON.flag}취항</span><span class="big">${/^\d{4}/.test(ac.intro) ? yearOf(ac.intro) : "미정"}</span><small>${esc(dateKo(ac.intro))}</small></div></div>
 <div class="pstat"><div class="pstat-h">${statusPill(ac)}<span class="val">${py.a}–${py.open ? "현재" : py.b}, ${py.b - py.a}년${py.open ? "째" : "간"}</span></div><div class="pbar-track" role="img" aria-label="생산 기간 ${py.a}년부터 ${py.open ? "현재" : py.b + "년"}까지"><span class="pbar-fill" style="left:${X(py.a)}%;width:${N(X(py.b) - X(py.a))}%"></span><span class="pbar-dot" style="left:${X(+yearOf(ac.firstFlight))}%" title="초도비행 ${yearOf(ac.firstFlight)}"></span></div><div class="pbar-ax"><span>1950</span><span>1990</span><span>2030</span></div></div>
 <div class="kvs">${kv(ICON.ruler, "길이", S.length + " m")}${kv(ICON.ruler, "날개폭", S.span + " m")}${kv(ICON.ruler, "높이", S.height + " m")}${kv(ICON.layers, "동체 폭", S.width + " m")}${kv(ICON.weight, "최대이륙중량", S.mtow + " t")}${kv(ICON.route, "항속거리", fmt(S.range) + " km")}${kv(ICON.users, "표준 좌석", S.seats + "석")}${kv(ICON.users, "최대 좌석", S.seatsMax + "석")}${kv(ICON.layers, "좌석 배치", cabinLbl(ac))}${kv(ICON.gauge, "상승한도", S.ceiling || "-")}${kv(ICON.gauge, "순항속도", S.cruise, "wide")}${kv(ICON.gauge, "엔진", S.engines, "wide txt")}${kv(ICON.chart, "생산 대수", ac.built, "wide txt")}${kv(ICON.bldg, "최종 조립", FAL[ac.id], "wide txt")}${kv(ICON.star, "출범 고객", ac.launchCustomer, "wide txt")}${kv(ICON.cal, "생산 기간", ac.production, "wide txt")}</div>
+<div class="ac-live-mini">${acLiveCard(ac).replace('<section class="card" id="ac-live">', '<div id="ac-live">').replace(/<\/section>$/, "</div>")}</div>
 </aside>
 <div class="stack">
 ${whyCard(ac)}
 <div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
 ${icaoCard(ac)}</div>
-${acLiveCard(ac)}
-<section class="card">${cardH(ICON.doc, "역사")}<div class="card-b prose">${ac.history.map(t => `<p>${esc(t)}</p>`).join("")}</div></section>
+<section class="card">${cardH(ICON.doc, "역사")}<div class="card-b prose ac-hist">${ac.history.map(t => `<p>${esc(t)}</p>`).join("")}</div></section>
 <div class="grid"><section class="card c6">${cardH(ICON.info, "설계 특징")}<div class="card-b"><ul class="feats">${ac.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div></section><section class="card c6">${cardH(ICON.flag, "한국 운항")}<div class="card-b prose"><p>${esc(ac.korea)}</p></div></section></div>
 <section class="card">${cardH(ICON.clock, "주요 연혁")}<div class="card-b"><ol class="kd mk-${ac.maker}">${ac.keyDates.map(k => `<li><span class="kd-date">${esc(k[0])}</span><span>${esc(k[1])}</span></li>`).join("")}</ol></div></section>
 <section class="card">${cardH(ICON.list, "파생형")}<div class="tbl-wrap"><table class="tbl"><thead><tr><th>형식</th><th>첫 비행</th><th>길이</th><th>최대 좌석</th><th>항속거리</th><th>비고</th></tr></thead><tbody>${ac.variants.map(v => `<tr>${v.map((c, i) => `<td>${i === 0 ? `<strong>${esc(c)}</strong>` : i < 5 ? `<span class="val">${esc(c)}</span>` : esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>
@@ -9656,7 +9730,7 @@ ${acLiveCard(ac)}
   function renderCompany(mk) {
     const c = COMPANIES[mk], list = AIRCRAFT.filter(a => a.maker === mk).sort((a, b) => a.firstFlight.localeCompare(b.firstFlight));
     const cp = photoOf(byId[CO_PHOTO[mk]]);
-    return heroHead({ photo: cp, mk: mk, alt: `${c.name} 여객기`, crumbs: `<a href="#home">대시보드</a> / Resources`, title: esc(c.name), sub: `<div class="en">${esc(c.en)}</div><p>${esc(c.tagline)}</p>`,
+    return heroHead({ photo: cp, mk: mk, alt: `${c.name} 여객기`, crumbs: `<a href="#home">대시보드</a> / 자료`, title: esc(c.name), sub: `<div class="en">${esc(c.en)}</div><p>${esc(c.tagline)}</p>`,
       actions: `<a class="btn ${cp ? "on-dark" : "ghost"}" href="#timeline">${ICON.clock}통합 연표</a>` }) + `
 <div class="grid">
 <div class="c8 stack">
@@ -9699,7 +9773,7 @@ ${cmpDiff(A, B)}${cmpPhotos}<div class="card-b" style="padding-top:0">${cmpArt(A
     const all = []; ["boeing", "airbus"].forEach(mk => COMPANIES[mk].timeline.forEach(t => all.push({ mk: mk, y: t[0], t: t[1], d: t[2] })));
     all.sort((a, b) => a.y - b.y || (a.mk === "boeing" ? -1 : 1));
     const dec = {}; all.forEach(e => { const k = Math.floor(e.y / 10) * 10; (dec[k] = dec[k] || []).push(e); });
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Resources</div><h1>연표</h1><p>시대마다 어떤 문제가 있었고 어떤 기종이 그 답이었는지 한 축에 놓았습니다. 초도비행과 두 회사의 주요 사건도 함께 표시합니다. 점이나 이름을 누르면 기종 페이지로 갑니다.</p></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 자료</div><h1>연표</h1><p>시대마다 어떤 문제가 있었고 어떤 기종이 그 답이었는지 한 축에 놓았습니다. 초도비행과 두 회사의 주요 사건도 함께 표시합니다. 점이나 이름을 누르면 기종 페이지로 갑니다.</p></div></header>
 <div class="grid">
 ${whyEras()}
 <section class="card c12">${cardH(ICON.plane, "초도비행", `<div class="legend"><span class="lg mk-boeing">보잉</span><span class="lg mk-airbus">에어버스</span></div>`)}<div class="card-b"><div class="plot">${firstFlightTimeline().replace('class="chart tl"', 'class="chart tl wide"')}</div></div></section>
