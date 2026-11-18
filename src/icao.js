@@ -27,20 +27,20 @@
     const S = ac.specs, lr = letterRow(groundSpan(ac)), wk = wakeCat(ac), rf = rffCat(ac), fold = FOLD_SPAN[ac.id];
     const tile = (label, src, head, body) => `<div class="rcard"><div class="rcard-h"><span class="rcard-l">${label}</span><span class="rcard-v">${head}</span></div><div class="rcard-b">${body}<small class="icao-src">${src}</small></div></div>`;
     return `<section class="card icao mk-${ac.maker}" id="icao-card">${cardH(ICON.flag, "ICAO 기준", `<a class="ext small" href="#icao">기준 설명 →</a>`)}<div class="card-b">
-<div class="rcards icao-tiles">${tile("비행장 기준 코드 문자", "부속서 14", lr[0], `날개폭 ${groundSpan(ac)} m<br><small>${letterRange(lr)}</small>`)}${tile("항적 난기류 등급", "Doc 4444", wk, `${WAKE[wk]}<br><small>최대이륙중량 ${S.mtow} t</small>`)}${tile("구조·소방 등급", "부속서 14", rf, `길이 ${S.length} m<br><small>동체 폭 ${S.width} m</small>`)}${tile("형식 지정자", "Doc 8643", ICAO[ac.id], `${esc(ac.variant.replace(/ 기준$/, ""))}<br><small>비행계획서·관제용 코드</small>`)}</div>
+<div class="rcards icao-tiles">${tile("비행장 기준 코드 문자", "부속서 14", lr[0], `날개폭 ${groundSpan(ac)} m<br><small>${letterRange(lr)}</small>`)}${tile("항적 난기류 등급", "Doc 4444", wk, `${WAKE[wk]}<br><small>최대이륙중량 ${S.mtow} t</small>`)}${tile("구조소방 등급", "부속서 14", rf, `길이 ${S.length} m<br><small>동체 폭 ${S.width} m</small>`)}${tile("형식 지정자", "Doc 8643", ICAO[ac.id], `${esc(ac.variant.replace(/ 기준$/, ""))}<br><small>비행계획서와 관제에 쓰는 코드</small>`)}</div>
 ${spanScale([ac])}
-<p class="small muted" style="margin:10px 0 0">${fold ? `비행할 때 날개폭은 ${S.span} m로 코드 F 범위지만, 지상에서는 날개 끝을 접어 ${fold} m가 되므로 코드 E 공항 시설을 그대로 씁니다. ` : ""}코드 문자는 유도로 폭과 주기장 간격, 구조·소방 등급은 공항이 갖춰야 할 소방 능력, 항적 난기류 등급은 뒤따르는 항공기와의 간격을 정하는 기준입니다. ${esc(ac.variant)} 제원으로 계산했습니다.</p></div></section>`;
+<p class="small muted" style="margin:10px 0 0">${fold ? `비행할 때 날개폭은 ${S.span} m로 코드 F 범위지만, 지상에서는 날개 끝을 접어 ${fold} m가 되므로 코드 E 공항 시설을 그대로 씁니다. ` : ""}코드 문자는 유도로 폭과 주기장 간격, 구조소방 등급은 공항이 갖춰야 할 소방 능력, 항적 난기류 등급은 뒤따르는 항공기와의 간격을 정하는 기준입니다. ${esc(ac.variant)} 제원으로 계산했습니다.</p></div></section>`;
   }
 
   /* ---------- 문서: ICAO 기준 안내 ---------- */
   function renderIcao() {
-    const chips = list => list.length ? `<div class="tour-legs">${list.map(a => `<a class="tleg why-chip mk-${a.maker}" href="#${a.id}"><span class="dot"></span>${ICAO[a.id]} · ${esc(short(a))}</a>`).join("")}</div>` : `<span class="muted">—</span>`;
+    const chips = list => list.length ? `<div class="tour-legs">${list.map(a => `<a class="tleg why-chip mk-${a.maker}" href="#${a.id}"><span class="dot"></span>${ICAO[a.id]} ${esc(short(a))}</a>`).join("")}</div>` : `<span class="muted">-</span>`;
     const byL = l => AIRCRAFT.filter(a => acLetter(a) === l), byW = w => AIRCRAFT.filter(a => wakeCat(a) === w), byR = r => AIRCRAFT.filter(a => rffCat(a) === r);
     const pre = {}; APT.forEach(a => { (pre[a[1].slice(0, 2)] = pre[a[1].slice(0, 2)] || []).push(a); });
     const PRE_KO = { RK: "대한민국", RJ: "일본 (본토)", RO: "일본 (오키나와)", RC: "대만", RP: "필리핀", ZB: "중국 화북", ZS: "중국 화동", ZG: "중국 화남", VH: "홍콩", VT: "태국", VV: "베트남", VI: "인도 북부", VA: "인도 서부", WS: "싱가포르", WM: "말레이시아", WA: "인도네시아 동부", WI: "인도네시아 서부", OM: "아랍에미리트", OT: "카타르", LT: "튀르키예", EG: "영국", LF: "프랑스", ED: "독일", EH: "네덜란드", LI: "이탈리아", LE: "스페인", LS: "스위스", LO: "오스트리아", LK: "체코", PH: "미국 하와이", PG: "괌", CY: "캐나다", YS: "호주 (시드니 권역)", YB: "호주 (브리즈번 권역)", NZ: "뉴질랜드" };
-    const preRows = Object.keys(pre).sort().filter(k => k[0] !== "K").map(k => `<tr><td><span class="code">${k}</span></td><td>${esc(PRE_KO[k] || "")}</td><td>${pre[k].map(a => `<a class="ext" href="#apt-${a[0]}">${a[1]}</a>`).join(" · ")}</td></tr>`).join("");
+    const preRows = Object.keys(pre).sort().filter(k => k[0] !== "K").map(k => `<tr><td><span class="code">${k}</span></td><td>${esc(PRE_KO[k] || "")}</td><td>${pre[k].map(a => `<a class="ext" href="#apt-${a[0]}">${a[1]}</a>`).join(", ")}</td></tr>`).join("");
     const kUS = APT.filter(a => a[1][0] === "K");
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Documents</div><h1>ICAO 기준 안내</h1><p>국제민간항공기구(ICAO)가 정한 분류 가운데 기종과 공항을 읽을 때 자주 만나는 것들입니다. 이 사이트의 기종 21개와 공항 ${APT.length}곳이 각각 어디에 속하는지 함께 보여 줍니다.</p></div><div class="actions"><a class="btn ghost" href="#fleet">${ICON.list}기종 백과</a></div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / Documents</div><h1>ICAO 기준 안내</h1><p>기종과 공항을 읽을 때 자주 만나는 ICAO 분류입니다. 이 사이트의 기종 ${AIRCRAFT.length}개와 공항 ${APT.length}곳이 어디에 속하는지도 보여 줍니다.</p></div><div class="actions"><a class="btn ghost" href="#fleet">${ICON.list}기종 백과</a></div></header>
 <div class="grid">
 <section class="card c12">${cardH(ICON.info, "ICAO와 부속서")}<div class="card-b prose"><p>ICAO는 1944년 시카고 협약으로 만들어진 유엔 전문 기구입니다. 회원국이 따르는 국제 표준과 권고(SARPs)를 협약의 부속서 19개로 정하고, 세부 절차는 Doc 번호가 붙은 문서로 냅니다. 아래 분류는 부속서 14(비행장), Doc 4444(항공교통관리 절차), Doc 8643(항공기 형식 지정자), Doc 7910(지명 약어)에서 나옵니다.</p><p class="small muted">이 페이지는 이해를 돕기 위한 요약입니다. 실제 운항과 설계에는 각 문서의 최신판과 해당 국가의 규정을 써야 합니다.</p></div></section>
 
@@ -52,7 +52,7 @@ ${spanScale([ac])}
 <div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>등급</th><th>기준</th><th>이 사이트의 기종</th></tr></thead><tbody>${[["J", "A380-800 (형식 지정자 문서에서 따로 지정)"], ["H", "136 t 이상"], ["M", "7 t 초과 136 t 미만"], ["L", "7 t 이하"]].map(r => `<tr><td><span class="code">${r[0]}</span> ${WAKE[r[0]].split(" ")[0]}</td><td>${r[1]}</td><td>${chips(byW(r[0]))}</td></tr>`).join("")}</tbody></table></div>
 <div class="card-b"><p class="small muted" style="margin:0">보잉 757은 중량으로는 M이지만 항적이 강해, 미국 등 일부 국가는 뒤따르는 기체에 대형기와 같은 간격을 적용합니다.</p></div></section>
 
-<section class="card c6">${cardH(ICON.bell, "구조·소방 등급 (부속서 14)")}<div class="card-b prose"><p>공항이 갖춰야 하는 소방차 수와 소화제 양을 정하는 등급입니다. 그 공항을 정기적으로 쓰는 가장 큰 비행기의 전체 길이로 정하고, 동체 폭이 그 등급의 한계를 넘으면 한 단계 올립니다.</p></div>
+<section class="card c6">${cardH(ICON.bell, "구조소방 등급 (부속서 14)")}<div class="card-b prose"><p>공항이 갖춰야 하는 소방차 수와 소화제 양을 정하는 등급입니다. 그 공항을 정기적으로 쓰는 가장 큰 비행기의 전체 길이로 정하고, 동체 폭이 그 등급의 한계를 넘으면 한 단계 올립니다.</p></div>
 <div class="tbl-wrap"><table class="tbl plain"><thead><tr><th>등급</th><th>전체 길이</th><th>동체 폭</th><th>이 사이트의 기종</th></tr></thead><tbody>${RFF.slice(5).map((r, i) => `<tr><td><span class="code">${r[0]}</span></td><td>${RFF[4 + i][1]} m 이상 ${r[1]} m 미만</td><td>${r[2]} m 이하</td><td>${chips(byR(r[0]))}</td></tr>`).join("")}</tbody></table></div>
 <div class="card-b"><p class="small muted" style="margin:0">1~5등급(길이 28 m 미만)은 소형기용이라 표에서 뺐습니다. A380은 길이로는 9등급이지만 동체 폭이 7 m를 넘어 10등급입니다.</p></div></section>
 

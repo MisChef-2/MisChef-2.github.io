@@ -18,7 +18,7 @@
   // 축척 기준: 12 m 시내버스와 키 1.75 m인 사람. xr = 오른쪽 끝, gy = 지면
   function artRefs(xr, gy, u, label) {
     const bx = xr - 14.6, by = gy - 3.3, px = xr - 1.2;
-    return `<g class="ref"><rect x="${N(bx)}" y="${N(by)}" width="12" height="2.95" rx="0.35"/><rect class="ref-w" x="${N(bx + 0.5)}" y="${N(by + 0.45)}" width="9.3" height="1.05" rx="0.12"/><rect class="ref-w" x="${N(bx + 10.3)}" y="${N(by + 0.45)}" width="1.3" height="1.9" rx="0.12"/><circle cx="${N(bx + 2.4)}" cy="${N(gy - 0.5)}" r="0.5"/><circle cx="${N(bx + 9.4)}" cy="${N(gy - 0.5)}" r="0.5"/>${artPerson(px, gy)}</g>${label ? `<text class="t-mute" x="${N(bx)}" y="${N(by - 0.8 * u)}" font-size="${N(1.3 * u)}">버스 12 m · 사람 1.75 m</text>` : ""}`;
+    return `<g class="ref"><rect x="${N(bx)}" y="${N(by)}" width="12" height="2.95" rx="0.35"/><rect class="ref-w" x="${N(bx + 0.5)}" y="${N(by + 0.45)}" width="9.3" height="1.05" rx="0.12"/><rect class="ref-w" x="${N(bx + 10.3)}" y="${N(by + 0.45)}" width="1.3" height="1.9" rx="0.12"/><circle cx="${N(bx + 2.4)}" cy="${N(gy - 0.5)}" r="0.5"/><circle cx="${N(bx + 9.4)}" cy="${N(gy - 0.5)}" r="0.5"/>${artPerson(px, gy)}</g>${label ? `<text class="t-mute" x="${N(bx)}" y="${N(by - 0.8 * u)}" font-size="${N(1.3 * u)}">버스 12 m, 사람 1.75 m</text>` : ""}`;
   }
   const artPerson = (px, gy) => `<circle cx="${N(px)}" cy="${N(gy - 1.58)}" r="0.17"/><path d="M${N(px - 0.22)} ${N(gy - 1.36)}h0.44v0.72h-0.1v0.64h-0.24v-0.64h-0.1Z"/>`;
   const dimHz = (x1, x2, y, u, text) => `<path class="dimline" d="M${N(x1)} ${N(y)}H${N(x2)}M${N(x1)} ${N(y - 0.6 * u)}V${N(y + 0.6 * u)}M${N(x2)} ${N(y - 0.6 * u)}V${N(y + 0.6 * u)}"/><text class="t-dim" x="${N((x1 + x2) / 2)}" y="${N(y + 2 * u)}" text-anchor="middle" font-size="${N(1.5 * u)}">${text}</text>`;
@@ -59,7 +59,7 @@
       o += `<g class="art-top mk-${ac.maker}" transform="translate(${N(cx)} ${N(top)}) rotate(90)">${tv}<line class="finline" x1="${N(S.length * 0.85)}" y1="0" x2="${N(S.length - 0.5)}" y2="0"/></g>`;
       o += artLabel(ac, cx, 3.6 * u, u, "middle");
       o += dimHz(cx - S.span / 2, cx + S.span / 2, yb + 2.4 * u, u, `날개폭 ${S.span} m`);
-      o += `<text class="t-lim mk-${ac.maker}" x="${N(cx)}" y="${N(yb + 7.4 * u)}" text-anchor="middle" font-size="${N(1.4 * u)}">ICAO 코드 ${lr[0]} · 점선은 한계 ${lr[2]} m${FOLD_SPAN[ac.id] ? " (날개 끝을 접은 폭 기준)" : ""}</text>`;
+      o += `<text class="t-lim mk-${ac.maker}" x="${N(cx)}" y="${N(yb + 7.4 * u)}" text-anchor="middle" font-size="${N(1.4 * u)}">ICAO 코드 ${lr[0]}, 점선은 한계 ${lr[2]} m${FOLD_SPAN[ac.id] ? " (날개 끝을 접은 폭 기준)" : ""}</text>`;
     });
     o += `<path class="dimline" d="M${N(2 * u)} ${N(H - 2 * u)}h10M${N(2 * u)} ${N(H - 2.6 * u)}v${N(1.2 * u)}M${N(2 * u + 10)} ${N(H - 2.6 * u)}v${N(1.2 * u)}"/><text class="t-mute" x="${N(2 * u + 11.2)}" y="${N(H - 1.5 * u)}" font-size="${N(1.3 * u)}">10 m</text>`;
     return `<svg class="art-svg" viewBox="0 0 ${N(W)} ${N(H)}" role="img" aria-label="${esc(A.name)}과 ${esc(B.name)}의 평면 비교. 날개폭 ${A.specs.span}미터와 ${B.specs.span}미터">${o}</svg>`;
@@ -71,7 +71,7 @@
       const S = ac.specs, cx = C.cx[i], fv = frontView(ac);
       o += `<ellipse class="gshadow" cx="${N(cx)}" cy="${N(gy + 0.12)}" rx="${N(S.span * 0.42)}" ry="0.4"/><g class="art-front mk-${ac.maker}" transform="translate(${N(cx)} ${N(gy - fv.ground)})">${fv.svg}</g>`;
       o += dimVt(cx + S.span / 2 + 1.6 * u, gy - S.height, gy, u, `${S.height} m`);
-      o += `<text class="t-dim" x="${N(cx)}" y="${N(gy + 3.4 * u)}" text-anchor="middle" font-size="${N(1.5 * u)}">${ICAO[ac.id]} · 동체 폭 ${S.width} m</text>`;
+      o += `<text class="t-dim" x="${N(cx)}" y="${N(gy + 3.4 * u)}" text-anchor="middle" font-size="${N(1.5 * u)}">${ICAO[ac.id]}, 동체 폭 ${S.width} m</text>`;
     });
     o += `<g class="ref">${artPerson((C.cx[0] + A.specs.span / 2 + C.cx[1] - B.specs.span / 2) / 2 - 2.5 * u, gy)}</g>`;
     return `<svg class="art-svg" viewBox="0 0 ${N(W)} ${N(H)}" role="img" aria-label="${esc(A.name)}과 ${esc(B.name)}의 정면 비교. 높이 ${A.specs.height}미터와 ${B.specs.height}미터">${o}</svg>`;
@@ -83,5 +83,5 @@
   };
   function cmpArt(A, B) {
     const fig = (title, note, svg) => `<figure class="art-fig"><figcaption><b>${title}</b><span>${note}</span></figcaption><div class="art-scroll">${svg}</div></figure>`;
-    return ART_DEFS + fig("측면", "같은 축척 · 기수를 왼쪽에 맞춤 · 눈금 10 m", cmpSide(A, B)) + fig("평면", "같은 축척 · 격자 한 칸 10 m · 점선은 ICAO 코드 문자의 날개폭 한계", cmpTop(A, B)) + fig("정면", "같은 축척 · 가운데 사람 키 1.75 m", cmpFront(A, B));
+    return ART_DEFS + fig("측면", "같은 축척, 기수를 왼쪽에 맞춤, 눈금 10 m", cmpSide(A, B)) + fig("평면", "같은 축척, 격자 한 칸 10 m, 점선은 ICAO 코드 문자의 날개폭 한계", cmpTop(A, B)) + fig("정면", "같은 축척, 가운데 사람 키 1.75 m", cmpFront(A, B));
   }

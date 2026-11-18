@@ -24,8 +24,8 @@
   const sfcKo = s => {
     s = String(s || "").toUpperCase();
     const con = /CON|PCC|CEM/.test(s), asp = /ASP|BIT|ASF|TAR|MAC/.test(s);
-    if (/PEM/.test(s) || (con && asp)) return "아스팔트·콘크리트"; if (con) return "콘크리트"; if (asp) return "아스팔트"; if (/GRS|GRASS|TURF/.test(s)) return "잔디";
-    return s ? esc(s) : "—";
+    if (/PEM/.test(s) || (con && asp)) return "아스팔트와 콘크리트"; if (con) return "콘크리트"; if (asp) return "아스팔트"; if (/GRS|GRASS|TURF/.test(s)) return "잔디";
+    return s ? esc(s) : "-";
   };
   const dmTxt = (v, p, n, dec) => {
     const h = v < 0 ? n : p, a = Math.abs(v); let d = Math.floor(a), m = +((a - d) * 60).toFixed(dec);
@@ -64,36 +64,45 @@
     const g = {};
     M.f.forEach(f => { const k = fqKey(f[0]); if (!k) return; g[k] = g[k] || []; if (g[k].length < 2 && g[k].indexOf(f[2]) < 0) g[k].push(f[2]); });
     const keys = FQ_ORDER.filter(k => g[k]).slice(0, 6);
-    return keys.length ? keys.map(k => `<div class="ch-fb"><span>${k}</span><b>${g[k].map(mhz).join(" · ")}</b></div>`).join("") : `<div class="ch-fb"><span>FREQ</span><b>자료 없음</b></div>`;
+    return keys.length ? keys.map(k => `<div class="ch-fb"><span>${k}</span><b>${g[k].map(mhz).join(", ")}</b></div>`).join("") : `<div class="ch-fb"><span>FREQ</span><b>자료 없음</b></div>`;
   }
   function chartCard(code) {
     const a = aptBy[code], M = chMeta(a.icao); if (!M) return "";
-    return `<section class="card c8 ch-card">${cardH(ICON.map, "비행장 차트", `<span class="hint">시뮬레이션 참고용 · 항법 사용 금지</span>`)}<div class="ch-wrap">
+    return `<section class="card c8 ch-card">${cardH(ICON.map, "비행장 차트", `<span class="hint">시뮬레이션 참고용, 항법 사용 금지</span>`)}<div class="ch-wrap">
 <div class="chart${chMode ? " " + chMode : ""}" id="chart" data-icao="${a.icao}">
-<div class="ch-head"><div class="ch-id"><b>${a.icao}</b><span>${a.iata}</span></div><div class="ch-tt"><strong>${esc(M.n)}</strong><span>${esc((M.c ? M.c + " · " : "") + a.name + " · " + (CCN[a.cc] || a.cc))}</span></div><div class="ch-kind"><b>AERODROME CHART</b><span>ELEV ${M.e == null ? "—" : fmt(M.e) + " FT"} · ${dmTxt(M.o[0], "N", "S", 1)} ${dmTxt(M.o[1], "E", "W", 1)}</span></div></div>
+<div class="ch-head"><div class="ch-id"><b>${a.icao}</b><span>${a.iata}</span></div><div class="ch-tt"><strong>${esc(M.n)}</strong><span>${esc((M.c ? M.c + ", " : "") + a.name + ", " + (CCN[a.cc] || a.cc))}</span></div><div class="ch-kind"><b>AERODROME CHART</b><span>ELEV ${M.e == null ? "-" : fmt(M.e) + " FT"}, ${dmTxt(M.o[0], "N", "S", 1)} ${dmTxt(M.o[1], "E", "W", 1)}</span></div></div>
 <div class="ch-fq">${chartFqBoxes(M)}</div>
-<div class="ch-view" id="ch-view" tabindex="0" role="img" aria-label="${esc(a.name)} 비행장 도면. 드래그로 옮기고 더하기·빼기 키로 확대합니다.">
+<div class="ch-view" id="ch-view" tabindex="0" role="img" aria-label="${esc(a.name)} 비행장 도면. 드래그로 옮기고 더하기와 빼기 키로 확대합니다.">
 <svg class="ch-map" id="ch-map" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ch-ov" id="ch-ov" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-<div class="ch-tools"><button type="button" data-ch="in" aria-label="확대" title="확대">${CHI.plus}</button><button type="button" data-ch="out" aria-label="축소" title="축소">${CHI.minus}</button><button type="button" data-ch="fit" aria-label="전체 보기" title="전체 보기">${CHI.fit}</button><button type="button" data-ch="full" id="ch-full" aria-label="전체 화면" title="전체 화면">${CHI.full}</button><button type="button" data-ch="mode" id="ch-mode" aria-label="주간·야간 전환" title="주간·야간 전환">${CHI.moon}</button></div>
+<div class="ch-tools"><button type="button" data-ch="in" aria-label="확대" title="확대">${CHI.plus}</button><button type="button" data-ch="out" aria-label="축소" title="축소">${CHI.minus}</button><button type="button" data-ch="fit" aria-label="전체 보기" title="전체 보기">${CHI.fit}</button><button type="button" data-ch="full" id="ch-full" aria-label="전체 화면" title="전체 화면">${CHI.full}</button><button type="button" data-ch="mode" id="ch-mode" aria-label="주야간 전환" title="주야간 전환">${CHI.moon}</button></div>
 <div class="ch-status" id="ch-status">유도로 도면을 불러오는 중…</div>
 </div>
 <div class="ch-foot"><span>NOT FOR NAVIGATION · 공개 자료로 그린 참고 도면</span><span>활주로·주파수 <a href="https://ourairports.com/airports/${a.icao}/" target="_blank" rel="noopener">OurAirports</a> · 유도로·계류장 <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap 기여자</a></span></div>
 </div>
-<p class="small muted ch-tip">마우스 휠로 확대·축소하고 드래그로 옮깁니다. 버튼이나 두 번 클릭으로도 확대되고, 전체 화면에서는 두 손가락으로도 확대됩니다.</p></div></section>`;
+<p class="small muted ch-tip">마우스 휠로 확대하거나 축소하고, 드래그로 옮깁니다. 버튼이나 두 번 클릭으로도 확대되고, 전체 화면에서는 두 손가락으로도 확대됩니다.</p></div></section>`;
+  }
+  // 공항 상세용: 표를 쓰지 않고 목록으로. 좁은 화면에서도 옆으로 밀지 않고 읽힌다
+  function chartParts(code) {
+    const a = aptBy[code], M = chMeta(a.icao); if (!M) return null;
+    const rw = M.r.map(r => `<div class="ap-rw"><div class="ap-rw-id"><span>${esc(r[0])}</span><i></i><span>${esc(r[1])}</span></div><div class="ap-rw-d"><b>${fmt(Math.round(r[2] * .3048))} × ${r[3] ? Math.round(r[3] * .3048) : "-"} m</b><small>${fmt(r[2])} × ${r[3] ? fmt(r[3]) : "-"} ft, ${sfcKo(r[4])}</small>${r[9] != null ? `<small>진방위 ${String(Math.round(r[9]) % 360).padStart(3, "0")}° / ${String(Math.round(r[10] != null ? r[10] : r[9] + 180) % 360).padStart(3, "0")}°</small>` : ""}</div></div>`).join("");
+    const fq = M.f.map(f => ({ f, k: fqKey(f[0]) })).sort((x, y) => (x.k ? FQ_ORDER.indexOf(x.k) : 99) - (y.k ? FQ_ORDER.indexOf(y.k) : 99)).slice(0, 12)
+      .map(o => `<div class="ap-fq"><span class="code">${esc(o.f[0])}</span><span class="ap-fq-n">${o.k ? FQ_KO[o.k] : "기타"}</span><b>${mhz(o.f[2])}</b></div>`).join("");
+    const ext = `<a class="ap-ext" href="https://charts.navigraph.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}<span><b>Navigraph Charts</b><small>Jeppesen, 유료 구독</small></span></a><a class="ap-ext" href="https://chartfox.org/${a.icao}" target="_blank" rel="noopener">${ICON.ext}<span><b>ChartFox</b><small>각국 공식 AIP 차트, 무료 로그인</small></span></a><a class="ap-ext" href="https://skyvector.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}<span><b>SkyVector</b><small>공항 정보, 항로도</small></span></a>`;
+    return { rw: rw, fq: fq, ext: ext, nrw: M.r.length };
   }
   function chartSide(code) {
     const a = aptBy[code], M = chMeta(a.icao); if (!M) return "";
-    const rw = M.r.map(r => `<tr><td><span class="code">${esc(r[0])}</span> <span class="code">${esc(r[1])}</span></td><td class="num">${fmt(Math.round(r[2] * .3048))} × ${r[3] ? Math.round(r[3] * .3048) : "—"} m<small>${fmt(r[2])} × ${r[3] ? fmt(r[3]) : "—"} ft</small></td><td>${sfcKo(r[4])}${r[9] != null ? `<small>진방위 ${String(Math.round(r[9]) % 360).padStart(3, "0")}° · ${String(Math.round(r[10] != null ? r[10] : r[9] + 180) % 360).padStart(3, "0")}°</small>` : ""}</td></tr>`).join("");
+    const rw = M.r.map(r => `<tr><td><span class="code">${esc(r[0])}</span> <span class="code">${esc(r[1])}</span></td><td class="num">${fmt(Math.round(r[2] * .3048))} × ${r[3] ? Math.round(r[3] * .3048) : "-"} m<small>${fmt(r[2])} × ${r[3] ? fmt(r[3]) : "-"} ft</small></td><td>${sfcKo(r[4])}${r[9] != null ? `<small>진방위 ${String(Math.round(r[9]) % 360).padStart(3, "0")}°/${String(Math.round(r[10] != null ? r[10] : r[9] + 180) % 360).padStart(3, "0")}°</small>` : ""}</td></tr>`).join("");
     const fq = M.f.map(f => ({ f, k: fqKey(f[0]) })).sort((x, y) => (x.k ? FQ_ORDER.indexOf(x.k) : 99) - (y.k ? FQ_ORDER.indexOf(y.k) : 99)).slice(0, 14)
       .map(o => `<tr><td><span class="code">${esc(o.f[0])}</span></td><td class="num">${mhz(o.f[2])}</td><td>${o.k ? FQ_KO[o.k] : "기타"}${o.f[1] ? `<small>${esc(o.f[1])}</small>` : ""}</td></tr>`).join("");
-    return `<section class="card c4 ch-side">${cardH(ICON.doc, "활주로 · 주파수")}
+    return `<section class="card c4 ch-side">${cardH(ICON.doc, "활주로와 주파수")}
 <div class="tbl-wrap"><table class="tbl"><thead><tr><th>활주로</th><th class="num">길이 × 폭</th><th>노면</th></tr></thead><tbody>${rw || `<tr><td colspan="3" class="muted">활주로 자료가 없습니다.</td></tr>`}</tbody></table></div>
 <div class="tbl-wrap"><table class="tbl"><thead><tr><th>주파수</th><th class="num">MHz</th><th>용도</th></tr></thead><tbody>${fq || `<tr><td colspan="3" class="muted">주파수 자료가 없습니다.</td></tr>`}</tbody></table></div>
 <div class="card-b ch-ext"><strong>실제 차트 보기</strong>
-<a class="btn ghost" href="https://charts.navigraph.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}Navigraph Charts <small>Jeppesen · 유료 구독</small></a>
-<a class="btn ghost" href="https://chartfox.org/${a.icao}" target="_blank" rel="noopener">${ICON.ext}ChartFox <small>각국 공식 AIP 차트 · 무료 로그인</small></a>
-<a class="btn ghost" href="https://skyvector.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}SkyVector <small>공항 정보 · 항로도</small></a>
-<p class="small muted">Jeppesen 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. Navigraph에 로그인하면 ${a.icao}의 출발·도착 절차와 접근 차트까지 볼 수 있습니다.</p></div></section>`;
+<a class="btn ghost" href="https://charts.navigraph.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}Navigraph Charts <small>Jeppesen, 유료 구독</small></a>
+<a class="btn ghost" href="https://chartfox.org/${a.icao}" target="_blank" rel="noopener">${ICON.ext}ChartFox <small>각국 공식 AIP 차트, 무료 로그인</small></a>
+<a class="btn ghost" href="https://skyvector.com/airport/${a.icao}" target="_blank" rel="noopener">${ICON.ext}SkyVector <small>공항 정보, 항로도</small></a>
+<p class="small muted">Jeppesen 차트는 라이선스 상품이라 이 사이트에 담을 수 없습니다. Navigraph에 로그인하면 ${a.icao}의 출발 절차, 도착 절차, 접근 차트까지 볼 수 있습니다.</p></div></section>`;
   }
 
   /* ---------- 도면 그리기와 조작 ---------- */
@@ -180,7 +189,7 @@
         });
       });
       rw.forEach(r => {
-        const sl = r.L / m, s = `${fmt(r.lenM)} × ${r.widM || "—"} m`, t = tw(s, 10.5, .6);
+        const sl = r.L / m, s = `${fmt(r.lenM)} × ${r.widM || "-"} m`, t = tw(s, 10.5, .6);
         if (sl < t + 70) return;
         let ang = Math.atan2(r.uy, r.ux) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang < -90) ang += 180;
         const off = r.w / 2 / m + 10, mx = X((r.ax + r.bx) / 2) - r.uy * off, my = Y((r.ay + r.by) / 2) + r.ux * off;

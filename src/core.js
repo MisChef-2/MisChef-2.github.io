@@ -10,7 +10,7 @@
   const SHORT = { "boeing-737max": "737 MAX", "boeing-777x": "777X", "airbus-a320neo": "A320neo", "airbus-a330neo": "A330neo" };
   const short = ac => SHORT[ac.id] || (ac.maker === "airbus" ? ac.id.split("-")[1].replace(/^a/, "A") : ac.id.split("-")[1]);
   const makerName = m => m === "boeing" ? "보잉" : "에어버스";
-  const dateKo = iso => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); return m ? `${m[1]}년 ${+m[2]}월 ${+m[3]}일` : (iso || "—"); };
+  const dateKo = iso => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); return m ? `${m[1]}년 ${+m[2]}월 ${+m[3]}일` : (iso || "-"); };
   const yearOf = iso => (iso || "").slice(0, 4);
   const inProd = ac => /생산 중|진행 중/.test(ac.status) && !/^생산 종료/.test(ac.status);
 
@@ -158,7 +158,7 @@
     else { const cw = Math.min(1.8, widthAt(y0 + 0.9) * 0.9); o += `<rect class="cargo" x="${N(-cw / 2)}" y="${N(y0)}" width="${N(cw)}" height="0.85" rx="0.1"/>`; }
     return o;
   }
-  const cabinLabel = ac => typeof ac.cabin === "string" ? ac.cabin : `하층 ${ac.cabin.lower} · 상층 ${ac.cabin.upper}`;
+  const cabinLabel = ac => typeof ac.cabin === "string" ? ac.cabin : `하층 ${ac.cabin.lower}, 상층 ${ac.cabin.upper}`;
 
   /* ---------- 소형 실루엣 (카드·라인업) ---------- */
   function silhouette(ac, s, W, H) {
@@ -181,7 +181,7 @@
       const S = ac.specs, cx = X(S.range), cy = Y(S.seats), r = 4 + Math.sqrt(S.mtow) * 0.45, pos = LABEL_POS[ac.id] || "right";
       let lx = cx + r + 4, ly = cy + 4, an = "start";
       if (pos === "left") { lx = cx - r - 4; an = "end"; } else if (pos === "above") { lx = cx; ly = cy - r - 5; an = "middle"; } else if (pos === "below") { lx = cx; ly = cy + r + 13; an = "middle"; }
-      o += `<g class="pt mk-${ac.maker}" data-tip="${esc(`<b>${ac.name}</b><br>항속거리 ${fmt(S.range)} km · 표준 ${S.seats}석 (최대 ${S.seatsMax}석)<br>최대이륙중량 ${S.mtow} t`)}" data-href="#${ac.id}"><circle cx="${N(cx)}" cy="${N(cy)}" r="${N(r)}"/><text x="${N(lx)}" y="${N(ly)}" text-anchor="${an}">${esc(short(ac))}</text></g>`;
+      o += `<g class="pt mk-${ac.maker}" data-tip="${esc(`<b>${ac.name}</b><br>항속거리 ${fmt(S.range)} km, 표준 ${S.seats}석 (최대 ${S.seatsMax}석)<br>최대이륙중량 ${S.mtow} t`)}" data-href="#${ac.id}"><circle cx="${N(cx)}" cy="${N(cy)}" r="${N(r)}"/><text x="${N(lx)}" y="${N(ly)}" text-anchor="${an}">${esc(short(ac))}</text></g>`;
     });
     return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="기종별 항속거리와 표준 좌석 수 산점도. 원의 크기는 최대이륙중량.">${o}</svg>`;
   }
@@ -195,7 +195,7 @@
     for (let v = 0; v <= yMax; v += 300) o += `<line class="grid" x1="${m.l}" y1="${N(Y(v))}" x2="${W - m.r}" y2="${N(Y(v))}"/><text class="tick" x="${m.l - 8}" y="${N(Y(v) + 4)}" text-anchor="end">${v}</text>`;
     D.forEach((d, i) => {
       const gx = m.l + i * gw + gw / 2;
-      o += `<g data-tip="${esc(`<b>${d[0]}년</b><br>보잉 ${fmt(d[1])}대 · 에어버스 ${fmt(d[2])}대`)}"><rect class="hit" x="${N(gx - gw / 2)}" y="${m.t}" width="${N(gw)}" height="${H - m.t - m.b}"/>`;
+      o += `<g data-tip="${esc(`<b>${d[0]}년</b><br>보잉 ${fmt(d[1])}대, 에어버스 ${fmt(d[2])}대`)}"><rect class="hit" x="${N(gx - gw / 2)}" y="${m.t}" width="${N(gw)}" height="${H - m.t - m.b}"/>`;
       o += `<rect class="bar mk-boeing" x="${N(gx - bw - 1)}" y="${N(Y(d[1]))}" width="${bw}" height="${N(Y(0) - Y(d[1]))}" rx="2"/>`;
       o += `<rect class="bar mk-airbus" x="${N(gx + 1)}" y="${N(Y(d[2]))}" width="${bw}" height="${N(Y(0) - Y(d[2]))}" rx="2"/></g>`;
       if (d[0] % 5 === 0) o += `<text class="tick" x="${N(gx)}" y="${H - m.b + 16}" text-anchor="middle">${d[0]}</text>`;

@@ -26,17 +26,17 @@
       if (r) detail = `<div class="gl-sel"><div class="gl-sel-h"><b class="mono">${r.a} ↔ ${r.b}</b><button type="button" class="btn glass" data-gl="clear" id="gl-clear">선택 해제</button></div><p>${esc(aptBy[r.a].name)} ↔ ${esc(aptBy[r.b].name)}</p><div class="rcards">${rcard(ICON.route, "거리", distTxt(r.km), `<small>대권 거리</small>`)}${rcard(ICON.doc, "비행", r.n + "회", `<small>최근 ${dayKo(r.last)}</small>`)}</div></div>`;
     } else if (sel && aptBy[sel]) {
       const a = aptBy[sel], rs = D.routes.filter(r => r.a === sel || r.b === sel);
-      detail = `<div class="gl-sel"><div class="gl-sel-h"><b class="mono">${a.icao} / ${a.iata}</b><button type="button" class="btn glass" data-gl="clear" id="gl-clear">선택 해제</button></div><p>${esc(a.name)} · ${esc(CCN[a.cc] || a.cc)}${sel === here ? " · 현재 위치" : ""}</p><div class="rcards">${rcard(ICON.doc, "이착륙", (D.visits[sel] || 0) + "회", `<small>${rs.length}개 노선</small>`)}${rcard(ICON.route, "현재 위치에서", sel === here ? "0" : distTxt(aptKm(here, sel)), `<small>${here} 기준</small>`)}</div><a class="btn glass" href="#apt-${sel}" style="margin-top:8px">${ICON.map}공항 정보와 차트</a></div>`;
+      detail = `<div class="gl-sel"><div class="gl-sel-h"><b class="mono">${a.icao} / ${a.iata}</b><button type="button" class="btn glass" data-gl="clear" id="gl-clear">선택 해제</button></div><p>${esc(a.name)}, ${esc(CCN[a.cc] || a.cc)}${sel === here ? ", 현재 위치" : ""}</p><div class="rcards">${rcard(ICON.doc, "이착륙", (D.visits[sel] || 0) + "회", `<small>${rs.length}개 노선</small>`)}${rcard(ICON.route, "현재 위치에서", sel === here ? "0" : distTxt(aptKm(here, sel)), `<small>${here} 기준</small>`)}</div><a class="btn glass" href="#apt-${sel}" style="margin-top:8px">${ICON.map}공항 정보와 차트</a></div>`;
     }
     const list = D.routes.length ? D.routes.map(r => `<button type="button" class="bk-row gl-row${sel === r.key ? " on" : ""}" data-gl="route:${r.key}" id="glr-${r.key}"><b>${r.a} ↔ ${r.b}</b><span>${r.n}회</span><span class="km">${distTxt(r.km)}</span></button>`).join("") : `<p class="empty" style="padding:10px 8px">아직 그릴 노선이 없습니다. PIREP을 제출하면 여기에 쌓입니다.</p>`;
     return `${head}<div class="fp-list gl-list">${tiles}
-<div class="fld"><label for="gl-ac">기종</label><select class="sel" id="gl-ac"><option value="all">모든 기종</option>${acIds.map(id => `<option value="${id}"${GL.ac === id ? " selected" : ""}>${ICAO[id]} · ${esc(short(byId[id]))}</option>`).join("")}</select></div>
+<div class="fld"><label for="gl-ac">기종</label><select class="sel" id="gl-ac"><option value="all">모든 기종</option>${acIds.map(id => `<option value="${id}"${GL.ac === id ? " selected" : ""}>${ICAO[id]} ${esc(short(byId[id]))}</option>`).join("")}</select></div>
 <label class="small gl-chk"><input type="checkbox" id="gl-net"${GL.net ? " checked" : ""}> 가 보지 않은 취항지도 표시</label>
 <label class="small gl-chk"><input type="checkbox" id="gl-spin"${GL.spin ? " checked" : ""}> 자동 회전</label>
 ${detail}<div class="lbl" style="margin-top:4px">노선 ${fmt(D.routes.length)}개</div><div class="bk-list">${list}</div>${PS.demo ? `<p class="small muted" style="margin:6px 2px 0">지금 보이는 노선은 예시 기록입니다. 첫 PIREP을 제출하면 내 노선으로 바뀝니다.</p>` : ""}</div>`;
   }
   function renderFlightMap() {
-    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / <a href="#profile">내 프로필</a></div><h1>비행 지도</h1><p>지금까지 비행한 노선을 지구본 위에 그렸습니다. 선은 출발지와 도착지를 잇는 대권이고, 굵을수록 자주 다닌 노선입니다. 공항이나 노선을 누르면 자세한 내용이 나옵니다.</p></div><div class="actions">${seg("gldays", [[0, "전체"], [365, "1년"], [90, "90일"], [30, "30일"]], GL.days, "기간")}</div></header>
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / <a href="#profile">조종사 프로필</a></div><h1>비행 지도</h1><p>비행한 노선을 지구본에 그렸습니다. 굵은 선일수록 자주 다닌 노선이고, 공항이나 노선을 누르면 자세히 나옵니다.</p></div><div class="actions">${seg("gldays", [[0, "전체"], [365, "1년"], [90, "90일"], [30, "30일"]], GL.days, "기간")}</div></header>
 <section class="card" id="globecard"><div class="gl-wrap" id="gl-wrap"><div class="gl-stage" id="gl-box"><canvas id="gl-cv" role="img" aria-label="비행한 노선을 그린 지구본"></canvas><div class="gl-tools" role="group" aria-label="지구본 조작"><button type="button" class="ch-btn" data-gl="in" id="gl-in" aria-label="확대" title="확대">${CHI.plus}</button><button type="button" class="ch-btn" data-gl="out" id="gl-out" aria-label="축소" title="축소">${CHI.minus}</button><button type="button" class="ch-btn" data-gl="home" id="gl-home" aria-label="현재 위치로" title="현재 위치로">${CHI.fit}</button></div><div class="gl-tip" id="gl-tip" hidden></div><p class="gl-msg" id="gl-msg" hidden>지구본을 그리는 데 필요한 지도 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로 고쳐 주세요. 노선 목록은 그대로 볼 수 있습니다.</p><p class="gl-credit">지도: Natural Earth</p></div><div class="float-panel gl-panel" id="gl-panel">${glPanel()}</div></div></section>`;
   }
   function globeLeave() { if (!globe) return; cancelAnimationFrame(globe.raf); if (globe.ro) globe.ro.disconnect(); globe.dead = true; globe = null; }
@@ -98,7 +98,7 @@ ${detail}<div class="lbl" style="margin-top:4px">노선 ${fmt(D.routes.length)}�
         if (!v && !cur) { ctx.beginPath(); ctx.arc(p.x, p.y, hov ? 3.4 : 2, 0, 7); ctx.fillStyle = hov ? "rgba(226,232,240,.95)" : "rgba(170,184,202,.55)"; ctx.fill(); if (hov) { ctx.fillStyle = "#e2e8f0"; ctx.fillText(a[0], p.x + 7, p.y); } return; }
         if (cur && !still) { const ph = (t % 2.2) / 2.2; ctx.beginPath(); ctx.arc(p.x, p.y, 5 + ph * 11, 0, 7); ctx.strokeStyle = `rgba(52,211,153,${N(0.7 * (1 - ph))})`; ctx.lineWidth = 1.5; ctx.stroke(); }
         const rr = (cur ? 4.6 : 3.2 + Math.min(2, Math.log2(v + 1) * 0.5)) + (hov || on ? 1.4 : 0);
-        ctx.beginPath(); ctx.arc(p.x, p.y, rr, 0, 7); ctx.fillStyle = cur ? "#34d399" : on ? "#fbbf24" : "#ffffff"; ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = "#0c182b"; ctx.stroke();
+        ctx.beginPath(); ctx.arc(p.x, p.y, rr, 0, 7); ctx.fillStyle = cur ? "#34d399" : on ? "#fbbf24" : "#ffffff"; ctx.shadowColor = cur ? "rgba(52,211,153,.95)" : on ? "rgba(251,191,36,.95)" : "rgba(186,230,253,.9)"; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0; ctx.lineWidth = 1.5; ctx.strokeStyle = "#0c182b"; ctx.stroke();
         if (G.k > 0.85 || hov || on) { ctx.lineWidth = 3; ctx.strokeStyle = "rgba(8,14,26,.85)"; ctx.strokeText(a[0], p.x + rr + 4, p.y); ctx.fillStyle = on ? "#fde68a" : "#f1f5f9"; ctx.fillText(a[0], p.x + rr + 4, p.y); }
       });
     }
@@ -134,7 +134,7 @@ ${detail}<div class="lbl" style="margin-top:4px">노선 ${fmt(D.routes.length)}�
       }
       const h = hit(p[0], p[1]), c = h ? h.c : null;
       if (c !== G.hover) { G.hover = c; G.dirty = true; cv.style.cursor = c ? "pointer" : ""; }
-      if (tipEl) { if (h) { const a = aptBy[h.c]; tipEl.hidden = false; tipEl.innerHTML = `<b>${a.iata} · ${esc(a.name)}</b><br>${esc(CCN[a.cc] || a.cc)} · ${h.v ? "이착륙 " + h.v + "회" : "아직 가 보지 않음"}`; tipEl.style.left = Math.min(G.W - 190, p[0] + 14) + "px"; tipEl.style.top = Math.max(6, p[1] - 44) + "px"; } else tipEl.hidden = true; }
+      if (tipEl) { if (h) { const a = aptBy[h.c]; tipEl.hidden = false; tipEl.innerHTML = `<b>${a.iata} ${esc(a.name)}</b><br>${esc(CCN[a.cc] || a.cc)}, ${h.v ? "이착륙 " + h.v + "회" : "아직 가 보지 않음"}`; tipEl.style.left = Math.min(G.W - 190, p[0] + 14) + "px"; tipEl.style.top = Math.max(6, p[1] - 44) + "px"; } else tipEl.hidden = true; }
     });
     const up = e => {
       if (!ptrs.has(e.pointerId)) return; const p = ptrs.get(e.pointerId); ptrs.delete(e.pointerId);

@@ -7,6 +7,9 @@ const rows = Object.keys(meta).map(k => {
   const m = meta[k];
   return `| \`${m.file}\` | [${cell(m.title)}](${m.page}) | ${cell(m.artist)} | [${cell(m.license)}](${m.licenseUrl}) |`;
 });
+// 사건사고 사진(photos/accidents/credits.json)과 조종 매뉴얼 그림(photos/manual/)
+const accP = path.join(root, "photos/accidents/credits.json"), acc = fs.existsSync(accP) ? JSON.parse(fs.readFileSync(accP, "utf8")) : {};
+const accRows = Object.keys(acc).map(k => `| \`photos/accidents/${k}.webp\` | [${cell(acc[k].title)}](${acc[k].page}) | ${cell(acc[k].author)} | ${cell(acc[k].license)} |`);
 const md = `# 출처와 라이선스
 
 이 저장소의 사진·지도 자료는 아래 출처의 것이며, 각 라이선스 조건을 따릅니다.
@@ -32,6 +35,18 @@ ${rows.join("\n")}
 
 - Flight data: [FlyItalyADSB](https://flyitalyadsb.com), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 - \`src/cover.js\` 는 수신 범위 스냅숏(2026-11-12 16:02 UTC)입니다. API 키 없이 볼 때 나오는 예시 항공편은 실제 비행이 아닙니다.
+
+## 사건사고 사진 (Wikimedia Commons, \`photos/accidents/\`)
+
+조종 매뉴얼의 사건사고 카드에 쓴 사진입니다. 크기를 줄여 WebP로 바꿨고, 원본 라이선스를 그대로 따릅니다.
+
+| 파일 | 원본 | 저작자 | 라이선스 |
+|---|---|---|---|
+${accRows.join(String.fromCharCode(10))}
+
+## 조종 매뉴얼 그림 (\`photos/manual/\`)
+
+상황별 대응과 경험과 요령에 쓴 그림은 Codex(GPT 이미지 생성)로 만든 것입니다. 실제 항공사의 상표나 도색은 넣지 않았습니다.
 
 ## 지구본 (\`src/world.js\`, 비행 지도 페이지)
 

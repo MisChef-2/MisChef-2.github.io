@@ -10,14 +10,14 @@
     { id: "gmp", code: "GMP", name: "김포", sub: "김포국제공항", lat: 37.5583, lon: 126.7906, kind: "kr" },
     { id: "cju", code: "CJU", name: "제주", sub: "제주국제공항", lat: 33.5113, lon: 126.493, kind: "kr" },
     { id: "pus", code: "PUS", name: "김해", sub: "김해국제공항 (부산)", lat: 35.1795, lon: 128.9382, kind: "kr" },
-    { id: "pae", code: "PAE", name: "에버렛", sub: "보잉 767 · 777 · 777X 조립", lat: 47.9063, lon: -122.2816, kind: "boeing" },
+    { id: "pae", code: "PAE", name: "에버렛", sub: "보잉 767, 777, 777X 조립", lat: 47.9063, lon: -122.2816, kind: "boeing" },
     { id: "rnt", code: "RNT", name: "렌턴", sub: "보잉 737 MAX 조립", lat: 47.4931, lon: -122.2157, kind: "boeing" },
     { id: "chs", code: "CHS", name: "노스찰스턴", sub: "보잉 787 조립", lat: 32.8986, lon: -80.0405, kind: "boeing" },
     { id: "lgb", code: "LGB", name: "롱비치", sub: "옛 717 조립 공장", lat: 33.8177, lon: -118.1516, kind: "boeing" },
-    { id: "tls", code: "TLS", name: "툴루즈", sub: "에어버스 A320 · A330 · A350 조립", lat: 43.6291, lon: 1.3638, kind: "airbus" },
+    { id: "tls", code: "TLS", name: "툴루즈", sub: "에어버스 A320, A330, A350 조립", lat: 43.6291, lon: 1.3638, kind: "airbus" },
     { id: "xfw", code: "XFW", name: "함부르크", sub: "에어버스 A320 패밀리 조립", lat: 53.5353, lon: 9.8356, kind: "airbus" },
     { id: "tsn", code: "TSN", name: "톈진", sub: "에어버스 A320 패밀리 조립", lat: 39.1244, lon: 117.3462, kind: "airbus" },
-    { id: "bfm", code: "BFM", name: "모빌", sub: "에어버스 A220 · A320 조립", lat: 30.6268, lon: -88.0681, kind: "airbus" },
+    { id: "bfm", code: "BFM", name: "모빌", sub: "에어버스 A220, A320 조립", lat: 30.6268, lon: -88.0681, kind: "airbus" },
     { id: "ymx", code: "YMX", name: "미라벨", sub: "에어버스 A220 조립", lat: 45.6795, lon: -74.0387, kind: "airbus" }
   ];
   const placeById = {}; PLACES.forEach(p => { placeById[p.id] = p; });
@@ -124,8 +124,8 @@
   }
 
   /* ---------- 표시 형식 ---------- */
-  const kst = iso => { const d = new Date(iso); if (isNaN(d)) return "—"; const k = new Date(d.getTime() + 9 * 3600000); return `${k.getUTCMonth() + 1}월 ${k.getUTCDate()}일 ${String(k.getUTCHours()).padStart(2, "0")}:${String(k.getUTCMinutes()).padStart(2, "0")} KST`; };
-  const altTxt = a => a.alt_baro === "ground" ? "지상" : typeof a.alt_baro === "number" ? fmt(a.alt_baro) + " ft" : "—";
+  const kst = iso => { const d = new Date(iso); if (isNaN(d)) return "-"; const k = new Date(d.getTime() + 9 * 3600000); return `${k.getUTCMonth() + 1}월 ${k.getUTCDate()}일 ${String(k.getUTCHours()).padStart(2, "0")}:${String(k.getUTCMinutes()).padStart(2, "0")} KST`; };
+  const altTxt = a => a.alt_baro === "ground" ? "지상" : typeof a.alt_baro === "number" ? fmt(a.alt_baro) + " ft" : "-";
   const phase = a => a.alt_baro === "ground" ? "지상" : (a.baro_rate || 0) > 500 ? "상승" : (a.baro_rate || 0) < -500 ? "강하" : "순항";
   const isKal = a => String(a.flight || "").indexOf("KAL") === 0;
   const shown = () => LV.ac.filter(a => LV.filter === "all" || (LV.filter === "ours" ? !!famOf(a.t) : isKal(a))).sort((a, b) => String(a.flight || "~").localeCompare(String(b.flight || "~")));
@@ -147,12 +147,12 @@
     const d = cv.d, s = d.src || {}, st = (label, val, unit) => `<div class="kv"><span class="lbl">${label}</span><span class="val">${val}<small> ${unit}</small></span></div>`;
     return `<div class="kvs live-kvs">${st("지금 추적 중", fmt(d.now || 0), "대")}${st("그중 지상", fmt(d.gnd || 0), "대")}${st("지난 24시간", fmt(d.a24 || 0), "대")}${st("시간당 최대", fmt(d.peak || 0), "대")}</div>
 <div class="live-sec"><p class="lbl">${ICON.chart}시간대별 항공기 수 (KST)</p>${hourlyChart(cv)}</div>
-<div class="live-sec"><p class="lbl">${ICON.map}통과 밀도 (지도의 격자, 0.1°)</p><div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div></div>
-<div class="live-sec small muted">반경 100 km 기준. 수신 방식 ADS-B ${fmt(s.adsb || 0)} · MLAT ${fmt(s.mlat || 0)}. 주변 수신기 ${fmt(d.rx || 0)}대, 전체 네트워크 ${fmt(d.net || 0)}대.<br>${cv.src === "live" ? `<span class="pill ok">LIVE</span> ${esc(kst(d.g))} 갱신` : `<span class="pill off">스냅샷</span> ${esc(kst(d.g))}에 수집한 실제 값`}</div>`;
+<div class="live-sec"><p class="lbl">${ICON.map}교통 밀도 (지난 24시간 통과 기록)</p><div class="heat-leg"><span>낮음</span><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><i class="h5"></i><span>높음</span></div></div>
+<div class="live-sec small muted">반경 100 km 기준. 수신 방식은 ADS-B ${fmt(s.adsb || 0)}, MLAT ${fmt(s.mlat || 0)}. 주변 수신기 ${fmt(d.rx || 0)}대, 전체 네트워크 ${fmt(d.net || 0)}대.<br>${cv.src === "live" ? `<span class="pill ok">LIVE</span> ${esc(kst(d.g))} 갱신` : `<span class="pill off">스냅샷</span> ${esc(kst(d.g))}에 수집한 실제 값`}</div>`;
   }
   function acRow(a) {
     const fam = famOf(a.t), ac = fam ? byId[fam] : null;
-    return `<button type="button" class="ac-row${LV.sel === a.hex ? " on" : ""}${ac ? " mk-" + ac.maker : ""}" data-live="sel:${esc(a.hex)}" id="acrow-${esc(a.hex)}"><span class="dot"></span><span class="cs">${esc(a.flight || a.r || a.hex)}</span><span class="code">${esc(a.t || "—")}</span><span class="alt">${esc(altTxt(a))}</span>${a.route && a.route.from_iata ? `<span class="rt">${esc(a.route.from_iata)}→${esc(a.route.to_iata || "?")}</span>` : `<span class="rt">${esc(a.r || "")}</span>`}</button>`;
+    return `<button type="button" class="ac-row${LV.sel === a.hex ? " on" : ""}${ac ? " mk-" + ac.maker : ""}" data-live="sel:${esc(a.hex)}" id="acrow-${esc(a.hex)}"><span class="dot"></span><span class="cs">${esc(a.flight || a.r || a.hex)}</span><span class="code">${esc(a.t || "-")}</span><span class="alt">${esc(altTxt(a))}</span>${a.route && a.route.from_iata ? `<span class="rt">${esc(a.route.from_iata)}→${esc(a.route.to_iata || "?")}</span>` : `<span class="rt">${esc(a.r || "")}</span>`}</button>`;
   }
   function aircraftTab() {
     const L = shown(), demo = LV.acSrc !== "live";
@@ -168,17 +168,17 @@ ${demo ? `<p class="live-demo">${ICON.info}<span><b>예시 항공편입니다.</
     return `<div class="fp-h live-dh"><button type="button" class="btn ghost" data-live="back" id="live-back">← 전체 항공편</button>${srcBadge()}</div>
 <div class="fp-list">
 ${p ? `<div class="fl-shot">${pimg(p, true, ac.name)}<span>${esc(ac.name)} 자료 사진</span></div>` : ""}
-<div class="legs"><div class="leg"><span class="lbl">콜사인</span><span class="big">${esc(a.flight || "—")}</span><small>${esc(a.r || "")}</small></div><div class="leg"><span class="lbl">기종</span><span class="big">${esc(a.t || "—")}</span><small>${ac ? `<a class="ext" href="#${ac.id}">${esc(ac.name)}</a>` : "수록되지 않은 기종"}</small></div></div>
+<div class="legs"><div class="leg"><span class="lbl">콜사인</span><span class="big">${esc(a.flight || "-")}</span><small>${esc(a.r || "")}</small></div><div class="leg"><span class="lbl">기종</span><span class="big">${esc(a.t || "-")}</span><small>${ac ? `<a class="ext" href="#${ac.id}">${esc(ac.name)}</a>` : "수록되지 않은 기종"}</small></div></div>
 ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span><span class="val">${esc(a.route.from_iata)} → ${esc(a.route.to_iata || "?")}</span></div><p class="small muted" style="margin:0">${a.demo ? "시연용 예시 노선입니다." : "최근 7일 기록에서 가장 잦았던 노선입니다. 운항 스케줄이 아닙니다."}</p></div>` : `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span></div></div>`}
-<div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상 속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> · ${fmt(kmh)} km/h</small>` : "—")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "—")}${kv(ICON.chart, "상승·강하율", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "—")}${kv(ICON.info, "스퀵", esc(a.squawk || "—"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")} · ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
+<div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상 속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> (${fmt(kmh)} km/h)</small>` : "-")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "-")}${kv(ICON.chart, "승강률", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "-")}${kv(ICON.info, "스퀵", esc(a.squawk || "-"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")}, ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
 <div class="live-sec"><button type="button" class="btn" data-live="trail" id="live-trail">${ICON.route}${a.demo ? "예시 경로 보기" : "오늘 궤적 보기"}</button>${LV.trailNote ? `<p class="small muted" style="margin:8px 0 0">${esc(LV.trailNote)}</p>` : ""}</div>
 </div>`;
   }
   function livePanel() {
     const sel = LV.sel ? LV.ac.find(a => a.hex === LV.sel) : null;
     if (sel) return detailView(sel);
-    const grp = (label, kind) => `<optgroup label="${label}">${PLACES.filter(p => p.kind === kind).map(p => `<option value="${p.id}" ${LV.place === p.id ? "selected" : ""}>${p.code} · ${esc(p.name)}</option>`).join("")}</optgroup>`;
-    const fam = mk => `<optgroup label="${makerName(mk)}">${AIRCRAFT.filter(a => a.maker === mk).map(a => `<option value="${a.id}" ${LV.typeId === a.id ? "selected" : ""}>${ICAO[a.id]} · ${esc(a.name)}</option>`).join("")}</optgroup>`;
+    const grp = (label, kind) => `<optgroup label="${label}">${PLACES.filter(p => p.kind === kind).map(p => `<option value="${p.id}" ${LV.place === p.id ? "selected" : ""}>${p.code} ${esc(p.name)}</option>`).join("")}</optgroup>`;
+    const fam = mk => `<optgroup label="${makerName(mk)}">${AIRCRAFT.filter(a => a.maker === mk).map(a => `<option value="${a.id}" ${LV.typeId === a.id ? "selected" : ""}>${ICAO[a.id]} ${esc(a.name)}</option>`).join("")}</optgroup>`;
     const p = placeById[LV.place], n = shown().length;
     return `<div class="fp-h"><h2>${ICON.plane}실시간 운항</h2>
 <div class="seg wide" role="group" aria-label="조회 방식">${lbtn("scope:area", "공역", LV.scope === "area", "ls-area")}${lbtn("scope:type", "기종 추적", LV.scope === "type", "ls-type")}</div>
@@ -191,10 +191,10 @@ ${LV.scope === "area" ? `<select class="sel" id="live-place" aria-label="지점 
   function connCard() {
     const netTxt = LV.net === true ? `<span class="pill ok">가능</span>` : LV.net === false ? `<span class="pill off">차단됨</span> 이 게시 환경은 외부 호출을 막습니다` : `<span class="pill off">확인 중</span>`;
     return `${cardH(ICON.info, "FlyItalyADSB API 연결", `<button type="button" class="btn ghost" data-live="conn" id="live-conn-x">닫기</button>`)}<div class="card-b conn">
-<div class="conn-col"><dl class="facts"><div><dt class="lbl">외부 API 호출</dt><dd>${netTxt}</dd></div><div><dt class="lbl">24시간 교통량 (키 불필요)</dt><dd>${LV.net === true ? "실시간으로 받아 옵니다" : "수집해 둔 스냅샷을 보여 줍니다"}</dd></div><div><dt class="lbl">실시간 항공기 (키 필요)</dt><dd>${LV.acSrc === "live" ? "실시간 연결됨" : LV.key ? "키 저장됨. 아직 연결 전이거나 호출이 막혀 있습니다" : "키 없음. 예시 항공편을 보여 줍니다"}</dd></div>${LV.usage ? `<div><dt class="lbl">이번 달 사용량</dt><dd class="val">${esc(LV.usage.used || "?")} / ${esc(LV.usage.quota || "?")} · ${esc(LV.usage.plan || "")}</dd></div>` : ""}</dl>
+<div class="conn-col"><dl class="facts"><div><dt class="lbl">외부 API 호출</dt><dd>${netTxt}</dd></div><div><dt class="lbl">24시간 교통량 (키 불필요)</dt><dd>${LV.net === true ? "실시간으로 받아 옵니다" : "수집해 둔 스냅샷을 보여 줍니다"}</dd></div><div><dt class="lbl">실시간 항공기 (키 필요)</dt><dd>${LV.acSrc === "live" ? "실시간 연결됨" : LV.key ? "키 저장됨. 아직 연결 전이거나 호출이 막혀 있습니다" : "키 없음. 예시 항공편을 보여 줍니다"}</dd></div>${LV.usage ? `<div><dt class="lbl">이번 달 사용량</dt><dd class="val">${esc(LV.usage.used || "?")} / ${esc(LV.usage.quota || "?")}${LV.usage.plan ? " (" + esc(LV.usage.plan) + ")" : ""}</dd></div>` : ""}</dl>
 <form id="fia-form" class="keyform" autocomplete="off"><label class="lbl" for="fia-key">내 API 키 (X-Api-Key)</label><div class="keyrow"><input id="fia-key" type="password" placeholder="발급받은 키를 붙여 넣으세요" autocomplete="off" spellcheck="false"><button type="submit" class="btn" id="fia-save">저장하고 연결</button>${LV.key ? `<button type="button" class="btn ghost" data-live="keydel" id="fia-del">키 삭제</button>` : ""}</div><p class="small muted">키는 이 브라우저의 저장소에만 남고 FlyItalyADSB 외의 어디로도 보내지 않습니다. 여러 사람이 쓰는 공개 사이트라면 키를 페이지에 두지 말고 서버에서 호출하세요.</p></form></div>
 <div class="conn-col"><h3>연결 순서</h3><ol class="steps"><li><a class="ext" href="https://flyitalyadsb.com/data/api/#api-key" target="_blank" rel="noopener">flyitalyadsb.com/data/api</a>에서 이메일을 넣고, 받은 링크에서 키를 확인합니다. 무료이며 승인 절차가 없습니다.</li><li>첨부된 단독 파일(jetliner-hub.html)을 PC나 내 서버에서 엽니다. 이 게시 링크에서는 외부 호출이 막혀 있습니다.</li><li>이 화면에 키를 붙여 넣고 저장합니다. 항공기 목록이 30초마다 실시간으로 바뀝니다.</li></ol>
-<p class="lbl" style="margin-top:12px">무료 키 한도</p><p class="small">분당 30회 · 월 30만 회 · 한 번에 반경 500 km. 이 화면은 공역 조회에 30초마다 1회, 기종 추적에 60초마다 형식당 1회를 씁니다.</p>
+<p class="lbl" style="margin-top:12px">무료 키 한도</p><p class="small">분당 30회, 월 30만 회, 한 번에 반경 500 km까지입니다. 이 화면은 공역 조회에 30초마다 1회, 기종 추적에 60초마다 형식당 1회를 씁니다.</p>
 <p class="lbl" style="margin-top:12px">이 화면이 부르는 주소</p><pre class="codeblk">GET ${FIA}/api/coverage?lat=37.46&amp;lon=126.44&amp;radius=100
 GET ${FIA}/v2/lat/37.46/lon/126.44/dist/250?with=route
 GET ${FIA}/v2/type/B748?with=route
@@ -215,7 +215,10 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       const cv = coverOf(pl.id);
       if (cv && LV.tab === "traffic" && !LV.sel && pxDeg > 12) {
         const st = heatSteps(cv), h = cv.d.deg / 2;
-        cv.d.cells.forEach(c => { const a = P(c[0] / 100 + h, c[1] / 100 - h), b = P(c[0] / 100 - h, c[1] / 100 + h); if (!a || !b || !inV(a)) return; const k = c[2] > st[3] ? 5 : c[2] > st[2] ? 4 : c[2] > st[1] ? 3 : c[2] > st[0] ? 2 : 1; o += `<rect class="hc h${k}" x="${N(a.x)}" y="${N(a.y)}" width="${N(Math.max(1, b.x - a.x - 0.6))}" height="${N(Math.max(1, b.y - a.y - 0.6))}"/>`; });
+        // 열지도: 칸마다 점을 쌓아 밀도를 만들고 색 띠로 바꿔 한 장의 그림으로 얹는다
+        let cell = 0; cv.d.cells.slice(0, 3).forEach(c => { const a2 = P(c[0] / 100 + h, c[1] / 100 - h), b2 = P(c[0] / 100 - h, c[1] / 100 + h); if (a2 && b2) cell = Math.max(cell, b2.x - a2.x); });
+        const hp = heatPts(cv, (la, lo) => { const q = P(la, lo); return q && inV(q) ? q : null; }, cell);
+        if (hp.length) o += `<image class="heat-img" href="${heatCanvas(hp, W, H).toDataURL()}" x="0" y="0" width="${W}" height="${H}"/>`; void st;
       }
       const ring = (km, cls) => { let d = ""; for (let i = 0; i <= 60; i++) { const g = destPt(pl.lat, pl.lon, i * 6, km), q = P(g[0], g[1]); if (!q) return ""; d += (i ? "L" : "M") + N(q.x) + " " + N(q.y); } const t = P.apply(null, destPt(pl.lat, pl.lon, 0, km)); return `<path class="ring ${cls}" d="${d}Z"/>${t ? `<text class="ringlab" x="${N(t.x)}" y="${N(t.y - 4)}" text-anchor="middle">${km} km</text>` : ""}`; };
       if (pxDeg > 6) { o += ring(100, "r1"); if (LV.tab === "aircraft" || LV.sel) o += ring(LV.radius, "r2"); }
@@ -224,9 +227,16 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     if (pxDeg > 14) Object.keys(AP).forEach(k => { if (k === pl.code) return; const q = P(AP[k][0], AP[k][1]); if (inV(q)) o += `<g class="apt"><rect x="${N(q.x - 2.5)}" y="${N(q.y - 2.5)}" width="5" height="5"/><text x="${N(q.x + 6)}" y="${N(q.y + 4)}">${k}</text></g>`; });
     if (LV.trail && LV.trail.length > 1) { let d = "", pen = false, prev = null; LV.trail.forEach(t => { const q = P(t[0], t[1]); if (!q || (prev && Math.abs(q.x - prev.x) > W * 0.6)) { pen = false; prev = q; return; } d += (pen ? "L" : "M") + N(q.x) + " " + N(q.y); pen = true; prev = q; }); if (d) o += `<path class="trail" d="${d}"/>`; }
     const showAc = LV.scope === "type" || LV.tab === "aircraft" || LV.sel;
+    // 기체 뒤 꼬리: 지나온 자리, 오래된 쪽일수록 옅게
+    if (showAc && typeof tailOf === "function") shown().forEach(a => { const T = tailOf(a); if (!T) return; let prev = null; T.forEach((q, j) => { const p = P(q[0], q[1]); if (p && prev && Math.abs(p.x - prev.x) < W * 0.5) o += `<line class="ac-tail" x1="${N(prev.x)}" y1="${N(prev.y)}" x2="${N(p.x)}" y2="${N(p.y)}" style="stroke-opacity:${(j / T.length * 0.6).toFixed(2)};stroke-width:${(1 + j / T.length * 1.6).toFixed(1)}"/>`; prev = p; }); });
+    if (showAc && typeof acRoute === "function") shown().forEach(a => { if (!routeWanted(a)) return; const r = acRoute(a); if (!r) return; const on = LV.sel === a.hex;
+      const line = L => { let d = "", pen = false, prev = null; L.forEach(p => { const q = P(p[0], p[1]); if (!q || (prev && Math.abs(q.x - prev.x) > W * 0.5)) { pen = false; prev = q; return; } d += (pen ? "L" : "M") + N(q.x) + " " + N(q.y); pen = true; prev = q; }); return d; };
+      const d1 = line(r.done), d2 = line(r.left); if (d1) o += `<path class="rte${on ? " on" : ""}" d="${d1}"/>`; if (d2) o += `<path class="rte rem${on ? " on" : ""}" style="stroke-dashoffset:${N(-(performance.now() / 70) % 14)}" d="${d2}"/>`;
+      [r.from, r.to].forEach(p => { const q = P(p[0], p[1]); if (inV(q)) o += `<circle class="rte-ap${on ? " on" : ""}" cx="${N(q.x)}" cy="${N(q.y)}" r="${on ? 3.2 : 2}"/>`; }); });
     if (showAc) shown().forEach(a => { const q = P(a.lat, a.lon); if (!inV(q)) return; const fam = famOf(a.t), ac = fam ? byId[fam] : null, on = LV.sel === a.hex;
-      o += `<g class="plane${ac ? " mk-" + ac.maker : ""}${on ? " on" : ""}" data-live="sel:${esc(a.hex)}" data-tip="${esc(`<b>${esc(a.flight || a.r || a.hex)}</b> · ${esc(a.t || "?")}<br>${esc(altTxt(a))} · ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}${a.demo ? "<br>예시 항공편" : ""}`)}" transform="translate(${N(q.x)} ${N(q.y)})">${on ? `<circle class="selring" r="15"/>` : ""}<circle class="hitc" r="11"/><path d="${PLANE}" transform="rotate(${Math.round(a.track || 0)}) scale(${on ? 1.35 : 1})"/>${on ? `<text y="-20" text-anchor="middle">${esc(a.flight || a.r || "")}</text>` : ""}</g>`; });
+      o += `<g class="plane${ac ? " mk-" + ac.maker : ""}${on ? " on" : ""}" data-live="sel:${esc(a.hex)}" data-tip="${esc(`<b>${esc(a.flight || a.r || a.hex)}</b> ${esc(a.t || "?")}<br>${esc(altTxt(a))} ${typeof a.gs === "number" ? Math.round(a.gs) + " kt" : ""}${a.demo ? "<br>예시 항공편" : ""}`)}" transform="translate(${N(q.x)} ${N(q.y)})"><circle class="hitc" r="11"/><path d="${PLANE}" transform="rotate(${Math.round(a.track || 0)}) scale(${on ? 1.35 : 1})"/>${on ? `<text y="-20" text-anchor="middle">${esc(a.flight || a.r || "")}</text>` : ""}</g>`; });
     ov.innerHTML = o;
+    if (typeof lv3dDirty === "function") lv3dDirty();
   }
   const queueDraw = () => { if (liveRaf) return; liveRaf = requestAnimationFrame(() => { liveRaf = 0; drawLive(); }); };
   function focusLive(animate) {
@@ -246,7 +256,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     const pn = $("#live-panel"); if (!pn) return;
     const keep = pn.querySelector(".fp-list"), vk = LV.sel ? "detail" : LV.scope + ":" + LV.tab, y = keep && pn.getAttribute("data-vk") === vk ? keep.scrollTop : 0; pn.setAttribute("data-vk", vk);
     pn.innerHTML = livePanel(); const nl = pn.querySelector(".fp-list"); if (nl) nl.scrollTop = y;
-    const bd = $("#live-badge"); if (bd) { const liveAc = LV.acSrc === "live", liveCv = LV.net === true; bd.className = "pill " + (liveAc || liveCv ? "ok" : "off"); bd.textContent = liveAc ? "LIVE" : liveCv ? "교통량 LIVE · 항공기 예시" : LV.net === false ? "스냅샷 · 예시" : "확인 중"; }
+    const bd = $("#live-badge"); if (bd) { const liveAc = LV.acSrc === "live", liveCv = LV.net === true; bd.className = "pill " + (liveAc || liveCv ? "ok" : "off"); bd.textContent = liveAc ? "LIVE" : liveCv ? "교통량 LIVE, 항공기 예시" : LV.net === false ? "스냅샷, 예시" : "확인 중"; }
     const cc = $("#live-conn-card"); if (cc) { cc.hidden = !LV.conn; if (LV.conn && !cc.contains(document.activeElement)) cc.innerHTML = connCard(); }
     queueDraw();
   }
@@ -317,11 +327,11 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
   /* ---------- 대시보드 · 기종 페이지 조각 ---------- */
   function liveTile(id) {
     const p = placeById[id], cv = coverOf(id), d = cv ? cv.d : null;
-    return `<button type="button" class="lv-tile" data-live="goto:area/${id}" id="lv-${id}"><span class="lv-top"><span class="box-code">${p.code}</span><span class="pill ${cv && cv.src === "live" ? "ok" : "off"}">${cv && cv.src === "live" ? "LIVE" : "스냅샷"}</span></span><span class="lv-name">${esc(p.name)}</span><span class="lv-n">${d ? fmt(d.now || 0) : "—"}<small>대 추적 중</small></span>${d ? sparkline(d.hourly) : ""}<span class="box-meta">24시간 ${d ? fmt(d.a24 || 0) : "—"}대 · 최대 ${d ? fmt(d.peak || 0) : "—"}대/시</span></button>`;
+    return `<button type="button" class="lv-tile" data-live="goto:area/${id}" id="lv-${id}"><span class="lv-top"><span class="box-code">${p.code}</span><span class="pill ${cv && cv.src === "live" ? "ok" : "off"}">${cv && cv.src === "live" ? "LIVE" : "스냅샷"}</span></span><span class="lv-name">${esc(p.name)}</span><span class="lv-n">${d ? fmt(d.now || 0) : "-"}<small>대 추적 중</small></span>${d ? sparkline(d.hourly) : ""}<span class="box-meta">24시간 ${d ? fmt(d.a24 || 0) : "-"}대, 최대 ${d ? fmt(d.peak || 0) : "-"}대/시</span></button>`;
   }
   function liveStrip() {
     const cv = coverOf("icn");
-    return `<section class="card c12" id="live-strip">${cardH(ICON.plane, "실시간 공역", `<span class="hint">${cv ? esc(kst(cv.d.g)) + " 기준 · " : ""}반경 100 km</span><a class="ext small" href="#live">지도에서 보기 →</a>`)}<div class="lv-tiles" id="lv-tiles">${["icn", "gmp", "cju", "pus"].map(liveTile).join("")}</div><p class="lv-credit">${esc(FIA_CREDIT)}</p></section>`;
+    return `<section class="card c12" id="live-strip">${cardH(ICON.plane, "실시간 공역", `<span class="hint">${cv ? esc(kst(cv.d.g)) + " 기준, " : ""}반경 100 km</span><a class="ext small" href="#live">지도에서 보기 →</a>`)}<div class="lv-tiles" id="lv-tiles">${["icn", "gmp", "cju", "pus"].map(liveTile).join("")}</div><p class="lv-credit">${esc(FIA_CREDIT)}</p></section>`;
   }
   async function initHomeLive() {
     if (LV.net === false) return;

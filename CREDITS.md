@@ -45,6 +45,21 @@ CC BY-SA 사진을 고친 파일은 원본과 같은 라이선스로 배포됩�
 - Flight data: [FlyItalyADSB](https://flyitalyadsb.com), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 - `src/cover.js` 는 수신 범위 스냅숏(2026-11-12 16:02 UTC)입니다. API 키 없이 볼 때 나오는 예시 항공편은 실제 비행이 아닙니다.
 
+## 사건사고 사진 (Wikimedia Commons, `photos/accidents/`)
+
+조종 매뉴얼의 사건사고 카드에 쓴 사진입니다. 크기를 줄여 WebP로 바꿨고, 원본 라이선스를 그대로 따릅니다.
+
+| 파일 | 원본 | 저작자 | 라이선스 |
+|---|---|---|---|
+| `photos/accidents/ac143.webp` | [사고 1년 뒤 토론토의 "김리 글라이더" C-GAUN (1984)](https://commons.wikimedia.org/wiki/File:C-GAUN_604_Boeing_767-233_Air_Canada,_the_%22Gimli_Glider%22,_Toronto,_July_14_1984._(5530418110).jpg) | Andrew Thomas from Shrewsbury, UK, CC BY-SA 2.0, via Wikimedia Commons | CC BY-SA 2.0 |
+| `photos/accidents/qf32.webp` | [콴타스 32편 A380 2번 엔진(트렌트 900)의 비격납 파손](https://commons.wikimedia.org/wiki/File:Qantas_Flight_32_engine_damage_-_4_Nov_2010.jpg) | Australian Transport Safety Bureau, CC BY-SA 3.0 AU, via Wikimedia Commons | CC BY-SA 3.0 au |
+| `photos/accidents/ua232.webp` | [사고 9년 전 뉴어크의 유나이티드 DC-10 N1819U (1980)](https://commons.wikimedia.org/wiki/File:N1819U_McDonnell_Douglas_DC-10-10_United_Airlines,_Newark_International_Airport_1980.jpg) | Paul Seymour, CC BY-SA 4.0, via Wikimedia Commons | CC BY-SA 4.0 |
+| `photos/accidents/tenerife.webp` | [테네리페 참사 국제 추모비 (루디 반 데 빈트 작)](https://commons.wikimedia.org/wiki/File:International_Tenerife_Memorial_March_27,_1977.jpg) | Jesús Manuel Pérez Triana (CC0), via Wikimedia Commons | CC0 |
+
+## 조종 매뉴얼 그림 (`photos/manual/`)
+
+상황별 대응과 경험과 요령에 쓴 그림은 Codex(GPT 이미지 생성)로 만든 것입니다. 실제 항공사의 상표나 도색은 넣지 않았습니다.
+
 ## 지구본 (`src/world.js`, 비행 지도 페이지)
 
 - 국가 경계: [Natural Earth](https://www.naturalearthdata.com/) 1:110m (퍼블릭 도메인), [world-atlas](https://github.com/topojson/world-atlas) 2.0.2 (ISC)에서 변환
