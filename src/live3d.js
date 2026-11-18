@@ -78,7 +78,7 @@
     if (h !== "live") { lv3dStop(); return; }
     const wrap = document.querySelector("#livecard .livewrap"); if (!wrap || wrap.querySelector(".lv-view")) return;
     if (typeof d3 === "undefined" || !d3.geoOrthographic || typeof topojson === "undefined" || typeof WORLD_TOPO === "undefined") return;
-    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><div class="lv-acleg" aria-label="항공기 색"><span><i style="background:var(--boeing)"></i>보잉</span><span><i style="background:var(--airbus)"></i>에어버스</span><span><i style="background:#fcd34d"></i>그 밖의 기종</span><span><i style="background:#fde047;box-shadow:0 0 0 2px rgba(253,224,71,.4)"></i>고른 기체</span></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
+    wrap.insertAdjacentHTML("beforeend", `<div class="lv-view" role="group" aria-label="지도 보기"><button type="button" data-lv3="2d">2D 지도</button><button type="button" data-lv3="3d">3D 지구본</button></div><div class="lv-acleg" aria-label="항공기 색"><span><i style="background:var(--boeing)"></i>보잉</span><span><i style="background:var(--airbus)"></i>에어버스</span><span><i style="background:#fcd34d"></i>기타 기종</span><span><i style="background:#fde047;box-shadow:0 0 0 2px rgba(253,224,71,.4)"></i>고른 기체</span></div><canvas class="lv3d" id="lv3d" role="img" aria-label="실시간 항공기 3D 지구본" hidden></canvas><div class="lv3d-zoom" hidden><button type="button" data-lv3="in" aria-label="확대">+</button><button type="button" data-lv3="out" aria-label="축소">−</button><button type="button" data-lv3="home" aria-label="지점으로 돌아가기">⌖</button></div>`);
     LV3.cv = wrap.querySelector("#lv3d"); LV3.ctx = LV3.cv.getContext("2d"); LV3.focusKey = "";
     LV3.ro = "ResizeObserver" in window ? new ResizeObserver(() => { lv3dSize(); lv3dDirty(); }) : null; if (LV3.ro) LV3.ro.observe(LV3.cv);
     lv3dWire(); lv3dMode(LV3.on); motionStart();
@@ -137,6 +137,8 @@
     LV3.fly = requestAnimationFrame(step);
   }
   function lv3dDraw() {
+    // 안전장치: 배율이나 회전값이 숫자가 아니게 되면(터치 확대 등) 지구본이 사라지므로 지금 지점으로 다시 맞춘다
+    if (!isFinite(LV3.k) || LV3.k <= 0 || !LV3.rot || !LV3.rot.every(isFinite)) { LV3.k = 1.15; LV3.kt = 1.15; LV3.rot = [-127, -28, 0]; try { lv3dFocus(false); } catch (e) { /* 무시 */ } }
     if (!LV3.cB) { const cs = getComputedStyle(document.documentElement); LV3.cB = cs.getPropertyValue("--boeing").trim() || "#4690e8"; LV3.cA = cs.getPropertyValue("--airbus").trim() || "#e2602c"; }
     LV3.raf = 0; if (!LV3.on || !LV3.cv || !LV3.dirty) return; LV3.dirty = false;
     if (!LV3.W || !LV3.H) { lv3dSize(); if (!LV3.W) return; }
@@ -243,7 +245,7 @@
       });
     }
     c.font = "500 11.5px " + getComputedStyle(document.body).fontFamily; c.fillStyle = "rgba(203,220,240,.75)";
-    c.fillText(showAc ? `항공기 ${fmt(LV3.hits.length)}대, 떠 있는 높이는 고도에 비례(과장)` : "끌어서 돌리기, 휠로 확대", 14, LV3.H - 14);
+    if (!(showAc && LV3.W < 520)) c.fillText(showAc ? `항공기 ${fmt(LV3.hits.length)}대, 떠 있는 높이는 고도에 비례(과장)` : "끌어서 돌리기, 휠로 확대", 14, LV3.H - 14);
   }
   function lv3dHit(e) { const r = LV3.cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null, bd = 14 * 14; LV3.hits.forEach(h => { const d = (h.x - x) * (h.x - x) + (h.y - y) * (h.y - y); if (d < bd) { bd = d; best = h; } }); return best; }
   function lv3dWire() {

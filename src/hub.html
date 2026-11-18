@@ -943,7 +943,7 @@ html.plane-cur input:not([type=range]):not([type=checkbox]),html.plane-cur texta
 .lv3d-zoom[hidden]{display:none}
 .lv3d-zoom button{width:30px;height:30px;border-radius:8px;border:1px solid #33507a;background:rgba(15,30,55,.85);color:#dbeafe;font-size:16px;cursor:pointer}
 .lv3d-hint{left:344px}
-@media (max-width:760px){ .lv3d{position:relative;inset:auto;width:100%;height:340px;order:-1;flex:none} .lv-view{left:12px;top:12px} .livewrap.is-3d .livemap{display:none} .lv3d-hint{left:0;height:340px} }
+@media (max-width:900px){ .lv3d{position:relative;inset:auto;width:100%;height:340px;order:-1;flex:none} .lv-view{left:12px;top:12px} .livewrap.is-3d .livemap{display:none} .lv3d-hint{left:0;height:340px} }
 /* ---------- 실시간 운항: 항공기 경로 ---------- */
 .live-ov .rte{fill:none;stroke:rgba(252,211,77,.62);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .live-ov .rte.rem{stroke:rgba(203,220,240,.42);stroke-dasharray:3 4}
@@ -1385,7 +1385,8 @@ a.abw:hover{background:var(--primary-soft)}
 .lv3d.on-ap{cursor:pointer}
 .lv-acleg{position:absolute;right:58px;bottom:14px;z-index:6;display:none;flex-wrap:wrap;gap:6px 12px;padding:7px 11px;border-radius:9px;background:rgba(8,16,30,.72);color:#dbe6f5;font-size:11.5px;pointer-events:none}
 #livecard.show-ac .lv-acleg{display:flex}
-@media (max-width:760px){.lv-acleg{right:52px;left:auto;bottom:10px;max-width:calc(100% - 110px);font-size:10.5px;gap:4px 9px} .livewrap.is-3d .lv-acleg{top:296px;bottom:auto}}
+.lv-acleg{flex-wrap:nowrap!important;white-space:nowrap}
+@media (max-width:900px){.lv-acleg{left:10px;right:auto;top:304px;bottom:auto;max-width:calc(100% - 66px);font-size:10px;gap:8px;padding:5px 9px;overflow:hidden} .lv-acleg i{width:7px;height:7px}}
 .lv-acleg span{display:flex;align-items:center;gap:5px} .lv-acleg i{width:8px;height:8px;border-radius:50%}
 /* ---------- 패스포트 ---------- */
 :root{--pp-paper:#f7f2e6;--pp-paper2:#efe6d1;--pp-line:rgba(120,96,50,.13);--pp-ink-fg:#2a2925;--pp-gold:#b8933a}
