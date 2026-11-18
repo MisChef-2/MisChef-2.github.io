@@ -126,3 +126,25 @@ ${[0, 25, 50, 75, 100].map(q => `<line x1="${R(q)}" y1="-12" x2="${R(q)}" y2="12
   LEARN_TITLES["learn-speed"] = "속도의 종류"; LEARN_TITLES["learn-cg"] = "무게중심과 안정성";
   LEARN_UPD["learn-speed"] = lrSpeed; LEARN_UPD["learn-cg"] = lrCg;
   Object.keys(LEARN_PAGES).forEach(k => { const f = LEARN_PAGES[k]; LEARN_PAGES[k] = () => { const html = f(), end = html.lastIndexOf('<section class="card c12"><p class="lr-note">'); return end > 0 ? html.slice(0, end) + lrQuizHtml(k) + html.slice(end) : html.replace(/<\/div>\s*$/, lrQuizHtml(k) + "</div>"); }; });
+
+  /* ---------- 플랩과 슬랫: 날개 어디에 달려 있나 (위에서 본 그림) ---------- */
+  const LR_WHERE = () => { const mk = (x, y, n, c) => `<g class="mk"><circle cx="${x}" cy="${y}" r="11" fill="${c}"/><text x="${x}" y="${y + 4}" text-anchor="middle">${n}</text></g>`;
+    return `<section class="card c12">${cardH(ICON.wing, "슬랫과 플랩은 날개 어디에 있나", `<span class="hint">위에서 본 오른쪽 날개, 대략적인 배치</span>`)}<div class="card-b lr-where-b"><svg class="lr-where" viewBox="0 0 520 210" role="img" aria-label="위에서 본 날개에서 슬랫, 플랩, 에일러론, 스포일러 위치">
+<rect x="8" y="22" width="40" height="170" rx="20" class="fus"/>
+<path d="M48 40 L470 150 L484 156 L484 166 L340 166 L190 132 L48 132 Z" class="wing"/>
+<path d="M52 40 L468 148 L465 154 L50 47 Z" class="slat"/>
+<path d="M50 132 L188 132 L188 140 L50 140 Z M192 133 L320 162 L320 170 L192 141 Z" class="flap"/>
+<path d="M324 162 L410 166 L410 173 L324 170 Z" class="ail"/>
+<path d="M86 122 L180 122 L180 128 L86 128 Z M198 126 L300 150 L300 156 L198 132 Z" class="spl"/>
+<path d="M500 30 v44" class="arr"/><path d="M500 80 l-5 -9 h10z" class="arrh"/><text x="492" y="26" text-anchor="end" class="lab">공기</text>
+${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#2563eb")}${mk(372, 188, 4, "#64748b")}${mk(150, 110, 5, "#d97706")}
+</svg><ol class="lr-where-l">
+<li><i style="background:#3b82f6"></i><b>슬랫</b><span>날개 앞쪽 끝 전체. 앞아래로 미끄러져 나옵니다.</span></li>
+<li><i style="background:#3b82f6"></i><b>안쪽 플랩</b><span>날개 뒤쪽 끝, 동체에 가까운 쪽.</span></li>
+<li><i style="background:#3b82f6"></i><b>바깥쪽 플랩</b><span>안쪽 플랩 바로 바깥. 함께 뒤아래로 나옵니다.</span></li>
+<li><i style="background:#94a3b8"></i><b>에일러론</b><span>날개 끝 쪽 뒤쪽 끝. 좌우로 기울일 때 씁니다.</span></li>
+<li><i style="background:#f59e0b"></i><b>스포일러</b><span>날개 윗면. 위로 세워 양력을 줄입니다.</span></li>
+</ol></div></section>`; };
+  // '어디에 있나'와 '단면으로 보기'를 한 줄에 나란히
+  { const f = LEARN_PAGES["learn-highlift"]; LEARN_PAGES["learn-highlift"] = () => { let h = f(); const sa = h.indexOf('<section class="card c12 lr-sec2">'); let sec = ""; if (sa >= 0) { const sb = h.indexOf("</section>", sa) + "</section>".length; sec = h.slice(sa, sb).replace('class="card c12 lr-sec2"', 'class="card lr-sec2"'); h = h.slice(0, sa) + h.slice(sb); }
+    const i = h.indexOf("</section>", h.indexOf("lr-stage")) + "</section>".length; return i > 20 ? h.slice(0, i) + `<div class="c12 lr-wrow">${LR_WHERE().replace('class="card c12"', 'class="card"')}${sec}</div>` + h.slice(i) : h; }; }

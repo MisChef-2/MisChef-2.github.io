@@ -151,18 +151,27 @@
     // 별: 한 번 만든 자리에 고정
     if (!LV3.stars) LV3.stars = Array.from({ length: 140 }, () => [Math.random(), Math.random(), Math.random() * 1.1 + 0.2, Math.random() * 0.6 + 0.2]);
     LV3.stars.forEach(t => { c.fillStyle = `rgba(220,232,255,${t[3]})`; c.fillRect(t[0] * LV3.W, t[1] * LV3.H, t[2], t[2]); });
-    // 대기 빛과 바다
-    let g = c.createRadialGradient(cx, cy, R * 0.97, cx, cy, R * 1.17); g.addColorStop(0, "rgba(96,165,250,.34)"); g.addColorStop(1, "rgba(96,165,250,0)");
-    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R * 1.17, 0, 7); c.fill();
-    g = c.createRadialGradient(cx - R * .35, cy - R * .4, R * .08, cx, cy, R); g.addColorStop(0, "#23406a"); g.addColorStop(1, "#0c182b");
+    // 대기 빛: 바깥으로 갈수록 옅어지는 두 겹(파랑 + 청록 테두리)
+    let g = c.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.22); g.addColorStop(0, "rgba(125,211,252,.42)"); g.addColorStop(0.25, "rgba(96,165,250,.18)"); g.addColorStop(1, "rgba(59,130,246,0)");
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R * 1.22, 0, 7); c.fill();
+    // 바다: 왼쪽 위가 밝은 깊은 파랑
+    g = c.createRadialGradient(cx - R * .38, cy - R * .42, R * .05, cx, cy, R * 1.02); g.addColorStop(0, "#2a5c93"); g.addColorStop(0.55, "#163a63"); g.addColorStop(1, "#0a1b33");
     c.fillStyle = g; c.beginPath(); path({ type: "Sphere" }); c.fill();
-    if (w.grat) { c.beginPath(); path(w.grat); c.strokeStyle = "rgba(148,163,184,.12)"; c.lineWidth = 1; c.stroke(); }
-    c.beginPath(); path(w.land); c.fillStyle = "#31445c"; c.fill();
-    c.beginPath(); path(w.borders); c.strokeStyle = "rgba(170,184,202,.3)"; c.lineWidth = .6; c.stroke();
-    // 밤인 쪽: 지금 시각의 해 위치로 낮밤 경계를 그린다
-    { const now = new Date(), y0 = Date.UTC(now.getUTCFullYear(), 0, 0), day = (now - y0) / 864e5, decl = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10)), sunLon = (12 - (now.getUTCHours() + now.getUTCMinutes() / 60)) * 15;
-      c.beginPath(); path(d3.geoCircle().center([sunLon + 180, -decl]).radius(90)()); c.fillStyle = "rgba(2,6,22,.42)"; c.fill(); }
-    g = c.createRadialGradient(cx, cy, R * 0.55, cx, cy, R); g.addColorStop(0, "rgba(2,6,14,0)"); g.addColorStop(1, "rgba(2,6,14,.5)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
+    if (w.grat) { c.beginPath(); path(w.grat); c.strokeStyle = "rgba(186,214,245,.08)"; c.lineWidth = .8; c.stroke(); }
+    // 땅: 차분한 세이지 색, 해안선은 옅게 빛나게
+    c.save(); c.beginPath(); path(w.land); c.clip();
+    g = c.createRadialGradient(cx - R * .4, cy - R * .45, R * .1, cx, cy, R * 1.05); g.addColorStop(0, "#6f8f86"); g.addColorStop(0.6, "#4b6a66"); g.addColorStop(1, "#2c4448");
+    c.fillStyle = g; c.fillRect(cx - R * 1.1, cy - R * 1.1, R * 2.2, R * 2.2); c.restore();
+    c.beginPath(); path(w.land); c.strokeStyle = "rgba(190,230,240,.28)"; c.lineWidth = .7; c.stroke();
+    c.beginPath(); path(w.borders); c.strokeStyle = "rgba(220,235,245,.14)"; c.lineWidth = .5; c.stroke();
+    // 밤인 쪽: 지금 시각의 해 위치로 낮밤 경계, 경계는 부드럽게 두 겹
+    const now0 = new Date(), y00 = Date.UTC(now0.getUTCFullYear(), 0, 0), dayN = (now0 - y00) / 864e5, decl = -23.44 * Math.cos(2 * Math.PI / 365 * (dayN + 10)), sunLon = (12 - (now0.getUTCHours() + now0.getUTCMinutes() / 60)) * 15, night = [sunLon + 180, -decl];
+    [[96, "rgba(2,6,22,.12)"], [90, "rgba(2,6,22,.16)"], [84, "rgba(2,6,22,.14)"]].forEach(r => { c.beginPath(); path(d3.geoCircle().center(night).radius(r[0])()); c.fillStyle = r[1]; c.fill(); });
+    // 밤인 쪽 공항: 따뜻한 작은 불빛
+    if (typeof AP !== "undefined") Object.keys(AP).forEach(code => { const ll = [AP[code][1], AP[code][0]]; if (d3.geoDistance(ll, night) > 1.45) return; const q = proj(ll); if (!q || d3.geoDistance(ll, [-LV3.rot[0], -LV3.rot[1]]) > 1.5) return; const gg = c.createRadialGradient(q[0], q[1], 0, q[0], q[1], 7); gg.addColorStop(0, "rgba(255,214,140,.9)"); gg.addColorStop(1, "rgba(255,180,90,0)"); c.fillStyle = gg; c.beginPath(); c.arc(q[0], q[1], 7, 0, 7); c.fill(); });
+    // 가장자리 어둡게 + 왼쪽 위 반사광
+    g = c.createRadialGradient(cx, cy, R * 0.6, cx, cy, R); g.addColorStop(0, "rgba(2,6,14,0)"); g.addColorStop(1, "rgba(2,6,14,.45)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
+    g = c.createRadialGradient(cx - R * .45, cy - R * .5, 0, cx - R * .45, cy - R * .5, R * .7); g.addColorStop(0, "rgba(255,255,255,.10)"); g.addColorStop(1, "rgba(255,255,255,0)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
     // 지구 좌표 → 화면. alt(반지름 비율)만큼 띄운다
     const p3 = (lon, lat, alt) => { const q = rotFn([lon, lat]), l = q[0] * toR, p = q[1] * toR, co = Math.cos(p), x = co * Math.sin(l), y = Math.sin(p), z = co * Math.cos(l), m = 1 + alt; return { x: cx + R * m * x, y: cy - R * m * y, z: z, vis: z > 0 || (x * x + y * y) * m * m > 1.0004 }; };
     // 공항 이름: 가까이 당겼을 때만

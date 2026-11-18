@@ -1599,6 +1599,32 @@ a.abw:hover{background:var(--primary-soft)}
 .lr-cg-zoom{fill:none;stroke:var(--lr-ink);stroke-width:1;stroke-dasharray:3 4;opacity:.35}
 .lr-cg-macbar{fill:#f59e0b;opacity:.7}
 .lr-cg-mac .bg{fill:#ef4444;opacity:.18} .lr-cg-mac .cpmk{stroke:#2563eb;stroke-width:2.5}
+.lr-hint{margin:-4px 0 12px;font-size:12px;line-height:1.6;color:var(--muted)} .lr-hint b{color:var(--fg-2)}
+.lr-wcmp{display:grid;gap:6px;margin-top:14px}
+.lr-wcmp-h{margin:0 0 2px;font-size:12px;font-weight:700;color:var(--fg-2)}
+.lr-wcmp-r{display:grid;grid-template-columns:104px minmax(0,1fr) 30px;align-items:center;gap:8px;padding:6px 8px;border:0;border-radius:8px;background:none;font:inherit;font-size:12.5px;color:var(--fg-2);text-align:left;cursor:pointer}
+.lr-wcmp-r:hover{background:var(--tile)} .lr-wcmp-r.on{background:color-mix(in srgb,var(--wm-accent) 12%,var(--tile));color:var(--fg);font-weight:700}
+.lr-wcmp-r i{height:8px;border-radius:4px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden} .lr-wcmp-r b{display:block;height:100%;border-radius:4px;background:#94a3b8} .lr-wcmp-r.on b{background:var(--wm-accent)}
+.lr-wcmp-r em{font-style:normal;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.lr-stage .lr3-fig{align-self:stretch;display:flex;flex-direction:column;min-height:clamp(320px,42vw,460px)}
+.lr-stage .lr3-fig canvas{flex:1;height:auto!important;min-height:clamp(320px,42vw,460px)}
+.lr-where-b{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:28px;align-items:center}
+.lr-where{display:block;width:100%;height:auto;font-family:var(--font)}
+.lr-where .fus{fill:color-mix(in srgb,var(--line) 60%,var(--surface))}
+.lr-where .wing{fill:color-mix(in srgb,var(--line) 38%,var(--surface));stroke:color-mix(in srgb,var(--fg-2) 45%,transparent);stroke-width:1}
+.lr-where .slat,.lr-where .flap{fill:#3b82f6;opacity:.8} .lr-where .ail{fill:#94a3b8} .lr-where .spl{fill:#f59e0b;opacity:.6}
+.lr-where .mk circle{stroke:var(--surface);stroke-width:2.5} .lr-where .mk text{font-size:12px;font-weight:700;fill:#fff}
+.lr-where .lab{font-size:11px;fill:var(--muted)} .lr-where .arr{stroke:var(--muted);stroke-width:1.5} .lr-where .arrh{fill:var(--muted)}
+.lr-where-l{list-style:none;counter-reset:w;margin:0;padding:0;display:grid;gap:10px}
+.lr-where-l li{counter-increment:w;display:grid;grid-template-columns:22px auto minmax(0,1fr);gap:4px 10px;align-items:baseline;font-size:13px}
+.lr-where-l li::before{content:counter(w);grid-row:1;width:20px;height:20px;border-radius:50%;background:var(--tile);color:var(--fg-2);font-size:11px;font-weight:700;display:grid;place-items:center}
+.lr-where-l i{display:none} .lr-where-l b{color:var(--fg)} .lr-where-l span{color:var(--muted);font-size:12.5px}
+@media (max-width:760px){.lr-where-b{grid-template-columns:1fr;gap:14px}}
+.lr-wrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap,16px);align-items:stretch}
+.lr-wrow>.card{margin:0;min-width:0}
+.lr-wrow .lr-where-b{grid-template-columns:1fr;gap:16px}
+.lr-wrow .lr-sec2{display:flex;flex-direction:column} .lr-wrow .lr-sec2 .lr-fig{flex:1;display:flex;align-items:center} .lr-wrow .lr-sec2 .lr-fig>svg{width:100%;height:auto;display:block}
+@media (max-width:980px){.lr-wrow{grid-template-columns:1fr}}
 /* ---------- 작은 조각 ---------- */
 .btn.sm{min-height:28px;padding:3px 10px;font-size:12.5px}
 .fld.inl{display:flex;align-items:center;gap:8px}
@@ -3949,18 +3975,27 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
     // 별: 한 번 만든 자리에 고정
     if (!LV3.stars) LV3.stars = Array.from({ length: 140 }, () => [Math.random(), Math.random(), Math.random() * 1.1 + 0.2, Math.random() * 0.6 + 0.2]);
     LV3.stars.forEach(t => { c.fillStyle = `rgba(220,232,255,${t[3]})`; c.fillRect(t[0] * LV3.W, t[1] * LV3.H, t[2], t[2]); });
-    // 대기 빛과 바다
-    let g = c.createRadialGradient(cx, cy, R * 0.97, cx, cy, R * 1.17); g.addColorStop(0, "rgba(96,165,250,.34)"); g.addColorStop(1, "rgba(96,165,250,0)");
-    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R * 1.17, 0, 7); c.fill();
-    g = c.createRadialGradient(cx - R * .35, cy - R * .4, R * .08, cx, cy, R); g.addColorStop(0, "#23406a"); g.addColorStop(1, "#0c182b");
+    // 대기 빛: 바깥으로 갈수록 옅어지는 두 겹(파랑 + 청록 테두리)
+    let g = c.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.22); g.addColorStop(0, "rgba(125,211,252,.42)"); g.addColorStop(0.25, "rgba(96,165,250,.18)"); g.addColorStop(1, "rgba(59,130,246,0)");
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R * 1.22, 0, 7); c.fill();
+    // 바다: 왼쪽 위가 밝은 깊은 파랑
+    g = c.createRadialGradient(cx - R * .38, cy - R * .42, R * .05, cx, cy, R * 1.02); g.addColorStop(0, "#2a5c93"); g.addColorStop(0.55, "#163a63"); g.addColorStop(1, "#0a1b33");
     c.fillStyle = g; c.beginPath(); path({ type: "Sphere" }); c.fill();
-    if (w.grat) { c.beginPath(); path(w.grat); c.strokeStyle = "rgba(148,163,184,.12)"; c.lineWidth = 1; c.stroke(); }
-    c.beginPath(); path(w.land); c.fillStyle = "#31445c"; c.fill();
-    c.beginPath(); path(w.borders); c.strokeStyle = "rgba(170,184,202,.3)"; c.lineWidth = .6; c.stroke();
-    // 밤인 쪽: 지금 시각의 해 위치로 낮밤 경계를 그린다
-    { const now = new Date(), y0 = Date.UTC(now.getUTCFullYear(), 0, 0), day = (now - y0) / 864e5, decl = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10)), sunLon = (12 - (now.getUTCHours() + now.getUTCMinutes() / 60)) * 15;
-      c.beginPath(); path(d3.geoCircle().center([sunLon + 180, -decl]).radius(90)()); c.fillStyle = "rgba(2,6,22,.42)"; c.fill(); }
-    g = c.createRadialGradient(cx, cy, R * 0.55, cx, cy, R); g.addColorStop(0, "rgba(2,6,14,0)"); g.addColorStop(1, "rgba(2,6,14,.5)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
+    if (w.grat) { c.beginPath(); path(w.grat); c.strokeStyle = "rgba(186,214,245,.08)"; c.lineWidth = .8; c.stroke(); }
+    // 땅: 차분한 세이지 색, 해안선은 옅게 빛나게
+    c.save(); c.beginPath(); path(w.land); c.clip();
+    g = c.createRadialGradient(cx - R * .4, cy - R * .45, R * .1, cx, cy, R * 1.05); g.addColorStop(0, "#6f8f86"); g.addColorStop(0.6, "#4b6a66"); g.addColorStop(1, "#2c4448");
+    c.fillStyle = g; c.fillRect(cx - R * 1.1, cy - R * 1.1, R * 2.2, R * 2.2); c.restore();
+    c.beginPath(); path(w.land); c.strokeStyle = "rgba(190,230,240,.28)"; c.lineWidth = .7; c.stroke();
+    c.beginPath(); path(w.borders); c.strokeStyle = "rgba(220,235,245,.14)"; c.lineWidth = .5; c.stroke();
+    // 밤인 쪽: 지금 시각의 해 위치로 낮밤 경계, 경계는 부드럽게 두 겹
+    const now0 = new Date(), y00 = Date.UTC(now0.getUTCFullYear(), 0, 0), dayN = (now0 - y00) / 864e5, decl = -23.44 * Math.cos(2 * Math.PI / 365 * (dayN + 10)), sunLon = (12 - (now0.getUTCHours() + now0.getUTCMinutes() / 60)) * 15, night = [sunLon + 180, -decl];
+    [[96, "rgba(2,6,22,.12)"], [90, "rgba(2,6,22,.16)"], [84, "rgba(2,6,22,.14)"]].forEach(r => { c.beginPath(); path(d3.geoCircle().center(night).radius(r[0])()); c.fillStyle = r[1]; c.fill(); });
+    // 밤인 쪽 공항: 따뜻한 작은 불빛
+    if (typeof AP !== "undefined") Object.keys(AP).forEach(code => { const ll = [AP[code][1], AP[code][0]]; if (d3.geoDistance(ll, night) > 1.45) return; const q = proj(ll); if (!q || d3.geoDistance(ll, [-LV3.rot[0], -LV3.rot[1]]) > 1.5) return; const gg = c.createRadialGradient(q[0], q[1], 0, q[0], q[1], 7); gg.addColorStop(0, "rgba(255,214,140,.9)"); gg.addColorStop(1, "rgba(255,180,90,0)"); c.fillStyle = gg; c.beginPath(); c.arc(q[0], q[1], 7, 0, 7); c.fill(); });
+    // 가장자리 어둡게 + 왼쪽 위 반사광
+    g = c.createRadialGradient(cx, cy, R * 0.6, cx, cy, R); g.addColorStop(0, "rgba(2,6,14,0)"); g.addColorStop(1, "rgba(2,6,14,.45)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
+    g = c.createRadialGradient(cx - R * .45, cy - R * .5, 0, cx - R * .45, cy - R * .5, R * .7); g.addColorStop(0, "rgba(255,255,255,.10)"); g.addColorStop(1, "rgba(255,255,255,0)"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
     // 지구 좌표 → 화면. alt(반지름 비율)만큼 띄운다
     const p3 = (lon, lat, alt) => { const q = rotFn([lon, lat]), l = q[0] * toR, p = q[1] * toR, co = Math.cos(p), x = co * Math.sin(l), y = Math.sin(p), z = co * Math.cos(l), m = 1 + alt; return { x: cx + R * m * x, y: cy - R * m * y, z: z, vis: z > 0 || (x * x + y * y) * m * m > 1.0004 }; };
     // 공항 이름: 가까이 당겼을 때만
@@ -5851,7 +5886,7 @@ ${lrFlows(F, [50, 85, 115, 145, 160])}${lrFlows(F, [215, 245, 275, 305])}
 <g class="lr-arw lift"><line x1="390" y1="160" x2="390" y2="40"/><text x="400" y="52">양력</text></g>
 <g class="lr-arw down"><line x1="700" y1="205" x2="760" y2="250"/><text x="640" y="285">아래로 휘어 나가는 공기 (내리흐름)</text></g>
 <text class="lr-lab low" x="440" y="128">압력 낮음, 흐름 빠름</text><text class="lr-lab high" x="440" y="238">압력 높음, 흐름 느림</text></svg></div>
-<div class="lr-side">${lrRange("lr-l-v", "속도", 200, 950, 10, 480, " km/h")}${lrRange("lr-l-h", "고도", 0, 12000, 250, 0, " m")}${lrRange("lr-l-cl", "양력계수 (받음각에 따라)", 0.2, 1.6, 0.05, 0.5, "")}<div class="lr-big"><span>737-800 날개(124.6 m²)가 드는 무게</span><b id="lr-l-out">-</b><small id="lr-l-cmp"></small></div></div></section>
+<div class="lr-side">${lrRange("lr-l-v", "속도", 200, 950, 10, 480, " km/h")}${lrRange("lr-l-h", "고도", 0, 12000, 250, 0, " m")}${lrRange("lr-l-cl", "양력계수 CL (날개 기울기)", 0.2, 1.6, 0.05, 0.5, "")}<p class="lr-hint">양력계수는 <b>날개가 공기를 얼마나 잘 아래로 미는지</b>를 나타내는 숫자입니다. 기수를 들어 날개를 더 기울이거나(받음각) 플랩을 펴면 커집니다. 순항은 약 0.5, 착륙 직전은 1.5 근처이고, 더 키우려 하면 실속합니다.</p><div class="lr-big"><span>737-800 날개(124.6 m²)가 드는 무게</span><b id="lr-l-out">-</b><small id="lr-l-cmp"></small></div></div></section>
 ${lrCard("c7", "info", "압력 차이와 내리흐름, 같은 이야기의 두 면", `<p>날개 윗면은 볼록하고 공기를 받는 각도(받음각)가 있어서, 위쪽 공기는 더 빨리 흐르며 압력이 내려갑니다. 아랫면은 공기를 막아 압력이 조금 올라갑니다. 이 압력 차이가 넓은 날개 전체에 걸려 큰 힘이 됩니다.</p><p>같은 일을 뉴턴 법칙으로 보면, 날개가 공기를 아래로 밀어 내리고 그 반작용으로 위로 밀리는 것입니다. 두 설명은 서로 다른 이론이 아니라 같은 흐름을 다르게 본 것입니다.</p><p><b>틀린 설명 하나.</b> 날개 앞에서 나뉜 공기가 뒤에서 같은 시간에 다시 만나야 한다는 규칙은 없습니다. 실제로는 위쪽 공기가 훨씬 먼저 뒤끝에 닿습니다.</p>`)}
 ${lrChartCard("c12", "압력계수 분포: 시위를 따라", "lr-l-cp", "위쪽으로 갈수록 압력이 낮습니다(−Cp). 윗면은 앞전 바로 뒤에서 압력이 크게 떨어졌다가 뒤로 갈수록 회복하고, 아랫면은 조금 높습니다. 두 선 사이 넓이가 양력입니다. 양력계수 막대를 움직이면 받음각이 바뀌어 모양이 달라집니다. 얇은 날개 이론에 두께 효과를 더한 근사입니다.")}
 ${lrCard("c5", "doc", "양력 공식", `<div class="lr-eq">L = ½ ρ v² S C<sub>L</sub></div><ul class="lr-list"><li><b>ρ</b> 공기 밀도. 높이 올라갈수록 작아집니다.</li><li><b>v</b> 속도. 제곱으로 들어가서 두 배 빨라지면 양력은 네 배가 됩니다.</li><li><b>S</b> 날개 넓이.</li><li><b>C<sub>L</sub></b> 양력계수. 날개 모양과 받음각에 따라 정해집니다.</li></ul><p class="small muted">고도를 올려 보세요. 공기가 옅어지면 같은 무게를 들기 위해 더 빨리 날아야 합니다. 여객기가 높은 곳에서 빠르게 나는 이유 중 하나입니다.</p>`)}
@@ -5921,7 +5956,7 @@ ${lrCard("c5", "bell", "여객기는 어떻게 막나", `<ul class="lr-list"><li
 <g transform="translate(110 210)"><path class="lr-body" d="M-30 -26 C-30 -44 30 -44 30 -26 L30 22 C30 40 -30 40 -30 22Z"/><path class="lr-wing" d="M26 0 L560 -26 L560 -14 L26 16Z"/><g class="lr-eng"><path class="lr-body" d="M170 14 L230 12 L230 20 L170 22Z"/><ellipse class="lr-body" cx="200" cy="34" rx="26" ry="20"/><ellipse cx="200" cy="34" rx="15" ry="11" fill="var(--lr-wing-s)" opacity=".55"/></g><g id="lr-w-tip" transform="translate(560 -20) scale(1.9)"></g>
 <g id="lr-w-vtx" transform="translate(575 -10)"></g>
 <g class="lr-arw up"><line x1="430" y1="40" x2="430" y2="-10"/><line x1="500" y1="44" x2="520" y2="-4"/></g><text class="lr-lab high" x="380" y="66">아래: 압력 높음</text><text class="lr-lab low" x="380" y="-46">위: 압력 낮음</text></g></svg></div>
-<div class="lr-side"><div class="lr-seg" role="group" aria-label="날개 끝 모양">${LR_WL.map(w => `<button type="button" data-lrw="${w[0]}" class="${w[0] === lrWL ? "on" : ""}">${w[1]}</button>`).join("")}</div><div class="lr-big"><span>날개 끝 소용돌이 세기 (윙렛 없음 = 100)</span><b id="lr-w-out">100</b><div class="lr-bar"><span id="lr-w-bar" style="width:100%"></span></div><small id="lr-w-txt"></small></div></div></section>
+<div class="lr-side"><div class="lr-seg" role="group" aria-label="날개 끝 모양">${LR_WL.map(w => `<button type="button" data-lrw="${w[0]}" class="${w[0] === lrWL ? "on" : ""}">${w[1]}</button>`).join("")}</div><div class="lr-big"><span>날개 끝 소용돌이 세기 (윙렛 없음 = 100)</span><b id="lr-w-out">100</b><div class="lr-bar"><span id="lr-w-bar" style="width:100%"></span></div><small id="lr-w-txt"></small></div><div class="lr-wcmp" id="lr-w-cmp"></div></div></section>
 ${lrCard("c7", "info", "유도항력이란", `<p>날개가 양력을 만들면 날개 끝에서 공기가 아래에서 위로 돌아 올라갑니다. 이 회전이 날개 뒤로 길게 끌려가며 소용돌이가 되고, 날개 전체에 아래로 향하는 흐름을 덧붙여 양력의 방향을 조금 뒤로 기울입니다. 그 뒤로 기운 몫이 항력이 되는데, 이것이 유도항력입니다.</p><p>유도항력은 양력을 많이 만들수록, 그리고 느릴수록 커집니다. 그래서 무거운 상태로 천천히 오르는 이륙과 상승에서 특히 큽니다.</p><p>날개를 길게 만들면 줄어들지만 공항 게이트 폭과 구조 무게에 한계가 있습니다. 윙렛은 날개폭을 크게 늘리지 않고 비슷한 효과를 얻으려는 방법입니다.</p>`)}
 ${lrChartCard("c12", "날개폭 방향 양력 분포와 유도항력", "lr-w-span", "")}
 ${lrCard("c5", "target", "앞 비행기의 소용돌이", `<p>큰 비행기의 날개 끝 소용돌이는 몇 분 동안 남아 뒤따르는 작은 비행기를 크게 흔들 수 있습니다. 그래서 관제사는 기종의 '후류 등급'에 따라 이착륙 간격을 띄웁니다.</p><p class="small muted">후류 등급은 자료 &gt; 운항 규정 &gt; ICAO 분류에서 볼 수 있습니다.</p>`)}
@@ -5943,7 +5978,7 @@ ${lrCard("c5", "target", "앞 비행기의 소용돌이", `<p>큰 비행기의 �
     const e0 = { none: 0.78, blend: 0.83, shark: 0.83, scim: 0.85, raked: 0.82 }[lrWL], AR = 9.4, CL = 0.5, cdi = CL * CL / (Math.PI * e0 * AR);
     $("#lr-w-span").innerHTML = lrChart({ id: "span", w: 860, h: 230, x: [0, 1, "날개 뿌리 0 → 날개 끝 1", [0, 0.2, 0.4, 0.6, 0.8, 1]], y: [0, 1.1, "양력 (뿌리 = 1)", [0, 0.5, 1]], series: [{ d: ell, cls: "c2 dash", label: "이상적인 타원 분포", at: 20 }, { d: real, cls: "c1", label: "이 날개 끝 모양", at: 38 }] })
       + `<div class="lr-eqrow"><div class="lr-eq sm">C<sub>Di</sub> = C<sub>L</sub>² / (π e AR)</div><div class="lr-cap">C<sub>L</sub> 0.5, 가로세로비 AR 9.4(737-800 근처), 날개 효율 e ${e0.toFixed(2)}로 계산하면 <b>C<sub>Di</sub> ≈ ${cdi.toFixed(4)}</b>. 윙렛은 e를 키워(날개 끝 손실을 줄여) 같은 양력에서 유도항력을 낮춥니다. e 값은 모양별 차이를 보여 주기 위한 가정입니다.</div></div>`;
-    $("#lr-w-out").textContent = Math.round(s * 100); $("#lr-w-bar").style.width = Math.round(s * 100) + "%";
+    $("#lr-w-out").textContent = Math.round(s * 100); $("#lr-w-bar").style.width = Math.round(s * 100) + "%"; { const box = $("#lr-w-cmp"); if (box) box.innerHTML = `<p class="lr-wcmp-h">모양별 비교 (윙렛 없음 = 100, 작을수록 좋음)</p>` + LR_WL.slice().sort((x, y) => x[2] - y[2]).map(x => `<button type="button" class="lr-wcmp-r${x[0] === lrWL ? " on" : ""}" data-lrw="${x[0]}"><span>${x[1]}</span><i><b style="width:${Math.round(x[2] * 100)}%"></b></i><em>${Math.round(x[2] * 100)}</em></button>`).join(""); }
     $("#lr-w-txt").innerHTML = esc(w[3]) + (w[4] ? ` <a class="ext" href="#${w[4][0]}">${esc(w[4][1])} 보기 →</a>` : "") + `<br><span class="muted">세기 숫자는 모양별 차이를 보여 주기 위한 그림 값입니다.</span>`;
   }
 
@@ -6119,7 +6154,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
      흐름선은 점선이 흘러가도록 움직이고, 끌면 카메라가 돈다. 좌표: x 앞(비행 방향), y 오른쪽 날개, z 위.
      공기는 x의 음의 방향으로 흐른다(비행기 기준). */
   const L3 = { cv: null, ctx: null, raf: 0, key: null, yaw: -0.65, pitch: 0.32, zoom: 1, W: 0, H: 0, dpr: 1, drag: null, t: 0 };
-  const LR3_VIEW = { "learn-forces": [-0.75, 0.28, 0.9], "learn-lift": [-0.22, 0.1, 1.25], "learn-stall": [-0.22, 0.1, 1.25], "learn-winglet": [2.45, 0.42, 0.95], "learn-sweep": [-0.35, 1.05, 0.78], "learn-highlift": [-0.22, 0.1, 1.25], "learn-control": [-0.8, 0.38, 0.9] };
+  const LR3_VIEW = { "learn-forces": [-0.75, 0.28, 0.9], "learn-lift": [-0.22, 0.1, 1.25], "learn-stall": [-0.22, 0.1, 1.25], "learn-winglet": [2.45, 0.42, 0.95], "learn-sweep": [-0.15, 1.3, 0.85], "learn-highlift": [-0.22, 0.1, 1.25], "learn-control": [-0.8, 0.38, 0.9] };
   const v3 = { add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], mul: (a, k) => [a[0] * k, a[1] * k, a[2] * k], cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], len: a => Math.hypot(a[0], a[1], a[2]) };
   // y축(날개폭) 둘레로 돌리기: 받음각. 기수가 들리면 앞(+x)이 올라간다
   const rotY = (p, a, c) => { const ca = Math.cos(a), sa = Math.sin(a), x = p[0] - c[0], z = p[2] - c[2]; return [c[0] + x * ca - z * sa, p[1], c[2] + x * sa + z * ca]; };
@@ -6200,7 +6235,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
         pts.push([x, y, z]);
       }
       for (let p = 0; p < 3; p++) for (let i = 1; i < pts.length - 1; i++) pts[i][2] = (pts[i - 1][2] + pts[i][2] * 2 + pts[i + 1][2]) / 4;
-      out.push({ p: pts, col: upper ? (opt.sep && n >= zs.filter(v => v > 0).length - 2 ? [220, 90, 40] : [37, 99, 235]) : [100, 116, 139], speed: upper ? 1.5 : 0.9, w: 1.4, wob: upper && opt.sep && n >= zs.filter(v => v > 0).length - 2 ? opt.sep : 0, startX: le });
+      out.push({ p: pts, col: upper ? (opt.sep && n >= zs.filter(v => v > 0).length - 2 ? [220, 90, 40] : [37, 99, 235]) : [100, 116, 139], speed: upper ? 1.6 : 0.85, w: 1.4, wob: upper && opt.sep && n >= zs.filter(v => v > 0).length - 2 ? opt.sep : 0, startX: le });
     }));
     return out;
   }
@@ -6216,7 +6251,22 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     { from: R([-2.15, y, 0.12]), to: R([-2.15, y, 0.12]), col: [30, 41, 59], label: "날개 뒤쪽 끝", noline: true },
     top ? { from: R([-2.0, 1.35, 0.38]), to: R([-2.0, 1.35, 0.38]), col: [37, 99, 235], label: top, noline: true } : null,
     bot ? { from: R([-1.2, 1.2, -0.5]), to: R([-1.2, 1.2, -0.5]), col: [234, 88, 12], label: bot, noline: true } : null].filter(Boolean); };
-  const l3nice = L => L.flatMap(l => { const col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]); return [Object.assign({}, l, { col: col, dash: null, speed: 0, alpha: 0.28, w: 1.6, wob: 0, fade: true }), Object.assign({}, l, { col: col, dash: [0.16, 0.7], w: 2.4, alpha: 0.85, fade: true })]; });
+  const l3smooth = P => { if (P.length < 5) return P; let Q = P; for (let r = 0; r < 3; r++) Q = Q.map((p, i) => i === 0 || i === Q.length - 1 ? p : [(Q[i - 1][0] + p[0] * 2 + Q[i + 1][0]) / 4, (Q[i - 1][1] + p[1] * 2 + Q[i + 1][1]) / 4, (Q[i - 1][2] + p[2] * 2 + Q[i + 1][2]) / 4]); return Q; };
+  // 흐름선을 유체처럼: 아주 옅은 바탕선 위로, 작은 입자들이 꼬리를 끌며 일정하게 흘러간다(꼬리는 뒤로 갈수록 흐려짐)
+  // mult = 속도 배율. 프레임마다 흐른 시간 × 배율을 쌓아 두어, 슬라이더를 움직여도 입자가 튀지 않고 빨라지거나 느려진다
+  const l3nice = (L, mult, dens) => { const D = dens == null ? 1 : Math.max(0.15, Math.min(1, dens)); const now = performance.now() / 1000, dt = Math.min(0.1, now - (L3.flast || now)); L3.flast = now; L3.fx = (L3.fx || 0) + dt * (mult || 1); const T = L3.fx; return L.flatMap(l => {
+    l = Object.assign({}, l, { p: l3smooth(l.p), wob: 0 }); const col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]);
+    const P = l.p, acc = [0]; for (let i = 1; i < P.length; i++) acc.push(acc[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2])); const tot = acc[acc.length - 1] || 1;
+    const at = d => { d = Math.max(0, Math.min(tot, d)); let i = 1; while (i < acc.length - 1 && acc[i] < d) i++; const k = (d - acc[i - 1]) / ((acc[i] - acc[i - 1]) || 1); return [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * k, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * k, P[i - 1][2] + (P[i][2] - P[i - 1][2]) * k]; };
+    const out = [Object.assign({}, l, { col: col, dash: null, speed: 0, alpha: 0.16, w: 1.2, fade: true })], N = Math.max(2, Math.round(9 * D)), sp = Math.pow(l.speed || 1, 1.8) * 0.5, tl = 0.55, ph = (P[0][1] * 3.7 + P[0][2] * 5.1) % 1;
+    for (let n = 0; n < N; n++) { const head = (((T * sp / tot + n / N + ph) % 1) + 1) % 1 * (tot + tl); const pts = []; for (let k = 0; k <= 8; k++) pts.push(at(head - tl + tl * k / 8)); const edge = Math.min(1, head / 0.6, (tot + tl - head) / 0.6); out.push({ p: pts, col: col, dash: null, speed: 0, w: 1.6 + 1.2 * D, alpha: (0.45 + 0.5 * D) * Math.max(0, edge), tail: true }); }
+    return out; }); };
+  // 실속 때 윗면 뒤쪽의 떨어진 흐름: 매끈한 나선 몇 개가 천천히 돈다 (세기 k 0~1)
+  const l3swirls = (a, t, k) => { const L = []; [-1.0, 0, 1.0].forEach((y, j) => {
+      const R = q => rotY(q, a, [-0.5, 0, 0]), band = []; for (let x = -0.7; x >= -2.6; x -= 0.08) band.push(R([x, y, 0.2 + (-0.7 - x) * 0.12]));
+      L.push({ p: band, col: [239, 68, 68], speed: 0, w: 16 + 10 * k, dash: null, alpha: 0.10, fade: true });
+      const cx = -1.25 - 0.15 * j, cz = 0.36, Rr = 0.12 + 0.08 * k, pts = []; for (let u = 0; u <= 9; u += 0.1) { const r = Rr * (0.15 + u / 9 * 0.85), ang = u - t * 2.4 + j * 1.7; pts.push(R([cx + r * Math.cos(ang) - u * 0.03, y, cz + r * Math.sin(ang)])); }
+      L.push({ p: pts, col: [220, 38, 38], speed: 0, w: 2.6, dash: null, alpha: 0.85, fade: true }); }); return L; };
   const LR3_SCENES = {
     "learn-forces": t => {
       const thr = lrVal("lr-f-thr", 62), aoa = lrVal("lr-f-aoa", 3) * LR_TOR, speed = 0.35 + thr / 100 * 0.65, lift = Math.min(1.5, (0.55 + aoa / LR_TOR * 0.09) * (0.6 + speed * 0.55)), drag = 0.28 + speed * speed * 0.42 + aoa / LR_TOR * 0.025;
@@ -6229,32 +6279,34 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
       const cl = lrVal("lr-l-cl", 0.5), a = Math.max(-3, (cl - 0.2) / 0.095) * LR_TOR, loop = l3foil(2, 2), half = loop.length / 2;
       const col = [206, 213, 223]; void half;
       const P = l3wing(loop.map(q => [q[0], q[1]]), [{ y: -1.4, dx: 0, dz: 0, k: 1 }, { y: 1.4, dx: 0, dz: 0, k: 1 }], col).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
-      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.1, 0, 1.1], [0.32, 0.7, -0.34], { down: 0.04 + cl * 0.07 })), arrows: [l3arrow([-0.5, 0, 0.25], [-0.5, 0, 0.45 + cl * 0.8], [22, 163, 74], "양력"), l3arrow([-2.6, 0, -0.1], [-3.3, 0, -0.1 - cl * 0.6], [37, 99, 235], "내리흐름"), ...l3guide(-1.45, a, "윗면: 압력 낮음", "아랫면: 압력 높음")] };
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.2, -0.6, 0, 0.6, 1.2], [0.3, 0.62, -0.32], { down: 0.04 + cl * 0.07 }), lrVal("lr-l-v", 480) / 300, lrRho(lrVal("lr-l-h", 0)) / 1.225), arrows: [l3arrow([-0.5, 0, 0.25], [-0.5, 0, 0.45 + cl * 0.8], [22, 163, 74], "양력"), l3arrow([-2.6, 0, -0.1], [-3.3, 0, -0.1 - cl * 0.6], [37, 99, 235], "내리흐름"), { from: [1.2, 1.4, 0.9], to: [1.2, 1.4, 0.9], col: [100, 116, 139], label: `공기 밀도 해면의 ${Math.round(lrRho(lrVal("lr-l-h", 0)) / 1.225 * 100)}% (고도 ${fmt(lrVal("lr-l-h", 0))} m)`, noline: true }, ...l3guide(-1.45, a, "윗면: 압력 낮음", "아랫면: 압력 높음")] };
     },
     "learn-stall": t => {
       const ad = lrVal("lr-s-a", 4), a = ad * LR_TOR, stall = ad > 15, loop = l3foil(2, 2);
       const P = l3wing(loop, [{ y: -1.4, dx: 0, dz: 0, k: 1 }, { y: 1.4, dx: 0, dz: 0, k: 1 }], [206, 213, 223]).map(q => ({ p: q.p.map(p => rotY(p, a, [-0.5, 0, 0])), c: q.c }));
       const cl = lrCL(ad);
-      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.1, 0, 1.1], [0.3, 0.66, -0.34], { down: Math.min(cl, 1.6) * 0.08, sep: stall ? Math.min(1, (ad - 15) / 5) : 0 })), arrows: [l3arrow([-0.5, 0, 0.3], [-0.5, 0, 0.45 + cl * 0.75], stall ? [220, 38, 38] : [22, 163, 74], stall ? "양력 급감" : "양력"), ...l3guide(-1.45, a, stall ? "윗면 흐름이 떨어져 나감" : "윗면 흐름이 날개를 따라감", null)] };
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, a, [-1.2, -0.6, 0, 0.6, 1.2], [0.3, 0.62, -0.32], { down: Math.min(cl, 1.6) * 0.08, sep: 0 })).map(l => stall && l.col[0] < 120 && l.p.some(q => q[2] > 0.1) ? Object.assign({}, l, { col: [234, 88, 12] }) : l).concat(stall ? l3swirls(a, t, Math.min(1, (ad - 15) / 5)) : []), arrows: [l3arrow([-0.5, 0, 0.3], [-0.5, 0, 0.45 + cl * 0.75], stall ? [220, 38, 38] : [22, 163, 74], stall ? "양력 급감" : "양력"), ...l3guide(-1.45, a, stall ? "윗면 흐름이 떨어져 나감" : "윗면 흐름이 날개를 따라감", null)] };
     },
     "learn-winglet": t => {
       // 777 메시 전체를 쓰고, 오른쪽 날개 끝에 윙렛 모양을 얹는다. 소용돌이는 양쪽 날개 끝에서 뒤로 끌려간다
       const w = (typeof LR_WL !== "undefined" ? LR_WL.find(x => x[0] === lrWL) : null) || [0, 0, 1], s = w[2];
-      const P = l3plane(), M = L3M, tipY = M.span, tip = M.te(M.wing, 1, tipY - 0.03, 0.05), tipX = tip[0] + 0.12, tipZ = tip[1];
-      const wl = { blend: [[0, 0, 0], [-0.08, 0.05, 0.12], [-0.16, 0.07, 0.34]], shark: [[0, 0, 0], [-0.05, 0.02, 0.07], [-0.18, 0.03, 0.36]], scim: [[0, 0, 0], [-0.1, 0.04, 0.32]], raked: [[0, 0, 0], [-0.45, 0.42, 0.02]] }[lrWL];
-      [1, -1].forEach(sd => { if (wl) { const C = [tipX, sd * tipY, tipZ]; for (let i = 0; i < wl.length - 1; i++) { const a = v3.add(C, [wl[i][0], sd * wl[i][1], wl[i][2]]), b = v3.add(C, [wl[i + 1][0], sd * wl[i + 1][1], wl[i + 1][2]]), ch = 0.3 * (1 - i * 0.3), ch2 = 0.3 * (1 - (i + 1) * 0.3); P.push({ p: [a, b, [b[0] - ch2, b[1], b[2]], [a[0] - ch, a[1], a[2]]], c: [47, 111, 237] }); } if (lrWL === "scim") { const b = v3.add(C, [-0.08, sd * 0.03, -0.16]); P.push({ p: [C, b, [b[0] - 0.14, b[1], b[2]], [C[0] - 0.24, C[1], C[2]]], c: [47, 111, 237] }); } } });
-      const L = [], R0 = 0.33, R = 0.07 + 0.26 * s, ex = lrWL === "raked" ? 0.42 : 0, ez = wl && lrWL !== "raked" ? 0.2 : 0;
+      const P = l3plane(), M = L3M, tipY = M.span, tip = M.te(M.wing, 1, tipY - 0.03, 0.05), tipX = tip[0] + 0.16, tipZ = tip[1];
+      const wl = { blend: [[0, 0, 0], [-0.04, 0.03, 0.06], [-0.09, 0.04, 0.19]], shark: [[0, 0, 0], [-0.03, 0.01, 0.04], [-0.1, 0.02, 0.2]], scim: [[0, 0, 0], [-0.06, 0.02, 0.18]], raked: [[0, 0, 0], [-0.3, 0.26, 0.01]] }[lrWL];
+      [1, -1].forEach(sd => { if (wl) { const C = [tipX, sd * tipY, tipZ]; for (let i = 0; i < wl.length - 1; i++) { const a = v3.add(C, [wl[i][0], sd * wl[i][1], wl[i][2]]), b = v3.add(C, [wl[i + 1][0], sd * wl[i + 1][1], wl[i + 1][2]]), ch = 0.16 * (1 - i * 0.35), ch2 = 0.16 * (1 - (i + 1) * 0.35); P.push({ p: [a, b, [b[0] - ch2, b[1], b[2]], [a[0] - ch, a[1], a[2]]], c: [47, 111, 237] }); } if (lrWL === "scim") { const b = v3.add(C, [-0.05, sd * 0.02, -0.09]); P.push({ p: [C, b, [b[0] - 0.08, b[1], b[2]], [C[0] - 0.14, C[1], C[2]]], c: [47, 111, 237] }); } } });
+      const L = [], R0 = 0.3, R = Math.max(0.06, 0.06 + 0.6 * (s - 0.6)), ex = lrWL === "raked" ? 0.26 : 0, ez = wl && lrWL !== "raked" ? 0.12 : 0;
       [1, -1].forEach(sd => {
-        const cy = sd * (tipY + ex), cz = tipZ + ez, x0 = tipX - 0.3;
+        const cy = sd * (tipY + ex), cz = tipZ + ez, x0 = tipX + 0.02;
         // 지금 소용돌이: 파란 나선 세 가닥
-        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 4.2; x += 0.04) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * (0.4 + Math.min(1, x / 0.9) * 0.6); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.4 + s, dash: null, alpha: 0.8 - k * 0.2 }); }
+        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 7; x += 0.05) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * Math.min(1, Math.pow(x / 1.1, 0.7)); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.4 + s, dash: null, alpha: 0.8 - k * 0.2, fade: true }); }
         // 비교용: 윙렛이 없을 때 소용돌이 크기(회색 점선 고리)
         [1.2, 2.4, 3.6].forEach(x => { const pts = []; for (let a = 0; a <= 6.3; a += 0.2) pts.push([x0 - x, cy + R0 * Math.cos(a), cz + R0 * Math.sin(a)]); L.push({ p: pts, col: [148, 163, 184], speed: 0, w: 1, dash: [0.05, 0.06], alpha: 0.7 }); });
       });
-      // 날개 아래는 바깥으로, 위는 안으로 흐르는 공기
-      [0.9, 1.5, 2.0].forEach(y => { L.push({ p: [[-0.2, y, -0.22], [-0.5, y + 0.35, -0.2]], col: [234, 88, 12], speed: 1, w: 1.4, dash: [0.08, 0.07] }); L.push({ p: [[-0.2, y + 0.2, 0.2], [-0.5, y - 0.15, 0.2]], col: [37, 99, 235], speed: 1, w: 1.4, dash: [0.08, 0.07] }); });
+      // 날개 아래 공기는 바깥(날개 끝)으로, 위 공기는 안쪽으로 휘며 흐른다: 곡선 유선 위로 입자가 흐르게
+      const span3 = []; [1, -1].forEach(sd => [0.9, 1.45, 1.95].forEach(y => { const lo = [], hi = []; for (let k = 0; k <= 14; k++) { const u = k / 14, x = 0.55 - u * 1.6; lo.push([x, sd * (y + 0.42 * u * u), -0.24 - 0.02 * u]); hi.push([x, sd * (y - 0.32 * u * u), 0.16 + 0.02 * u]); } span3.push({ p: lo, col: [234, 88, 12], speed: 0.9 }, { p: hi, col: [37, 99, 235], speed: 1.3 }); }));
+      L.push(...l3nice(span3));
       const pct = Math.round(s * 100), lab = [tipX - 2.6, tipY + ex, tipZ + ez + R0 + 0.05];
-      return { sky: true, polys: P, lines: L, arrows: [{ from: lab, to: lab, col: [37, 99, 235], label: lrWL === "none" ? "소용돌이 크기 100% (기준)" : `소용돌이 크기 ${pct}% (회색 = 윙렛 없을 때)`, noline: true }] };
+      const far = [tipX - 6.2, tipY + ex, tipZ + ez - 0.2];
+      return { sky: true, polys: P, lines: L, arrows: [{ from: far, to: far, col: [100, 116, 139], label: "뒤로 수 km, 몇 분 동안 이어짐", noline: true }, { from: lab, to: lab, col: [37, 99, 235], label: lrWL === "none" ? "소용돌이 크기 100% (기준)" : `소용돌이 크기 ${pct}% (회색 = 윙렛 없을 때)`, noline: true }] };
     },
     "learn-sweep": t => {
       // 777 메시에서 주날개, 엔진, 착륙장치를 빼고 동체와 꼬리만 쓴다. 주날개는 슬라이더 각도로 새로 그린다
@@ -6263,10 +6315,21 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
       const P = M.tris.filter(q => { const cx = (q.p[0][0] + q.p[1][0] + q.p[2][0]) / 3, cy = Math.abs((q.p[0][1] + q.p[1][1] + q.p[2][1]) / 3), cz = (q.p[0][2] + q.p[1][2] + q.p[2][2]) / 3; if (cut(q.c) && cx > -1.5) return false; if (cy > 0.36 && cz < 0.15 && cx > -1.5) return false; if (cz < -0.42) return false; return true; });
       const rootX = 0.55, rootZ = -0.16;
       [1, -1].forEach(sd => P.push(...l3wing(thin, sd > 0 ? [{ y: 0.3, dx: rootX, dz: rootZ, k: 1 }, { y: span, dx: rootX - Math.tan(sw) * span, dz: rootZ + 0.16, k: 0.32 }] : [{ y: -span, dx: rootX - Math.tan(sw) * span, dz: rootZ + 0.16, k: 0.32 }, { y: -0.3, dx: rootX, dz: rootZ, k: 1 }], [200, 207, 217])));
-      const mid = [rootX - 0.3 - Math.tan(sw) * span * 0.55, span * 0.55, 0.12], V = 1.5 * m / 0.9, n = [-Math.cos(sw), Math.sin(sw), 0], tg = [-Math.sin(sw), -Math.cos(sw), 0];
-      const vn = V * Math.cos(sw), vt = V * Math.sin(sw), base = v3.add(mid, [V, 0, 0]);
-      const L = []; for (let i = 0; i < 7; i++) L.push({ p: [[3.5, -3 + i, 0.6], [-5.5, -3 + i, 0.6]], col: [148, 163, 184], speed: 4, w: 1, dash: [0.3, 0.5], alpha: 0.5 });
-      return { sky: true, polys: P, lines: L, arrows: [l3arrow(base, mid, [100, 116, 139], `바람 M${m.toFixed(2)}`), l3arrow(v3.add(mid, v3.mul(n, -vn)), mid, m * Math.cos(sw) > 0.72 ? [220, 38, 38] : [22, 163, 74], "날개가 느끼는 몫"), l3arrow(v3.add(mid, v3.mul(tg, -vt)), mid, [234, 88, 12], "날개를 따라 흐르는 몫")] };
+      // 바람 나누기: 오른쪽 날개 앞전 위의 한 점(P0)으로 들어오는 바람을, 앞전에 수직인 몫(초록)과 앞전을 따라가는 몫(주황)으로 나눠 삼각형으로 그린다
+      const yP = span * 0.55, P0 = [rootX - Math.tan(sw) * yP + 0.02, yP, rootZ + 0.16 * (yP / span) + 0.06], V = 2.3;
+      const e = [-Math.sin(sw), Math.cos(sw), 0], n = [-Math.cos(sw), -Math.sin(sw), 0], S = v3.add(P0, [V, 0, 0]), vn = V * Math.cos(sw), vt = V * Math.sin(sw);
+      const A = v3.add(S, v3.mul(n, vn)), B = v3.add(S, v3.mul(e, vt));
+      const mn = m * Math.cos(sw), danger = mn > 0.72, L = [];
+      L.push({ p: [S, B], col: [148, 163, 184], speed: 0, w: 1.2, dash: [0.06, 0.06], alpha: 0.8 }, { p: [B, P0], col: [148, 163, 184], speed: 0, w: 1.2, dash: [0.06, 0.06], alpha: 0.8 });
+      // 앞전 선을 옅게 강조
+      L.push({ p: [[rootX, 0.3, rootZ + 0.05], [rootX - Math.tan(sw) * span, span, rootZ + 0.2]], col: [37, 99, 235], speed: 0, w: 2, dash: null, alpha: 0.45 });
+      const mid = (a, b) => v3.mul(v3.add(a, b), 0.5), tag = (pt, col, label) => ({ from: pt, to: pt, col: col, label: label, noline: true });
+      return { sky: true, polys: P, lines: L, arrows: [
+        l3arrow(S, P0, [100, 116, 139], ""), l3arrow(S, A, danger ? [220, 38, 38] : [22, 163, 74], ""), l3arrow(A, P0, [234, 88, 12], ""),
+        tag(v3.add(mid(S, P0), [0, 0, 0.12]), [100, 116, 139], `바람 마하 ${m.toFixed(2)}`),
+        tag(v3.add(mid(S, A), [0.05, -0.25, 0]), danger ? [220, 38, 38] : [22, 163, 74], `날개가 느끼는 몫 마하 ${mn.toFixed(2)}${danger ? " (충격파)" : ""}`),
+        tag(v3.add(mid(A, P0), [0, 0.2, 0]), [234, 88, 12], `날개를 따라 흐르는 몫 마하 ${(m * Math.sin(sw)).toFixed(2)}`),
+        tag([rootX + 0.2, 0.55, rootZ + 0.1], [37, 99, 235], "날개 앞쪽 끝 (후퇴각 " + Math.round(sw / LR_TOR) + "°)")] };
     },
     "learn-highlift": t => {
       // 접힌 상태: 매끈한 날개 단면 하나. 펼치면 앞에서 얇은 슬랫이 앞아래로, 뒤에서 작은 날개 모양 플랩이 뒤아래로 미끄러져 나오며 꺾인다
@@ -6278,7 +6341,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
         const fl = l3foil(0.62, 3), fx = -C + 0.18 - 0.42 * k, fz = -0.06 - 0.16 * k;
         P.push(...l3wing(fl, Y, [47, 111, 237]).map(q => ({ p: q.p.map(p => rotY([p[0] + fx, p[1], p[2] + fz], -0.75 * k, [fx, 0, fz])), c: q.c })));
       }
-      return { sky: true, polys: P, lines: l3nice(l3flows(2, 0.03, [-1.1, 0, 1.1], [0.34, 0.72, -0.36], { down: 0.05 + k * 0.28 })), arrows: [l3arrow([-0.8, 0, 0.3], [-0.8, 0, 0.45 + [1.3, 1.75, 2.1, 2.45, 2.6][i] * 0.5], [22, 163, 74], "최대 양력"), ...l3guide(-1.45, 0, null, null), ...(k > 0 ? [{ from: [0.55, 1.45, -0.05], to: [0.55, 1.45, -0.05], col: [47, 111, 237], label: "슬랫", noline: true }, { from: [-2.35, 1.45, -0.3], to: [-2.35, 1.45, -0.3], col: [47, 111, 237], label: "플랩", noline: true }] : [])] };
+      return { sky: true, polys: P, lines: l3nice(l3flows(2, 0.03, [-1.2, -0.6, 0, 0.6, 1.2], [0.32, 0.66, -0.34], { down: 0.05 + k * 0.28 })), arrows: [l3arrow([-0.8, 0, 0.3], [-0.8, 0, 0.45 + [1.3, 1.75, 2.1, 2.45, 2.6][i] * 0.5], [22, 163, 74], `낼 수 있는 최대 양력 ×${[1.3, 1.75, 2.1, 2.45, 2.6][i] / 1.3 >= 1.005 ? ([1.3, 1.75, 2.1, 2.45, 2.6][i] / 1.3).toFixed(2) : "1.00"} (최대 양력계수 ${[1.3, 1.75, 2.1, 2.45, 2.6][i]})`), { from: [1.6, -1.4, 1.0], to: [1.6, -1.4, 1.0], col: [47, 111, 237], label: ["접힌 상태 (순항): 슬라이더로 펼쳐 보세요", "플랩 5 (이륙): 슬랫과 플랩이 조금 나옴", "플랩 15 (이륙, 짧은 활주로)", "플랩 30 (착륙)", "플랩 40 (최대, 짧은 착륙)"][i], noline: true }, ...l3guide(-1.45, 0, null, null), ...(k > 0 ? [{ from: [0.55, 1.45, -0.05], to: [0.55, 1.45, -0.05], col: [47, 111, 237], label: "슬랫", noline: true }, { from: [-2.35, 1.45, -0.3], to: [-2.35, 1.45, -0.3], col: [47, 111, 237], label: "플랩", noline: true }] : [])] };
     },
     "learn-control": t => {
       const ax = typeof lrAxis !== "undefined" ? lrAxis : "roll", v = lrVal("lr-c-in", 40) / 100, d = 0.55 * v;
@@ -6306,24 +6369,25 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     items.sort((p, q) => q.dep - p.dep);
     items.forEach(it => {
       if (it.t === 0) { const r = Math.round(it.col[0] * it.sh), g = Math.round(it.col[1] * it.sh), b = Math.round(it.col[2] * it.sh); c.fillStyle = `rgb(${r},${g},${b})`; c.strokeStyle = c.fillStyle; c.lineWidth = 0.8; c.lineJoin = "round"; c.beginPath(); it.pr.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); c.stroke(); return; }
-      const ln = it.ln, k = (it.a.k + it.b.k) / 2; const fa = ln.fade ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, it.f))), 0.7) : 1; c.strokeStyle = `rgba(${ln.col.join(",")},${((ln.alpha != null ? ln.alpha : 0.8) * fa).toFixed(3)})`; c.lineWidth = (ln.w || 1.2) * k; c.lineCap = "round";
-      if (ln.dash !== null) { const ds = ln.dash || [0.18, 0.14], sz = Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.zoom; c.setLineDash([ds[0] * sz * k, ds[1] * sz * k]); c.lineDashOffset = -(now / 1000) * (ln.speed || 1) * sz * 0.6 + it.acc; } else c.setLineDash([]);
+      const ln = it.ln, k = (it.a.k + it.b.k) / 2; const fa = ln.tail ? Math.pow(Math.min(1, Math.max(0, it.f)), 1.6) : ln.fade ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, it.f))), 0.7) : 1; c.strokeStyle = `rgba(${ln.col.join(",")},${((ln.alpha != null ? ln.alpha : 0.8) * fa).toFixed(3)})`; c.lineWidth = (ln.w || 1.2) * k * (ln.tail ? 0.35 + 0.65 * Math.min(1, Math.max(0, it.f)) : 1); c.lineCap = "round";
+      if (ln.dash !== null) { const ds = ln.dash || [0.18, 0.14], sz = Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.zoom; c.setLineDash([ds[0] * sz * k, ds[1] * sz * k]); c.lineDashOffset = -(now / 1000) * (ln.speed != null ? ln.speed : 1) * sz * 0.6 + it.acc; } else c.setLineDash([]);
       c.beginPath(); c.moveTo(it.a.x, it.a.y + (it.wob || 0) * 0.6); c.lineTo(it.b.x, it.b.y + (it.wob || 0)); c.stroke();
     });
     c.setLineDash([]);
     // 화살표는 맨 위에
+    L3.tags = [];
     (S.arrows || []).forEach(ar => { const a = l3prj(ar.from), b = l3prj(ar.to), ang = Math.atan2(b.y - a.y, b.x - a.x), col = `rgb(${ar.col.join(",")})`; c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 3.6; c.lineCap = "round"; if (!ar.noline) { c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x - Math.cos(ang) * 8, b.y - Math.sin(ang) * 8); c.stroke(); c.beginPath(); c.moveTo(b.x, b.y); c.lineTo(b.x - Math.cos(ang - 0.4) * 13, b.y - Math.sin(ang - 0.4) * 13); c.lineTo(b.x - Math.cos(ang + 0.4) * 13, b.y - Math.sin(ang + 0.4) * 13); c.closePath(); c.fill(); } if (ar.label) { c.font = "600 12px " + getComputedStyle(document.body).fontFamily; const tw = c.measureText(ar.label).width, capOn = !!document.querySelector("#app .lr-cap3.show"), bottom = L3.H - (capOn ? 92 : 26);
         // 이름표는 그림 안에, 자막이 떠 있으면 자막 위로 올린다
         let lx = Math.max(8, Math.min(L3.W - tw - 8, b.x + 8)), ly = Math.max(18, Math.min(bottom, b.y - 6)); if (capOn && ly > bottom - 4) ly = bottom;
         // 이름표: 흰 둥근 꼬리표 + 화살표 색 점 + 진한 글씨 (어두운 테마는 반대로)
-        const ph = 22, pw = tw + 26, px = Math.max(6, Math.min(L3.W - pw - 6, lx - 4)), py = ly - 15;
+        const ph = 22, pw = tw + 26, px = Math.max(6, Math.min(L3.W - pw - 6, lx - 4)); let py = ly - 15; L3.tags = L3.tags || []; for (let n = 0; n < 6 && L3.tags.some(r => px < r[0] + r[2] + 4 && px + pw + 4 > r[0] && py < r[1] + r[3] + 4 && py + ph + 4 > r[1]); n++) py += ph + 6; L3.tags.push([px, py, pw, ph]);
         c.save(); c.shadowColor = "rgba(15,23,42,.14)"; c.shadowBlur = 8; c.shadowOffsetY = 2; c.fillStyle = dark ? "rgba(15,23,42,.92)" : "rgba(255,255,255,.96)"; c.beginPath(); if (c.roundRect) c.roundRect(px, py, pw, ph, 11); else c.rect(px, py, pw, ph); c.fill(); c.restore();
         c.strokeStyle = `rgba(${ar.col.join(",")},.35)`; c.lineWidth = 1; c.beginPath(); if (c.roundRect) c.roundRect(px + 0.5, py + 0.5, pw - 1, ph - 1, 10.5); else c.rect(px, py, pw, ph); c.stroke();
         c.fillStyle = col; c.beginPath(); c.arc(px + 11, py + ph / 2, 3.6, 0, 7); c.fill();
         c.fillStyle = dark ? "#e2e8f0" : "#1e293b"; c.fillText(ar.label, px + 19, py + 15.5); } });
   }
   function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); }
-  function l3loop(now) { L3.raf = 0; if (!L3.cv || !document.contains(L3.cv)) { L3.cv = null; return; } if (L3.autoSpin && !L3.drag) L3.yaw += 0.0025; if (L3.cv.width !== Math.round(L3.cv.getBoundingClientRect().width * L3.dpr)) l3size(); l3draw(now); if (!fxCalm()) L3.raf = requestAnimationFrame(l3loop); }
+  function l3loop(now) { L3.raf = 0; if (!L3.cv || !document.contains(L3.cv)) { L3.cv = null; return; } if (L3.autoSpin && !L3.drag) L3.yaw += 0.0025; { const rr = L3.cv.getBoundingClientRect(); if (L3.cv.width !== Math.round(rr.width * L3.dpr) || L3.cv.height !== Math.round(rr.height * L3.dpr)) l3size(); } l3draw(now); if (!fxCalm()) L3.raf = requestAnimationFrame(l3loop); }
   function lr3start(h) {
     if (L3.raf) cancelAnimationFrame(L3.raf); L3.raf = 0;
     const cv = document.querySelector("#app canvas[data-lr3]"); if (!cv) { L3.cv = null; return; }
@@ -6349,7 +6413,7 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     "learn-lift": [{ cap: "날개를 옆에서 봅니다. 공기는 앞에서 뒤로 흐릅니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 480, "lr-l-h": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "윗면(파랑)은 공기가 빨리 흐르고 압력이 낮아집니다.", view: [-0.5, 0.35, 1.3] }, { cap: "아랫면(주황)은 압력이 조금 높습니다. 이 차이가 날개를 들어 올립니다.", view: [-0.5, -0.1, 1.3] }, { cap: "더 기울이면(받음각) 공기를 더 아래로 밀어 양력이 커집니다.", set: { "lr-l-cl": 1.2 }, view: [-0.22, 0.1, 1.25] }, { cap: "속도가 두 배가 되면 양력은 네 배가 됩니다.", set: { "lr-l-cl": 0.5, "lr-l-v": 900 } }, { cap: "높이 오르면 공기가 옅어져 같은 속도에서도 양력이 줄어듭니다.", set: { "lr-l-h": 11000 } }, { cap: "그래서 높은 곳에서는 더 빠르게 날아야 합니다.", set: { "lr-l-h": 0, "lr-l-v": 480 } }],
     "learn-stall": [{ cap: "받음각 4도. 공기가 날개 윗면을 따라 붙어 흐릅니다.", set: { "lr-s-a": 4 }, view: [-0.22, 0.1, 1.25] }, { cap: "더 기울이면 양력이 계속 커집니다.", set: { "lr-s-a": 11 } }, { cap: "15도 근처가 한계입니다. 이때 실속 경고가 울립니다.", set: { "lr-s-a": 14.5 } }, { cap: "넘으면 윗면 흐름이 떨어져 나가고 양력이 뚝 떨어집니다. 실속입니다.", set: { "lr-s-a": 19 } }, { cap: "회복은 기수를 숙여 받음각을 줄이는 것부터입니다.", set: { "lr-s-a": 5 } }],
     "learn-winglet": [{ cap: "윙렛이 없는 날개 끝. 아래 공기가 위로 말려 큰 소용돌이가 생깁니다.", click: '[data-lrw="none"]', view: [2.45, 0.42, 0.95] }, { cap: "블렌디드 윙렛. 끝을 위로 꺾어 소용돌이가 작아집니다.", click: '[data-lrw="blend"]' }, { cap: "분할 시미터 윙렛. 위아래로 갈라져 더 줄입니다.", click: '[data-lrw="scim"]', view: [2.2, 0.35, 1.05] }, { cap: "레이크드 윙팁. 꺾지 않고 날개 끝을 뒤로 길게 늘립니다.", click: '[data-lrw="raked"]', view: [2.7, 0.5, 0.75] }],
-    "learn-sweep": [{ cap: "곧은 날개는 바람을 정면으로 다 받습니다.", set: { "lr-sw-a": 0, "lr-sw-m": 0.78 }, view: [-0.35, 0.95, 0.95] }, { cap: "날개를 젖히면 날개가 정면으로 받는 바람(초록)이 줄어듭니다.", set: { "lr-sw-a": 30 } }, { cap: "그래서 마하 0.85로 빨리 날아도 충격파를 늦출 수 있습니다.", set: { "lr-sw-m": 0.85 } }, { cap: "덜 젖힌 날개로 빨리 날면 빨간색, 충격파 구간에 들어갑니다.", set: { "lr-sw-a": 10 } }, { cap: "여객기는 보통 25~38도 정도로 젖힙니다.", set: { "lr-sw-a": 25, "lr-sw-m": 0.78 } }],
+    "learn-sweep": [{ cap: "곧은 날개는 바람을 정면으로 다 받습니다.", set: { "lr-sw-a": 0, "lr-sw-m": 0.78 }, view: [-0.15, 1.3, 0.85] }, { cap: "날개를 젖히면 날개가 정면으로 받는 바람(초록)이 줄어듭니다.", set: { "lr-sw-a": 30 } }, { cap: "그래서 마하 0.85로 빨리 날아도 충격파를 늦출 수 있습니다.", set: { "lr-sw-m": 0.85 } }, { cap: "덜 젖힌 날개로 빨리 날면 빨간색, 충격파 구간에 들어갑니다.", set: { "lr-sw-a": 10 } }, { cap: "여객기는 보통 25~38도 정도로 젖힙니다.", set: { "lr-sw-a": 25, "lr-sw-m": 0.78 } }],
     "learn-highlift": [{ cap: "순항 때 날개. 얇고 매끈합니다.", set: { "lr-h-f": 0 }, view: [-0.22, 0.1, 1.25] }, { cap: "이륙: 슬랫과 플랩을 조금 펼칩니다.", set: { "lr-h-f": 1 } }, { cap: "더 펼치면 날개가 넓고 휘어져 양력이 커집니다.", set: { "lr-h-f": 3 }, view: [-0.6, 0.25, 1.2] }, { cap: "착륙: 가장 깊이 펼쳐 느린 속도에서도 날 수 있게 합니다.", set: { "lr-h-f": 4 } }, { cap: "펼칠수록 실속 속도가 내려가 더 천천히 내릴 수 있습니다.", view: [-0.22, 0.1, 1.25] }],
     "learn-control": [{ cap: "롤: 에일러론이 반대로 꺾여 한쪽 날개 양력만 커지고 기체가 기웁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 70 } }, { cap: "반대로 입력하면 반대쪽으로 기웁니다.", set: { "lr-c-in": -70 } }, { cap: "피치: 엘리베이터가 꼬리를 눌러 기수가 들립니다.", click: '[data-lra="pitch"]', set: { "lr-c-in": 70 } }, { cap: "요: 러더가 꼬리를 옆으로 밀어 기수가 돕니다.", click: '[data-lra="yaw"]', set: { "lr-c-in": 70 } }, { cap: "실제 선회에서는 세 축을 함께 씁니다.", click: '[data-lra="roll"]', set: { "lr-c-in": 40 } }]
   };
@@ -6520,6 +6584,28 @@ ${[0, 25, 50, 75, 100].map(q => `<line x1="${R(q)}" y1="-12" x2="${R(q)}" y2="12
   LEARN_TITLES["learn-speed"] = "속도의 종류"; LEARN_TITLES["learn-cg"] = "무게중심과 안정성";
   LEARN_UPD["learn-speed"] = lrSpeed; LEARN_UPD["learn-cg"] = lrCg;
   Object.keys(LEARN_PAGES).forEach(k => { const f = LEARN_PAGES[k]; LEARN_PAGES[k] = () => { const html = f(), end = html.lastIndexOf('<section class="card c12"><p class="lr-note">'); return end > 0 ? html.slice(0, end) + lrQuizHtml(k) + html.slice(end) : html.replace(/<\/div>\s*$/, lrQuizHtml(k) + "</div>"); }; });
+
+  /* ---------- 플랩과 슬랫: 날개 어디에 달려 있나 (위에서 본 그림) ---------- */
+  const LR_WHERE = () => { const mk = (x, y, n, c) => `<g class="mk"><circle cx="${x}" cy="${y}" r="11" fill="${c}"/><text x="${x}" y="${y + 4}" text-anchor="middle">${n}</text></g>`;
+    return `<section class="card c12">${cardH(ICON.wing, "슬랫과 플랩은 날개 어디에 있나", `<span class="hint">위에서 본 오른쪽 날개, 대략적인 배치</span>`)}<div class="card-b lr-where-b"><svg class="lr-where" viewBox="0 0 520 210" role="img" aria-label="위에서 본 날개에서 슬랫, 플랩, 에일러론, 스포일러 위치">
+<rect x="8" y="22" width="40" height="170" rx="20" class="fus"/>
+<path d="M48 40 L470 150 L484 156 L484 166 L340 166 L190 132 L48 132 Z" class="wing"/>
+<path d="M52 40 L468 148 L465 154 L50 47 Z" class="slat"/>
+<path d="M50 132 L188 132 L188 140 L50 140 Z M192 133 L320 162 L320 170 L192 141 Z" class="flap"/>
+<path d="M324 162 L410 166 L410 173 L324 170 Z" class="ail"/>
+<path d="M86 122 L180 122 L180 128 L86 128 Z M198 126 L300 150 L300 156 L198 132 Z" class="spl"/>
+<path d="M500 30 v44" class="arr"/><path d="M500 80 l-5 -9 h10z" class="arrh"/><text x="492" y="26" text-anchor="end" class="lab">공기</text>
+${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#2563eb")}${mk(372, 188, 4, "#64748b")}${mk(150, 110, 5, "#d97706")}
+</svg><ol class="lr-where-l">
+<li><i style="background:#3b82f6"></i><b>슬랫</b><span>날개 앞쪽 끝 전체. 앞아래로 미끄러져 나옵니다.</span></li>
+<li><i style="background:#3b82f6"></i><b>안쪽 플랩</b><span>날개 뒤쪽 끝, 동체에 가까운 쪽.</span></li>
+<li><i style="background:#3b82f6"></i><b>바깥쪽 플랩</b><span>안쪽 플랩 바로 바깥. 함께 뒤아래로 나옵니다.</span></li>
+<li><i style="background:#94a3b8"></i><b>에일러론</b><span>날개 끝 쪽 뒤쪽 끝. 좌우로 기울일 때 씁니다.</span></li>
+<li><i style="background:#f59e0b"></i><b>스포일러</b><span>날개 윗면. 위로 세워 양력을 줄입니다.</span></li>
+</ol></div></section>`; };
+  // '어디에 있나'와 '단면으로 보기'를 한 줄에 나란히
+  { const f = LEARN_PAGES["learn-highlift"]; LEARN_PAGES["learn-highlift"] = () => { let h = f(); const sa = h.indexOf('<section class="card c12 lr-sec2">'); let sec = ""; if (sa >= 0) { const sb = h.indexOf("</section>", sa) + "</section>".length; sec = h.slice(sa, sb).replace('class="card c12 lr-sec2"', 'class="card lr-sec2"'); h = h.slice(0, sa) + h.slice(sb); }
+    const i = h.indexOf("</section>", h.indexOf("lr-stage")) + "</section>".length; return i > 20 ? h.slice(0, i) + `<div class="c12 lr-wrow">${LR_WHERE().replace('class="card c12"', 'class="card"')}${sec}</div>` + h.slice(i) : h; }; }
   /* 사건사고 자료: 공식 조사 보고서 기준 요약 (출처는 각 항목 sources). manual.js의 사건사고 탭이 읽는다.
      사망자 수 기준이 기관 집계와 다른 경우 note에 적었다. */
   const ACCIDENTS = [
