@@ -194,38 +194,69 @@
   }
   function monthChart(M, key, unit, title) {
     const vals = M.map(m => key === "n" ? m.n : m.n ? Math.round(m.land / m.n) : 0), mx = Math.max(1, ...vals), W = 560, H = 190, x0 = 34, bw = (W - x0 - 8) / 12, y1 = H - 26, hh = y1 - 16;
-    const bars = M.map((m, i) => { const v = vals[i], h = v / mx * hh, x = x0 + i * bw; return `<g>${v ? `<rect class="mc-bar" x="${N(x + bw * 0.18)}" y="${N(y1 - h)}" width="${N(bw * 0.64)}" height="${N(h)}" rx="3"><title>${m.k}, ${v}${unit}</title></rect><text class="mc-v" x="${N(x + bw / 2)}" y="${N(y1 - h - 5)}" text-anchor="middle">${v}</text>` : ""}<text class="mc-x" x="${N(x + bw / 2)}" y="${H - 8}" text-anchor="middle">${m.lab}</text></g>`; }).join("");
+    const bars = M.map((m, i) => { const v = vals[i], h = v / mx * hh, x = x0 + i * bw; return `<g>${v ? `<rect class="mc-bar" x="${N(x + bw * 0.3)}" y="${N(y1 - h)}" width="${N(bw * 0.4)}" height="${N(h)}" rx="4"><title>${m.k}, ${v}${unit}</title></rect><text class="mc-v" x="${N(x + bw / 2)}" y="${N(y1 - h - 5)}" text-anchor="middle">${v}</text>` : `<circle class="mc-zero" cx="${N(x + bw / 2)}" cy="${N(y1 - 3)}" r="2"/>`}<text class="mc-x" x="${N(x + bw / 2)}" y="${H - 8}" text-anchor="middle">${m.lab}</text></g>`; }).join("");
     return `<svg class="mchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}: ${M.map((m, i) => m.lab + " " + vals[i] + unit).join(", ")}"><line class="mc-ax" x1="${x0}" y1="${y1}" x2="${W - 8}" y2="${y1}"/><text class="mc-x" x="${x0 - 6}" y="${y1 + 4}" text-anchor="end">0</text><text class="mc-x" x="${x0 - 6}" y="20" text-anchor="end">${mx}</text><line class="mc-grid" x1="${x0}" y1="16" x2="${W - 8}" y2="16"/>${bars}</svg>`;
   }
+  /* 통계: 위에 요약 숫자, 그 아래 기종(실루엣과 막대), 제작사 도넛과 구간 거리 띠, 월별 그래프, 착륙률 분포(초록에서 빨강) */
   function renderStats() {
     const L = PS.pireps, by = {}, st = pstats(0);
     L.forEach(p => { const b = by[p.ac] || (by[p.ac] = { n: 0, pax: 0, cargo: 0, min: 0, km: 0, fuel: 0, land: 0 }); b.n++; b.pax += p.pax || 0; b.cargo += p.cargo || 0; b.min += p.time; b.km += p.km; b.fuel += p.fuel || 0; b.land += p.land; });
     const ids = Object.keys(by).sort((a, b) => by[b].n - by[a].n), tot = { n: st.n, pax: st.pax, cargo: st.freight, min: st.min, km: st.km, fuel: st.fuel, land: st.n ? st.land * st.n : 0 };
     const mk = { boeing: 0, airbus: 0 }; L.forEach(p => { mk[byId[p.ac].maker]++; });
-    const dist = [["단거리 (1,500 km 미만)", L.filter(p => p.km < 1500).length], ["중거리 (1,500~5,000 km)", L.filter(p => p.km >= 1500 && p.km < 5000).length], ["장거리 (5,000 km 이상)", L.filter(p => p.km >= 5000).length]];
-    const land = [["100 fpm 이하", L.filter(p => Math.abs(p.land) <= 100).length, "good"], ["101~200 fpm", L.filter(p => Math.abs(p.land) > 100 && Math.abs(p.land) <= 200).length], ["201~300 fpm", L.filter(p => Math.abs(p.land) > 200 && Math.abs(p.land) <= 300).length], ["301~500 fpm", L.filter(p => Math.abs(p.land) > 300 && Math.abs(p.land) <= 500).length], ["500 fpm 초과", L.filter(p => Math.abs(p.land) > 500).length, "bad"]];
-    const M = monthSeries();
+    const dist = [["단거리", "1,500 km 미만", L.filter(p => p.km < 1500).length, "#5cc6f2"], ["중거리", "1,500~5,000 km", L.filter(p => p.km >= 1500 && p.km < 5000).length, "#2f80ed"], ["장거리", "5,000 km 이상", L.filter(p => p.km >= 5000).length, "#1d3b75"]];
+    const lands = [["100 이하", "아주 부드러움", x => x <= 100, "#16a34a"], ["101~200", "부드러움", x => x > 100 && x <= 200, "#65a30d"], ["201~300", "보통", x => x > 200 && x <= 300, "#ca8a04"], ["301~500", "단단함", x => x > 300 && x <= 500, "#ea580c"], ["500 초과", "거침", x => x > 500, "#dc2626"]].map(r => [r[0], r[1], L.filter(p => r[2](Math.abs(p.land))).length, r[3]]);
+    const M = monthSeries(), n = Math.max(1, L.length);
     const row = (name, b, strong) => `<tr${strong ? ' class="me-row"' : ""}><td>${name}</td><td class="num">${fmt(b.n)}</td><td class="num">${fmt(b.pax)}</td><td class="num">${fmt(Math.round(b.cargo / 1000))} t</td><td class="num">${hm(b.min)}</td><td class="num">${distTxt(b.km)}</td><td class="num">${fmt(Math.round(b.fuel / 1000))} t</td><td class="num">${b.n ? Math.round(b.land / b.n) : "-"} fpm</td></tr>`;
+    const mxType = Math.max(1, ...ids.map(id => by[id].n));
+    const typeRows = ids.length ? ids.map(id => { const ac = byId[id], b = by[id]; return `<a class="sx-type mk-${ac.maker}" href="#${id}"><span class="sx-sil">${silhouette(ac, 0.9, 120, 60)}</span><span class="sx-tn"><b>${esc(short(ac))}</b><small>${ICAO[id]} · ${hm(b.min)} · ${distTxt(b.km)}</small></span><span class="sx-bar"><i style="width:${N(b.n / mxType * 100)}%"></i></span><span class="sx-n">${fmt(b.n)}<small>회</small></span></a>`; }).join("") : `<p class="empty">아직 제출한 비행이 없습니다.</p>`;
+    // 제작사 도넛
+    const tb = mk.boeing + mk.airbus, C = 2 * Math.PI * 42, fb = tb ? mk.boeing / tb : 0;
+    const donut = `<svg class="sx-donut" viewBox="0 0 120 120" role="img" aria-label="보잉 ${mk.boeing}회, 에어버스 ${mk.airbus}회"><circle cx="60" cy="60" r="42" fill="none" stroke="var(--line)" stroke-width="14"/>${tb ? `<circle cx="60" cy="60" r="42" fill="none" stroke="var(--airbus)" stroke-width="14" stroke-dasharray="${N(C)} ${N(C)}" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="42" fill="none" stroke="var(--boeing)" stroke-width="14" stroke-dasharray="${N(C * fb)} ${N(C)}" transform="rotate(-90 60 60)"/>` : ""}<text x="60" y="58" text-anchor="middle" class="sx-dn">${fmt(tb)}</text><text x="60" y="74" text-anchor="middle" class="sx-dl">비행</text></svg>`;
+    const mkLeg = `<div class="sx-leg"><span><i style="background:var(--boeing)"></i>보잉<b>${mk.boeing}</b><small>${tb ? Math.round(fb * 100) : 0}%</small></span><span><i style="background:var(--airbus)"></i>에어버스<b>${mk.airbus}</b><small>${tb ? 100 - Math.round(fb * 100) : 0}%</small></span></div>`;
+    const stack = (rows, label) => `<div class="sx-stack" role="img" aria-label="${label}">${rows.map(r => r[2] ? `<i style="flex:${r[2]};background:${r[3]}" title="${r[0]} ${r[2]}회"></i>` : "").join("") || `<i class="none"></i>`}</div><div class="sx-sleg">${rows.map(r => `<span><i style="background:${r[3]}"></i><b>${r[0]}</b><small>${r[1]}</small><em>${r[2]}회</em></span>`).join("")}</div>`;
+    const landMax = Math.max(1, ...lands.map(r => r[2]));
+    const landCols = `<div class="sx-land">${lands.map(r => `<div class="sx-lc"><span class="sx-lv">${r[2]}<small>회</small></span><span class="sx-lb"><i style="height:${N(r[2] / landMax * 100)}%;background:${r[3]}"></i></span><b>${r[0]}</b><small>${r[1]}</small><em>${Math.round(r[2] / n * 100)}%</em></div>`).join("")}</div>`;
     return phead(`<a href="#profile">조종사 프로필</a>`, "통계", "제출한 PIREP으로 계산한 비행 습관과 기종별 로그북입니다.", `<span class="sync" data-sync>${syncText()}</span>`) + profTabs("stats") + `
 <div class="grid">${PS.demo ? demoNote() : ""}
-<section class="card c6">${cardH(ICON.plane, "기종별 비행")}<div class="card-b">${barList(ids.map(id => [`${ICAO[id]} ${esc(short(byId[id]))}`, by[id].n, "mk-" + byId[id].maker]), "회")}</div></section>
-<section class="card c6">${cardH(ICON.bldg, "제작사")}<div class="card-b">${barList([["보잉", mk.boeing, "mk-boeing"], ["에어버스", mk.airbus, "mk-airbus"]], "회")}</div>${cardH(ICON.route, "구간 거리")}<div class="card-b">${barList(dist, "회")}</div></section>
+<section class="card c12"><div class="stats">${statTiles(st, 0)}</div></section>
+<section class="card c7">${cardH(ICON.plane, "기종별 비행", `<span class="hint">${ids.length}개 기종</span>`)}<div class="card-b sx-types">${typeRows}</div></section>
+<section class="card c5">${cardH(ICON.bldg, "제작사와 구간 거리")}<div class="card-b"><div class="sx-mk">${donut}${mkLeg}</div><p class="sx-k">구간 거리</p>${stack(dist, "구간 거리 분포")}</div></section>
 <section class="card c6">${cardH(ICON.chart, "월별 비행 수", `<span class="hint">최근 12개월</span>`)}<div class="card-b">${monthChart(M, "n", "회", "월별 비행 수")}</div></section>
 <section class="card c6">${cardH(ICON.gauge, "월별 평균 착륙률", `<span class="hint">fpm, 낮을수록 부드러움</span>`)}<div class="card-b">${monthChart(M, "land", " fpm", "월별 평균 착륙률")}</div></section>
-<section class="card c12">${cardH(ICON.gauge, "착륙률 분포")}<div class="card-b">${barList(land, "회")}</div></section>
+<section class="card c12">${cardH(ICON.gauge, "착륙률 분포", `<span class="hint">접지 순간 하강률, fpm</span>`)}<div class="card-b">${landCols}</div></section>
 <section class="card c12">${cardH(ICON.book, "로그북", `<span class="hint">기종별 합계</span>`)}${ids.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>기종</th><th class="num">비행</th><th class="num">승객</th><th class="num">화물</th><th class="num">비행 시간</th><th class="num">거리</th><th class="num">연료</th><th class="num">평균 착륙률</th></tr></thead><tbody>${ids.map(id => row(`<a class="ext" href="#${id}"><span class="code">${ICAO[id]}</span> ${esc(byId[id].name)}</a>`, by[id])).join("")}${row("<strong>합계</strong>", tot, true)}</tbody></table></div>` : `<p class="empty">아직 제출한 PIREP이 없습니다.</p>`}</section></div>`;
   }
-  /* 패스포트: 여권 신원면과 입국 도장 면. 국기는 flag-icons(MIT) SVG를 CDN에서 불러오고, 못 불러오면 지운다 */
-  const flagImg = (cc, cls) => `<img class="${cls || "flag"}" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${String(cc).toLowerCase()}.svg" alt="" loading="lazy" onerror="this.remove()">`;
-  const ppHash = str => { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
-  const PP_INK = ["#b4232c", "#1f4fb5", "#0f7a55", "#6b3fb8", "#a85b0c", "#0e6f86"];
-  const ppCC = code => (APT.find(x => x[0] === code) || [])[3];
   function ppStamp(cc, info, i) {
-    const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = (h % 17) - 8, shape = ["circ", "rect", "oval"][h % 3], d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "";
-    return `<div class="pp-stamp ${shape}" style="--ink:${ink};--rot:${rot}deg;--dl:${(i * 0.07).toFixed(2)}s" title="${esc(CCN[cc] || cc)} 첫 입국 ${d}"><div class="pp-st-in"><span class="pp-st-top">ARRIVAL 입국</span>${flagImg(cc, "pp-st-flag")}<b>${esc(CCN[cc] || cc)}</b><span class="pp-st-date">${d}</span><span class="pp-st-apt">${info.apts.slice(0, 4).join(" ")}</span></div></div>`;
+    const h = ppHash(cc), ink = PP_INK[h % PP_INK.length], rot = Math.round(Math.random() * 28 - 14), shape = ["circ", "rect", "oval"][h % 3];
+    const d = info.first ? String(info.first).slice(0, 10).replace(/-/g, ".") : "", ko = esc(CCN[cc] || cc), en = esc(ccEn(cc)), ap = esc(info.apts.slice(0, 3).join("  "));
+    const fl = `https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/1x1/${String(cc).toLowerCase()}.svg`, id = "pps" + i;
+    // 국기는 작은 원 안에, 얇은 테를 두른다
+    const flag = (cx, cy, r) => `<clipPath id="${id}f"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath><image href="${fl}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" clip-path="url(#${id}f)" opacity=".85"/><circle cx="${cx}" cy="${cy}" r="${r + 1.6}" fill="none" stroke="currentColor" stroke-width=".7"/>`;
+    const T = (x, y, size, w, txt, ls, extra) => `<text x="${x}" y="${y}" text-anchor="middle" font-size="${size}" font-weight="${w}" letter-spacing="${ls || 0}" fill="currentColor"${extra || ""}>${txt}</text>`;
+    let g = "";
+    if (shape === "circ") g = `<circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="80" cy="80" r="70" fill="none" stroke="currentColor" stroke-width=".6"/><circle cx="80" cy="80" r="50" fill="none" stroke="currentColor" stroke-width=".7" stroke-dasharray=".6 2.4" stroke-linecap="round"/><circle cx="80" cy="80" r="47" fill="none" stroke="currentColor" stroke-width="1.2"/>
+<path id="${id}t" d="M80 80 m-60 0 a60 60 0 1 1 120 0" fill="none"/><text font-size="8.6" font-weight="600" letter-spacing="3.2" fill="currentColor" text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${en}</textPath></text>
+<path id="${id}b" d="M80 80 m-60 0 a60 60 0 0 0 120 0" fill="none"/><text font-size="7.4" font-weight="600" letter-spacing="3" fill="currentColor" text-anchor="middle"><textPath href="#${id}b" startOffset="50%">ARRIVAL · 입국</textPath></text>
+<g transform="translate(26 80) rotate(-90)">${PP_PLANE}</g><g transform="translate(134 80) rotate(90)">${PP_PLANE}</g>
+${flag(80, 56, 9)}${T(80, 86, 14, 700, ko)}<path d="M62 92.5h36" stroke="currentColor" stroke-width=".6"/>${T(80, 106, 11.5, 600, d, 1.2, ' class="num"')}${T(80, 118, 6.8, 600, ap, 2.4)}`;
+    else if (shape === "rect") g = `<rect x="8" y="24" width="144" height="112" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="13" y="29" width="134" height="102" rx="3" fill="none" stroke="currentColor" stroke-width=".6"/>
+${[[13, 29], [147, 29], [13, 131], [147, 131]].map(p => `<path d="M${p[0]} ${p[1] - 3}l3 3-3 3-3-3z" fill="currentColor"/>`).join("")}
+${T(80, 45, 8, 600, "ARRIVAL", 4.5)}<path d="M28 50h104" stroke="currentColor" stroke-width=".6"/>${flag(36, 70, 9)}<text x="52" y="69" font-size="14" font-weight="700" fill="currentColor">${ko}</text><text x="52" y="80" font-size="6.6" font-weight="600" letter-spacing="2" fill="currentColor">${en}</text>
+<path d="M28 90h104" stroke="currentColor" stroke-width=".6" stroke-dasharray=".6 2.4" stroke-linecap="round"/>${T(80, 108, 13, 600, d, 1.6, ' class="num"')}${T(80, 122, 6.8, 600, ap + "   입국", 2.4)}`;
+    else g = `<ellipse cx="80" cy="80" rx="74" ry="56" fill="none" stroke="currentColor" stroke-width="2.4"/><ellipse cx="80" cy="80" rx="69.5" ry="51.5" fill="none" stroke="currentColor" stroke-width=".6"/><ellipse cx="80" cy="80" rx="52" ry="35" fill="none" stroke="currentColor" stroke-width=".7" stroke-dasharray=".6 2.4" stroke-linecap="round"/>
+<path id="${id}t" d="M18 80 a62 44 0 0 1 124 0" fill="none"/><text font-size="8" font-weight="600" letter-spacing="3" fill="currentColor" text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${en}</textPath></text>
+<path id="${id}b" d="M18 80 a62 44 0 0 0 124 0" fill="none"/><text font-size="7" font-weight="600" letter-spacing="3" fill="currentColor" text-anchor="middle"><textPath href="#${id}b" startOffset="50%">ARRIVAL · 입국</textPath></text>
+${flag(58, 75, 8)}<text x="72" y="80" font-size="13" font-weight="700" fill="currentColor">${ko}</text>${T(80, 98, 11, 600, d, 1.2, ' class="num"')}`;
+    return `<div class="pp-stamp" role="button" tabindex="0" style="--ink:${ink};--rot:${rot}deg;--dl:${(i * 0.16).toFixed(2)}s" title="${ko} 첫 입국 ${d} (누르면 다시 찍기)"><svg viewBox="0 0 160 160" aria-hidden="true"><g filter="url(#ppInk)">${g}</g></svg></div>`;
   }
   // 여권 사진: 고른 사진은 300x400으로 줄여 이 브라우저(localStorage)에만 둔다. 없으면 조종사 실루엣
-  const PP_SIL = `<svg class="pp-sil" viewBox="0 0 120 160" aria-hidden="true"><rect width="120" height="160" fill="url(#ppbg)"/><defs><linearGradient id="ppbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe7f3"/><stop offset="1" stop-color="#b9c8de"/></linearGradient></defs><path d="M60 46c-14 0-24 9-24 23 0 15 10 28 24 28s24-13 24-28c0-14-10-23-24-23z" fill="#5b6f8f"/><path d="M30 52c2-12 14-20 30-20s28 8 30 20l-6 2H36z" fill="#2b3d5c"/><rect x="34" y="50" width="52" height="6" rx="3" fill="#1d2c47"/><circle cx="60" cy="41" r="4" fill="#d8c07a"/><path d="M14 160c2-30 20-46 46-46s44 16 46 46z" fill="#2b3d5c"/><path d="M52 114l8 14 8-14z" fill="#e9eef6"/><path d="M58 120h4l2 40h-8z" fill="#8a1c1c"/><path d="M30 130h14M76 130h14" stroke="#d8c07a" stroke-width="3"/></svg>`;
+  const PP_SIL = `<svg class="pp-sil" viewBox="0 0 120 160" aria-hidden="true"><defs><linearGradient id="ppbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6ecf5"/><stop offset="1" stop-color="#c3d0e3"/></linearGradient></defs><rect width="120" height="160" fill="url(#ppbg)"/>
+<path d="M50 92h20v18c0 4-4 8-10 8s-10-4-10-8z" fill="#55698a"/>
+<ellipse cx="60" cy="70" rx="21" ry="25" fill="#5d7193"/>
+<path d="M36 56c1-13 11-21 24-21s23 8 24 21z" fill="#22355a"/><path d="M33 56h54c2 0 3 1.5 2 3l-2 3H33l-2-3c-1-1.5 0-3 2-3z" fill="#18284a"/><path d="M41 62h38l-2 5H43z" fill="#121e38"/><circle cx="60" cy="45" r="3.6" fill="#d8c07a"/>
+<path d="M10 160c1-22 13-38 32-43l18 14 18-14c19 5 31 21 32 43z" fill="#22355a"/>
+<path d="M45 115l15 16 15-16-4-3-11 10-11-10z" fill="#eef2f8"/><path d="M57.5 124h5l2.5 36h-10z" fill="#7a1d24"/>
+<path d="M22 138h16M82 138h16" stroke="#d8c07a" stroke-width="3" stroke-linecap="round"/></svg>`;
   let ppPhoto = ""; try { ppPhoto = localStorage.getItem("hub-pp-photo") || ""; } catch (e) { /* 저장소 없음 */ }
   const ppPhotoHtml = () => ppPhoto ? `<img src="${ppPhoto}" alt="여권 사진">` : PP_SIL;
   document.addEventListener("click", e => {
@@ -239,6 +270,18 @@
     rdr.onload = () => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"); c.width = 300; c.height = 400; const g = c.getContext("2d"), r = Math.max(300 / im.width, 400 / im.height), w = im.width * r, h = im.height * r; g.drawImage(im, (300 - w) / 2, (400 - h) / 2, w, h); ppPhoto = c.toDataURL("image/jpeg", 0.82); try { localStorage.setItem("hub-pp-photo", ppPhoto); } catch (er) { /* 용량 초과면 이번 화면에만 */ } document.querySelectorAll(".pp-photo-img").forEach(x => { x.innerHTML = ppPhotoHtml(); }); const d = document.querySelector("[data-pp='photo-del']"); if (d) d.hidden = false; }; im.src = rdr.result; };
     rdr.readAsDataURL(f); e.target.value = "";
   });
+  /* 도장 찍기 모션: 화면에 들어오면 차례로 '쾅' 찍힌다. 도장을 누르면 기울기를 새로 정해 다시 찍는다. 움직임 줄이기면 바로 보인다 */
+  function ppStampWire() {
+    const box = document.querySelector("#app .pp-visa"); if (!box || box.__wired) return; box.__wired = true;
+    const L = Array.from(box.querySelectorAll(".pp-stamp:not(.empty)"));
+    if (typeof fxCalm === "function" && fxCalm()) { L.forEach(x => x.classList.add("done")); return; }
+    const go = el => { el.classList.remove("go", "done"); void el.offsetWidth; el.classList.add("go"); };
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { go(e.target); io.unobserve(e.target); } }), { threshold: 0.35 });
+    L.forEach(x => io.observe(x));
+    box.addEventListener("click", e => { const st = e.target.closest(".pp-stamp:not(.empty)"); if (!st) return; st.style.setProperty("--rot", Math.round(Math.random() * 28 - 14) + "deg"); st.style.setProperty("--dl", "0s"); go(st); });
+    box.addEventListener("keydown", e => { if (e.key !== "Enter" && e.key !== " ") return; const st = e.target.closest(".pp-stamp:not(.empty)"); if (!st) return; e.preventDefault(); st.click(); });
+  }
+  new MutationObserver(() => { if (document.querySelector("#app .pp-visa")) ppStampWire(); }).observe(document.getElementById("app"), { childList: true, subtree: true });
   function renderPassport() {
     const vis = {}, firstC = {};
     PS.pireps.slice().sort((x, y) => String(x.filed).localeCompare(String(y.filed))).forEach(p => { vis[p.dep] = (vis[p.dep] || 0) + 1; vis[p.arr] = (vis[p.arr] || 0) + 1; [p.dep, p.arr].forEach(code => { const c = ppCC(code); if (!c) return; const f = firstC[c] || (firstC[c] = { first: p.filed, apts: [] }); if (f.apts.indexOf(code) < 0) f.apts.push(code); }); });
@@ -258,11 +301,11 @@
 <div class="pp-spread"><div class="pp-page pp-left">
 <div class="pp-photo"><button type="button" class="pp-photo-img" data-pp="photo" title="눌러서 사진 바꾸기">${ppPhotoHtml()}</button><input type="file" id="pp-photo-in" accept="image/*" hidden><span class="pp-photo-hint">눌러서 사진 넣기</span><button type="button" class="pp-photo-del" data-pp="photo-del"${ppPhoto ? "" : " hidden"}>사진 지우기</button></div>
 <dl class="pp-fields"><div class="w2"><dt>성명 / Name</dt><dd>${esc(nm)}</dd></div><div><dt>조종사 번호 / Pilot No.</dt><dd class="mono">${num}</dd></div><div><dt>계급 / Rank</dt><dd>${esc(rk.name)}</dd></div><div><dt>발급일 / Date of issue</dt><dd class="mono">${esc(issued || "-")}</dd></div><div><dt>발행 / Authority</dt><dd>Jetliner Virtual</dd></div><div class="w2"><dt>현재 위치 / Location</dt><dd>${esc(PS.pilot.loc)} ${esc(loc ? loc.name : "")}</dd></div><div class="w2 pp-sign"><dt>서명 / Signature</dt><dd>${esc(nm)}</dd></div></dl></div>
-<div class="pp-page pp-right"><span class="pp-wm">${ICON.globe}</span><p class="pp-rt">여행 기록 / Travel record</p>
+<div class="pp-page pp-right"><span class="pp-wm">${ICON.globe}</span><p class="pp-rt">여행 기록<small>TRAVEL RECORD</small></p>
 <div class="pp-rows"><div><span>방문한 공항</span><b>${nA}<small> / ${APT.length}</small></b></div><div><span>방문한 나라</span><b>${seen.length}<small> / ${ccs.length}</small></b></div><div><span>모든 공항을 방문한 나라</span><b>${full.length}</b></div><div><span>첫 입국</span><b class="mono">${seen.length && firstC[seen[0]] ? esc(String(firstC[seen[0]].first).slice(0, 10).replace(/-/g, ".")) : "-"}</b></div></div>
 <div class="pp-mini">${ppPhotoHtml()}</div></div></div>
 <div class="pp-mrz" aria-hidden="true"><span>${esc(mrz1)}</span><span>${esc(mrz2)}</span></div></section>
-<section class="card c12">${cardH(ICON.check, "입국 도장", `<span class="hint">${seen.length}개국, 처음 내린 순서</span>`)}<div class="pp-visa">${seen.length ? seen.map((c, i) => ppStamp(c, firstC[c] || { first: "", apts: [] }, i)).join("") : `<p class="empty">아직 찍힌 도장이 없습니다. 첫 비행을 마치면 여기에 입국 도장이 찍힙니다.</p>`}${todo.slice(0, Math.max(0, 8 - seen.length)).map(c => `<div class="pp-stamp empty" title="${esc(CCN[c] || c)}">${flagImg(c, "pp-st-flag")}<span>${esc(CCN[c] || c)}</span></div>`).join("")}</div></section>
+<section class="card c12">${cardH(ICON.check, "입국 도장", `<span class="hint">${seen.length}개국, 처음 내린 순서</span>`)}<div class="pp-visa">${PP_DEFS}${seen.length ? seen.map((c, i) => ppStamp(c, firstC[c] || { first: "", apts: [] }, i)).join("") : `<p class="empty">아직 찍힌 도장이 없습니다. 첫 비행을 마치면 여기에 입국 도장이 찍힙니다.</p>`}${todo.slice(0, Math.max(0, 8 - seen.length)).map(c => `<div class="pp-stamp empty" title="${esc(CCN[c] || c)}">${flagImg(c, "pp-st-flag")}<span>${esc(CCN[c] || c)}</span></div>`).join("")}</div></section>
 <section class="card c7">${cardH(ICON.check, "방문한 나라", `<span class="hint">${seen.length}개국</span>`)}<div class="pp-list">${seen.length ? seen.map(cRow).join("") : `<p class="empty">아직 방문한 공항이 없습니다.</p>`}</div></section>
 <section class="card c5">${cardH(ICON.pin, "아직 가 보지 않은 나라", `<span class="hint">${todo.length}개국</span>`)}<div class="pp-list">${todo.length ? todo.map(cRow).join("") : `<p class="empty">취항하는 모든 나라를 방문했습니다.</p>`}</div></section></div>`;
   }
