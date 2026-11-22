@@ -1,0 +1,36 @@
+AIRPORT GROUND DATA — source and integration notes
+
+File: airport-ground-data.json
+Schema: {metadata, airports: {ICAO: {icao,status,source,operationalRestrictionsStatus,features,counts}}}
+features are standard GeoJSON Features; coordinates are [longitude,latitude].
+properties.aeroway and properties.kind preserve the feature class. All original OSM tags are retained, including ref, name, oneway, access, width, clearance and review when present. No missing restriction is converted into permission. properties.nodeIds corresponds one-to-one to LineString coordinates. osmType/osmId/osmVersion/osmTimestamp/sourceUrl retain source identity. Source raw-file SHA256, query bounding box and OSM database snapshot are airport-level metadata.
+
+Coverage (downloaded 2026-11-22 UTC)
+RKSI / Incheon: 205 mapped parking-position nodes, 277 stand lead-in ways, 150 gate nodes, 800 taxiways, 236 taxilanes. OSM database 2026-11-22T09:33:51Z.
+RJAA / Narita: 261 mapped parking-position nodes, 509 stand lead-in ways, 97 gate nodes, 593 taxiways. OSM database 2026-11-22T09:34:49Z.
+RKPC / Jeju: 129 stand lead-in ways, 22 gate nodes, 81 taxiways. No parking-position nodes and no stand-way ref identifiers. OSM database 2026-11-22T09:35:51Z.
+Remaining 63 airports: existing local OSM-derived taxiway/taxilane/apron/terminal geometry retained; stand selection HOLD_STANDS_NOT_IN_LEGACY_CHART. Existing chart-build.js intentionally discarded gates and parking positions, source node IDs, version and retrieval date. Original chartsrc directory not present. The fallback is simplified 1.5–2.5m and rounded to1m; do not represent reconstructed intersections as original OSM shared-node evidence.
+
+Stand vs gate
+OSM aeroway=gate normally locates passenger boarding inside the terminal. It is not an aircraft parking coordinate. OSM parking_position nodes locate the nose-wheel stop, not the aircraft model origin. OSM parking_position ways are mapped from the relevant taxiway toward the nose-wheel stop. Use the final end only when connectivity confirms it is an actual end, not an intermediate split segment; ambiguous branching/ends must remain held. A stand identifier can differ from the boarding-gate identifier. Jeju's unnamed ways must not inherit nearest gate numbers. Label verified endpoints by OSM source ID and explicitly say the stand number is unknown.
+Reference: https://wiki.openstreetmap.org/wiki/Tag:aeroway%3Dparking_position
+Reference: https://wiki.openstreetmap.org/wiki/Tag:aeroway%3Dtaxilane
+Reference: https://wiki.openstreetmap.org/wiki/Aeroways
+
+Connectivity validation
+Raw node/coordinate array lengths and all geographic coordinates passed validation.
+184/205 Incheon point stands and 255/261 Narita point stands lie within10m of a mapped taxiway/taxilane/stand-line endpoint. This is a proximity diagnostic, NOT proof that a gap is paved or operationally permitted. Graph routing must independently check connection, runway crossings, stand endpoint semantics and prohibit arbitrary apron/grass bridges. Original ref-less or unconnected points remain in source data, but should not become selectable routes by assumption.
+Relations were not reconstructed into potentially incorrect polygons: the existing chart's apron/terminal polygons are included as contextOnly/sourceDerivative, not routing evidence. Raw relation records remain in the archived source files.
+
+Operational scope
+Map geometry is not ATC clearance, current closure information, aircraft compatibility, wingtip clearance, pavement strength, permitted pushback or a published taxi procedure. Selected topology paths must be described as geometric OSM-based illustrations. The current source set does not certify these operating restrictions.
+Official RKSI AIP checked 2026-11-22, dated package 2026-04-02:
+https://aim.koca.go.kr/eaipPub/Package/2026-04-02/html/eAIP/KR-AD-2.RKSI-en-GB.html
+Section11 explicitly requires Code F aircraft to use published movement-chart routes unless directed otherwise, and lists apron/stand restrictions. This confirms that a generic shortest geometric route cannot be advertised as valid for all21 aircraft. No current NOTAM clearance is claimed.
+
+License
+Data © OpenStreetMap contributors, Open Database License1.0.
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+Retain attribution and ODbL source/database notices when redistributing this derivative database.
+Acquisition: public Overpass API out meta geom, limited airport bounding boxes. Raw requests/responses and SHA evidence retained under work/flight-mode/ground-sources. Several initial endpoints returned406/429 or timed out; successful final responses were from https://overpass-api.de/api/interpreter using GET. No invented coordinates or substitute fabricated stand labels were added.

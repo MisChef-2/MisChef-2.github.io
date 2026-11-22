@@ -1,0 +1,4696 @@
+{
+  "checkedAt": "2026-11-22T10:49:08.284Z",
+  "airportCount": 63,
+  "usableReferenceAirports": 46,
+  "airports": [
+    {
+      "icao": "RKSS",
+      "iata": "GMP",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "standCount": 147,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RKPK",
+      "iata": "PUS",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 53,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RKTN",
+      "iata": "TAE",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 11,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RKTU",
+      "iata": "CJJ",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 27,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RKJJ",
+      "iata": "KWJ",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 5,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RJTT",
+      "iata": "HND",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 145,
+      "connectedStands": 145,
+      "departures": [
+        {
+          "runway": "04",
+          "stand": "146",
+          "distanceM": 811
+        },
+        {
+          "runway": "22",
+          "stand": "344",
+          "distanceM": 1152
+        },
+        {
+          "runway": "05",
+          "stand": "8",
+          "distanceM": 4173
+        },
+        {
+          "runway": "23",
+          "stand": "8",
+          "distanceM": 5964
+        },
+        {
+          "runway": "16L",
+          "stand": "501",
+          "distanceM": 1131
+        },
+        {
+          "runway": "16R",
+          "stand": "146",
+          "distanceM": 1611
+        },
+        {
+          "runway": "34L",
+          "stand": "8",
+          "distanceM": 995
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "23",
+          "stand": "807",
+          "distanceM": 2182
+        },
+        {
+          "runway": "34R",
+          "stand": "402",
+          "distanceM": 1857
+        },
+        {
+          "runway": "16R",
+          "stand": "2",
+          "distanceM": 1026
+        },
+        {
+          "runway": "34L",
+          "stand": "151",
+          "distanceM": 892
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:6",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:6",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "05",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:6",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:6",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:6",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "RJBB",
+      "iata": "KIX",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 123,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RJFF",
+      "iata": "FUK",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "standCount": 65,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RJCC",
+      "iata": "CTS",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 64,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "ROAH",
+      "iata": "OKA",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 64,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RJGG",
+      "iata": "NGO",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 71,
+      "connectedStands": 71,
+      "departures": [
+        {
+          "runway": "18",
+          "stand": "108",
+          "distanceM": 1333
+        },
+        {
+          "runway": "36",
+          "stand": "504",
+          "distanceM": 1340
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "18",
+          "stand": "403",
+          "distanceM": 1149
+        },
+        {
+          "runway": "36",
+          "stand": "103",
+          "distanceM": 1799
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "ZBAA",
+      "iata": "PEK",
+      "status": "HOLD_NO_COMPLETE_REFERENCE_ROUTE",
+      "standCount": 231,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "01",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "01",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "19",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "19",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "18L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "18L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "36R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "36R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "18R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "18R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "36L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "36L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "ZSPD",
+      "iata": "PVG",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 228,
+      "connectedStands": 228,
+      "departures": [
+        {
+          "runway": "16R",
+          "stand": "67",
+          "distanceM": 757
+        },
+        {
+          "runway": "34L",
+          "stand": "575",
+          "distanceM": 3188
+        },
+        {
+          "runway": "17L",
+          "stand": "301",
+          "distanceM": 516
+        },
+        {
+          "runway": "35R",
+          "stand": "512",
+          "distanceM": 827
+        },
+        {
+          "runway": "17R",
+          "stand": "310",
+          "distanceM": 517
+        },
+        {
+          "runway": "35L",
+          "stand": "347",
+          "distanceM": 511
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "16R",
+          "stand": "575",
+          "distanceM": 1092
+        },
+        {
+          "runway": "34L",
+          "stand": "93",
+          "distanceM": 1289
+        },
+        {
+          "runway": "17L",
+          "stand": "209",
+          "distanceM": 691
+        },
+        {
+          "runway": "35R",
+          "stand": "209",
+          "distanceM": 712
+        },
+        {
+          "runway": "17R",
+          "stand": "337",
+          "distanceM": 1106
+        },
+        {
+          "runway": "35L",
+          "stand": "319",
+          "distanceM": 999
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "16L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "ZGGG",
+      "iata": "CAN",
+      "status": "HOLD_SOURCE_NOT_FOUND",
+      "departures": [],
+      "arrivals": []
+    },
+    {
+      "icao": "ZGSZ",
+      "iata": "SZX",
+      "status": "HOLD_NO_COMPLETE_REFERENCE_ROUTE",
+      "standCount": 117,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "15",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "15",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "33",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "33",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VHHH",
+      "iata": "HKG",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 105,
+      "connectedStands": 101,
+      "departures": [
+        {
+          "runway": "07C",
+          "stand": "V131",
+          "distanceM": 2137
+        },
+        {
+          "runway": "25C",
+          "stand": "E19",
+          "distanceM": 549
+        },
+        {
+          "runway": "07R",
+          "stand": "C12",
+          "distanceM": 2316
+        },
+        {
+          "runway": "25L",
+          "stand": "A11",
+          "distanceM": 535
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "07C",
+          "stand": "V131",
+          "distanceM": 851
+        },
+        {
+          "runway": "25C",
+          "stand": "V131",
+          "distanceM": 1634
+        },
+        {
+          "runway": "07R",
+          "stand": "S49",
+          "distanceM": 1773
+        },
+        {
+          "runway": "25L",
+          "stand": "W48",
+          "distanceM": 2487
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "07L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "07L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "25R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "RCTP",
+      "iata": "TPE",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 77,
+      "connectedStands": 77,
+      "departures": [
+        {
+          "runway": "05L",
+          "stand": "D10",
+          "distanceM": 1711
+        },
+        {
+          "runway": "23R",
+          "stand": "505",
+          "distanceM": 467
+        },
+        {
+          "runway": "05R",
+          "stand": "D10",
+          "distanceM": 2953
+        },
+        {
+          "runway": "23L",
+          "stand": "601",
+          "distanceM": 919
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "05L",
+          "stand": "513",
+          "distanceM": 1446
+        },
+        {
+          "runway": "05R",
+          "stand": "602",
+          "distanceM": 1025
+        },
+        {
+          "runway": "23L",
+          "stand": "615",
+          "distanceM": 3186
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "23R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:1",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "WSSS",
+      "iata": "SIN",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 158,
+      "connectedStands": 158,
+      "departures": [
+        {
+          "runway": "20C",
+          "stand": "E07",
+          "distanceM": 922
+        },
+        {
+          "runway": "02L",
+          "stand": "A14",
+          "distanceM": 1285
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "02C",
+          "stand": "306",
+          "distanceM": 3471
+        },
+        {
+          "runway": "20R",
+          "stand": "A16",
+          "distanceM": 1589
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "02C",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "20C",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "02L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "20R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "02R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "02R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "20L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "20L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VTBS",
+      "iata": "BKK",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 71,
+      "connectedStands": 71,
+      "departures": [
+        {
+          "runway": "01",
+          "stand": "203",
+          "distanceM": 3867
+        },
+        {
+          "runway": "19",
+          "stand": "115",
+          "distanceM": 1265
+        },
+        {
+          "runway": "02R",
+          "stand": "403",
+          "distanceM": 2747
+        },
+        {
+          "runway": "20L",
+          "stand": "510",
+          "distanceM": 596
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "01",
+          "stand": "A02",
+          "distanceM": 2776
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "19",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "02L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "02L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "20R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "20R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "02R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "20L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VVTS",
+      "iata": "SGN",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 51,
+      "connectedStands": 51,
+      "departures": [
+        {
+          "runway": "07L",
+          "stand": "84",
+          "distanceM": 2497
+        },
+        {
+          "runway": "07R",
+          "stand": "84",
+          "distanceM": 1278
+        },
+        {
+          "runway": "25L",
+          "stand": "16",
+          "distanceM": 1710
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "07R",
+          "stand": "09",
+          "distanceM": 1078
+        },
+        {
+          "runway": "25L",
+          "stand": "88",
+          "distanceM": 1950
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "07L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "25R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VVNB",
+      "iata": "HAN",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 46,
+      "connectedStands": 46,
+      "departures": [
+        {
+          "runway": "11R",
+          "stand": "44",
+          "distanceM": 599
+        },
+        {
+          "runway": "29L",
+          "stand": "71",
+          "distanceM": 778
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "11R",
+          "stand": "4",
+          "distanceM": 1060
+        },
+        {
+          "runway": "29L",
+          "stand": "52",
+          "distanceM": 2521
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "11L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "11L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "29R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "29R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VVDN",
+      "iata": "DAD",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 36,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "RPLL",
+      "iata": "MNL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 78,
+      "connectedStands": 78,
+      "departures": [
+        {
+          "runway": "06",
+          "stand": "024",
+          "distanceM": 454
+        },
+        {
+          "runway": "24",
+          "stand": "T2-40",
+          "distanceM": 724
+        },
+        {
+          "runway": "13",
+          "stand": "T3-122",
+          "distanceM": 488
+        },
+        {
+          "runway": "31",
+          "stand": "T2-49",
+          "distanceM": 339
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "06",
+          "stand": "T2-40",
+          "distanceM": 680
+        },
+        {
+          "runway": "24",
+          "stand": "025",
+          "distanceM": 464
+        },
+        {
+          "runway": "13",
+          "stand": "T2-40",
+          "distanceM": 900
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "31",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "RPVM",
+      "iata": "CEB",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 8,
+      "connectedStands": 8,
+      "departures": [
+        {
+          "runway": "04L",
+          "stand": "Parking_11A",
+          "distanceM": 881
+        },
+        {
+          "runway": "22R",
+          "stand": "Parking_6_(Cargo)",
+          "distanceM": 541
+        },
+        {
+          "runway": "04R",
+          "stand": "Parking_11A",
+          "distanceM": 2639
+        },
+        {
+          "runway": "22L",
+          "stand": "Parking_6_(Cargo)",
+          "distanceM": 1579
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "22R",
+          "stand": "Parking_11A",
+          "distanceM": 1527
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "WMKK",
+      "iata": "KUL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 155,
+      "connectedStands": 155,
+      "departures": [
+        {
+          "runway": "14L",
+          "stand": "B63",
+          "distanceM": 2323
+        },
+        {
+          "runway": "14R",
+          "stand": "F07",
+          "distanceM": 2591
+        },
+        {
+          "runway": "32L",
+          "stand": "F07",
+          "distanceM": 2544
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "32R",
+          "stand": "B61",
+          "distanceM": 2486
+        },
+        {
+          "runway": "14R",
+          "stand": "C51",
+          "distanceM": 4084
+        },
+        {
+          "runway": "32L",
+          "stand": "P06",
+          "distanceM": 3257
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "14L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "32R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "15",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "15",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "33",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "33",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "WADD",
+      "iata": "DPS",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 32,
+      "connectedStands": 32,
+      "departures": [
+        {
+          "runway": "09",
+          "stand": "3",
+          "distanceM": 547
+        },
+        {
+          "runway": "27",
+          "stand": "31",
+          "distanceM": 465
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "09",
+          "stand": "22",
+          "distanceM": 419
+        },
+        {
+          "runway": "27",
+          "stand": "3",
+          "distanceM": 837
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "WIII",
+      "iata": "CGK",
+      "status": "HOLD_NO_COMPLETE_REFERENCE_ROUTE",
+      "standCount": 1,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "06",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "07L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "07L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "25R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "07R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "07R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "25L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VIDP",
+      "iata": "DEL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 81,
+      "connectedStands": 76,
+      "departures": [
+        {
+          "runway": "09",
+          "stand": "A111",
+          "distanceM": 1360
+        },
+        {
+          "runway": "27",
+          "stand": "A111",
+          "distanceM": 388
+        },
+        {
+          "runway": "10",
+          "stand": "A11",
+          "distanceM": 939
+        },
+        {
+          "runway": "28",
+          "stand": "A111",
+          "distanceM": 610
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "09",
+          "stand": "A11",
+          "distanceM": 635
+        },
+        {
+          "runway": "27",
+          "stand": "A111",
+          "distanceM": 1809
+        },
+        {
+          "runway": "10",
+          "stand": "A111",
+          "distanceM": 1855
+        },
+        {
+          "runway": "28",
+          "stand": "A11",
+          "distanceM": 1242
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "11L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "11L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "29R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "29R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "11R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "11R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "29L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "29L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:18",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "VABB",
+      "iata": "BOM",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 77,
+      "connectedStands": 77,
+      "departures": [
+        {
+          "runway": "09",
+          "stand": "A11",
+          "distanceM": 596
+        },
+        {
+          "runway": "27",
+          "stand": "V14",
+          "distanceM": 1186
+        },
+        {
+          "runway": "14",
+          "stand": "C11",
+          "distanceM": 358
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "27",
+          "stand": "A06",
+          "distanceM": 1041
+        },
+        {
+          "runway": "32",
+          "stand": "C27",
+          "distanceM": 499
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "09",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "14",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "32",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "OMDB",
+      "iata": "DXB",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 182,
+      "connectedStands": 182,
+      "departures": [
+        {
+          "runway": "12L",
+          "stand": "E15",
+          "distanceM": 604
+        },
+        {
+          "runway": "30L",
+          "stand": "S09",
+          "distanceM": 1171
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "12L",
+          "stand": "E43",
+          "distanceM": 2520
+        },
+        {
+          "runway": "30R",
+          "stand": "E14",
+          "distanceM": 828
+        },
+        {
+          "runway": "12R",
+          "stand": "S15",
+          "distanceM": 2347
+        },
+        {
+          "runway": "30L",
+          "stand": "A02",
+          "distanceM": 2662
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "30R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "12R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "OTHH",
+      "iata": "DOH",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 90,
+      "connectedStands": 83,
+      "departures": [
+        {
+          "runway": "16L",
+          "stand": "F10",
+          "distanceM": 2001
+        },
+        {
+          "runway": "34L",
+          "stand": "501",
+          "distanceM": 2205
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "16L",
+          "stand": "G10",
+          "distanceM": 2445
+        },
+        {
+          "runway": "34R",
+          "stand": "G10",
+          "distanceM": 1976
+        },
+        {
+          "runway": "16R",
+          "stand": "501",
+          "distanceM": 783
+        },
+        {
+          "runway": "34L",
+          "stand": "501",
+          "distanceM": 760
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:28",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:28",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LTFM",
+      "iata": "IST",
+      "status": "HOLD_OFFICIAL_POINTS_WITHOUT_TAXI_GRAPH",
+      "departures": [],
+      "arrivals": [],
+      "standCount": 364,
+      "connectedStands": 0,
+      "held": [
+        {
+          "reason": "Official INS/stand coordinates only; no taxi topology inferred"
+        }
+      ]
+    },
+    {
+      "icao": "EGLL",
+      "iata": "LHR",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 181,
+      "connectedStands": 181,
+      "departures": [
+        {
+          "runway": "09L",
+          "stand": "531",
+          "distanceM": 729
+        },
+        {
+          "runway": "27R",
+          "stand": "249",
+          "distanceM": 953
+        },
+        {
+          "runway": "09R",
+          "stand": "539",
+          "distanceM": 677
+        },
+        {
+          "runway": "27L",
+          "stand": "432",
+          "distanceM": 657
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "09L",
+          "stand": "210",
+          "distanceM": 1168
+        },
+        {
+          "runway": "27R",
+          "stand": "596",
+          "distanceM": 1042
+        },
+        {
+          "runway": "09R",
+          "stand": "225",
+          "distanceM": 638
+        },
+        {
+          "runway": "27L",
+          "stand": "583",
+          "distanceM": 896
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "LFPG",
+      "iata": "CDG",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 245,
+      "connectedStands": 244,
+      "departures": [
+        {
+          "runway": "08L",
+          "stand": "M09",
+          "distanceM": 1223
+        },
+        {
+          "runway": "26R",
+          "stand": "J03",
+          "distanceM": 1112
+        },
+        {
+          "runway": "09R",
+          "stand": "I42",
+          "distanceM": 1634
+        },
+        {
+          "runway": "27L",
+          "stand": "H05",
+          "distanceM": 2899
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "08L",
+          "stand": "K76",
+          "distanceM": 1319
+        },
+        {
+          "runway": "26R",
+          "stand": "M06",
+          "distanceM": 2679
+        },
+        {
+          "runway": "09R",
+          "stand": "X04",
+          "distanceM": 3073
+        },
+        {
+          "runway": "27L",
+          "stand": "I22",
+          "distanceM": 3125
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "08R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "08R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "26L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "26L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "09L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "09L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "27R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "27R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "EDDF",
+      "iata": "FRA",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 156,
+      "connectedStands": 156,
+      "departures": [
+        {
+          "runway": "25C",
+          "stand": "V118",
+          "distanceM": 563
+        },
+        {
+          "runway": "07L",
+          "stand": "V268",
+          "distanceM": 2074
+        },
+        {
+          "runway": "25R",
+          "stand": "F219",
+          "distanceM": 1624
+        },
+        {
+          "runway": "07R",
+          "stand": "F235",
+          "distanceM": 1870
+        },
+        {
+          "runway": "25L",
+          "stand": "H012",
+          "distanceM": 658
+        },
+        {
+          "runway": "18",
+          "stand": "F235",
+          "distanceM": 695
+        },
+        {
+          "runway": "36",
+          "stand": "F235",
+          "distanceM": 4953
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "07C",
+          "stand": "B47",
+          "distanceM": 1886
+        },
+        {
+          "runway": "07L",
+          "stand": "V268",
+          "distanceM": 4406
+        },
+        {
+          "runway": "07R",
+          "stand": "H012",
+          "distanceM": 2131
+        },
+        {
+          "runway": "25L",
+          "stand": "J017",
+          "distanceM": 2012
+        },
+        {
+          "runway": "36",
+          "stand": "V268",
+          "distanceM": 2730
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "07C",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25C",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "18",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "EDDM",
+      "iata": "MUC",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 148,
+      "connectedStands": 148,
+      "departures": [
+        {
+          "runway": "08L",
+          "stand": "170",
+          "distanceM": 1471
+        },
+        {
+          "runway": "26R",
+          "stand": "201",
+          "distanceM": 2770
+        },
+        {
+          "runway": "08R",
+          "stand": "EngineTestHangar",
+          "distanceM": 669
+        },
+        {
+          "runway": "26L",
+          "stand": "224",
+          "distanceM": 1351
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "08L",
+          "stand": "201",
+          "distanceM": 1292
+        },
+        {
+          "runway": "26R",
+          "stand": "201",
+          "distanceM": 983
+        },
+        {
+          "runway": "08R",
+          "stand": "197",
+          "distanceM": 929
+        },
+        {
+          "runway": "26L",
+          "stand": "197",
+          "distanceM": 1333
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "EHAM",
+      "iata": "AMS",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 180,
+      "connectedStands": 180,
+      "departures": [
+        {
+          "runway": "04",
+          "stand": "M01",
+          "distanceM": 431
+        },
+        {
+          "runway": "22",
+          "stand": "M06",
+          "distanceM": 1554
+        },
+        {
+          "runway": "06",
+          "stand": "R07",
+          "distanceM": 467
+        },
+        {
+          "runway": "24",
+          "stand": "D28",
+          "distanceM": 520
+        },
+        {
+          "runway": "09",
+          "stand": "J81",
+          "distanceM": 620
+        },
+        {
+          "runway": "27",
+          "stand": "nq197",
+          "distanceM": 519
+        },
+        {
+          "runway": "18C",
+          "stand": "P10",
+          "distanceM": 1256
+        },
+        {
+          "runway": "36C",
+          "stand": "Y72",
+          "distanceM": 602
+        },
+        {
+          "runway": "18L",
+          "stand": "nq198",
+          "distanceM": 548
+        },
+        {
+          "runway": "36R",
+          "stand": "M01",
+          "distanceM": 1651
+        },
+        {
+          "runway": "36L",
+          "stand": "Y72",
+          "distanceM": 6049
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "22",
+          "stand": "M01",
+          "distanceM": 470
+        },
+        {
+          "runway": "06",
+          "stand": "D28",
+          "distanceM": 1502
+        },
+        {
+          "runway": "24",
+          "stand": "R07",
+          "distanceM": 1066
+        },
+        {
+          "runway": "09",
+          "stand": "nq196",
+          "distanceM": 738
+        },
+        {
+          "runway": "27",
+          "stand": "E19",
+          "distanceM": 651
+        },
+        {
+          "runway": "18C",
+          "stand": "Y72",
+          "distanceM": 1274
+        },
+        {
+          "runway": "36C",
+          "stand": "J81",
+          "distanceM": 2360
+        },
+        {
+          "runway": "18L",
+          "stand": "M01",
+          "distanceM": 1392
+        },
+        {
+          "runway": "36R",
+          "stand": "D95",
+          "distanceM": 726
+        },
+        {
+          "runway": "18R",
+          "stand": "Y72",
+          "distanceM": 6932
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:4",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "18R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:4",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "36L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:4",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LIRF",
+      "iata": "FCO",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 91,
+      "connectedStands": 91,
+      "departures": [
+        {
+          "runway": "34R",
+          "stand": "102",
+          "distanceM": 2722
+        },
+        {
+          "runway": "34L",
+          "stand": "831",
+          "distanceM": 742
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "16L",
+          "stand": "102",
+          "distanceM": 3079
+        },
+        {
+          "runway": "16R",
+          "stand": "820",
+          "distanceM": 1885
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "07",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "07",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "25",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "25",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LEMD",
+      "iata": "MAD",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 214,
+      "connectedStands": 214,
+      "departures": [
+        {
+          "runway": "14L",
+          "stand": "R20-627",
+          "distanceM": 1627
+        },
+        {
+          "runway": "14R",
+          "stand": "R23-501",
+          "distanceM": 1524
+        },
+        {
+          "runway": "36R",
+          "stand": "R22-601",
+          "distanceM": 1746
+        },
+        {
+          "runway": "18R",
+          "stand": "R12-420",
+          "distanceM": 5018
+        },
+        {
+          "runway": "36L",
+          "stand": "R12-420",
+          "distanceM": 1673
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "14L",
+          "stand": "R21-612",
+          "distanceM": 5366
+        },
+        {
+          "runway": "32R",
+          "stand": "R21-612",
+          "distanceM": 1741
+        },
+        {
+          "runway": "32L",
+          "stand": "R21-612",
+          "distanceM": 3338
+        },
+        {
+          "runway": "18L",
+          "stand": "R23-539",
+          "distanceM": 2008
+        },
+        {
+          "runway": "18R",
+          "stand": "R13-400",
+          "distanceM": 2142
+        },
+        {
+          "runway": "36L",
+          "stand": "R13-400",
+          "distanceM": 5545
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "32R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "14R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "32L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "18L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "36R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LEBL",
+      "iata": "BCN",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 153,
+      "connectedStands": 153,
+      "departures": [
+        {
+          "runway": "20",
+          "stand": "T2/R181",
+          "distanceM": 745
+        },
+        {
+          "runway": "06L",
+          "stand": "T1/R16340",
+          "distanceM": 561
+        },
+        {
+          "runway": "06R",
+          "stand": "T1/R17425",
+          "distanceM": 700
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "02",
+          "stand": "T2/R171",
+          "distanceM": 823
+        },
+        {
+          "runway": "24R",
+          "stand": "T1/R16340",
+          "distanceM": 627
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "02",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "20",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LSZH",
+      "iata": "ZRH",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 89,
+      "connectedStands": 89,
+      "departures": [
+        {
+          "runway": "10",
+          "stand": "E56",
+          "distanceM": 479
+        },
+        {
+          "runway": "28",
+          "stand": "F83",
+          "distanceM": 658
+        },
+        {
+          "runway": "14",
+          "stand": "E67",
+          "distanceM": 2451
+        },
+        {
+          "runway": "32",
+          "stand": "E23",
+          "distanceM": 873
+        },
+        {
+          "runway": "16",
+          "stand": "E67",
+          "distanceM": 1516
+        },
+        {
+          "runway": "34",
+          "stand": "A8",
+          "distanceM": 646
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "10",
+          "stand": "E20",
+          "distanceM": 713
+        },
+        {
+          "runway": "14",
+          "stand": "E23",
+          "distanceM": 1034
+        },
+        {
+          "runway": "32",
+          "stand": "E67",
+          "distanceM": 3158
+        },
+        {
+          "runway": "16",
+          "stand": "E58",
+          "distanceM": 604
+        },
+        {
+          "runway": "34",
+          "stand": "E67",
+          "distanceM": 2072
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "28",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LOWW",
+      "iata": "VIE",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 81,
+      "connectedStands": 81,
+      "departures": [
+        {
+          "runway": "11",
+          "stand": "A93",
+          "distanceM": 986
+        },
+        {
+          "runway": "29",
+          "stand": "F57",
+          "distanceM": 1205
+        },
+        {
+          "runway": "16",
+          "stand": "H49",
+          "distanceM": 692
+        },
+        {
+          "runway": "34",
+          "stand": "F57",
+          "distanceM": 3815
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "11",
+          "stand": "D28",
+          "distanceM": 717
+        },
+        {
+          "runway": "16",
+          "stand": "E52",
+          "distanceM": 5518
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "29",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LKPR",
+      "iata": "PRG",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 51,
+      "connectedStands": 51,
+      "departures": [
+        {
+          "runway": "24",
+          "stand": "Cargo7",
+          "distanceM": 523
+        },
+        {
+          "runway": "12",
+          "stand": "TWY58",
+          "distanceM": 684
+        },
+        {
+          "runway": "30",
+          "stand": "T2SchengenC23",
+          "distanceM": 2590
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "06",
+          "stand": "T1_NonSchengenB13",
+          "distanceM": 1271
+        },
+        {
+          "runway": "24",
+          "stand": "TWY58",
+          "distanceM": 1125
+        },
+        {
+          "runway": "12",
+          "stand": "T2SchengenC23",
+          "distanceM": 3772
+        },
+        {
+          "runway": "30",
+          "stand": "TWY58",
+          "distanceM": 931
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "06",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KLAX",
+      "iata": "LAX",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 185,
+      "connectedStands": 185,
+      "departures": [
+        {
+          "runway": "6R",
+          "stand": "WEST-GATE-6",
+          "distanceM": 607
+        },
+        {
+          "runway": "24L",
+          "stand": "T1-18B",
+          "distanceM": 424
+        },
+        {
+          "runway": "7L",
+          "stand": "C15-1",
+          "distanceM": 446
+        },
+        {
+          "runway": "25R",
+          "stand": "C1-1",
+          "distanceM": 386
+        },
+        {
+          "runway": "7R",
+          "stand": "A-CARGO-7",
+          "distanceM": 449
+        },
+        {
+          "runway": "25L",
+          "stand": "A1-cargo-1",
+          "distanceM": 495
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "6R",
+          "stand": "T3-34",
+          "distanceM": 628
+        },
+        {
+          "runway": "24L",
+          "stand": "WEST-GATE-1",
+          "distanceM": 869
+        },
+        {
+          "runway": "7L",
+          "stand": "T7-77B",
+          "distanceM": 388
+        },
+        {
+          "runway": "25R",
+          "stand": "T4-48A",
+          "distanceM": 447
+        },
+        {
+          "runway": "7R",
+          "stand": "A4-cargo-2",
+          "distanceM": 1005
+        },
+        {
+          "runway": "25L",
+          "stand": "A-CARGO-7",
+          "distanceM": 734
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "6L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "6L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KSFO",
+      "iata": "SFO",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 165,
+      "connectedStands": 159,
+      "departures": [
+        {
+          "runway": "10L",
+          "stand": "Startup Location",
+          "distanceM": 616
+        },
+        {
+          "runway": "10R",
+          "stand": "F88",
+          "distanceM": 648
+        },
+        {
+          "runway": "28L",
+          "stand": "Startup Location",
+          "distanceM": 2491
+        },
+        {
+          "runway": "1L",
+          "stand": "Startup Location",
+          "distanceM": 483
+        },
+        {
+          "runway": "19R",
+          "stand": "Startup Location",
+          "distanceM": 688
+        },
+        {
+          "runway": "1R",
+          "stand": "Startup Location",
+          "distanceM": 1386
+        },
+        {
+          "runway": "19L",
+          "stand": "Startup Location",
+          "distanceM": 1456
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "28R",
+          "stand": "Startup Location",
+          "distanceM": 1118
+        },
+        {
+          "runway": "28L",
+          "stand": "F79",
+          "distanceM": 978
+        },
+        {
+          "runway": "1L",
+          "stand": "Startup Location",
+          "distanceM": 928
+        },
+        {
+          "runway": "19R",
+          "stand": "B30",
+          "distanceM": 504
+        },
+        {
+          "runway": "1R",
+          "stand": "Startup Location",
+          "distanceM": 1727
+        },
+        {
+          "runway": "19L",
+          "stand": "Startup Location",
+          "distanceM": 1821
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "10L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:30",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "28R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:30",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "10R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:30",
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KSEA",
+      "iata": "SEA",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 123,
+      "connectedStands": 122,
+      "departures": [
+        {
+          "runway": "16L",
+          "stand": "Startup Location04",
+          "distanceM": 553
+        },
+        {
+          "runway": "34R",
+          "stand": "Startup Location08",
+          "distanceM": 803
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "16L",
+          "stand": "Q16",
+          "distanceM": 521
+        },
+        {
+          "runway": "34R",
+          "stand": "02undefined",
+          "distanceM": 2146
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "16C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "16R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:14",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KLAS",
+      "iata": "LAS",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 118,
+      "connectedStands": 118,
+      "departures": [
+        {
+          "runway": "01L",
+          "stand": "Quail_Air1",
+          "distanceM": 2346
+        },
+        {
+          "runway": "01R",
+          "stand": "A11",
+          "distanceM": 1251
+        },
+        {
+          "runway": "19L",
+          "stand": "Quail_Air1",
+          "distanceM": 1139
+        },
+        {
+          "runway": "08L",
+          "stand": "A11",
+          "distanceM": 1702
+        },
+        {
+          "runway": "26R",
+          "stand": "Cargo1",
+          "distanceM": 601
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "19R",
+          "stand": "Quail_Air1",
+          "distanceM": 3321
+        },
+        {
+          "runway": "01R",
+          "stand": "A21",
+          "distanceM": 2616
+        },
+        {
+          "runway": "19L",
+          "stand": "A11",
+          "distanceM": 1307
+        },
+        {
+          "runway": "08L",
+          "stand": "D41",
+          "distanceM": 1071
+        },
+        {
+          "runway": "26R",
+          "stand": "C12",
+          "distanceM": 891
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "01L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "19R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "08R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "08R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "26L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "26L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KDFW",
+      "iata": "DFW",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 238,
+      "connectedStands": 238,
+      "departures": [
+        {
+          "runway": "13L",
+          "stand": "Northeast_Cargo",
+          "distanceM": 407
+        },
+        {
+          "runway": "31R",
+          "stand": "Hangar_5",
+          "distanceM": 4440
+        },
+        {
+          "runway": "13R",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 3226
+        },
+        {
+          "runway": "31L",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 1666
+        },
+        {
+          "runway": "17C",
+          "stand": "Hangar_5",
+          "distanceM": 2694
+        },
+        {
+          "runway": "35C",
+          "stand": "Hangar_5",
+          "distanceM": 776
+        },
+        {
+          "runway": "17L",
+          "stand": "Hangar_5",
+          "distanceM": 2429
+        },
+        {
+          "runway": "35R",
+          "stand": "Hangar_5",
+          "distanceM": 2797
+        },
+        {
+          "runway": "17R",
+          "stand": "1E_Ramp",
+          "distanceM": 1163
+        },
+        {
+          "runway": "35L",
+          "stand": "E22",
+          "distanceM": 623
+        },
+        {
+          "runway": "18L",
+          "stand": "B33",
+          "distanceM": 739
+        },
+        {
+          "runway": "36R",
+          "stand": "D17A",
+          "distanceM": 861
+        },
+        {
+          "runway": "18R",
+          "stand": "West_Cargo_North",
+          "distanceM": 753
+        },
+        {
+          "runway": "36L",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 1546
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "13L",
+          "stand": "Hangar_5",
+          "distanceM": 4434
+        },
+        {
+          "runway": "31R",
+          "stand": "Northeast_Cargo",
+          "distanceM": 1020
+        },
+        {
+          "runway": "13R",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 2484
+        },
+        {
+          "runway": "31L",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 3868
+        },
+        {
+          "runway": "17C",
+          "stand": "Hangar_5",
+          "distanceM": 2080
+        },
+        {
+          "runway": "35C",
+          "stand": "Hangar_5",
+          "distanceM": 3556
+        },
+        {
+          "runway": "17L",
+          "stand": "Hangar_5",
+          "distanceM": 2615
+        },
+        {
+          "runway": "35R",
+          "stand": "Hangar_5",
+          "distanceM": 2526
+        },
+        {
+          "runway": "17R",
+          "stand": "C21",
+          "distanceM": 615
+        },
+        {
+          "runway": "35L",
+          "stand": "C21",
+          "distanceM": 663
+        },
+        {
+          "runway": "18L",
+          "stand": "D17A",
+          "distanceM": 1114
+        },
+        {
+          "runway": "36R",
+          "stand": "D17A",
+          "distanceM": 782
+        },
+        {
+          "runway": "18R",
+          "stand": "Int_Cargo_II_Spot_1",
+          "distanceM": 1324
+        },
+        {
+          "runway": "36L",
+          "stand": "West_Cargo_North",
+          "distanceM": 1142
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "KORD",
+      "iata": "ORD",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 234,
+      "connectedStands": 232,
+      "departures": [
+        {
+          "runway": "22L",
+          "stand": "G20",
+          "distanceM": 2393
+        },
+        {
+          "runway": "09C",
+          "stand": "Hangarsundefined",
+          "distanceM": 1929
+        },
+        {
+          "runway": "09L",
+          "stand": "Hangarsundefined",
+          "distanceM": 3332
+        },
+        {
+          "runway": "27L",
+          "stand": "M2",
+          "distanceM": 1098
+        },
+        {
+          "runway": "10C",
+          "stand": "FedEx01",
+          "distanceM": 748
+        },
+        {
+          "runway": "28R",
+          "stand": "G20",
+          "distanceM": 1597
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "04R",
+          "stand": "M18",
+          "distanceM": 1569
+        },
+        {
+          "runway": "27R",
+          "stand": "Hangarsundefined",
+          "distanceM": 4480
+        },
+        {
+          "runway": "27L",
+          "stand": "F22A",
+          "distanceM": 2364
+        },
+        {
+          "runway": "28C",
+          "stand": "South Cargo01",
+          "distanceM": 868
+        },
+        {
+          "runway": "10L",
+          "stand": "M10",
+          "distanceM": 2402
+        },
+        {
+          "runway": "28R",
+          "stand": "South Cargo2",
+          "distanceM": 7056
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "04L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "04R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "09C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "27C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "27C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "09L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "27R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "09R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "09R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "10C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "28C",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "10L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "10R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "10R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "28L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "28L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:16",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KATL",
+      "iata": "ATL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 194,
+      "connectedStands": 194,
+      "departures": [
+        {
+          "runway": "08L",
+          "stand": "Delta_North_Apron_12",
+          "distanceM": 1201
+        },
+        {
+          "runway": "26R",
+          "stand": "Delta_Cargo_3",
+          "distanceM": 878
+        },
+        {
+          "runway": "08R",
+          "stand": "A33",
+          "distanceM": 519
+        },
+        {
+          "runway": "26L",
+          "stand": "Delta_Maintenance_4",
+          "distanceM": 1144
+        },
+        {
+          "runway": "09L",
+          "stand": "T1",
+          "distanceM": 515
+        },
+        {
+          "runway": "27R",
+          "stand": "F1",
+          "distanceM": 541
+        },
+        {
+          "runway": "09R",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 1809
+        },
+        {
+          "runway": "27L",
+          "stand": "NWA_Hangar_1",
+          "distanceM": 1021
+        },
+        {
+          "runway": "10",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 3228
+        },
+        {
+          "runway": "28",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 3309
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "08L",
+          "stand": "North_Cargo_Ramp_11",
+          "distanceM": 661
+        },
+        {
+          "runway": "26R",
+          "stand": "T14",
+          "distanceM": 2015
+        },
+        {
+          "runway": "08R",
+          "stand": "Delta_Maintenance_4",
+          "distanceM": 1137
+        },
+        {
+          "runway": "26L",
+          "stand": "D39",
+          "distanceM": 704
+        },
+        {
+          "runway": "09L",
+          "stand": "E3",
+          "distanceM": 624
+        },
+        {
+          "runway": "27R",
+          "stand": "C1",
+          "distanceM": 591
+        },
+        {
+          "runway": "09R",
+          "stand": "NWA_Hangar_1",
+          "distanceM": 700
+        },
+        {
+          "runway": "27L",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 1954
+        },
+        {
+          "runway": "10",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 3134
+        },
+        {
+          "runway": "28",
+          "stand": "South_Cargo_Apron_1",
+          "distanceM": 3103
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "KJFK",
+      "iata": "JFK",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 231,
+      "connectedStands": 227,
+      "departures": [
+        {
+          "runway": "04L",
+          "stand": "T4-B53",
+          "distanceM": 751
+        },
+        {
+          "runway": "13L",
+          "stand": "T7-05",
+          "distanceM": 878
+        },
+        {
+          "runway": "31R",
+          "stand": "CargoD-01",
+          "distanceM": 784
+        },
+        {
+          "runway": "13R",
+          "stand": "CargoA-",
+          "distanceM": 969
+        },
+        {
+          "runway": "31L",
+          "stand": "T4-B46",
+          "distanceM": 619
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "31R",
+          "stand": "T7-08",
+          "distanceM": 788
+        },
+        {
+          "runway": "13R",
+          "stand": "T4-B46",
+          "distanceM": 1303
+        },
+        {
+          "runway": "31L",
+          "stand": "CargoA-151-1",
+          "distanceM": 1644
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "04R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "13L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:8",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KIAD",
+      "iata": "IAD",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 165,
+      "connectedStands": 165,
+      "departures": [
+        {
+          "runway": "01C",
+          "stand": "Concourse D20",
+          "distanceM": 619
+        },
+        {
+          "runway": "19C",
+          "stand": "AAL Hangar1",
+          "distanceM": 917
+        },
+        {
+          "runway": "19L",
+          "stand": "Signature Flight Support6",
+          "distanceM": 528
+        },
+        {
+          "runway": "12",
+          "stand": "Concourse D20",
+          "distanceM": 4379
+        },
+        {
+          "runway": "30",
+          "stand": "Concourse D20",
+          "distanceM": 1669
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "01C",
+          "stand": "Connor Global Logistics2",
+          "distanceM": 1341
+        },
+        {
+          "runway": "19C",
+          "stand": "Concourse B78",
+          "distanceM": 1024
+        },
+        {
+          "runway": "01R",
+          "stand": "Signature Flight Support6",
+          "distanceM": 1990
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "01L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "01L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "19R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "19R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "01R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "19L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "12",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "30",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "KBOS",
+      "iata": "BOS",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 109,
+      "connectedStands": 108,
+      "departures": [
+        {
+          "runway": "04L",
+          "stand": "B21",
+          "distanceM": 446
+        },
+        {
+          "runway": "04R",
+          "stand": "B21",
+          "distanceM": 1041
+        },
+        {
+          "runway": "14",
+          "stand": "B21",
+          "distanceM": 1229
+        },
+        {
+          "runway": "15R",
+          "stand": "E09",
+          "distanceM": 653
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "22R",
+          "stand": "B21",
+          "distanceM": 643
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22L",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "09",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "09",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "27",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "27",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "14",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "32",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "32",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "15R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "33L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "33L",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "PHNL",
+      "iata": "HNL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 65,
+      "connectedStands": 65,
+      "departures": [
+        {
+          "runway": "04L",
+          "stand": "Cargo_North-93B",
+          "distanceM": 4230
+        },
+        {
+          "runway": "22R",
+          "stand": "T3-01C",
+          "distanceM": 597
+        },
+        {
+          "runway": "04R",
+          "stand": "Cargo_South-E",
+          "distanceM": 407
+        },
+        {
+          "runway": "08L",
+          "stand": "Cargo_North-93B",
+          "distanceM": 1232
+        },
+        {
+          "runway": "26R",
+          "stand": "Cargo_South-A",
+          "distanceM": 1078
+        },
+        {
+          "runway": "08R",
+          "stand": "Cargo_North-93B",
+          "distanceM": 3603
+        },
+        {
+          "runway": "26L",
+          "stand": "Cargo_South-E",
+          "distanceM": 3150
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "08L",
+          "stand": "T2-C5",
+          "distanceM": 651
+        },
+        {
+          "runway": "26R",
+          "stand": "T2-C6",
+          "distanceM": 801
+        },
+        {
+          "runway": "08R",
+          "stand": "Cargo_South-E",
+          "distanceM": 3271
+        },
+        {
+          "runway": "26L",
+          "stand": "Cargo_South-E",
+          "distanceM": 4529
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "04L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "04W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "04W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "22W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "22W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "08W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "08W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "26W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "26W",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "PGUM",
+      "iata": "GUM",
+      "status": "HOLD_NO_COMPLETE_REFERENCE_ROUTE",
+      "standCount": 2,
+      "connectedStands": 0,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "06L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "06R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06R",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24L",
+          "reasons": [
+            "NO_VALID_EXPLICIT_TAXI_ARCS",
+            "NO_CONNECTED_ACTUAL_STAND"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "CYVR",
+      "iata": "YVR",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 77,
+      "connectedStands": 76,
+      "departures": [
+        {
+          "runway": "08L",
+          "stand": "W02",
+          "distanceM": 1702
+        },
+        {
+          "runway": "26R",
+          "stand": "UPS-03",
+          "distanceM": 428
+        },
+        {
+          "runway": "26L",
+          "stand": "Purolator-01",
+          "distanceM": 735
+        },
+        {
+          "runway": "13",
+          "stand": "40",
+          "distanceM": 1594
+        },
+        {
+          "runway": "31",
+          "stand": "21",
+          "distanceM": 735
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "08L",
+          "stand": "UPS-03",
+          "distanceM": 1324
+        },
+        {
+          "runway": "08R",
+          "stand": "Purolator-01",
+          "distanceM": 1897
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "26R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "08R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "26L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "13",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "31",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "CYYZ",
+      "iata": "YYZ",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 168,
+      "connectedStands": 168,
+      "departures": [
+        {
+          "runway": "05",
+          "stand": "FEDEX_609undefined",
+          "distanceM": 1488
+        },
+        {
+          "runway": "23",
+          "stand": "Cargo_4undefined",
+          "distanceM": 820
+        },
+        {
+          "runway": "06L",
+          "stand": "GTAA_541undefined",
+          "distanceM": 1964
+        },
+        {
+          "runway": "24R",
+          "stand": "Ramp_H8undefined",
+          "distanceM": 699
+        },
+        {
+          "runway": "15L",
+          "stand": "Cargo_4undefined",
+          "distanceM": 767
+        },
+        {
+          "runway": "33R",
+          "stand": "E74_Gate_174undefined",
+          "distanceM": 764
+        },
+        {
+          "runway": "15R",
+          "stand": "Gate_529undefined",
+          "distanceM": 1273
+        },
+        {
+          "runway": "33L",
+          "stand": "GTAA_541undefined",
+          "distanceM": 1835
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "23",
+          "stand": "FEDEX_601undefined",
+          "distanceM": 2888
+        },
+        {
+          "runway": "06L",
+          "stand": "E77_Gate_177undefined",
+          "distanceM": 537
+        },
+        {
+          "runway": "24R",
+          "stand": "GTAA_541undefined",
+          "distanceM": 2006
+        },
+        {
+          "runway": "15L",
+          "stand": "D43_Gate_143_Aundefined",
+          "distanceM": 1375
+        },
+        {
+          "runway": "33R",
+          "stand": "Gate_A2undefined",
+          "distanceM": 575
+        },
+        {
+          "runway": "15R",
+          "stand": "GTAA_541undefined",
+          "distanceM": 1485
+        },
+        {
+          "runway": "33L",
+          "stand": "Gate_529undefined",
+          "distanceM": 1390
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "05",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "06R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "06R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "24L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "24L",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "YSSY",
+      "iata": "SYD",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 120,
+      "connectedStands": 120,
+      "departures": [
+        {
+          "runway": "07",
+          "stand": "T1-33",
+          "distanceM": 843
+        },
+        {
+          "runway": "25",
+          "stand": "DOM6-97B",
+          "distanceM": 515
+        },
+        {
+          "runway": "16L",
+          "stand": "REMOTE-102A",
+          "distanceM": 2117
+        },
+        {
+          "runway": "16R",
+          "stand": "T2-59",
+          "distanceM": 714
+        },
+        {
+          "runway": "34L",
+          "stand": "REMOTE-71",
+          "distanceM": 1538
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "07",
+          "stand": "DOM6-97B",
+          "distanceM": 863
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "25",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16R",
+          "reasons": [
+            "DISCONNECTED_OR_PROTECTED_RUNWAY_CROSSING_REQUIRED"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "34L",
+          "reasons": [
+            "FINAL_CONNECTOR_CROSSES_PROTECTED_GEOMETRY"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "YBBN",
+      "iata": "BNE",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 90,
+      "connectedStands": 90,
+      "departures": [
+        {
+          "runway": "01R",
+          "stand": "QF_Maint2_undefined",
+          "distanceM": 846
+        },
+        {
+          "runway": "19L",
+          "stand": "26undefined",
+          "distanceM": 1134
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "01R",
+          "stand": "21undefined",
+          "distanceM": 1790
+        },
+        {
+          "runway": "19L",
+          "stand": "QF_Maint2_undefined",
+          "distanceM": 1449
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "01L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "01L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "19R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "19R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "NZAA",
+      "iata": "AKL",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 55,
+      "connectedStands": 54,
+      "departures": [
+        {
+          "runway": "05R",
+          "stand": "A111",
+          "distanceM": 1006
+        },
+        {
+          "runway": "23L",
+          "stand": "A111",
+          "distanceM": 557
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "05R",
+          "stand": "A111",
+          "distanceM": 1128
+        },
+        {
+          "runway": "23L",
+          "stand": "International 10111",
+          "distanceM": 562
+        }
+      ],
+      "held": []
+    },
+    {
+      "icao": "KPAE",
+      "iata": "PAE",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 15,
+      "connectedStands": 14,
+      "departures": [
+        {
+          "runway": "16R",
+          "stand": "Air_Museum",
+          "distanceM": 510
+        },
+        {
+          "runway": "34L",
+          "stand": "Goodrich_Ramp_(HEAVY)",
+          "distanceM": 766
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "34R",
+          "stand": "Central_Ramp_2",
+          "distanceM": 474
+        },
+        {
+          "runway": "16R",
+          "stand": "South_Ramp_(HEAVY)",
+          "distanceM": 817
+        },
+        {
+          "runway": "34L",
+          "stand": "Test_Ramp_(HEAVY)",
+          "distanceM": 947
+        }
+      ],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "16L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "16L",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "34R",
+          "reasons": [
+            "SOURCE_ARCS_BLOCKED_BY_BUILDINGS:2",
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "LFBO",
+      "iata": "TLS",
+      "status": "REFERENCE_ROUTES_VERIFIED",
+      "standCount": 23,
+      "connectedStands": 23,
+      "departures": [
+        {
+          "runway": "14L",
+          "stand": "U31",
+          "distanceM": 613
+        },
+        {
+          "runway": "32R",
+          "stand": "B11",
+          "distanceM": 623
+        }
+      ],
+      "arrivals": [
+        {
+          "runway": "14L",
+          "stand": "B11",
+          "distanceM": 936
+        }
+      ],
+      "held": [
+        {
+          "mode": "arrival",
+          "runway": "32R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "14R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "14R",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "32L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "32L",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    },
+    {
+      "icao": "EDHI",
+      "iata": "XFW",
+      "status": "HOLD_NO_COMPLETE_REFERENCE_ROUTE",
+      "standCount": 4,
+      "connectedStands": 4,
+      "departures": [],
+      "arrivals": [],
+      "held": [
+        {
+          "mode": "departure",
+          "runway": "05",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "05",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "departure",
+          "runway": "23",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        },
+        {
+          "mode": "arrival",
+          "runway": "23",
+          "reasons": [
+            "NO_MAPPED_RUNWAY_ACCESS_IN_ALLOWED_FORWARD_RANGE"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "reviewedAirports": 63,
+    "referenceRouteAirports": 46,
+    "officialPointOnlyAirports": 11,
+    "officialPoints": 959,
+    "remainingHeld": [
+      "ZBAA",
+      "ZGGG",
+      "ZGSZ",
+      "WIII",
+      "PGUM",
+      "EDHI"
+    ]
+  }
+}

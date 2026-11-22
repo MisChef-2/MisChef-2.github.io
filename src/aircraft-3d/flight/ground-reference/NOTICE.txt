@@ -1,0 +1,9 @@
+Ground reference additions — 2026-11-22
+FlightGear TerraSync groundnets: https://github.com/terrasync/main
+Source / licence evidence: https://wiki.flightgear.org/Howto:Make_an_airport
+GPL version 2: see COPYING. Original XML is provided under sources/.
+Source authors, dates and SHA256 are retained per airport. Modified here by converting XML to JSON, preserving directed node IDs/arcs, rejecting invalid arcs, splitting runway boundaries and filtering terminal intersections. Converter and graph source are supplied in source-code/ and ../groundnet-graph.js.
+These are community simulator layouts, not current surveyed or operational airport data. KSFO, CYVR and KPAE in particular contain historical or non-passenger stand labels. No current airline allocation or aircraft clearance is asserted.
+Some records include contextOnly terminal geometry from OpenStreetMap: © OpenStreetMap contributors, ODbL https://www.openstreetmap.org/copyright . This is a separate context component.
+Official AIP factual stand/INS coordinates are separately identified. Original PDFs are linked, not redistributed. Japanese documents were obtained through a third-party AIP mirror; mirror authenticity and currency have not been independently certified. INS coordinates are not assumed to be nosewheel or cockpit positions. Helicopter, GA, deicing, cargo and passenger positions must not be conflated.
+See ../ground-reference-report.html for source URLs, limitations and route coverage.

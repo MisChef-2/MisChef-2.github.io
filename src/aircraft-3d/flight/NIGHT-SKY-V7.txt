@@ -1,0 +1,37 @@
+NIGHT SKY V7 — 2026-11-23
+
+The 2,400 seeded points are an illustrative star distribution, NOT named stars,
+true constellations or a real star catalogue. Their orientation uses the existing
+approximate sidereal rotation and observer latitude/longitude/aircraft heading.
+
+Visibility improvements:
+- Bright point cores remain readable on high-DPI screens. Diameter follows
+  device pixel ratio (capped at 2); no star texture or network request is needed.
+- Stars retain depth testing so opaque cockpit, terrain and buildings occlude
+  them. Their transparent pass precedes cloud sprites so clouds cover them.
+- Full cloud cover or complete cloud immersion removes stars. Partial cloud
+  cover attenuates the whole field; this is not a measured 3D cloud mask.
+- Optional solarAltitude in radians fades the field between -18 and -6 degrees.
+  Existing daylight input remains a backward-compatible fallback.
+- Optional cloudImmersion in 0..1 comes from the visual cloud system.
+- Visibility/haze and precipitation attenuate stars. Missing visibility uses a
+  conservative fallback, not a claim that measured weather is available.
+- Fainter stars are suppressed near the ground by an illustrative airport light
+  pollution profile, fading with height. Optional lightPollution 0..1 overrides
+  this approximation. It is NOT a measured sky brightness/Bortle value, and it
+  does not model moon phase, cabin reflections or the observer's adaptation.
+
+Background references (qualitative motivation; numerical tuning is illustrative):
+NASA: bright urban skies retain only the brighter stars; dim stars are more
+numerous and are lost under light pollution.
+https://science.nasa.gov/solar-system/how-to-find-good-places-to-stargaze/
+NPS: light domes near the horizon and atmospheric scattering affect dark skies.
+https://home.nps.gov/subjects/nightskies/lightpollution.htm
+Existing sidereal transform reference:
+https://aa.usno.navy.mil/faq/GAST
+
+Validation:
+work/test-environment.mjs retains all precipitation/finite-buffer/disposal checks.
+work/airport-v7/night-sky.test.mjs checks twilight, overcast, cloud immersion,
+haze, altitude/light-pollution contrast, depth ordering and high-DPI point cores.
+Browser rendering QA is performed by the integrating parent agent.

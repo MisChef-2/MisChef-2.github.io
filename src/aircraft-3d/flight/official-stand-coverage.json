@@ -1,0 +1,57 @@
+[
+  {
+    "icao": "RJBB",
+    "points": 123,
+    "mirrored": true
+  },
+  {
+    "icao": "RJCC",
+    "points": 64,
+    "mirrored": true
+  },
+  {
+    "icao": "RJFF",
+    "points": 65,
+    "mirrored": true
+  },
+  {
+    "icao": "RKJJ",
+    "points": 5,
+    "mirrored": false
+  },
+  {
+    "icao": "RKPK",
+    "points": 53,
+    "mirrored": false
+  },
+  {
+    "icao": "RKSS",
+    "points": 147,
+    "mirrored": false
+  },
+  {
+    "icao": "RKTN",
+    "points": 11,
+    "mirrored": false
+  },
+  {
+    "icao": "RKTU",
+    "points": 27,
+    "mirrored": false
+  },
+  {
+    "icao": "ROAH",
+    "points": 64,
+    "mirrored": true
+  },
+  {
+    "icao": "LTFM",
+    "points": 364,
+    "mirrored": false
+  },
+  {
+    "icao": "VVDN",
+    "points": 36,
+    "mirrored": false
+  }
+]

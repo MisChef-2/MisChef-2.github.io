@@ -1,0 +1,121 @@
+{
+  "reviewedAt": "2026-11-23",
+  "scope": "Taxiway lighting visual reference, not current airport lamp survey",
+  "sources": [
+    {
+      "title": "FAA AIM — Airport Lighting Aids",
+      "url": "https://www.faa.gov/air_traffic/publications/aim_html/chap2_section_1.html",
+      "supports": "Blue taxiway edge and green centreline lights; lead-on/off special colouring. No physical lamp coordinates."
+    },
+    {
+      "title": "MLIT Japan — Aviation lighting",
+      "url": "https://www.mlit.go.jp/koku/jans/dogu/light.html",
+      "supports": "Green taxiway centreline and blue edge lighting. Stopbars and runway status lights are separate systems."
+    },
+    {
+      "title": "Haneda international apron PFI facilities brochure, March 2013",
+      "url": "https://www.pa.ktr.mlit.go.jp/haneda/haneda/01-gaiyou/apron-pfi/pdf/apron-pfi_panph-h25.3.pdf",
+      "supports": "Haneda international apron green centreline guidance and apron lighting equipment; historical source, not current lamp coordinates."
+    },
+    {
+      "title": "LAWA airfield movement training",
+      "url": "https://www.lawa.org/media/12770",
+      "supports": "Blue taxiway edges and green taxiway centreline lighting; not individual lamp positions."
+    },
+    {
+      "title": "FAA AIM — Airport Marking Aids and Signs",
+      "url": "https://www.faa.gov/air_traffic/publications/atpubs/aim_html/chap2_section_3.html",
+      "supports": "Sign categories and colours, not airport-specific placement. No unverified physical signs added."
+    }
+  ],
+  "placement": "Existing OSM-derived taxi geometry from airports-features.json. Illustrative 15m centreline and 30m edge spacing, unknown width18m; airport-specific light availability unverified.",
+  "exclusions": "Inside terminal footprints, near runway surfaces, and edge lamps within another mapped taxi corridor excluded. No inferred red stopbars, runway status lights or green/yellow lead-off sequences.",
+  "signs": "Existing map name annotations must stay labelled as annotations. No surveyed physical sign position/text obtained; physical sign addition held.",
+  "licence": "Original taxi geometry: © OpenStreetMap contributors, ODbL. Source articles/PDFs linked, not republished.",
+  "mappedMasts": {
+    "RJTT": [
+      {
+        "id": "9708009303",
+        "lon": 139.7812378,
+        "lat": 35.552105,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009303",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009304",
+        "lon": 139.7782362,
+        "lat": 35.5565577,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009304",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009305",
+        "lon": 139.7793714,
+        "lat": 35.5549236,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009305",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009308",
+        "lon": 139.7774636,
+        "lat": 35.5576397,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009308",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009309",
+        "lon": 139.7789929,
+        "lat": 35.5554584,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009309",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009312",
+        "lon": 139.777843,
+        "lat": 35.5571047,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009312",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "9708009313",
+        "lon": 139.7803017,
+        "lat": 35.5536338,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/9708009313",
+        "sourceTimestamp": "2022-05-01T21:40:03Z"
+      },
+      {
+        "id": "14140980343",
+        "lon": 139.7798267,
+        "lat": 35.5542824,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/14140980343",
+        "sourceTimestamp": "2026-09-01T21:14:25Z"
+      },
+      {
+        "id": "14140980350",
+        "lon": 139.7786225,
+        "lat": 35.5559598,
+        "heightM": null,
+        "type": "high_mast",
+        "sourceUrl": "https://www.openstreetmap.org/node/14140980350",
+        "sourceTimestamp": "2026-09-01T21:14:25Z"
+      }
+    ]
+  },
+  "mappedMastLimitations": "OSM point and mast type retained. Height25m, fixture count/shape and light colour are visual approximations, not surveyed. Haneda international apron25m brochure does not certify T1/2 mast heights."
+}

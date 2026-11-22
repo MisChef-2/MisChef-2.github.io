@@ -1,0 +1,126 @@
+{
+  "auditDate": "2026-11-23",
+  "scope": "Existing flight mode and source coverage; live-follow implementation is separately verified by its owning agent.",
+  "verified": {
+    "aircraftFamilies": 21,
+    "pilotAndCopilotPresets": 42,
+    "glbVersionAndByteLengths": "PASS",
+    "cameraForwardAndLeftRightCoordinates": "PASS",
+    "cockpitNodesPresentInEveryFamily": true,
+    "airportCount": 66,
+    "actualGroundSourceAirports": [
+      "RKSI",
+      "RJAA",
+      "RKPC"
+    ],
+    "testedRunwayDirectionsWithGroundSources": 16,
+    "connectedDepartureDirections": 12,
+    "connectedArrivalDirections": 12,
+    "groundRouterMotionAndTrajectoryRegression": "PASS",
+    "terrainAndAirportSceneRegression": "PASS",
+    "browserModelLoadFamilies": 21,
+    "browserSeatSwitchPresets": 42,
+    "liveFollowDemoAndStale": "PASS",
+    "mobile390Iframe": "PASS; physical device untested",
+    "groundReferenceExpansion": {
+      "reviewedAirports": 63,
+      "referenceRouteAirports": 46,
+      "officialPointOnlyAirports": 11,
+      "officialPoints": 959,
+      "remainingHeld": [
+        "ZBAA",
+        "ZGGG",
+        "ZGSZ",
+        "WIII",
+        "PGUM",
+        "EDHI"
+      ]
+    },
+    "airportSceneryV7": {
+      "mappedBridges": {
+        "RJTT": 75,
+        "KLAX": 116
+      },
+      "additionalBuildings": {
+        "RJTT": 98,
+        "KLAX": 120
+      },
+      "mappedHighMasts": {
+        "RJTT": 9
+      },
+      "lighting": "schematic on source taxi lines, not surveyed lamp locations",
+      "physicalSignage": "not acquired; no fabricated signs",
+      "nightStars": "illustrative catalogue; cloud/time/haze attenuation",
+      "cameraRearRangeM": [
+        0,
+        0.8
+      ],
+      "browserDayNight": "PASS HND/LAX"
+    }
+  },
+  "unfinished": [
+    {
+      "item": "Current surveyed/official taxi connections and airport currency",
+      "status": "PARTIAL_REFERENCE_ONLY",
+      "officialPointsWithoutRoutes": [
+        "RKSS",
+        "RKPK",
+        "RKTN",
+        "RKTU",
+        "RKJJ",
+        "RJBB",
+        "RJFF",
+        "RJCC",
+        "ROAH",
+        "VVDN",
+        "LTFM"
+      ],
+      "remainingHeld": [
+        "ZBAA",
+        "ZGGG",
+        "ZGSZ",
+        "WIII",
+        "PGUM",
+        "EDHI"
+      ],
+      "detail": "46 FlightGear reference airports have connected routes; no claim of current operational accuracy. 11 AIP point-only airports still lack verified taxi graphs."
+    },
+    {
+      "item": "Aircraft-specific gate, taxiway and pavement clearance",
+      "status": "NOT_VALIDATED",
+      "detail": "Connected source geometry does not establish wingspan clearance, allowed aircraft type, pavement strength, current closures, towing procedure or ATC clearance. The same 21-family selector must not be represented as 21 operationally verified airport routings."
+    },
+    {
+      "item": "Visual cockpit review for every aircraft family",
+      "status": "ALL_FAMILY_RUNTIME_SMOKE_TEST_PASS_REALISM_PARTIAL",
+      "detail": "All21 loaded in browser,42 seat switches and cruise entry verified; screenshots saved. Exact real cockpit geometry remains unverified."
+    },
+    {
+      "item": "Actual cloud shape, airport buildings and operational trajectories",
+      "status": "APPROXIMATE_VISUALIZATION",
+      "detail": "Weather fields and terrain sources drive a reconstruction. Buildings, clouds and aircraft performance are not surveyed or certified reproductions."
+    },
+    {
+      "item": "Public site deployment",
+      "status": "LOCAL_ONLY"
+    },
+    {
+      "item": "Authenticated real-flight end-to-end verification",
+      "status": "NOT_TESTED",
+      "detail": "Demo bridge verified in browser; actual API response logic unit-tested. No user API key entered."
+    }
+  ],
+  "checksRun": [
+    "node work/flight-mode/check.mjs",
+    "node work/flight-mode/fleet-gate-audit.cjs",
+    "node work/test-taxi-route.mjs",
+    "node work/flight-mode/ground-journey.test.mjs",
+    "node work/flight-mode/taxi-motion.test.mjs",
+    "node work/flight-mode/actual-ground-journey.test.mjs",
+    "node work/flight-mode/check-gate-journey.mjs",
+    "node work/flight-mode/flight-math.test.mjs",
+    "node work/flight-mode/trajectory.test.mjs",
+    "node work/flight-mode/terrain.test.mjs",
+    "node work/flight-mode/airport-scene.test.mjs"
+  ]
+}
