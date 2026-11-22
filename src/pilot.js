@@ -381,7 +381,7 @@ ${mapCard()}
     if (h.indexOf("apt-") === 0) return aptBy[h.slice(4)] ? renderApt(h.slice(4)) : null;
     return null;
   }
-  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "pireps" : h.indexOf("apt-") === 0 ? "airports" : h;
+  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "pireps" : h.indexOf("apt-") === 0 ? "airports" : h.indexOf("3d-") === 0 ? "3d" : h.indexOf("cockpit-") === 0 ? "cockpit" : h;
   function pilotAfter(h) {
     wirePilot(); wirePortal(); updateWho(); paintSync(); bookMap = null; pirepMap = null; chartLeave(); globeLeave();
     if (h === "book") initBook();

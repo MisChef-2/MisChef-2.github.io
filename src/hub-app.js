@@ -246,6 +246,159 @@ ${encyExtras()}
     if (typeof WHY_ERAS === "undefined") return "";
     return `<section class="card c12 why-eras">${cardH(ICON.target, "왜 만들어졌나: 시대별 개발 배경", `<span class="hint">문제 → 답으로 나온 기종</span>`)}<div>${WHY_ERAS.map(e => `<div class="era"><div class="era-y">${esc(e.years)}</div><div><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p><div class="tour-legs" style="margin-top:10px">${e.ids.map(id => `<a class="tleg why-chip mk-${byId[id].maker}" href="#${id}"><span class="dot"></span>${ICAO[id]} ${esc(byId[id].name)}</a>`).join("")}</div></div></div>`).join("")}</div></section>`;
   }
+  /* ================= 3D 모형 =================
+     위: 3D 모형 뷰어(3d/viewer?embed). 뷰어 자체 사이드바와 제목은 숨기고, 색과 글꼴은 허브 테마를 넘겨 준다.
+     기종은 허브 쪽 선택 상자로 고르고, 뷰어 높이는 내용에 맞춰 늘려 안쪽 스크롤이 생기지 않게 한다.
+     아래: 고른 기종의 제원, 도면, ICAO, 역사 */
+  const M3D_IDS = ["boeing-707", "boeing-727", "boeing-737", "boeing-737max", "boeing-747", "boeing-757", "boeing-767", "boeing-777", "boeing-777x", "boeing-787", "boeing-717", "airbus-a300", "airbus-a310", "airbus-a320", "airbus-a320neo", "airbus-a330", "airbus-a330neo", "airbus-a340", "airbus-a350", "airbus-a380", "airbus-a220"];
+  let m3dId = "boeing-777";
+  const curAcId = () => { const k = (location.hash || "").slice(1); return k.indexOf("3d-") === 0 ? k.slice(3) : k === "3d" ? m3dId : k; };
+  function m3dInfo(ac) {
+    // 3D 모형 페이지에서는 "3D로 둘러보기" 안내 카드가 필요 없다
+    const html = renderAircraft(ac).replace(/<section class="av-entry"[\s\S]*?<\/section>/, ""), i = html.indexOf('<div class="detail">');
+    return `<div class="m3d-name mk-${ac.maker}"><h2>${esc(ac.name)} <span class="code">${ICAO[ac.id]}</span> ${statusPill(ac)}</h2><p>${esc(ac.en)}, ${esc(ac.variant)}. ${esc(ac.role)}</p><a class="ext" href="#${ac.id}">기종 백과에서 보기 →</a></div>${i >= 0 ? html.slice(i) : ""}`;
+  }
+  function render3d(id) {
+    if (id && byId[id] && M3D_IDS.indexOf(id) >= 0) m3dId = id; const ac = byId[m3dId];
+    const ids = M3D_IDS.filter(x => byId[x]);
+    const pick = `<select class="sel" id="m3d-pick" aria-label="기종 선택">${["boeing", "airbus"].map(mk => `<optgroup label="${makerName(mk)}">${ids.filter(x => byId[x].maker === mk).map(x => `<option value="${x}"${x === m3dId ? " selected" : ""}>${ICAO[x]} ${esc(byId[x].name)}</option>`).join("")}</optgroup>`).join("")}</select>`;
+    return `<header class="card ph m3d-head"><div><div class="crumbs"><a href="#home">대시보드</a> / 시뮬레이션</div><h1>3D 모형</h1><p>끌어서 돌리고 휠로 확대합니다. 왼쪽 단추로 외부, 단면, 객실, 조종실, 평면 시점을 바꾸고, 전체화면으로도 볼 수 있습니다. 기체 버전은 실제 항공사 도색을 사진으로 참고해 만든 모형입니다.</p></div><div class="fld m3d-pick"><label for="m3d-pick">기종</label>${pick}</div></header>
+<section class="card m3d-stage"><iframe id="m3d-frame" src="3d/viewer/index.html?embed#${m3dId}" title="항공기 3D 모형 뷰어" allow="fullscreen" allowfullscreen scrolling="no"></iframe></section>
+<div id="m3d-info">${m3dInfo(ac)}</div>`;
+  }
+  function m3dAfter() {
+    const fr = $("#m3d-frame"); if (!fr) return;
+    initAcLive(byId[m3dId]);
+    const show = id => {
+      if (!byId[id] || id === m3dId) return;
+      m3dId = id; history.replaceState(null, "", "#3d-" + id);
+      $("#m3d-info").innerHTML = m3dInfo(byId[id]); initAcLive(byId[id]);
+      const sel = $("#m3d-pick"); if (sel && sel.value !== id) sel.value = id;
+    };
+    $("#m3d-pick").addEventListener("change", e => { const id = e.target.value; try { fr.contentWindow.location.hash = id; } catch (err) { /* 무시 */ } show(id); });
+    // 허브 테마(색, 글꼴)와 3D 화면 높이를 뷰어에 넘긴다
+    const theme = () => {
+      let d; try { d = fr.contentDocument.documentElement; } catch (e) { return; } if (!d) return;
+      const cs = getComputedStyle(document.documentElement);
+      ["surface", "inset", "line", "fg", "fg-2", "muted", "primary", "primary-fg", "tile", "tile-line", "font"].forEach(k => d.style.setProperty("--h-" + k, cs.getPropertyValue("--" + k).trim()));
+      d.style.colorScheme = cs.colorScheme || "dark";
+      const h = innerWidth < 760 ? Math.round(Math.max(380, innerHeight * 0.62)) : Math.round(Math.max(440, Math.min(680, innerHeight - 220)));
+      d.style.setProperty("--h-stage", h + "px");
+    };
+    const fit = () => { try { const b = fr.contentDocument.body; if (b) fr.style.height = Math.ceil(b.scrollHeight) + "px"; } catch (e) { /* 무시 */ } };
+    const mo = new MutationObserver(theme); mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const onResize = () => { if (!document.body.contains(fr)) { removeEventListener("resize", onResize); mo.disconnect(); return; } theme(); };
+    addEventListener("resize", onResize);
+    fr.addEventListener("load", () => {
+      theme();
+      try {
+        const w = fr.contentWindow;
+        new w.ResizeObserver(fit).observe(w.document.body); fit();
+        w.addEventListener("hashchange", () => show((w.location.hash || "").slice(1).split("/")[0]));
+      } catch (e) { /* 무시 */ }
+    });
+  }
+  /* ================= 조종석 비행 =================
+     Codex가 만든 조종석 비행 체험(src/aircraft-3d/flight)을 띄운다. 그 파일은 고치지 않는다.
+     설정(기종, 공항, 활주로, 게이트, 날씨, 시점)은 허브 카드에서 고르고, 화면 칸에는 조종석 장면만 보인다.
+     허브 칸은 조종석 페이지의 입력칸을 그대로 따라 만든 거울이다. 값을 바꾸면 조종석 페이지 입력칸에 넣고
+     change 이벤트를 보내서(활주로, 게이트 목록은 그쪽이 다시 채운다) 바뀐 목록을 다시 허브로 옮겨 온다 */
+  const FLIGHT_URL = "src/aircraft-3d/flight/index.html";
+  let ckId = "boeing-737";
+  function renderCockpit(id) {
+    if (id && byId[id] && M3D_IDS.indexOf(id) >= 0) ckId = id;
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 시뮬레이션</div><h1>조종석 비행</h1><p>출발 공항과 도착 공항, 날씨를 고르고 비행 준비를 누르면 아래 조종석 창밖으로 비행을 지켜봅니다. 경로와 고도, 속도는 어림한 값으로 그린 장면이며, 비행 훈련 장치가 아닙니다.</p></div></header>
+<section class="card ck-plan">${cardH(ICON.route, "비행 설정", `<span class="hint">출발 시각은 UTC 기준</span>`)}<div class="card-b"><div class="ck-grid" id="ck-form"><p class="small muted">조종석을 불러오는 중입니다.</p></div>
+<details class="ck-view"><summary>시점과 공항 표시</summary><div class="ck-grid" id="ck-view"></div></details>
+<div class="ck-actions"><p id="ck-status" class="small muted" role="status" aria-live="polite"></p><button type="button" class="btn ghost" id="ck-fs">${ICON.layers}전체화면</button><button type="button" class="btn" id="ck-apply" disabled>${ICON.plane}비행 준비</button></div></div></section>
+<section class="card ck-stage"><iframe id="ck-frame" src="${FLIGHT_URL}?embed=1&amp;ac=${ckId}#${ckId}" title="조종석 비행 장면" allow="fullscreen" allowfullscreen></iframe></section>
+<p class="small muted ck-credits" id="ck-credits"></p><section class="card ck-off"><div class="card-b"><p>조종석 비행은 준비 중입니다. 지금은 <a href="#3d">3D 모형</a>에서 조종실 시점을 볼 수 있습니다.</p></div></section>`;
+  }
+  // 조종석 페이지 안: 머리와 설정 칸을 숨기고 장면만 꽉 채운다
+  const CK_STYLE = `header,aside#settings{display:none!important}
+main{height:100dvh!important}
+:root,body,button,input,select{font-family:var(--h-font)!important}
+.transport #play{background:var(--h-primary)!important;color:#fff!important;font-weight:600}
+button,select,input{border-radius:6px}
+#timeline{accent-color:var(--h-primary)}
+.eyebrow{color:var(--h-primary-fg)!important}`;
+  function cockpitAfter() {
+    const fr = $("#ck-frame"); if (!fr) return;
+    const size = () => { fr.style.height = Math.round(Math.max(520, Math.min(860, innerHeight - 120))) + "px"; };
+    let mo = null, tick = 0;
+    const dress = () => {
+      let d; try { d = fr.contentDocument; } catch (e) { return; } if (!d || !d.head || !d.getElementById("plan")) return;
+      const cs = getComputedStyle(document.documentElement);
+      ["font", "primary", "primary-fg"].forEach(k => d.documentElement.style.setProperty("--h-" + k, cs.getPropertyValue("--" + k).trim()));
+      if (!d.getElementById("hub-dress")) { const st = d.createElement("style"); st.id = "hub-dress"; st.textContent = CK_STYLE; d.head.append(st); }
+      // 숨긴 설정 칸 때문에 장면 크기가 바뀌었음을 알려 준다
+      try { fr.contentWindow.dispatchEvent(new Event("resize")); } catch (e) { /* 무시 */ }
+      mirror(d);
+    };
+    function mirror(d) {
+      const form = $("#ck-form"), view = $("#ck-view"); if (!form) return;
+      const pairs = [];
+      const labelOf = el => { const l = el.closest("label") || (el.id && d.querySelector(`label[for="${el.id}"]`)); if (!l) return el.id; const c = l.cloneNode(true); c.querySelectorAll("select,input,output,small").forEach(x => x.remove()); return c.textContent.trim(); };
+      const build = (list, host) => {
+        host.innerHTML = "";
+        list.forEach(src => {
+          const f = document.createElement("div"), lab = labelOf(src), small = src.closest("label") && src.closest("label").querySelector("small"), hid = "ck-" + src.id;
+          let dst;
+          if (src.type === "checkbox") { f.className = "fld ck-chk"; f.innerHTML = `<label><input type="checkbox" id="${hid}"> ${esc(lab)}</label>`; dst = f.querySelector("input"); }
+          else {
+            f.className = "fld"; f.innerHTML = `<label for="${hid}">${esc(lab)}${small ? ` <small>${esc(small.textContent)}</small>` : ""}${src.type === "range" ? ` <output id="${hid}-out"></output>` : ""}</label>`;
+            if (src.tagName === "SELECT") { dst = document.createElement("select"); dst.className = "sel"; }
+            else { dst = document.createElement("input"); dst.type = src.type; if (src.type !== "range") dst.className = "in"; ["min", "max", "step", "placeholder"].forEach(k => { const v = src.getAttribute(k); if (v != null) dst.setAttribute(k, v); }); }
+            dst.id = hid; f.append(dst);
+          }
+          host.append(f); pairs.push([src, dst]);
+          const send = () => {
+            if (dst.type === "checkbox") src.checked = dst.checked; else src.value = dst.value;
+            src.dispatchEvent(new Event("input", { bubbles: true })); src.dispatchEvent(new Event("change", { bubbles: true }));
+            if (src.id === "aircraft" && byId[dst.value]) { ckId = dst.value; history.replaceState(null, "", "#cockpit-" + ckId); }
+            sync();
+          };
+          dst.addEventListener(dst.tagName === "SELECT" || dst.type === "checkbox" ? "change" : "input", send);
+        });
+      };
+      build([...d.querySelectorAll("#plan select, #plan input")], form);
+      build([...d.querySelectorAll(".view-settings select, .view-settings input")], view);
+      const st = $("#ck-status"), ap = $("#ck-apply"), stat = d.getElementById("status"), apply = d.getElementById("apply");
+      function sync() {
+        pairs.forEach(([src, dst]) => {
+          if (src.tagName === "SELECT" && dst.innerHTML !== src.innerHTML) dst.innerHTML = src.innerHTML;
+          if (document.activeElement !== dst) { if (dst.type === "checkbox") dst.checked = src.checked; else if (dst.value !== src.value) dst.value = src.value; }
+          dst.disabled = src.disabled;
+          const out = document.getElementById(dst.id + "-out"), so = src.closest("label") && src.closest("label").querySelector("output"); if (out && so) out.textContent = so.textContent;
+        });
+        if (st && stat) st.textContent = stat.textContent;
+        if (ap && apply) ap.disabled = apply.disabled;
+      }
+      let queued = false; const later = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; if (document.body.contains(form)) sync(); }); };
+      if (mo) mo.disconnect();
+      mo = new MutationObserver(later); [d.getElementById("plan"), d.querySelector(".view-settings"), stat].forEach(n => n && mo.observe(n, { subtree: true, childList: true, characterData: true, attributes: true }));
+      // 조종석 페이지가 스스로 값을 바꾸는 경우(기본 공항, 활주로 등)도 따라가도록 처음 10초는 주기적으로도 맞춘다
+      clearInterval(tick); let n = 0; tick = setInterval(() => { if (!document.body.contains(form) || ++n > 40) { clearInterval(tick); return; } sync(); }, 250);
+      ap.onclick = () => { const f = d.getElementById("plan"); try { if (f.requestSubmit) f.requestSubmit(apply); else apply.click(); } catch (e) { apply.click(); } fr.scrollIntoView({ behavior: "smooth", block: "start" }); };
+      // 자료 출처: 조종석 페이지의 출처 링크를 장면 아래에 보인다
+      const cr = $("#ck-credits"); if (cr) { const links = [...d.querySelectorAll(".data-credits a, aside details a")].map(a => `<a class="ext" href="${esc(a.href)}" target="_blank" rel="noopener">${esc(a.textContent.trim())}</a>`); cr.innerHTML = links.length ? "자료 출처: " + links.join(", ") : ""; }
+      sync();
+    }
+    // 전체화면: 장면 칸을 전체화면으로. 브라우저가 막으면 창 전체를 덮는다 (Esc로 닫힘)
+    const fsOff = () => { fr.classList.remove("ck-fs"); document.documentElement.classList.remove("m3d-fs-on"); };
+    $("#ck-fs").addEventListener("click", () => {
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      if (fr.classList.contains("ck-fs")) { fsOff(); return; }
+      const pseudo = () => { if (!document.fullscreenElement) { fr.classList.add("ck-fs"); document.documentElement.classList.add("m3d-fs-on"); } };
+      try { const p = fr.requestFullscreen && fr.requestFullscreen(); if (p && p.catch) p.catch(pseudo); else if (!p) pseudo(); } catch (e) { pseudo(); }
+      setTimeout(pseudo, 700);
+    });
+    const escKey = e => { if (e.key === "Escape" && fr.classList.contains("ck-fs")) fsOff(); };
+    document.addEventListener("keydown", escKey);
+    size(); fr.addEventListener("load", () => { dress(); try { fr.contentDocument.addEventListener("keydown", escKey); } catch (e) { /* 무시 */ } }); dress();
+    const onResize = () => { if (!document.body.contains(fr)) { removeEventListener("resize", onResize); document.removeEventListener("keydown", escKey); if (mo) mo.disconnect(); return; } size(); };
+    addEventListener("resize", onResize);
+  }
   function renderAircraft(ac) {
     const S = ac.specs, p = photoOf(ac), rival = ac.rival ? byId[ac.rival] : null, py = prodYears(ac);
     if (viz === "overlay" && !rival) viz = "three";
@@ -256,7 +409,7 @@ ${encyExtras()}
       crumbs: `<a href="#home">대시보드</a> / <a href="#fleet">기종 백과</a> / <a href="#${ac.maker}">${makerName(ac.maker)}</a>`,
       title: `${esc(ac.name)} <span class="code">${ICAO[ac.id]}</span> ${statusPill(ac)}`,
       sub: `<div class="en">${esc(ac.en)}, ${esc(ac.variant)}</div><p>${esc(ac.role)}, ${esc(ac.generation)}</p>`,
-      actions: `<button type="button" class="btn" data-pilot="useac:${ac.id}" id="btn-fly">${ICON.plane}이 기종으로 비행 예약</button><button type="button" class="btn ${p ? "on-dark" : "ghost"}" id="btn-cmp" data-cmp="${ac.id}|${rival ? rival.id : (ac.maker === "boeing" ? "airbus-a350" : "boeing-787")}">${ICON.swap}다른 기종과 비교</button><a class="btn ${p ? "on-dark" : "ghost"}" href="https://ko.wikipedia.org/wiki/${encodeURIComponent(ac.wikiKo)}" target="_blank" rel="noopener">${ICON.ext}위키백과</a>` }) + `
+      actions: `${AircraftViewerModal.button(ac)}<button type="button" class="btn" data-pilot="useac:${ac.id}" id="btn-fly">${ICON.plane}이 기종으로 비행 예약</button><button type="button" class="btn ${p ? "on-dark" : "ghost"}" id="btn-cmp" data-cmp="${ac.id}|${rival ? rival.id : (ac.maker === "boeing" ? "airbus-a350" : "boeing-787")}">${ICON.swap}다른 기종과 비교</button><a class="btn ${p ? "on-dark" : "ghost"}" href="https://ko.wikipedia.org/wiki/${encodeURIComponent(ac.wikiKo)}" target="_blank" rel="noopener">${ICON.ext}위키백과</a>` }) + `
 <div class="detail">
 <aside class="card fl-panel mk-${ac.maker}">
 <div class="legs" style="padding-top:12px"><div class="leg"><span class="lbl">${ICON.plane}초도비행</span><span class="big">${yearOf(ac.firstFlight)}</span><small>${esc(dateKo(ac.firstFlight))}</small></div><div class="leg"><span class="lbl">${ICON.flag}취항</span><span class="big">${/^\d{4}/.test(ac.intro) ? yearOf(ac.intro) : "미정"}</span><small>${esc(dateKo(ac.intro))}</small></div></div>
@@ -265,6 +418,7 @@ ${encyExtras()}
 <div class="ac-live-mini">${acLiveCard(ac).replace('<section class="card" id="ac-live">', '<div id="ac-live">').replace(/<\/section>$/, "</div>")}</div>
 </aside>
 <div class="stack">
+${AircraftViewerModal.card(ac)}
 ${whyCard(ac)}
 <div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
 ${icaoCard(ac)}</div>
@@ -335,12 +489,14 @@ ${whyEras()}
   const app = $("#app");
   $("#side").innerHTML = sideHtml();
   const PAGES = { home: renderDash, book: renderBook, flights: renderFlights, live: renderLive, profile: renderProfile, activities: renderActivities, community: renderCommunity, airports: renderAirports, fleet: renderFleet, boeing: () => renderCompany("boeing"), airbus: () => renderCompany("airbus"), compare: renderCompare, timeline: renderTimeline };
-  Object.assign(PAGES, PORTAL_PAGES, LEARN_PAGES, MANUAL_PAGES);
+  Object.assign(PAGES, PORTAL_PAGES, LEARN_PAGES, MANUAL_PAGES, { "3d": () => render3d(), cockpit: () => renderCockpit() });
   const TITLES = { book: "비행 예약", flights: "내 예약", live: "실시간 운항", profile: "조종사 프로필", activities: "활동", community: "리더보드", airports: "공항", fleet: "기종 백과", boeing: "보잉", airbus: "에어버스", compare: "기종 비교", timeline: "연표" };
-  Object.assign(TITLES, PORTAL_TITLES, LEARN_TITLES, MANUAL_TITLES);
+  Object.assign(TITLES, PORTAL_TITLES, LEARN_TITLES, MANUAL_TITLES, { "3d": "3D 모형", cockpit: "조종석 비행" });
   function route(keep) {
     let h = (location.hash || "#home").slice(1), dyn = null;
-    if (!PAGES[h] && !byId[h]) { dyn = dynPage(h); if (!dyn) h = "home"; }
+    if (h.indexOf("3d-") === 0) dyn = byId[h.slice(3)] ? render3d(h.slice(3)) : null;
+    if (h.indexOf("cockpit-") === 0) dyn = byId[h.slice(8)] ? renderCockpit(h.slice(8)) : null;
+    if (!PAGES[h] && !byId[h] && !dyn) { dyn = dynPage(h); if (!dyn) h = "home"; }
     const y = window.scrollY, nk = navKey(h);
     app.innerHTML = dyn || (PAGES[h] ? PAGES[h]() : renderAircraft(byId[h]));
     if (byId[h]) pushRecent(h);
@@ -352,6 +508,8 @@ ${whyEras()}
     if (h === "home") initHomeLive();
     if (h === "live") initLive(); else stopLive();
     if (byId[h]) initAcLive(byId[h]);
+    if (h === "3d" || h.indexOf("3d-") === 0) m3dAfter();
+    if (h === "cockpit" || h.indexOf("cockpit-") === 0) cockpitAfter();
     pilotAfter(h);
     window.scrollTo(0, keep === true ? y : 0);
   }
@@ -361,7 +519,7 @@ ${whyEras()}
   const SEG = {
     stat: v => { statSel = v; $("#stats-out").innerHTML = fleetStats(); },
     del: v => { delRange = +v; $("#del-out").innerHTML = delBlock(); },
-    viz: v => { viz = v; const ac = byId[(location.hash || "").slice(1)]; if (ac) $("#viz-out").innerHTML = vizOut(ac); },
+    viz: v => { viz = v; const ac = byId[curAcId()]; if (ac) $("#viz-out").innerHTML = vizOut(ac); },
     fmk: v => { fmk = v; $("#fleet-out").innerHTML = fleetOut(); },
     fcat: v => { fcat = v; $("#fleet-out").innerHTML = fleetOut(); },
     fview: v => { fview = v; $("#fleet-out").innerHTML = fleetOut(); }
@@ -402,6 +560,9 @@ ${whyEras()}
   document.addEventListener("input", e => { if (e.target.id === "fleet-q") { fq = e.target.value; $("#fleet-out").innerHTML = fleetOut(); } });
   $("#menu").addEventListener("click", () => { if (window.matchMedia("(max-width:900px)").matches) document.body.classList.toggle("nav-open"); else { document.body.classList.toggle("nav-collapsed"); if (mapInst && mapInst.updateSize) setTimeout(() => { try { mapInst.updateSize(); } catch (e) { /* 무시 */ } }, 30); } });
   $("#backdrop").addEventListener("click", () => document.body.classList.remove("nav-open"));
+  // 조종석 비행: 그 파일(src/aircraft-3d/flight, 저장소에 아직 안 올림)이 있는 곳에서만 메뉴와 단추를 보인다
+  document.documentElement.classList.add("no-flight");
+  fetch(FLIGHT_URL, { method: "HEAD", cache: "no-store" }).then(r => { if (r.ok) document.documentElement.classList.remove("no-flight"); }).catch(() => { /* 없음 */ });
   try { const t = localStorage.getItem("hub-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) { /* 저장소 없음 */ }
   $("#theme").addEventListener("click", () => { const root = document.documentElement, cur = root.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"), next = cur === "dark" ? "light" : "dark"; root.setAttribute("data-theme", next); try { localStorage.setItem("hub-theme", next); } catch (e) { /* 무시 */ } });
   const clock = $("#clock"), tick = () => { clock.textContent = new Date().toISOString().slice(11, 19) + "z"; };

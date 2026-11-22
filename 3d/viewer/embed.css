@@ -1,0 +1,133 @@
+/* 허브 3D 모형 페이지 안에 넣었을 때만 쓰는 모양 (index.html?embed).
+   색과 글꼴은 허브가 --h-* 변수로 넣어 준다. 3D 화면 배경은 테마와 상관없이 어둡게 둔다. */
+html.embed{--h-surface:#313a46;--h-inset:#282e36;--h-line:#374151;--h-fg:#f3f4f6;--h-fg-2:#aab8c5;--h-muted:#8391a2;--h-primary:#3e60d5;--h-primary-fg:#729de8;--h-tile:rgba(55,65,81,.4);--h-tile-line:rgba(255,255,255,.1);--h-font:'Noto Sans KR',system-ui,sans-serif;--h-stage:560px;--accent:var(--h-primary-fg);--line:var(--h-line);--muted:var(--h-muted);font-family:var(--h-font);color:var(--h-fg-2);background:var(--h-surface)}
+html.embed body{display:block;min-height:0;background:var(--h-surface);font-size:14px}
+html.embed .sidebar,html.embed .topbar,html.embed .title-block,html.embed #download-blend,html.embed #research{display:none!important}
+html.embed main{width:100%}
+
+/* 3D 화면 */
+html.embed .stage,html.embed .stage.interior-view,html.embed .stage.cockpit-view{height:var(--h-stage);min-height:0;background:radial-gradient(ellipse at 55% 42%,#1f2731,#0d1116 74%)}
+/* 시점 단추: 왼쪽에 세로로 */
+html.embed .view-controls{left:16px;top:50%;bottom:auto;transform:translateY(-50%);flex-direction:column;align-items:stretch;gap:2px;padding:5px;max-height:calc(100% - 96px);overflow-y:auto;scrollbar-width:none;background:rgba(17,22,29,.78);border-color:rgba(255,255,255,.1);border-radius:6px;z-index:3}
+html.embed .view-controls::-webkit-scrollbar{display:none}
+html.embed .view-controls button{font-size:12.5px;font-weight:500;color:#aab8c5;border-radius:4px;padding:8px 14px;text-align:left;flex-shrink:0}
+/* 왼쪽 단추 줄과 겹치지 않게 다른 안내를 오른쪽으로 민다 */
+html.embed .section-note{left:128px;bottom:56px}
+html.embed .stage.cockpit-view .title-block,html.embed .stage.facility-view .title-block{display:none!important}
+html.embed #engine-inspection,html.embed #gear-inspection,html.embed #exterior-equipment{left:128px;right:20px;bottom:56px}
+html.embed .canvas-help{left:128px}
+html.embed .north{bottom:56px}
+
+/* 전체화면 */
+html.embed .fs-button{position:absolute;top:12px;left:16px;z-index:4;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(17,22,29,.78);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#dbe3ea;font-size:12.5px;font-weight:500}
+html.embed .fs-button:hover{background:rgba(40,48,58,.9)}
+html.embed .fs-button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html.embed .stage.is-fs,html.embed .stage:fullscreen{height:100%!important;width:100%}
+html.embed .stage:-webkit-full-screen{height:100%!important;width:100%}
+/* 오른쪽 펼침 패널 (기체 버전, 치수, 도색 참고, 보기 설정). 3D 위라 테마와 상관없이 어둡게 */
+html.embed .view-label{left:128px;right:auto;top:22px}
+html.embed .side-open{position:absolute;top:12px;right:16px;z-index:4;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(17,22,29,.78);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#dbe3ea;font-size:12.5px;font-weight:500}
+html.embed .side-open:hover{background:rgba(40,48,58,.9)}
+html.embed .side-open svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+html.embed .side-panel{--h-surface:#161b22;--h-inset:rgba(255,255,255,.04);--h-line:rgba(255,255,255,.09);--h-fg:#f3f4f6;--h-fg-2:#b4c0cc;--h-muted:#8391a2;--h-tile:rgba(255,255,255,.06);--h-tile-line:rgba(255,255,255,.1);--h-primary-fg:#8fb0ee;
+  position:absolute;top:0;right:0;bottom:0;width:360px;max-width:100%;z-index:5;display:flex;flex-direction:column;background:rgba(18,23,30,.94);backdrop-filter:blur(14px);border-left:1px solid rgba(255,255,255,.08);color:var(--h-fg-2);transform:translateX(100%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s}
+html.embed .stage.panel-open .side-panel{transform:none;visibility:visible;transition:transform .22s ease}
+html.embed .stage.panel-open .side-open{display:none}
+html.embed .side-head{display:flex;align-items:center;justify-content:space-between;padding:14px 12px 10px 20px;flex-shrink:0}
+html.embed .side-head strong{font-size:14px;font-weight:600;color:#f3f4f6}
+html.embed .side-close{width:32px;height:32px;border:0;border-radius:6px;background:transparent;color:#aab8c5;font-size:22px;line-height:1}
+html.embed .side-close:hover{background:rgba(255,255,255,.08);color:#fff}
+/* 패널 안의 정보 영역: 한 줄씩 쌓는다 */
+html.embed .side-panel .dashboard{flex:1;overflow-y:auto;padding:4px 20px 24px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;overscroll-behavior:contain}
+html.embed .side-panel .aircraft-versions{grid-template-columns:1fr;gap:8px;padding:6px 0 16px}
+html.embed .side-panel .aircraft-versions select{width:100%;min-width:0;text-overflow:ellipsis}
+html.embed .side-panel .aircraft-versions small{grid-column:1;line-height:1.55}
+html.embed .side-panel .measurements{grid-template-columns:1fr 1fr;gap:0;margin-top:16px;border-radius:6px;background:var(--h-inset)}
+html.embed .side-panel .measurements>div{border:0;padding:12px 14px}
+html.embed .side-panel .measurements span{font-size:12px;margin-bottom:4px}
+html.embed .side-panel .measurements strong{font-size:19px}
+html.embed .side-panel #model-dimension-note:not([hidden]){margin:10px 0 0;font-size:12px;color:var(--h-muted)}
+html.embed .side-panel .paint-reference{margin-top:16px;border:0}
+html.embed .side-panel .paint-reference summary{padding:12px 14px}
+html.embed .side-panel .reference-content{grid-template-columns:1fr;gap:10px;padding:0 14px 14px}
+html.embed .side-panel .reference-content img{height:150px}
+html.embed .side-panel .tools{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:16px;padding-top:16px;font-size:13px}
+html.embed .side-panel .tools label{gap:8px;min-width:0}
+html.embed .side-panel .tools label small{display:none}
+html.embed .side-panel .tools button{grid-column:1/-1;order:9;margin:4px 0 0;justify-self:start;padding:0}
+html.embed .side-panel .walk-controls,html.embed .side-panel .cockpit-views,html.embed .side-panel .facilities-panel{margin-top:16px;border:0}
+html.embed .side-panel .walk-controls label{margin-left:0;width:100%}
+html.embed .side-panel .walk-controls label input{flex:1}
+html.embed .side-panel .notes{margin-top:16px;padding-top:14px;font-size:12.5px}
+html.embed .side-panel .downloads{flex-wrap:wrap;gap:8px 16px}
+/* 넓은 화면에서는 패널이 열리면 3D 화면을 왼쪽으로 좁혀 기체가 가려지지 않게 한다 */
+@media(min-width:900px){
+  html.embed .stage.panel-open #canvas-host{right:360px}
+  html.embed .stage.panel-open .scale,html.embed .stage.panel-open .north{right:380px}
+  html.embed .stage.panel-open #engine-inspection,html.embed .stage.panel-open #gear-inspection,html.embed .stage.panel-open #exterior-equipment{right:380px}
+}
+html.embed.pseudo-fs,html.embed.pseudo-fs body{overflow:hidden}
+html.embed.pseudo-fs .stage{position:fixed;inset:0;height:100vh!important;z-index:10}
+html.embed .view-controls button.active{background:var(--h-primary);color:#fff}
+html.embed .view-label{top:18px;right:20px;font-size:12px;color:#c9d3dd}
+html.embed .view-label .dot,html.embed .dot{background:var(--h-primary-fg)}
+html.embed .canvas-help{left:20px;font-size:11px;color:#8391a2}
+html.embed .north{right:20px}
+html.embed .scale{right:20px}
+html.embed .section-note{left:20px;border-left-color:var(--h-primary-fg);background:rgba(17,22,29,.86)}
+html.embed .section-note strong{color:#f3f4f6;font-size:12px}
+html.embed .section-note span{color:#aab8c5;font-size:11px}
+html.embed .section-note small{color:#8391a2;font-size:10px}
+html.embed #loading{background:rgba(13,17,22,.92)}
+html.embed #loading button{background:var(--h-primary);color:#fff;border-radius:4px}
+html.embed .spinner{border-color:#374151;border-top-color:var(--h-primary-fg)}
+
+/* 아래 정보 영역: 허브 카드와 같은 색, 글꼴, 선 */
+html.embed .dashboard{padding:22px 26px 24px;border-top:0}
+html.embed .aircraft-versions{border-bottom-color:var(--h-line);padding-top:0}
+html.embed .aircraft-versions label{font-size:13px;font-weight:500;color:var(--h-fg)}
+html.embed .aircraft-versions select,html.embed .door-tools select,html.embed #exterior-equipment select{background:var(--h-inset);color:var(--h-fg);border:1px solid var(--h-line);border-radius:4px;height:38px;padding:0 12px;font-size:14px}
+html.embed .aircraft-versions small{color:var(--h-muted);font-size:12.5px}
+html.embed .measurements{margin-top:18px}
+html.embed .measurements>div{border-color:var(--h-line)}
+html.embed .measurements span{font-size:12.5px;color:var(--h-muted)}
+html.embed .measurements strong{font-size:22px;font-weight:600;letter-spacing:0;color:var(--h-fg);font-variant-numeric:tabular-nums}
+html.embed .tools{border-top-color:var(--h-line);font-size:13px;color:var(--h-fg-2)}
+html.embed .tools button{font-size:13px;color:var(--h-primary-fg)}
+html.embed input[type=checkbox],html.embed input[type=range]{accent-color:var(--h-primary)}
+html.embed .notes{border-top-color:var(--h-line);font-size:13px;color:var(--h-fg-2);line-height:1.7}
+html.embed .notes summary{color:var(--h-fg);font-weight:500}
+html.embed .notes a,html.embed .reference-content a{color:var(--h-primary-fg)}
+html.embed .paint-reference,html.embed .walk-controls,html.embed .cockpit-views,html.embed .facilities-panel{background:var(--h-inset);border:1px solid var(--h-line);border-radius:6px;color:var(--h-fg-2);font-size:12.5px}
+html.embed .paint-reference summary b,html.embed .facilities-heading strong,html.embed .reference-content h3{color:var(--h-fg);font-size:13px}
+html.embed .paint-reference summary small,html.embed .reference-action,html.embed .facilities-heading small,html.embed .reference-content small,html.embed .cockpit-views small,html.embed .walk-controls small,html.embed .door-tools span{color:var(--h-muted);font-size:11.5px}
+html.embed .reference-content p{color:var(--h-fg-2);font-size:12.5px}
+html.embed .reference-content img{background:var(--h-surface);border-color:var(--h-line)}
+html.embed .walk-controls button,html.embed .cockpit-views button,html.embed #facility-list button,html.embed .door-tools button,html.embed .tools #cargo-zone{background:var(--h-tile);border:1px solid var(--h-tile-line);color:var(--h-fg-2);border-radius:4px;font-size:12.5px}
+html.embed .cockpit-views button.active,html.embed #facility-list button.active{background:var(--h-primary);border-color:var(--h-primary);color:#fff}
+html.embed .door-tools{border-top-color:var(--h-line)}
+html.embed .calibration-note{color:var(--h-fg-2)!important}
+html.embed #model-dimension-note:not([hidden]){color:var(--h-fg-2)}
+
+@media(max-width:720px){
+  html.embed .dashboard{padding:18px 16px 20px}
+  html.embed .view-controls{left:8px;max-height:calc(100% - 70px);top:calc(50% + 12px)}
+  html.embed .view-controls button{padding:7px 10px;font-size:11.5px}
+  html.embed .fs-button{left:8px;top:8px;height:30px;padding:0 9px}
+  html.embed .section-note,html.embed #engine-inspection,html.embed #gear-inspection,html.embed #exterior-equipment{left:96px;right:8px;bottom:44px;max-width:none}
+  html.embed .north{display:none}
+  html.embed .side-open{top:8px;right:8px;height:30px;padding:0 9px}
+  html.embed .side-panel{width:320px}
+  html.embed .side-panel .dashboard{padding:4px 16px 20px}
+  html.embed .canvas-help{display:none}
+}
+@media(max-width:480px){ html.embed .fs-button span,html.embed .side-open span{display:none} html.embed .side-panel{width:100%;border-left:0} html.embed .view-label{left:48px;top:15px} }
+@media(min-width:481px) and (max-width:720px){ html.embed .view-label{left:110px;top:16px} }
+@media(min-width:600px) and (max-width:899px){
+  html.embed .stage.panel-open #canvas-host{right:320px}
+  html.embed .stage.panel-open .scale{right:336px}
+  html.embed .stage.panel-open #engine-inspection,html.embed .stage.panel-open #gear-inspection,html.embed .stage.panel-open #exterior-equipment{right:336px}
+}
+html.embed .view-label{max-width:calc(100% - 290px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.embed .stage.panel-open .view-label{max-width:calc(100% - 470px)}
+@media(max-width:480px){ html.embed .view-label{max-width:calc(100% - 100px)} }

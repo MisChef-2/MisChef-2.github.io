@@ -20,6 +20,10 @@
       { id: "rules", icon: "book", title: "운항 규정", tabs: [["notams", "bell", "NOTAM"], ["ranks", "star", "계급"], ["scores", "gauge", "점수 기준"], ["icao", "book", "ICAO 분류"]] },
       { id: "manual", icon: "check", title: "조종 매뉴얼", lead: "어떤 상황이든 순서는 같습니다. 비행기부터 안정시키고(조종), 어디로 갈지 정한 다음(항법), 관제와 승무원에게 알립니다(교신).", tabs: [["manual-sit", "bell", "상황별 대응"], ["manual-tips", "star", "경험과 요령"], ["manual-acc", "flag", "사건사고"]] },
       { id: "learn", icon: "wing", title: "비행 원리", tabs: [["learn-forces", "plane", "네 가지 힘"], ["learn-lift", "wing", "양력"], ["learn-stall", "gauge", "받음각과 실속"], ["learn-winglet", "target", "윙렛"], ["learn-sweep", "ruler", "후퇴익과 음속"], ["learn-highlift", "layers", "플랩과 슬랫"], ["learn-control", "swap", "조종면과 세 축"], ["learn-speed", "gauge", "속도의 종류"], ["learn-cg", "weight", "무게중심"]] }
+    ] },
+    { label: "시뮬레이션", items: [
+      { id: "m3d", icon: "layers", title: "3D 모형", tabs: [["3d", "layers", "3D 모형"]] },
+      { id: "cockpit", icon: "plane", title: "조종석 비행", tabs: [["cockpit", "plane", "조종석 비행"]] }
     ] }
   ];
   const CATS = []; NAV.forEach(g => g.items.forEach(c => CATS.push(c)));
@@ -27,7 +31,7 @@
   function sideHtml() {
     const extra = k => k === "pireps" ? `<span class="cnt" id="nav-pireps" hidden></span>` : k === "live" ? `<span class="livedot" title="실시간"></span>` : `<span class="cnt">${k === "apt" ? APT.length : AIRCRAFT.length}</span>`;
     const link = c => `<a href="#${c.tabs[0][0]}" data-cat="${c.id}">${ICON[c.icon]}<span>${c.title}</span>${c.extra ? extra(c.extra) : ""}</a>`;
-    // 큰 묶음(비행, 내 기록, 자료)은 덩어리째 감싸고 이름표와 구분선을 둔다
+    // 큰 묶음(비행, 내 기록, 자료, 시뮬레이션)은 덩어리째 감싸고 이름표와 구분선을 둔다
     return NAV.map((g, i) => g.label ? `<div class="nav-g g${i}" role="group" aria-label="${g.label}"><div class="nav-sec"><span>${g.label}</span></div>${g.items.map(link).join("")}</div>` : `<div class="nav-top">${g.items.map(link).join("")}</div>`).join("");
   }
   // 왼쪽 메뉴에서 지금 묶음을 표시한다

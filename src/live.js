@@ -101,6 +101,77 @@
   }
   const errText = e => e.status === 401 ? "API 키가 올바르지 않습니다. 키를 다시 확인하세요." : e.status === 403 ? "요금제의 반경 한도를 넘었습니다. 무료 키는 반경 500 km까지입니다." : e.status === 429 ? `요청 한도를 넘었습니다. ${e.retry ? e.retry + "초 뒤" : "잠시 뒤"} 다시 시도합니다.` : e.status ? `API 오류 (${e.status}): ${e.message}` : "API에 연결하지 못했습니다. 네트워크 상태를 확인하세요.";
   const normAc = a => Object.assign({}, a, { flight: String(a.flight || "").trim() });
+  // Raw observations are frozen before live3d.js extrapolates the map marker.
+  // Units/time: https://flyitalyadsb.com/data/api/docs/fields/
+  function cockpitFrame(a, responseTime) {
+    if (!a || !famOf(a.t) || a.alt_baro === "ground") return null;
+    const altitude = Number.isFinite(a.alt_geom) ? a.alt_geom : a.alt_baro;
+    if (![a.lat, a.lon, altitude, a.gs, a.track].every(Number.isFinite) || Math.abs(a.lat) > 90 || Math.abs(a.lon) > 180 || a.gs < 0) return null;
+    if (!a.demo && (!Number.isFinite(a.seen_pos) || a.seen_pos < 0 || !Number.isFinite(responseTime))) return null;
+    return Object.freeze({ hex: String(a.hex || ""), flight: String(a.flight || a.r || a.hex || "").trim(), aircraftId: famOf(a.t), lat: a.lat, lon: a.lon,
+      altitudeM: altitude * 0.3048, speedMps: a.gs * 1852 / 3600, heading: ((a.track % 360) + 360) % 360,
+      verticalSpeedMps: Number.isFinite(a.baro_rate) ? a.baro_rate * 0.3048 / 60 : null,
+      observedAt: a.demo ? Date.now() : responseTime - a.seen_pos * 1000, demo: a.demo === true });
+  }
+  function cockpitRecords(d) {
+    const receivedAt = Date.now(), responseTime = Number.isFinite(d.now) ? Math.min(receivedAt, d.now * 1000) : receivedAt;
+    return (Array.isArray(d.ac) ? d.ac : []).map(a => Object.assign({}, a, { _cockpitObservation: cockpitFrame(a, responseTime) }));
+  }
+  let cockpitFollow = null, cockpitTimer = null;
+  function closeCockpitBridge() { if (cockpitTimer) clearInterval(cockpitTimer); cockpitTimer = null; cockpitFollow = null; }
+  function sendCockpitFrame() {
+    const follow = cockpitFollow;
+    if (!follow || follow.child.closed) { closeCockpitBridge(); return; }
+    if (follow.demo) {
+      const a = demoAircraft().find(a => a.hex === follow.hex);
+      if (a) follow.frame = cockpitFrame(a, Date.now());
+    } else {
+      const latest = LV.ac.find(a => a.hex === follow.hex && !a.demo)?._cockpitObservation;
+      if (latest && (!follow.frame || latest.observedAt > follow.frame.observedAt)) follow.frame = latest;
+    }
+    if (follow.frame) follow.child.postMessage({ type: "aircraft-live-frame", payload: follow.frame }, location.origin);
+    if (!follow.demo && LV.key && !follow.busy && Date.now() >= follow.nextPoll) pollCockpitAircraft(follow);
+  }
+  async function pollCockpitAircraft(follow) {
+    if (!/^[a-f\d]{6}$/i.test(follow.hex)) return;
+    follow.busy = true; follow.nextPoll = Date.now() + 15000;
+    try {
+      const d = await fia(`/v2/hex/${encodeURIComponent(follow.hex)}`);
+      if (cockpitFollow !== follow) return;
+      const a = Array.isArray(d.ac) ? d.ac.find(a => String(a.hex).toLowerCase() === follow.hex.toLowerCase()) : d.aircraft || d;
+      if (!a || String(a.hex).toLowerCase() !== follow.hex.toLowerCase()) return;
+      const frame = cockpitFrame(a, Number.isFinite(d.now) ? Math.min(Date.now(), d.now * 1000) : Date.now());
+      if (frame && frame.aircraftId === follow.aircraftId && (!follow.frame || frame.observedAt > follow.frame.observedAt)) follow.frame = frame;
+    } catch (e) {
+      // Preserve the last measured frame; the child marks it stale. Never switch a real flight to demo.
+      follow.nextPoll = Date.now() + Math.max(30000, Math.min(300000, (Number(e.retry) || 0) * 1000));
+      if (e.status === 401 || e.status === 403) follow.nextPoll = Date.now() + 300000;
+    } finally { follow.busy = false; }
+  }
+  function cockpitEntry(a) {
+    const frame = a.demo ? cockpitFrame(a, Date.now()) : a._cockpitObservation;
+    const enabled = !!frame && !!famOf(a.t) && (a.demo || Date.now() - frame.observedAt <= 30000);
+    const reason = !famOf(a.t) ? "이 기종의 조종석 모델이 아직 없습니다." : a.alt_baro === "ground" ? "지상 고도를 확인할 수 없어 추적 시점을 보류합니다." : !frame ? "위치·고도·방위·속도 자료가 부족합니다." : !enabled ? "위치 수신이 오래되어 새 자료를 기다립니다." : "";
+    return `<div class="live-sec"><button type="button" class="btn" data-live="cockpit" id="live-cockpit"${enabled ? "" : " disabled"}>${ICON.plane}${a.demo ? "예시 항공편 조종석 보기" : "이 항공편 조종석 시점"}</button><p class="small muted" style="margin:8px 0 0">${reason ? esc(reason) + " " : ""}${a.demo ? "시연용 위치로 재구성한 3D 화면입니다." : "수신 위치로 재구성한 3D 화면이며 실제 기내 영상이 아닙니다. 고도·기수 방향과 기종 세부형식은 근사 표현입니다."} 원래 창을 열어 두세요.</p><p class="small muted" id="live-cockpit-status" role="status"></p></div>`;
+  }
+  function openCockpit(a) {
+    const frame = a && (a.demo ? cockpitFrame(a, Date.now()) : a._cockpitObservation);
+    if (!frame || (!a.demo && Date.now() - frame.observedAt > 30000) || location.origin === "null") {
+      const status = document.getElementById("live-cockpit-status"); if (status) status.textContent = location.origin === "null" ? "로컬 미리보기 서버나 사이트 주소에서 열어 주세요." : "유효한 최신 항공편 자료를 기다립니다."; return;
+    }
+    const url = new URL("src/aircraft-3d/flight/index.html", document.baseURI);
+    url.searchParams.set("follow", frame.hex); url.searchParams.set("aircraft", frame.aircraftId);
+    const child = window.open(url.href, "aircraft-live-cockpit");
+    if (!child) { const status = document.getElementById("live-cockpit-status"); if (status) status.textContent = "팝업이 차단되었습니다. 이 사이트의 새 창을 허용해 주세요."; return; }
+    closeCockpitBridge(); cockpitFollow = { child, hex: frame.hex, aircraftId: frame.aircraftId, demo: frame.demo, frame, busy: false, nextPoll: Date.now() + 15000 };
+    cockpitTimer = setInterval(sendCockpitFrame, 1000); child.focus();
+  }
+  window.addEventListener("message", e => {
+    const follow = cockpitFollow;
+    if (!follow || e.origin !== location.origin || e.source !== follow.child || e.data?.type !== "aircraft-live-ready" || e.data.hex !== follow.hex) return;
+    sendCockpitFrame();
+  });
+  window.addEventListener("pagehide", closeCockpitBridge);
   function demoFor() {
     const all = demoAircraft();
     if (LV.scope === "all") return all;
@@ -111,9 +182,9 @@
     if (LV.net !== false && LV.key) {
       try {
         let list = [];
-        if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(d.ac || []); } }
-        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); (d.ac || []).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
-        else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = d.ac || []; }
+        if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(cockpitRecords(d)); } }
+        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); cockpitRecords(d).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
+        else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = cockpitRecords(d); }
         LV.ac = list.filter(a => typeof a.lat === "number" && typeof a.lon === "number").map(normAc); LV.acSrc = "live"; LV.acTime = Date.now(); LV.err = null; return;
       } catch (e) { LV.err = errText(e); if (!e.status && LV.net === null) LV.net = false; }
     }
@@ -175,6 +246,7 @@ ${p ? `<div class="fl-shot">${pimg(p, true, ac.name)}<span>${esc(ac.name)} 자�
 <div class="legs"><div class="leg"><span class="lbl">콜사인</span><span class="big">${esc(a.flight || "-")}</span><small>${esc(a.r || "")}</small></div><div class="leg"><span class="lbl">기종</span><span class="big">${esc(a.t || "-")}</span><small>${ac ? `<a class="ext" href="#${ac.id}">${esc(ac.name)}</a>` : "수록되지 않은 기종"}</small></div></div>
 ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span><span class="val">${esc(a.route.from_iata)} → ${esc(a.route.to_iata || "?")}</span></div><p class="small muted" style="margin:0">${a.demo ? "시연용 예시 노선입니다." : "최근 7일 기록에서 가장 잦았던 노선입니다. 운항 스케줄이 아닙니다."}</p></div>` : `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span></div></div>`}
 <div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> (${fmt(kmh)} km/h)</small>` : "-")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "-")}${kv(ICON.chart, "승강률", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "-")}${kv(ICON.info, "스퀵", esc(a.squawk || "-"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")}, ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
+${cockpitEntry(a)}
 <div class="live-sec"><button type="button" class="btn" data-live="trail" id="live-trail">${ICON.route}${a.demo ? "예시 경로 보기" : "오늘 궤적 보기"}</button>${LV.trailNote ? `<p class="small muted" style="margin:8px 0 0">${esc(LV.trailNote)}</p>` : ""}</div>
 </div>`;
   }
@@ -341,6 +413,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
       if (act === "sel") { LV.sel = arg; LV.trail = null; LV.trailNote = ""; paintLive(); focusLive(true); return; }
       if (act === "back") { LV.sel = null; LV.trail = null; LV.trailNote = ""; paintLive(); focusLive(true); return; }
+      if (act === "cockpit") { openCockpit(LV.ac.find(a => a.hex === LV.sel)); return; }
       if (act === "trail") { const a = LV.ac.find(x => x.hex === LV.sel); if (a) { await loadTrail(a); paintLive(); } }
     });
     document.addEventListener("change", e => {

@@ -1,0 +1,4567 @@
+{
+  "schemaVersion": 1,
+  "aircraft": [
+    {
+      "order": 1,
+      "id": "boeing-707",
+      "name": "보잉 707",
+      "variant": "707-320B 기준",
+      "length": 46.61,
+      "span": 44.42,
+      "height": 12.83,
+      "diameter": 3.76,
+      "fuselageHeight": 3.9104,
+      "engineCount": 4,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 147,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 35,
+      "wingRootChord": 12.390754999999999,
+      "wingTipChord": 2.8447999999999998,
+      "engineDiameter": 1.401064,
+      "winglet": "none",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/707.pdf",
+        "https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_20-76.pdf",
+        "https://ntrs.nasa.gov/api/citations/19690003076/downloads/19690003076.pdf",
+        "https://ntrs.nasa.gov/citations/19770076301"
+      ],
+      "sourceManifest": "outputs/aircraft-research/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Ground clearances H at operating empty weight; maximum-ramp height is12.75m. Site12.93m not adopted."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 46.61,
+        "span": 44.42,
+        "height": 12.93,
+        "diameter": 3.76
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 16,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 16,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 19,
+          "verified": true,
+          "note": "Ground clearances H at operating empty weight; maximum-ramp height is12.75m. Site12.93m not adopted."
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 16,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "height",
+          "site": 12.93,
+          "modelReference": 12.83,
+          "pdfPage": 19,
+          "note": "Ground clearances H at operating empty weight; maximum-ramp height is12.75m. Site12.93m not adopted."
+        }
+      ],
+      "nacelleLengthM": 5.4864,
+      "engineStations": [
+        {
+          "y": 10.0582222,
+          "inletFromNose": 17.0205654
+        },
+        {
+          "y": 15.84738004,
+          "inletFromNose": 21.6389712
+        }
+      ],
+      "wingRootFromNose": 13.6105646,
+      "engineInstallationEvidence": {
+        "source": "https://ntrs.nasa.gov/citations/19770076301",
+        "localFile": "outputs/aircraft-research/images-707-round2/nasa-707-geometry-19770076301.pdf",
+        "pages": [
+          97,
+          99,
+          108,
+          109
+        ],
+        "status": "Published NASA707-320B aerodynamic geometry definition. Nacelle origins are inlet stations, not centers. Engine height, detailed contour, wing sweep/airfoil remain approximate; source ground datum not reconstructed."
+      }
+    },
+    {
+      "order": 2,
+      "id": "boeing-727",
+      "name": "보잉 727",
+      "variant": "727-200 어드밴스드 기준",
+      "length": 46.68,
+      "span": 32.92,
+      "height": 10.36,
+      "diameter": 3.76,
+      "fuselageHeight": 3.9104,
+      "engineCount": 3,
+      "engineLayout": "trijet",
+      "tailStyle": "T",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 134,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 32,
+      "wingRootChord": 8.0,
+      "wingTipChord": 1.3,
+      "engineDiameter": 1.5,
+      "winglet": "none",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/727.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-727/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "General dimensions Model727-200; site46.69m differs by rounding."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 46.69,
+        "span": 32.92,
+        "height": 10.36,
+        "diameter": 3.76
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 19,
+          "verified": true,
+          "note": "General dimensions Model727-200; site46.69m differs by rounding."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 19,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 19,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 46.69,
+          "modelReference": 46.68,
+          "pdfPage": 19,
+          "note": "General dimensions Model727-200; site46.69m differs by rounding."
+        }
+      ],
+      "wingRootFromNose": 15.6,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          7.2
+        ],
+        [
+          0.115,
+          1.3,
+          5.9
+        ],
+        [
+          0.55,
+          6.5,
+          3.8
+        ],
+        [
+          1,
+          11.7,
+          2.5
+        ]
+      ],
+      "horizontalTailSpan": 10.9,
+      "geometryEvidence": {
+        "method": "Outline traced from gridded official drawing +/-0.5m, tailspan10.9m dimensioned. Engine stations still approximate pending numeric evidence.",
+        "source": "outputs/aircraft-research/fleet/boeing-727/airport-planning.pdf",
+        "page": 19
+      }
+    },
+    {
+      "order": 3,
+      "id": "boeing-737",
+      "name": "보잉 737",
+      "variant": "737-800 (NG) 기준",
+      "length": 39.47,
+      "span": 35.79,
+      "height": 12.55,
+      "diameter": 3.76,
+      "fuselageHeight": 3.9104,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 162,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 7.1,
+      "wingTipChord": 1.4,
+      "engineDiameter": 2.0,
+      "winglet": "blended",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/737NG_REV_C.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-737/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "35.79 m site span corresponds to winglet configuration; bare-wing NG variants differ."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 39.47,
+        "span": 35.79,
+        "height": 12.55,
+        "diameter": 3.76
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 35,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 35,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 35,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 35,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 13.9,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          7.45
+        ],
+        [
+          0.11,
+          1.2,
+          6.25
+        ],
+        [
+          0.35,
+          3.3,
+          4.3
+        ],
+        [
+          1,
+          9.3,
+          1.5
+        ]
+      ],
+      "baseWingSpan": 34.32,
+      "engineStations": [
+        {
+          "y": 4.83,
+          "inletFromNose": 13.36
+        }
+      ],
+      "horizontalTailSpan": 14.35,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/boeing-737/airport-planning.pdf",
+        "page": 35,
+        "method": "737-800W engine inlet13.36m and lateral4.83m dimensioned; wing outline manually traced +/-0.5m, main wing34.32m with35.79m winglet span."
+      }
+    },
+    {
+      "order": 4,
+      "id": "boeing-737max",
+      "name": "보잉 737 MAX",
+      "variant": "737 MAX 8 기준",
+      "length": 39.47,
+      "span": 35.92,
+      "height": 12.3,
+      "diameter": 3.76,
+      "fuselageHeight": 3.9104,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 178,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 7.1,
+      "wingTipChord": 1.4,
+      "engineDiameter": 2.35,
+      "winglet": "split",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/737MAX_RevK.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-737max/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "General dimensions737-8/-8-200/BBJ MAX8. Airport planning drawing states accuracy +/-6in; not manufacturing geometry."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 39.52,
+        "span": 35.92,
+        "height": 12.3,
+        "diameter": 3.76
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 26,
+          "verified": true,
+          "note": "General dimensions737-8/-8-200/BBJ MAX8. Airport planning drawing states accuracy +/-6in; not manufacturing geometry."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 26,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 26,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 39.52,
+          "modelReference": 39.47,
+          "pdfPage": 26,
+          "note": "General dimensions737-8/-8-200/BBJ MAX8. Airport planning drawing states accuracy +/-6in; not manufacturing geometry."
+        }
+      ],
+      "wingRootFromNose": 13.0,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          8.2
+        ],
+        [
+          0.105,
+          0.94,
+          7.2
+        ],
+        [
+          0.3,
+          2.4,
+          5.1
+        ],
+        [
+          0.9,
+          9.8,
+          2.1
+        ],
+        [
+          1,
+          10.74,
+          1.6
+        ]
+      ],
+      "engineStations": [
+        {
+          "inletFromNose": 13.0,
+          "y": 4.82
+        }
+      ],
+      "horizontalTailSpan": 14.35,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/boeing-737max/airport-planning.pdf",
+        "method": "13.00m nacelle inlet and4.82m engine offset read dimension; wing outline manually scaled from drawing, approximate +/-0.25m.",
+        "page": 26
+      },
+      "noseSectionProfile": [
+        [
+          0.0,
+          0.004,
+          -0.5492,
+          -0.5492
+        ],
+        [
+          0.1743,
+          0.15140800000000001,
+          -0.2267,
+          -0.8194
+        ],
+        [
+          0.523,
+          0.38783076923076926,
+          0.0,
+          -1.0112
+        ],
+        [
+          0.9589,
+          0.6091338461538461,
+          0.2092,
+          -1.2204
+        ],
+        [
+          1.482,
+          0.73122,
+          0.4359,
+          -1.4297
+        ],
+        [
+          1.9178,
+          0.822738,
+          0.8543,
+          -1.5866
+        ],
+        [
+          2.4409,
+          0.8840899999999999,
+          1.1158,
+          -1.7435
+        ],
+        [
+          3.0511,
+          0.9451099999999999,
+          1.3773,
+          -1.8655
+        ],
+        [
+          3.9228,
+          0.97807,
+          1.604,
+          -1.9527
+        ],
+        [
+          4.7946,
+          0.999865,
+          1.7783,
+          -2.005
+        ],
+        [
+          6.1893,
+          1,
+          1.9178,
+          -2.005
+        ],
+        [
+          7.9328,
+          1,
+          2.005,
+          -2.005
+        ],
+        [
+          9.9328,
+          1,
+          1.9552,
+          -1.9552
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "boeing-737max",
+        "variant": "737-8",
+        "pdfPage": 26,
+        "sourceUrl": [
+          "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/737MAX_RevK.pdf"
+        ],
+        "sourceRendering": "work/aircraft_build/nose-extra/boeing-737max-crop.png",
+        "method": "Manual outer-envelope trace from actual official side-view rendered crop. Not manufacturer station coordinates or CAD. Fine contour deviations below uncertainty are unresolved.",
+        "pixelScalePerMeter": 57.356608478803,
+        "scaleDatum": "4.01m printed side fuselage depth; 230 pixels",
+        "centerDatumPixelY": 200,
+        "centerDatum": "Midpoint between constant-section upper and lower side silhouette aft of nose; distinct from nose-tip height.",
+        "uncertaintyM": 0.15,
+        "includesUpperHump": false,
+        "doNotDoubleApplyHump": false,
+        "widthProfileStatus": "NOT_TRACED_FROM_SIDE_VIEW; width remains separately unverified; do not infer circular sections from this silhouette.",
+        "noseTipZeroRadius": true,
+        "points": [
+          {
+            "distanceFromTipM": 0.0,
+            "topZFromMainBodyCenterM": -0.5492,
+            "bottomZFromMainBodyCenterM": -0.5492,
+            "samplePixelX": 45,
+            "sampleTopPixelY": 231.5,
+            "sampleBottomPixelY": 231.5
+          },
+          {
+            "distanceFromTipM": 0.1743,
+            "topZFromMainBodyCenterM": -0.2267,
+            "bottomZFromMainBodyCenterM": -0.8194,
+            "samplePixelX": 55,
+            "sampleTopPixelY": 213,
+            "sampleBottomPixelY": 247
+          },
+          {
+            "distanceFromTipM": 0.523,
+            "topZFromMainBodyCenterM": 0.0,
+            "bottomZFromMainBodyCenterM": -1.0112,
+            "samplePixelX": 75,
+            "sampleTopPixelY": 200,
+            "sampleBottomPixelY": 258
+          },
+          {
+            "distanceFromTipM": 0.9589,
+            "topZFromMainBodyCenterM": 0.2092,
+            "bottomZFromMainBodyCenterM": -1.2204,
+            "samplePixelX": 100,
+            "sampleTopPixelY": 188,
+            "sampleBottomPixelY": 270
+          },
+          {
+            "distanceFromTipM": 1.482,
+            "topZFromMainBodyCenterM": 0.4359,
+            "bottomZFromMainBodyCenterM": -1.4297,
+            "samplePixelX": 130,
+            "sampleTopPixelY": 175,
+            "sampleBottomPixelY": 282
+          },
+          {
+            "distanceFromTipM": 1.9178,
+            "topZFromMainBodyCenterM": 0.8543,
+            "bottomZFromMainBodyCenterM": -1.5866,
+            "samplePixelX": 155,
+            "sampleTopPixelY": 151,
+            "sampleBottomPixelY": 291
+          },
+          {
+            "distanceFromTipM": 2.4409,
+            "topZFromMainBodyCenterM": 1.1158,
+            "bottomZFromMainBodyCenterM": -1.7435,
+            "samplePixelX": 185,
+            "sampleTopPixelY": 136,
+            "sampleBottomPixelY": 300
+          },
+          {
+            "distanceFromTipM": 3.0511,
+            "topZFromMainBodyCenterM": 1.3773,
+            "bottomZFromMainBodyCenterM": -1.8655,
+            "samplePixelX": 220,
+            "sampleTopPixelY": 121,
+            "sampleBottomPixelY": 307
+          },
+          {
+            "distanceFromTipM": 3.9228,
+            "topZFromMainBodyCenterM": 1.604,
+            "bottomZFromMainBodyCenterM": -1.9527,
+            "samplePixelX": 270,
+            "sampleTopPixelY": 108,
+            "sampleBottomPixelY": 312
+          },
+          {
+            "distanceFromTipM": 4.7946,
+            "topZFromMainBodyCenterM": 1.7783,
+            "bottomZFromMainBodyCenterM": -2.005,
+            "samplePixelX": 320,
+            "sampleTopPixelY": 98,
+            "sampleBottomPixelY": 315
+          },
+          {
+            "distanceFromTipM": 6.1893,
+            "topZFromMainBodyCenterM": 1.9178,
+            "bottomZFromMainBodyCenterM": -2.005,
+            "samplePixelX": 400,
+            "sampleTopPixelY": 90,
+            "sampleBottomPixelY": 315
+          },
+          {
+            "distanceFromTipM": 7.9328,
+            "topZFromMainBodyCenterM": 2.005,
+            "bottomZFromMainBodyCenterM": -2.005,
+            "samplePixelX": 500,
+            "sampleTopPixelY": 85,
+            "sampleBottomPixelY": 315
+          }
+        ]
+      }
+    },
+    {
+      "order": 5,
+      "id": "boeing-747",
+      "name": "보잉 747",
+      "variant": "747-400 기준",
+      "length": 70.67,
+      "span": 64.44,
+      "height": 19.41,
+      "diameter": 6.5,
+      "fuselageHeight": 6.76,
+      "engineCount": 4,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": true,
+      "seats": 416,
+      "seatLayout": [
+        3,
+        4,
+        3
+      ],
+      "wingSweep": 37.5,
+      "wingRootChord": 14.5,
+      "wingTipChord": 2.6,
+      "engineDiameter": 2.7,
+      "winglet": "canted",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/747-400_Rev_F.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-747/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Short upper deck plus main deck; illustrative upper-deck seat allocation, not Atlas VIP configuration.",
+        "General dimensions747-400/-400Combi/-400ER,231ft10.25in."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 70.66,
+        "span": 64.44,
+        "height": 19.41,
+        "diameter": 6.5
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 31,
+          "verified": true,
+          "note": "General dimensions747-400/-400Combi/-400ER,231ft10.25in."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 31,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 31,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 70.66,
+          "modelReference": 70.67,
+          "pdfPage": 31,
+          "note": "General dimensions747-400/-400Combi/-400ER,231ft10.25in."
+        }
+      ],
+      "wingRootFromNose": 18.96,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          16.2
+        ],
+        [
+          0.09,
+          2.08,
+          14.17
+        ],
+        [
+          0.35,
+          9.34,
+          9
+        ],
+        [
+          0.65,
+          18.14,
+          6.5
+        ],
+        [
+          1,
+          27.55,
+          4.27
+        ]
+      ],
+      "engineStations": [
+        {
+          "inletFromNose": 24.05,
+          "y": 11.68
+        },
+        {
+          "inletFromNose": 32.77,
+          "y": 21
+        }
+      ],
+      "horizontalTailSpan": 22.17,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/boeing-747/airport-planning.pdf",
+        "method": "Engine inlet24.05/32.77m and lateral11.68/21m dimensioned; wing outline manually scaled, +/-0.5m visual trace uncertainty.",
+        "page": 31,
+        "engine": "RB211-524H option matching BA photo"
+      },
+      "humpHeightM": 1.54,
+      "noseSectionProfile": [
+        [
+          0,
+          0.004,
+          0.159,
+          0.149
+        ],
+        [
+          0.25,
+          0.13114285714285714,
+          0.821,
+          -0.514
+        ],
+        [
+          0.5,
+          0.2582857142857143,
+          1.016,
+          -0.71
+        ],
+        [
+          1,
+          0.43846153846153846,
+          1.374,
+          -1.068
+        ],
+        [
+          1.5,
+          0.5692307692307692,
+          1.635,
+          -1.296
+        ],
+        [
+          2,
+          0.7,
+          1.895,
+          -1.524
+        ],
+        [
+          3,
+          0.8,
+          2.416,
+          -1.882
+        ],
+        [
+          4,
+          0.9,
+          2.97,
+          -2.208
+        ],
+        [
+          5,
+          0.94,
+          3.751,
+          -2.436
+        ],
+        [
+          6,
+          0.98,
+          4.272,
+          -2.631
+        ],
+        [
+          8,
+          1.0,
+          4.663,
+          -2.924
+        ],
+        [
+          10,
+          1,
+          4.858,
+          -3.087
+        ],
+        [
+          12,
+          1,
+          4.923,
+          -3.185
+        ],
+        [
+          14,
+          1,
+          4.923,
+          -3.282
+        ],
+        [
+          16,
+          1,
+          4.92,
+          -3.38
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "boeing-747",
+        "pdfPage": 31,
+        "sourceRendering": "work\\aircraft_build\\door-extra\\boeing-747-nose-crop.png",
+        "method": "Manual datum selection and saturated outline/fill pixel sampling of official manufacturer side drawing. Approximate drawing trace, not manufacturer station data.",
+        "pixelScalePerMeter": 30.71,
+        "centerDatumPixelY": 190.2,
+        "uncertaintyM": 0.2,
+        "centerDatum": "Main-body center derived frombottomline and6.50m diameter; upper hump NOTpart of center datum",
+        "includesUpperHump": true,
+        "doNotDoubleApplyHump": true,
+        "widthProfileStatus": "not_traced; do not present generic width as measured",
+        "points": [
+          {
+            "distanceFromTipM": 0,
+            "topZFromMainBodyCenterM": 0.159,
+            "bottomZFromMainBodyCenterM": 0.149,
+            "rawTrace": {
+              "topZFromMainBodyCenterM": 0.528,
+              "bottomZFromMainBodyCenterM": -0.221,
+              "samplePixelX": 44,
+              "sampleTopPixelY": 174,
+              "sampleBottomPixelY": 197
+            },
+            "note": "Endpoint modeling assumption: collapse finite-width outline stroke sample toits midpoint +/-5mm. Rawtrace preserved separately; not a measuredfinite-radius tip."
+          },
+          {
+            "distanceFromTipM": 0.25,
+            "topZFromMainBodyCenterM": 0.821,
+            "bottomZFromMainBodyCenterM": -0.514,
+            "samplePixelX": 52,
+            "sampleTopPixelY": 165,
+            "sampleBottomPixelY": 206
+          },
+          {
+            "distanceFromTipM": 0.5,
+            "topZFromMainBodyCenterM": 1.016,
+            "bottomZFromMainBodyCenterM": -0.71,
+            "samplePixelX": 59,
+            "sampleTopPixelY": 159,
+            "sampleBottomPixelY": 212
+          },
+          {
+            "distanceFromTipM": 1,
+            "topZFromMainBodyCenterM": 1.374,
+            "bottomZFromMainBodyCenterM": -1.068,
+            "samplePixelX": 75,
+            "sampleTopPixelY": 148,
+            "sampleBottomPixelY": 223
+          },
+          {
+            "distanceFromTipM": 1.5,
+            "topZFromMainBodyCenterM": 1.635,
+            "bottomZFromMainBodyCenterM": -1.296,
+            "samplePixelX": 90,
+            "sampleTopPixelY": 140,
+            "sampleBottomPixelY": 230
+          },
+          {
+            "distanceFromTipM": 2,
+            "topZFromMainBodyCenterM": 1.895,
+            "bottomZFromMainBodyCenterM": -1.524,
+            "samplePixelX": 105,
+            "sampleTopPixelY": 132,
+            "sampleBottomPixelY": 237
+          },
+          {
+            "distanceFromTipM": 3,
+            "topZFromMainBodyCenterM": 2.416,
+            "bottomZFromMainBodyCenterM": -1.882,
+            "samplePixelX": 136,
+            "sampleTopPixelY": 116,
+            "sampleBottomPixelY": 248
+          },
+          {
+            "distanceFromTipM": 4,
+            "topZFromMainBodyCenterM": 2.97,
+            "bottomZFromMainBodyCenterM": -2.208,
+            "samplePixelX": 167,
+            "sampleTopPixelY": 99,
+            "sampleBottomPixelY": 258
+          },
+          {
+            "distanceFromTipM": 5,
+            "topZFromMainBodyCenterM": 3.751,
+            "bottomZFromMainBodyCenterM": -2.436,
+            "samplePixelX": 198,
+            "sampleTopPixelY": 75,
+            "sampleBottomPixelY": 265
+          },
+          {
+            "distanceFromTipM": 6,
+            "topZFromMainBodyCenterM": 4.272,
+            "bottomZFromMainBodyCenterM": -2.631,
+            "samplePixelX": 228,
+            "sampleTopPixelY": 59,
+            "sampleBottomPixelY": 271
+          },
+          {
+            "distanceFromTipM": 8,
+            "topZFromMainBodyCenterM": 4.663,
+            "bottomZFromMainBodyCenterM": -2.924,
+            "samplePixelX": 290,
+            "sampleTopPixelY": 47,
+            "sampleBottomPixelY": 280
+          },
+          {
+            "distanceFromTipM": 10,
+            "topZFromMainBodyCenterM": 4.858,
+            "bottomZFromMainBodyCenterM": -3.087,
+            "samplePixelX": 351,
+            "sampleTopPixelY": 41,
+            "sampleBottomPixelY": 285
+          },
+          {
+            "distanceFromTipM": 12,
+            "topZFromMainBodyCenterM": 4.923,
+            "bottomZFromMainBodyCenterM": -3.185,
+            "samplePixelX": 413,
+            "sampleTopPixelY": 39,
+            "sampleBottomPixelY": 288
+          },
+          {
+            "distanceFromTipM": 14,
+            "topZFromMainBodyCenterM": 4.923,
+            "bottomZFromMainBodyCenterM": -3.282,
+            "samplePixelX": 474,
+            "sampleTopPixelY": 39,
+            "sampleBottomPixelY": 291
+          }
+        ]
+      }
+    },
+    {
+      "order": 6,
+      "id": "boeing-757",
+      "name": "보잉 757",
+      "variant": "757-200 기준",
+      "length": 47.32,
+      "span": 41.1,
+      "height": 13.56,
+      "diameter": 3.76,
+      "fuselageHeight": 3.9104,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 200,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 8.2,
+      "wingTipChord": 1.6,
+      "engineDiameter": 2.4,
+      "winglet": "blended",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/757_Rev_H.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-757/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 47.32,
+        "span": 38.05,
+        "height": 13.56,
+        "diameter": 3.76
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 20,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 20,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 20,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "baseWingSpan": 38.05,
+      "wingRootFromNose": 17.1,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          9.4
+        ],
+        [
+          0.1,
+          1.1,
+          8.3
+        ],
+        [
+          0.4,
+          4.5,
+          4.8
+        ],
+        [
+          1,
+          10.1,
+          1.92
+        ]
+      ],
+      "engineStations": [
+        {
+          "inletFromNose": 16.61,
+          "y": 6.48
+        }
+      ],
+      "horizontalTailSpan": 15.21,
+      "geometryEvidence": {
+        "method": "PW inlet16.61m/y6.48m dimensioned; root/outline visually traced +/-0.5m. Winglet-equipped span41.1m from Boeing/APB table.",
+        "wingletSource": "https://www.boeing.com/content/dam/boeing/boeingdotcom/commercial/airports/faqs/wingletspans.pdf",
+        "source": "outputs/aircraft-research/fleet/boeing-757/airport-planning.pdf",
+        "page": 20
+      }
+    },
+    {
+      "order": 7,
+      "id": "boeing-767",
+      "name": "보잉 767",
+      "variant": "767-300ER 기준",
+      "length": 54.94,
+      "span": 50.9,
+      "height": 15.85,
+      "diameter": 5.03,
+      "fuselageHeight": 5.2312,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 218,
+      "seatLayout": [
+        2,
+        3,
+        2
+      ],
+      "wingSweep": 31.5,
+      "wingRootChord": 11.0,
+      "wingTipChord": 1.9,
+      "engineDiameter": 2.5,
+      "winglet": "blended",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/767_REV_K.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-767/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 54.94,
+        "span": 47.57,
+        "height": 15.85,
+        "diameter": 5.03
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 29,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 29,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 29,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "baseWingSpan": 47.57,
+      "wingRootFromNose": 16.6,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          12.7
+        ],
+        [
+          0.1,
+          1.65,
+          11.05
+        ],
+        [
+          0.32,
+          5.1,
+          8
+        ],
+        [
+          1,
+          16.27,
+          2.29
+        ]
+      ],
+      "engineStations": [
+        {
+          "inletFromNose": 18.54,
+          "y": 7.92
+        }
+      ],
+      "horizontalTailSpan": 18.62,
+      "geometryEvidence": {
+        "method": "GE inlet18.54m/y7.92m dimensioned; outline visually traced +/-0.5m. Winglet-equipped span50.9m from Boeing/APB table.",
+        "wingletSource": "https://www.boeing.com/content/dam/boeing/boeingdotcom/commercial/airports/faqs/wingletspans.pdf",
+        "source": "outputs/aircraft-research/fleet/boeing-767/airport-planning.pdf",
+        "page": 29
+      }
+    },
+    {
+      "order": 8,
+      "id": "boeing-777",
+      "name": "보잉 777",
+      "variant": "777-300ER 기준",
+      "length": 73.86,
+      "span": 64.8,
+      "height": 18.5,
+      "diameter": 6.2,
+      "fuselageHeight": 6.448,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 365,
+      "seatLayout": [
+        3,
+        4,
+        3
+      ],
+      "wingSweep": 31.6,
+      "wingRootChord": 14.0,
+      "wingTipChord": 2.5,
+      "engineDiameter": 3.75,
+      "winglet": "raked",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777-200LR-300ER-F_Rev_G.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-777/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 73.86,
+        "span": 64.8,
+        "height": 18.5,
+        "diameter": 6.2
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 18,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 18,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 18,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 24.614915048034568,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          15.382908309378571
+        ],
+        [
+          0.09884,
+          2.295084951965432,
+          13.169
+        ],
+        [
+          0.3314,
+          7.695175567395225,
+          7.95990938457021
+        ],
+        [
+          0.33721,
+          7.830084951965432,
+          7.878652870350464
+        ],
+        [
+          0.51744,
+          11.99818111708798,
+          5.3749038348774505
+        ],
+        [
+          0.59302,
+          13.746084951965429,
+          4.517627386990078
+        ],
+        [
+          0.74419,
+          17.05457182273713,
+          2.9905131292282974
+        ],
+        [
+          0.85465,
+          19.472084951965435,
+          2.093564057038222
+        ],
+        [
+          0.92442,
+          21.039020500078045,
+          1.4870644518873846
+        ],
+        [
+          0.96512,
+          21.95308495196543,
+          1.6004622916115352
+        ],
+        [
+          1,
+          24.43408495196543,
+          0.12
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 9.61,
+          "inletFromNose": 25.76
+        }
+      ],
+      "geometryEvidence": {
+        "id": "boeing-777",
+        "lengthM": 73.86,
+        "spanM": 64.8,
+        "sourceUrl": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777-200LR-300ER-F_Rev_G.pdf",
+        "sourcePdfPage": 18,
+        "localReviewedImage": "../aircraft-research/fleet/boeing-777/documents/review-18.png",
+        "preliminary": false,
+        "wingOutline": [
+          {
+            "spanFraction": 0.09884,
+            "aftFromNoseFraction": 0.36434,
+            "aftFromNoseM": 26.91,
+            "lateralM": 3.202
+          },
+          {
+            "spanFraction": 0.33721,
+            "aftFromNoseFraction": 0.43928,
+            "aftFromNoseM": 32.445,
+            "lateralM": 10.926
+          },
+          {
+            "spanFraction": 0.59302,
+            "aftFromNoseFraction": 0.51938,
+            "aftFromNoseM": 38.361,
+            "lateralM": 19.214
+          },
+          {
+            "spanFraction": 0.85465,
+            "aftFromNoseFraction": 0.5969,
+            "aftFromNoseM": 44.087,
+            "lateralM": 27.691
+          },
+          {
+            "spanFraction": 0.96512,
+            "aftFromNoseFraction": 0.63049,
+            "aftFromNoseM": 46.568,
+            "lateralM": 31.27
+          },
+          {
+            "spanFraction": 1.0,
+            "aftFromNoseFraction": 0.66408,
+            "aftFromNoseM": 49.049,
+            "lateralM": 32.4
+          },
+          {
+            "spanFraction": 0.92442,
+            "aftFromNoseFraction": 0.63824,
+            "aftFromNoseM": 47.141,
+            "lateralM": 29.951
+          },
+          {
+            "spanFraction": 0.74419,
+            "aftFromNoseFraction": 0.60465,
+            "aftFromNoseM": 44.66,
+            "lateralM": 24.112
+          },
+          {
+            "spanFraction": 0.51744,
+            "aftFromNoseFraction": 0.56848,
+            "aftFromNoseM": 41.988,
+            "lateralM": 16.765
+          },
+          {
+            "spanFraction": 0.3314,
+            "aftFromNoseFraction": 0.54522,
+            "aftFromNoseM": 40.27,
+            "lateralM": 10.737
+          },
+          {
+            "spanFraction": 0.09884,
+            "aftFromNoseFraction": 0.54264,
+            "aftFromNoseM": 40.079,
+            "lateralM": 3.202
+          }
+        ],
+        "coordinateConvention": "Ordered upper-plan-view wing perimeter from root leading edge out to tip and back along trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L. Mirror Y for opposite wing. Root points are at fuselage sides, not centerline.",
+        "traceEvidence": "Manual pixel tracing of manufacturer general-dimensions top-view drawing; not CAD edge extraction. Pixel scaling anchored to published length/span.",
+        "traceUncertaintyM": 0.25,
+        "precisionWarning": "Printed decimal coordinates are computation outputs, not measurement accuracy. Fairings/flaps can obscure aerodynamic root boundary.",
+        "engineStations": {
+          "inletPlaneAftFromNoseM": 25.76,
+          "lateralCenterM": 9.61,
+          "basis": "Numeric labels in manufacturer top-view drawing",
+          "modelXInletM": 11.169999999999998,
+          "scope": "Inlet leading plane, not nacelle center; subtract half nacelle length to place engine center in nose-positive X coordinates."
+        },
+        "wingtip": {
+          "type": "raked",
+          "foldHingeSpanFraction": null,
+          "foldHingeBasis": null
+        }
+      }
+    },
+    {
+      "order": 9,
+      "id": "boeing-777x",
+      "name": "보잉 777X",
+      "variant": "777-9 기준",
+      "length": 76.73,
+      "span": 71.76,
+      "height": 19.53,
+      "diameter": 6.2,
+      "fuselageHeight": 6.448,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 426,
+      "seatLayout": [
+        3,
+        4,
+        3
+      ],
+      "wingSweep": 31.6,
+      "wingRootChord": 14.0,
+      "wingTipChord": 2.4,
+      "engineDiameter": 4.1,
+      "winglet": "folding",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-777x/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Manufacturer planning material is explicitly PRELIMINARY. Wings modeled in deployed flight-span configuration.",
+        "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 76.72,
+        "span": 71.75,
+        "height": 19.68,
+        "diameter": 6.2
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 17,
+          "verified": true,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 17,
+          "verified": true,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        },
+        "height": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 17,
+          "verified": true,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 17,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 76.72,
+          "modelReference": 76.73,
+          "pdfPage": 17,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        },
+        {
+          "field": "span",
+          "site": 71.75,
+          "modelReference": 71.76,
+          "pdfPage": 17,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        },
+        {
+          "field": "height",
+          "site": 19.68,
+          "modelReference": 19.53,
+          "pdfPage": 17,
+          "note": "Boeing RevG September2025 PRELIMINARY. Deployed-span configuration."
+        }
+      ],
+      "wingRootFromNose": 25.34707964,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          16.05271680511677
+        ],
+        [
+          0.08333,
+          1.9909203600000005,
+          14.243000000000002
+        ],
+        [
+          0.29487,
+          7.045034040000001,
+          9.648886319999995
+        ],
+        [
+          0.33333,
+          7.9639203599999995,
+          9.051583277000674
+        ],
+        [
+          0.48718,
+          11.409809950889592,
+          6.892110409110408
+        ],
+        [
+          0.58974,
+          13.706920360000002,
+          5.687710683868794
+        ],
+        [
+          0.72436,
+          16.4455218441049,
+          4.383398515895102
+        ],
+        [
+          0.82692,
+          18.531920359999997,
+          3.8894505225937337
+        ],
+        [
+          0.9024526198439242,
+          20.561440690407085,
+          3.032726213474966
+        ],
+        [
+          0.91667,
+          20.943453946818753,
+          2.8714664131812455
+        ],
+        [
+          0.92949,
+          21.287920359999998,
+          2.809769230769234
+        ],
+        [
+          1,
+          25.65292036,
+          0.12
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 10.64,
+          "inletFromNose": 25.96
+        }
+      ],
+      "geometryEvidence": {
+        "id": "boeing-777x",
+        "lengthM": 76.73,
+        "spanM": 71.76,
+        "sourceUrl": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf",
+        "sourcePdfPage": 17,
+        "localReviewedImage": "../aircraft-research/fleet/boeing-777x/documents/review-17.png",
+        "preliminary": true,
+        "wingOutline": [
+          {
+            "spanFraction": 0.08333,
+            "aftFromNoseFraction": 0.35629,
+            "aftFromNoseM": 27.338,
+            "lateralM": 2.99
+          },
+          {
+            "spanFraction": 0.33333,
+            "aftFromNoseFraction": 0.43413,
+            "aftFromNoseM": 33.311,
+            "lateralM": 11.96
+          },
+          {
+            "spanFraction": 0.58974,
+            "aftFromNoseFraction": 0.50898,
+            "aftFromNoseM": 39.054,
+            "lateralM": 21.16
+          },
+          {
+            "spanFraction": 0.82692,
+            "aftFromNoseFraction": 0.57186,
+            "aftFromNoseM": 43.879,
+            "lateralM": 29.67
+          },
+          {
+            "spanFraction": 0.92949,
+            "aftFromNoseFraction": 0.60778,
+            "aftFromNoseM": 46.635,
+            "lateralM": 33.35
+          },
+          {
+            "spanFraction": 1.0,
+            "aftFromNoseFraction": 0.66467,
+            "aftFromNoseM": 51.0,
+            "lateralM": 35.88
+          },
+          {
+            "spanFraction": 0.91667,
+            "aftFromNoseFraction": 0.64072,
+            "aftFromNoseM": 49.162,
+            "lateralM": 32.89
+          },
+          {
+            "spanFraction": 0.72436,
+            "aftFromNoseFraction": 0.6018,
+            "aftFromNoseM": 46.176,
+            "lateralM": 25.99
+          },
+          {
+            "spanFraction": 0.48718,
+            "aftFromNoseFraction": 0.56886,
+            "aftFromNoseM": 43.649,
+            "lateralM": 17.48
+          },
+          {
+            "spanFraction": 0.29487,
+            "aftFromNoseFraction": 0.5479,
+            "aftFromNoseM": 42.041,
+            "lateralM": 10.58
+          },
+          {
+            "spanFraction": 0.08333,
+            "aftFromNoseFraction": 0.54192,
+            "aftFromNoseM": 41.581,
+            "lateralM": 2.99
+          }
+        ],
+        "coordinateConvention": "Ordered upper-plan-view wing perimeter from root leading edge out to tip and back along trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L. Mirror Y for opposite wing. Root points are at fuselage sides, not centerline.",
+        "traceEvidence": "Manual pixel tracing of manufacturer general-dimensions top-view drawing; not CAD edge extraction. Pixel scaling anchored to published length/span.",
+        "traceUncertaintyM": 0.35,
+        "precisionWarning": "Printed decimal coordinates are computation outputs, not measurement accuracy. Fairings/flaps can obscure aerodynamic root boundary.",
+        "engineStations": {
+          "inletPlaneAftFromNoseM": 25.96,
+          "lateralCenterM": 10.64,
+          "basis": "Numeric labels in manufacturer top-view drawing",
+          "modelXInletM": 12.405000000000001,
+          "scope": "Inlet leading plane, not nacelle center; subtract half nacelle length to place engine center in nose-positive X coordinates."
+        },
+        "wingtip": {
+          "type": "folding-raked",
+          "foldHingeSpanFraction": 0.9037068004459308,
+          "foldHingeBasis": "Published folded span64.85m versus extended71.76m; half-span ratio, approximate ground-fold hinge station."
+        }
+      }
+    },
+    {
+      "order": 10,
+      "id": "boeing-787",
+      "name": "보잉 787 드림라이너",
+      "variant": "787-9 기준",
+      "length": 62.81,
+      "span": 60.12,
+      "height": 17.02,
+      "diameter": 5.77,
+      "fuselageHeight": 6.0008,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 296,
+      "seatLayout": [
+        3,
+        3,
+        3
+      ],
+      "wingSweep": 32.2,
+      "wingRootChord": 12.0,
+      "wingTipChord": 1.6,
+      "engineDiameter": 3.1,
+      "winglet": "raked",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-787/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 62.81,
+        "span": 60.12,
+        "height": 17.02,
+        "diameter": 5.77
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 22,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 22,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 22,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 22,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 19.766767026891177,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          14.074238300917028
+        ],
+        [
+          0.09459,
+          1.9802329731088228,
+          12.157000000000004
+        ],
+        [
+          0.2973,
+          6.223948228198044,
+          8.04828474491078
+        ],
+        [
+          0.33333,
+          6.978232973108824,
+          7.5099720269370245
+        ],
+        [
+          0.43243,
+          8.940806484041218,
+          6.141426489067602
+        ],
+        [
+          0.57207,
+          11.706232973108822,
+          4.716415042401103
+        ],
+        [
+          0.65766,
+          13.40089633073637,
+          3.8433366423724564
+        ],
+        [
+          0.81081,
+          16.433232973108826,
+          2.992057276057274
+        ],
+        [
+          0.83784,
+          17.220041592109805,
+          2.5901913809990162
+        ],
+        [
+          0.95946,
+          20.760243746860045,
+          1.2109892262487776
+        ],
+        [
+          0.96396,
+          20.891232973108824,
+          1.2599333991119863
+        ],
+        [
+          1,
+          23.592232973108825,
+          0.12
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 9.91,
+          "inletFromNose": 20.8
+        }
+      ],
+      "geometryEvidence": {
+        "id": "boeing-787",
+        "lengthM": 62.81,
+        "spanM": 60.12,
+        "sourceUrl": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf",
+        "sourcePdfPage": 22,
+        "localReviewedImage": "../aircraft-research/fleet/boeing-787/documents/review-22.png",
+        "preliminary": false,
+        "wingOutline": [
+          {
+            "spanFraction": 0.09459,
+            "aftFromNoseFraction": 0.34624,
+            "aftFromNoseM": 21.747,
+            "lateralM": 2.844
+          },
+          {
+            "spanFraction": 0.33333,
+            "aftFromNoseFraction": 0.42581,
+            "aftFromNoseM": 26.745,
+            "lateralM": 10.02
+          },
+          {
+            "spanFraction": 0.57207,
+            "aftFromNoseFraction": 0.50108,
+            "aftFromNoseM": 31.473,
+            "lateralM": 17.196
+          },
+          {
+            "spanFraction": 0.81081,
+            "aftFromNoseFraction": 0.57634,
+            "aftFromNoseM": 36.2,
+            "lateralM": 24.373
+          },
+          {
+            "spanFraction": 0.96396,
+            "aftFromNoseFraction": 0.64731,
+            "aftFromNoseM": 40.658,
+            "lateralM": 28.977
+          },
+          {
+            "spanFraction": 1.0,
+            "aftFromNoseFraction": 0.69032,
+            "aftFromNoseM": 43.359,
+            "lateralM": 30.06
+          },
+          {
+            "spanFraction": 0.95946,
+            "aftFromNoseFraction": 0.66452,
+            "aftFromNoseM": 41.738,
+            "lateralM": 28.841
+          },
+          {
+            "spanFraction": 0.83784,
+            "aftFromNoseFraction": 0.63011,
+            "aftFromNoseM": 39.577,
+            "lateralM": 25.185
+          },
+          {
+            "spanFraction": 0.65766,
+            "aftFromNoseFraction": 0.58925,
+            "aftFromNoseM": 37.011,
+            "lateralM": 19.769
+          },
+          {
+            "spanFraction": 0.43243,
+            "aftFromNoseFraction": 0.55484,
+            "aftFromNoseM": 34.849,
+            "lateralM": 12.999
+          },
+          {
+            "spanFraction": 0.2973,
+            "aftFromNoseFraction": 0.54194,
+            "aftFromNoseM": 34.039,
+            "lateralM": 8.937
+          },
+          {
+            "spanFraction": 0.09459,
+            "aftFromNoseFraction": 0.53978,
+            "aftFromNoseM": 33.904,
+            "lateralM": 2.844
+          }
+        ],
+        "coordinateConvention": "Ordered upper-plan-view wing perimeter from root leading edge out to tip and back along trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L. Mirror Y for opposite wing. Root points are at fuselage sides, not centerline.",
+        "traceEvidence": "Manual pixel tracing of manufacturer general-dimensions top-view drawing; not CAD edge extraction. Pixel scaling anchored to published length/span.",
+        "traceUncertaintyM": 0.25,
+        "precisionWarning": "Printed decimal coordinates are computation outputs, not measurement accuracy. Fairings/flaps can obscure aerodynamic root boundary.",
+        "engineStations": {
+          "inletPlaneAftFromNoseM": 20.8,
+          "lateralCenterM": 9.91,
+          "basis": "Numeric labels in manufacturer top-view drawing",
+          "modelXInletM": 10.605,
+          "scope": "Inlet leading plane, not nacelle center; subtract half nacelle length to place engine center in nose-positive X coordinates."
+        },
+        "wingtip": {
+          "type": "raked",
+          "foldHingeSpanFraction": null,
+          "foldHingeBasis": null
+        }
+      },
+      "noseSectionProfile": [
+        [
+          0.0,
+          0.004,
+          -1.32,
+          -1.32
+        ],
+        [
+          0.2129,
+          0.18405257142857145,
+          -0.8197,
+          -1.7139
+        ],
+        [
+          0.5323,
+          0.3925523076923077,
+          -0.4365,
+          -1.9694
+        ],
+        [
+          1.0645,
+          0.643545,
+          0.0319,
+          -2.2248
+        ],
+        [
+          1.5968,
+          0.755328,
+          0.479,
+          -2.3952
+        ],
+        [
+          2.129,
+          0.8529,
+          0.9261,
+          -2.5229
+        ],
+        [
+          2.6613,
+          0.90613,
+          1.3306,
+          -2.6081
+        ],
+        [
+          3.1935,
+          0.9593499999999999,
+          1.6713,
+          -2.6932
+        ],
+        [
+          4.2581,
+          0.9713651987110633,
+          2.1184,
+          -2.7997
+        ],
+        [
+          5.3226,
+          0.9827991407089152,
+          2.459,
+          -2.8848
+        ],
+        [
+          6.3871,
+          0.9942330827067669,
+          2.6932,
+          -2.9487
+        ],
+        [
+          7.4516,
+          1,
+          2.821,
+          -2.97
+        ],
+        [
+          8.9419,
+          1,
+          2.9274,
+          -2.97
+        ],
+        [
+          10.6452,
+          1,
+          2.9913,
+          -2.97
+        ],
+        [
+          12.6452,
+          1,
+          3.0004,
+          -3.0004
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "boeing-787",
+        "variant": "787-9",
+        "pdfPage": 22,
+        "sourceUrl": [
+          "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf"
+        ],
+        "sourceRendering": "work/aircraft_build/nose-extra/boeing-787-crop.png",
+        "method": "Manual outer-envelope trace from actual official side-view rendered crop. Not manufacturer station coordinates or CAD. Fine contour deviations below uncertainty are unresolved.",
+        "pixelScalePerMeter": 46.96969696969697,
+        "scaleDatum": "5.94m printed side fuselage depth; 279 pixels",
+        "centerDatumPixelY": 229.5,
+        "centerDatum": "Midpoint between constant-section upper and lower side silhouette aft of nose; distinct from nose-tip height.",
+        "uncertaintyM": 0.15,
+        "includesUpperHump": false,
+        "doNotDoubleApplyHump": false,
+        "widthProfileStatus": "NOT_TRACED_FROM_SIDE_VIEW; width remains separately unverified; do not infer circular sections from this silhouette.",
+        "noseTipZeroRadius": true,
+        "points": [
+          {
+            "distanceFromTipM": 0.0,
+            "topZFromMainBodyCenterM": -1.32,
+            "bottomZFromMainBodyCenterM": -1.32,
+            "samplePixelX": 50,
+            "sampleTopPixelY": 291.5,
+            "sampleBottomPixelY": 291.5
+          },
+          {
+            "distanceFromTipM": 0.2129,
+            "topZFromMainBodyCenterM": -0.8197,
+            "bottomZFromMainBodyCenterM": -1.7139,
+            "samplePixelX": 60,
+            "sampleTopPixelY": 268,
+            "sampleBottomPixelY": 310
+          },
+          {
+            "distanceFromTipM": 0.5323,
+            "topZFromMainBodyCenterM": -0.4365,
+            "bottomZFromMainBodyCenterM": -1.9694,
+            "samplePixelX": 75,
+            "sampleTopPixelY": 250,
+            "sampleBottomPixelY": 322
+          },
+          {
+            "distanceFromTipM": 1.0645,
+            "topZFromMainBodyCenterM": 0.0319,
+            "bottomZFromMainBodyCenterM": -2.2248,
+            "samplePixelX": 100,
+            "sampleTopPixelY": 228,
+            "sampleBottomPixelY": 334
+          },
+          {
+            "distanceFromTipM": 1.5968,
+            "topZFromMainBodyCenterM": 0.479,
+            "bottomZFromMainBodyCenterM": -2.3952,
+            "samplePixelX": 125,
+            "sampleTopPixelY": 207,
+            "sampleBottomPixelY": 342
+          },
+          {
+            "distanceFromTipM": 2.129,
+            "topZFromMainBodyCenterM": 0.9261,
+            "bottomZFromMainBodyCenterM": -2.5229,
+            "samplePixelX": 150,
+            "sampleTopPixelY": 186,
+            "sampleBottomPixelY": 348
+          },
+          {
+            "distanceFromTipM": 2.6613,
+            "topZFromMainBodyCenterM": 1.3306,
+            "bottomZFromMainBodyCenterM": -2.6081,
+            "samplePixelX": 175,
+            "sampleTopPixelY": 167,
+            "sampleBottomPixelY": 352
+          },
+          {
+            "distanceFromTipM": 3.1935,
+            "topZFromMainBodyCenterM": 1.6713,
+            "bottomZFromMainBodyCenterM": -2.6932,
+            "samplePixelX": 200,
+            "sampleTopPixelY": 151,
+            "sampleBottomPixelY": 356
+          },
+          {
+            "distanceFromTipM": 4.2581,
+            "topZFromMainBodyCenterM": 2.1184,
+            "bottomZFromMainBodyCenterM": -2.7997,
+            "samplePixelX": 250,
+            "sampleTopPixelY": 130,
+            "sampleBottomPixelY": 361
+          },
+          {
+            "distanceFromTipM": 5.3226,
+            "topZFromMainBodyCenterM": 2.459,
+            "bottomZFromMainBodyCenterM": -2.8848,
+            "samplePixelX": 300,
+            "sampleTopPixelY": 114,
+            "sampleBottomPixelY": 365
+          },
+          {
+            "distanceFromTipM": 6.3871,
+            "topZFromMainBodyCenterM": 2.6932,
+            "bottomZFromMainBodyCenterM": -2.9487,
+            "samplePixelX": 350,
+            "sampleTopPixelY": 103,
+            "sampleBottomPixelY": 368
+          },
+          {
+            "distanceFromTipM": 7.4516,
+            "topZFromMainBodyCenterM": 2.821,
+            "bottomZFromMainBodyCenterM": -2.97,
+            "samplePixelX": 400,
+            "sampleTopPixelY": 97,
+            "sampleBottomPixelY": 369
+          },
+          {
+            "distanceFromTipM": 8.9419,
+            "topZFromMainBodyCenterM": 2.9274,
+            "bottomZFromMainBodyCenterM": -2.97,
+            "samplePixelX": 470,
+            "sampleTopPixelY": 92,
+            "sampleBottomPixelY": 369
+          },
+          {
+            "distanceFromTipM": 10.6452,
+            "topZFromMainBodyCenterM": 2.9913,
+            "bottomZFromMainBodyCenterM": -2.97,
+            "samplePixelX": 550,
+            "sampleTopPixelY": 89,
+            "sampleBottomPixelY": 369
+          }
+        ]
+      }
+    },
+    {
+      "order": 11,
+      "id": "boeing-717",
+      "name": "보잉 717",
+      "variant": "717-200 기준",
+      "length": 37.8,
+      "span": 28.4,
+      "height": 8.92,
+      "diameter": 3.4,
+      "fuselageHeight": 3.536,
+      "engineCount": 2,
+      "engineLayout": "rear",
+      "tailStyle": "T",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 106,
+      "seatLayout": [
+        2,
+        3
+      ],
+      "wingSweep": 24,
+      "wingRootChord": 6.3,
+      "wingTipChord": 1.5,
+      "engineDiameter": 1.8,
+      "winglet": "none",
+      "sources": [
+        "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/717.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/boeing-717/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 37.81,
+        "span": 28.45,
+        "height": 8.92,
+        "diameter": 3.34
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 12,
+          "verified": true,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 12,
+          "verified": true,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 12,
+          "verified": true,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 37.81,
+          "modelReference": 37.8,
+          "pdfPage": 12,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        },
+        {
+          "field": "span",
+          "site": 28.45,
+          "modelReference": 28.4,
+          "pdfPage": 12,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        },
+        {
+          "field": "diameter",
+          "site": 3.34,
+          "modelReference": 3.4,
+          "pdfPage": 12,
+          "note": "Manufacturer drawing supplies rounded SI dimensions; more digits in site not assumed accurate."
+        }
+      ],
+      "wingRootFromNose": 15.2,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          5.8
+        ],
+        [
+          0.12,
+          0.9,
+          5
+        ],
+        [
+          0.4,
+          3,
+          3.6
+        ],
+        [
+          1,
+          7.8,
+          1
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 2.85,
+          "centerZ": 3.2,
+          "inletFromNose": 23.7
+        }
+      ],
+      "horizontalTailSpan": 11.2,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/boeing-717/documents/717.pdf",
+        "method": "Inlet23.7m andtailspan11.2m dimensioned; wingroot16.1matbodyedge andoutline scaled fromdrawing +/-0.25m; enginey2.85/z3.2 visually scaled, not dimensioned.",
+        "page": 12
+      },
+      "noseSectionProfile": [
+        [
+          0,
+          0.004,
+          -0.771,
+          -0.781
+        ],
+        [
+          0.25,
+          0.21542857142857144,
+          -0.264,
+          -1.256
+        ],
+        [
+          0.5,
+          0.37615384615384617,
+          -0.088,
+          -1.384
+        ],
+        [
+          1,
+          0.63,
+          0.168,
+          -1.544
+        ],
+        [
+          1.5,
+          0.735,
+          0.408,
+          -1.656
+        ],
+        [
+          2,
+          0.84,
+          0.664,
+          -1.736
+        ],
+        [
+          3,
+          0.94,
+          1.384,
+          -1.816
+        ],
+        [
+          4,
+          0.98,
+          1.672,
+          -1.816
+        ],
+        [
+          5,
+          1,
+          1.8,
+          -1.816
+        ],
+        [
+          6,
+          1,
+          1.832,
+          -1.816
+        ],
+        [
+          8,
+          1,
+          1.832,
+          -1.816
+        ],
+        [
+          10,
+          1,
+          1.768,
+          -1.768
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "boeing-717",
+        "pdfPage": 12,
+        "sourceRendering": "work\\aircraft_build\\door-extra\\boeing-717-nose-crop.png",
+        "method": "Manual datum selection and saturated outline/fill pixel sampling of official manufacturer side drawing. Approximate drawing trace, not manufacturer station data.",
+        "pixelScalePerMeter": 62.49,
+        "centerDatumPixelY": 145.5,
+        "uncertaintyM": 0.15,
+        "centerDatum": "Full body side-envelope midpoint",
+        "includesUpperHump": false,
+        "doNotDoubleApplyHump": false,
+        "widthProfileStatus": "not_traced; do not present generic width as measured",
+        "points": [
+          {
+            "distanceFromTipM": 0,
+            "topZFromMainBodyCenterM": -0.771,
+            "bottomZFromMainBodyCenterM": -0.781,
+            "rawTrace": {
+              "topZFromMainBodyCenterM": -0.536,
+              "bottomZFromMainBodyCenterM": -1.016,
+              "samplePixelX": 46,
+              "sampleTopPixelY": 179,
+              "sampleBottomPixelY": 209
+            },
+            "note": "Endpoint modeling assumption: collapse finite-width outline stroke sample toits midpoint +/-5mm. Rawtrace preserved separately; not a measuredfinite-radius tip."
+          },
+          {
+            "distanceFromTipM": 0.25,
+            "topZFromMainBodyCenterM": -0.264,
+            "bottomZFromMainBodyCenterM": -1.256,
+            "samplePixelX": 62,
+            "sampleTopPixelY": 162,
+            "sampleBottomPixelY": 224
+          },
+          {
+            "distanceFromTipM": 0.5,
+            "topZFromMainBodyCenterM": -0.088,
+            "bottomZFromMainBodyCenterM": -1.384,
+            "samplePixelX": 77,
+            "sampleTopPixelY": 151,
+            "sampleBottomPixelY": 232
+          },
+          {
+            "distanceFromTipM": 1,
+            "topZFromMainBodyCenterM": 0.168,
+            "bottomZFromMainBodyCenterM": -1.544,
+            "samplePixelX": 108,
+            "sampleTopPixelY": 135,
+            "sampleBottomPixelY": 242
+          },
+          {
+            "distanceFromTipM": 1.5,
+            "topZFromMainBodyCenterM": 0.408,
+            "bottomZFromMainBodyCenterM": -1.656,
+            "samplePixelX": 140,
+            "sampleTopPixelY": 120,
+            "sampleBottomPixelY": 249
+          },
+          {
+            "distanceFromTipM": 2,
+            "topZFromMainBodyCenterM": 0.664,
+            "bottomZFromMainBodyCenterM": -1.736,
+            "samplePixelX": 171,
+            "sampleTopPixelY": 104,
+            "sampleBottomPixelY": 254
+          },
+          {
+            "distanceFromTipM": 3,
+            "topZFromMainBodyCenterM": 1.384,
+            "bottomZFromMainBodyCenterM": -1.816,
+            "samplePixelX": 233,
+            "sampleTopPixelY": 59,
+            "sampleBottomPixelY": 259
+          },
+          {
+            "distanceFromTipM": 4,
+            "topZFromMainBodyCenterM": 1.672,
+            "bottomZFromMainBodyCenterM": -1.816,
+            "samplePixelX": 296,
+            "sampleTopPixelY": 41,
+            "sampleBottomPixelY": 259
+          },
+          {
+            "distanceFromTipM": 5,
+            "topZFromMainBodyCenterM": 1.8,
+            "bottomZFromMainBodyCenterM": -1.816,
+            "samplePixelX": 358,
+            "sampleTopPixelY": 33,
+            "sampleBottomPixelY": 259
+          },
+          {
+            "distanceFromTipM": 6,
+            "topZFromMainBodyCenterM": 1.832,
+            "bottomZFromMainBodyCenterM": -1.816,
+            "samplePixelX": 421,
+            "sampleTopPixelY": 31,
+            "sampleBottomPixelY": 259
+          },
+          {
+            "distanceFromTipM": 8,
+            "topZFromMainBodyCenterM": 1.832,
+            "bottomZFromMainBodyCenterM": -1.816,
+            "samplePixelX": 546,
+            "sampleTopPixelY": 31,
+            "sampleBottomPixelY": 259
+          }
+        ]
+      }
+    },
+    {
+      "order": 12,
+      "id": "airbus-a300",
+      "name": "에어버스 A300",
+      "variant": "A300-600R 기준",
+      "length": 54.08,
+      "span": 44.84,
+      "height": 16.62,
+      "diameter": 5.64,
+      "fuselageHeight": 5.8656,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 266,
+      "seatLayout": [
+        2,
+        4,
+        2
+      ],
+      "wingSweep": 28,
+      "wingRootChord": 11.0,
+      "wingTipChord": 1.8,
+      "engineDiameter": 2.7,
+      "winglet": "fence",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2023-02/Airbus-Commercial-Aircraft-AC-A300-600-Dec-2009.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a300/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 54.08,
+        "span": 44.84,
+        "height": 16.62,
+        "diameter": 5.64
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 21,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 21,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 21,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 16.2,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          10.8
+        ],
+        [
+          0.13,
+          1.96,
+          8.84
+        ],
+        [
+          0.4,
+          6,
+          6.4
+        ],
+        [
+          1,
+          13.5,
+          2.8
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 8.0,
+          "inletFromNose": 15.67
+        }
+      ],
+      "horizontalTailSpan": 16.26,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/airbus-a300/airbus-planning.pdf",
+        "page": 21,
+        "method": "Manual scaled trace of gridded Airbus plan drawing, +/-0.5m. Engine stations visually scaled except A310 lateral7.685m dimensioned. Airfoil/twist not established."
+      }
+    },
+    {
+      "order": 13,
+      "id": "airbus-a310",
+      "name": "에어버스 A310",
+      "variant": "A310-300 기준",
+      "length": 46.66,
+      "span": 43.9,
+      "height": 15.8,
+      "diameter": 5.64,
+      "fuselageHeight": 5.8656,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 220,
+      "seatLayout": [
+        2,
+        4,
+        2
+      ],
+      "wingSweep": 28,
+      "wingRootChord": 10.0,
+      "wingTipChord": 1.7,
+      "engineDiameter": 2.7,
+      "winglet": "fence",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2023-02/Airbus-Commercial-Aircraft-AC-A310-Dec-2009.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a310/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "General dimensions drawing144ft0.3in/43.90m."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 46.66,
+        "span": 43.89,
+        "height": 15.8,
+        "diameter": 5.64
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 23,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 23,
+          "verified": true,
+          "note": "General dimensions drawing144ft0.3in/43.90m."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 23,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "span",
+          "site": 43.89,
+          "modelReference": 43.9,
+          "pdfPage": 23,
+          "note": "General dimensions drawing144ft0.3in/43.90m."
+        }
+      ],
+      "wingRootFromNose": 12.8,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          10.1
+        ],
+        [
+          0.13,
+          1.85,
+          8.25
+        ],
+        [
+          0.42,
+          5.9,
+          6
+        ],
+        [
+          1,
+          13.42,
+          2.5
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 7.685,
+          "inletFromNose": 12.66
+        }
+      ],
+      "horizontalTailSpan": 16.26,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/airbus-a310/airbus-planning.pdf",
+        "page": 23,
+        "method": "Manual scaled trace of gridded Airbus plan drawing, +/-0.5m. Engine stations visually scaled except A310 lateral7.685m dimensioned. Airfoil/twist not established."
+      }
+    },
+    {
+      "order": 14,
+      "id": "airbus-a320",
+      "name": "에어버스 A320 패밀리 (ceo)",
+      "variant": "A320-200 기준",
+      "length": 37.57,
+      "span": 34.1,
+      "height": 11.76,
+      "diameter": 3.95,
+      "fuselageHeight": 4.1080000000000005,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 150,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 7.2,
+      "wingTipChord": 1.4,
+      "engineDiameter": 2.15,
+      "winglet": "fence",
+      "sources": [
+        "https://mediaassets.airbus.com/pm_38_916_916266-iujedqawwy.pdf?fileName=aca32001-jul-2026-2.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a320/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "35.80 m site span corresponds to Sharklet configuration; earlier fence-tip ceo variants differ."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 37.57,
+        "span": 35.8,
+        "height": 11.76,
+        "diameter": 3.95
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 46,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "existing_site_specification",
+          "verified": false
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 12.2,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          6.6
+        ],
+        [
+          0.12,
+          1.05,
+          5.55
+        ],
+        [
+          0.33,
+          2.8,
+          3.8
+        ],
+        [
+          1,
+          8.38,
+          1.5
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 5.75,
+          "inletFromNose": 11.19
+        }
+      ],
+      "horizontalTailSpan": 12.45,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/airbus-a320/airbus-planning.pdf",
+        "pages": [
+          44,
+          45
+        ],
+        "method": "Engine inlet/lateral and tip-fence versus sharklet span read manufacturer dimensions. Wing outline scaled manually +/-0.25m; airfoil/twist approximate."
+      }
+    },
+    {
+      "order": 15,
+      "id": "airbus-a320neo",
+      "name": "에어버스 A320neo 패밀리",
+      "variant": "A320neo 기준",
+      "length": 37.57,
+      "span": 35.8,
+      "height": 11.76,
+      "diameter": 3.95,
+      "fuselageHeight": 4.1080000000000005,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 165,
+      "seatLayout": [
+        3,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 7.2,
+      "wingTipChord": 1.4,
+      "engineDiameter": 2.65,
+      "winglet": "sharklet",
+      "sources": [
+        "https://mediaassets.airbus.com/pm_38_916_916266-iujedqawwy.pdf?fileName=aca32001-jul-2026-2.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a320neo/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 37.57,
+        "span": 35.8,
+        "height": 11.76,
+        "diameter": 3.95
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 48,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "existing_site_specification",
+          "verified": false
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "baseWingSpan": 34.1,
+      "wingRootFromNose": 12.2,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          6.6
+        ],
+        [
+          0.12,
+          1.05,
+          5.55
+        ],
+        [
+          0.33,
+          2.8,
+          3.8
+        ],
+        [
+          1,
+          8.38,
+          1.5
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 5.75,
+          "inletFromNose": 11.14
+        }
+      ],
+      "horizontalTailSpan": 12.45,
+      "geometryEvidence": {
+        "source": "outputs/aircraft-research/fleet/airbus-a320neo/airbus-planning.pdf",
+        "pages": [
+          48,
+          49
+        ],
+        "method": "Engine inlet/lateral and tip-fence versus sharklet span read manufacturer dimensions. Wing outline scaled manually +/-0.25m; airfoil/twist approximate."
+      }
+    },
+    {
+      "order": 16,
+      "id": "airbus-a330",
+      "name": "에어버스 A330",
+      "variant": "A330-300 기준",
+      "length": 63.67,
+      "span": 60.3,
+      "height": 16.79,
+      "diameter": 5.64,
+      "fuselageHeight": 5.8656,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 277,
+      "seatLayout": [
+        2,
+        4,
+        2
+      ],
+      "wingSweep": 30,
+      "wingRootChord": 12.1,
+      "wingTipChord": 2.2,
+      "engineDiameter": 2.9,
+      "winglet": "canted",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A330_20251201.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a330/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Side-view length63.67m; plan-view projected length63.70m on following page. Attitude and weight affect dimensions."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 63.69,
+        "span": 60.3,
+        "height": 16.79,
+        "diameter": 5.64
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 60,
+          "verified": true,
+          "note": "Side-view length63.67m; plan-view projected length63.70m on following page. Attitude and weight affect dimensions."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 60,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 60,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 63.69,
+          "modelReference": 63.67,
+          "pdfPage": 60,
+          "note": "Side-view length63.67m; plan-view projected length63.70m on following page. Attitude and weight affect dimensions."
+        }
+      ],
+      "wingRootFromNose": 20.580213929268822,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          12.516184139537934
+        ],
+        [
+          0.09465,
+          1.9307860707311768,
+          10.885000000000002
+        ],
+        [
+          0.25103,
+          5.1208159253634165,
+          8.18997014536776
+        ],
+        [
+          0.3251,
+          6.631786070731177,
+          7.524958884136854
+        ],
+        [
+          0.45679,
+          9.15057974548542,
+          6.510206325245758
+        ],
+        [
+          0.59671,
+          11.826786070731174,
+          5.410782868425052
+        ],
+        [
+          0.65432,
+          12.889981236353378,
+          4.996804834377798
+        ],
+        [
+          0.83128,
+          16.155786070731175,
+          4.081000000000003
+        ],
+        [
+          0.95885,
+          18.752786070731176,
+          2.6460330633284244
+        ],
+        [
+          0.96708,
+          19.275078806350948,
+          2.198707264380232
+        ],
+        [
+          0.99588,
+          21.102786070731177,
+          1.1
+        ],
+        [
+          1,
+          21.36424974883002,
+          1.1
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 9.37,
+          "inletFromNose": 21.45
+        }
+      ],
+      "geometryEvidence": {
+        "id": "airbus-a330",
+        "lengthM": 63.7,
+        "spanM": 60.3,
+        "sourceUrl": "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A330_20251201.pdf",
+        "sourcePdfPage": 61,
+        "localReviewedImage": "airbus-a330-topview.png",
+        "wingOutline": [
+          {
+            "spanFraction": 0.09465,
+            "aftFromNoseFraction": 0.3534,
+            "aftFromNoseM": 22.511,
+            "lateralM": 2.854
+          },
+          {
+            "spanFraction": 0.3251,
+            "aftFromNoseFraction": 0.42718,
+            "aftFromNoseM": 27.212,
+            "lateralM": 9.802
+          },
+          {
+            "spanFraction": 0.59671,
+            "aftFromNoseFraction": 0.50874,
+            "aftFromNoseM": 32.407,
+            "lateralM": 17.991
+          },
+          {
+            "spanFraction": 0.83128,
+            "aftFromNoseFraction": 0.5767,
+            "aftFromNoseM": 36.736,
+            "lateralM": 25.063
+          },
+          {
+            "spanFraction": 0.95885,
+            "aftFromNoseFraction": 0.61748,
+            "aftFromNoseM": 39.333,
+            "lateralM": 28.909
+          },
+          {
+            "spanFraction": 0.99588,
+            "aftFromNoseFraction": 0.65437,
+            "aftFromNoseM": 41.683,
+            "lateralM": 30.026
+          },
+          {
+            "spanFraction": 0.96708,
+            "aftFromNoseFraction": 0.66019,
+            "aftFromNoseM": 42.054,
+            "lateralM": 29.157
+          },
+          {
+            "spanFraction": 0.83128,
+            "aftFromNoseFraction": 0.64078,
+            "aftFromNoseM": 40.817,
+            "lateralM": 25.063
+          },
+          {
+            "spanFraction": 0.65432,
+            "aftFromNoseFraction": 0.60388,
+            "aftFromNoseM": 38.467,
+            "lateralM": 19.728
+          },
+          {
+            "spanFraction": 0.45679,
+            "aftFromNoseFraction": 0.56893,
+            "aftFromNoseM": 36.241,
+            "lateralM": 13.772
+          },
+          {
+            "spanFraction": 0.25103,
+            "aftFromNoseFraction": 0.53204,
+            "aftFromNoseM": 33.891,
+            "lateralM": 7.569
+          },
+          {
+            "spanFraction": 0.09465,
+            "aftFromNoseFraction": 0.52427,
+            "aftFromNoseM": 33.396,
+            "lateralM": 2.854
+          }
+        ],
+        "coordinateConvention": "Ordered root leading edge to tip to root trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L.",
+        "traceEvidence": "Manual pixels from official general-dimensions top view; not CAD extraction.",
+        "traceUncertaintyM": 0.35,
+        "dimensionCaution": "Top-view length differs slightly from side-view length because drawing notes aircraft attitude/weight. Trace preserves displayed top-view proportions; do not silently override approved scale specification.",
+        "engineStations": [
+          {
+            "inletPlaneAftFromNoseM": 21.14,
+            "lateralCenterM": 9.37,
+            "inletBasis": "Printed numeric dimension",
+            "lateralBasis": "Half published front-view engine-center spacing (18.74m inboard /38.54m A340 outboard)",
+            "modelXInletM": 10.71
+          }
+        ],
+        "engineVariantNote": "A330-300 GE inlet21.14m; PW21.45m; RR21.28m. Select correct engine profile from registration evidence; default GE chosen only for suppliedgeometry example.",
+        "wingtip": {
+          "type": "canted-winglet",
+          "note": "Top-view outline does not establish tip vertical height, twist or airfoil."
+        }
+      },
+      "engineFamily": "PW4000",
+      "engineContourStatus": "UNVERIFIED_GENERIC_LOFT_NOT_EXACT_PW4000_NACELLE"
+    },
+    {
+      "order": 17,
+      "id": "airbus-a330neo",
+      "name": "에어버스 A330neo",
+      "variant": "A330-900 기준",
+      "length": 63.66,
+      "span": 64.0,
+      "height": 16.79,
+      "diameter": 5.64,
+      "fuselageHeight": 5.8656,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 287,
+      "seatLayout": [
+        2,
+        4,
+        2
+      ],
+      "wingSweep": 30,
+      "wingRootChord": 12.1,
+      "wingTipChord": 2.0,
+      "engineDiameter": 3.3,
+      "winglet": "sharklet",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A330_20251201.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a330neo/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 63.66,
+        "span": 64.0,
+        "height": 16.79,
+        "diameter": 5.64
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 65,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 65,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 65,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 20.578154472296735,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          12.513254469906098
+        ],
+        [
+          0.0888,
+          1.9298455277032645,
+          10.883
+        ],
+        [
+          0.23552,
+          5.118437147349923,
+          8.189408380353346
+        ],
+        [
+          0.30502,
+          6.628845527703266,
+          7.56942562375896
+        ],
+        [
+          0.46718,
+          9.934661954340633,
+          6.341183573362631
+        ],
+        [
+          0.55985,
+          11.823845527703266,
+          5.61981827445652
+        ],
+        [
+          0.7027,
+          14.633200732865259,
+          4.610644794838009
+        ],
+        [
+          0.77992,
+          16.151845527703262,
+          4.081200000000003
+        ],
+        [
+          0.89575,
+          18.66509233194756,
+          3.0517531957557082
+        ],
+        [
+          0.89961,
+          18.748845527703264,
+          3.0229471462829736
+        ],
+        [
+          0.98456,
+          21.716845527703267,
+          1.2642114148681074
+        ],
+        [
+          1,
+          23.20084552770327,
+          0.12
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 9.37,
+          "inletFromNose": 21.05
+        }
+      ],
+      "geometryEvidence": {
+        "id": "airbus-a330neo",
+        "lengthM": 63.69,
+        "spanM": 64.0,
+        "sourceUrl": "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A330_20251201.pdf",
+        "sourcePdfPage": 66,
+        "localReviewedImage": "airbus-a330neo-topview.png",
+        "wingOutline": [
+          {
+            "spanFraction": 0.0888,
+            "aftFromNoseFraction": 0.3534,
+            "aftFromNoseM": 22.508,
+            "lateralM": 2.842
+          },
+          {
+            "spanFraction": 0.30502,
+            "aftFromNoseFraction": 0.42718,
+            "aftFromNoseM": 27.207,
+            "lateralM": 9.761
+          },
+          {
+            "spanFraction": 0.55985,
+            "aftFromNoseFraction": 0.50874,
+            "aftFromNoseM": 32.402,
+            "lateralM": 17.915
+          },
+          {
+            "spanFraction": 0.77992,
+            "aftFromNoseFraction": 0.5767,
+            "aftFromNoseM": 36.73,
+            "lateralM": 24.958
+          },
+          {
+            "spanFraction": 0.89961,
+            "aftFromNoseFraction": 0.61748,
+            "aftFromNoseM": 39.327,
+            "lateralM": 28.788
+          },
+          {
+            "spanFraction": 0.98456,
+            "aftFromNoseFraction": 0.66408,
+            "aftFromNoseM": 42.295,
+            "lateralM": 31.506
+          },
+          {
+            "spanFraction": 1.0,
+            "aftFromNoseFraction": 0.68738,
+            "aftFromNoseM": 43.779,
+            "lateralM": 32.0
+          },
+          {
+            "spanFraction": 0.89575,
+            "aftFromNoseFraction": 0.66408,
+            "aftFromNoseM": 42.295,
+            "lateralM": 28.664
+          },
+          {
+            "spanFraction": 0.7027,
+            "aftFromNoseFraction": 0.62524,
+            "aftFromNoseM": 39.822,
+            "lateralM": 22.486
+          },
+          {
+            "spanFraction": 0.46718,
+            "aftFromNoseFraction": 0.57864,
+            "aftFromNoseM": 36.854,
+            "lateralM": 14.95
+          },
+          {
+            "spanFraction": 0.23552,
+            "aftFromNoseFraction": 0.53204,
+            "aftFromNoseM": 33.886,
+            "lateralM": 7.537
+          },
+          {
+            "spanFraction": 0.0888,
+            "aftFromNoseFraction": 0.52427,
+            "aftFromNoseM": 33.391,
+            "lateralM": 2.842
+          }
+        ],
+        "coordinateConvention": "Ordered root leading edge to tip to root trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L.",
+        "traceEvidence": "Manual pixels from official general-dimensions top view; not CAD extraction.",
+        "traceUncertaintyM": 0.35,
+        "dimensionCaution": "Top-view length differs slightly from side-view length because drawing notes aircraft attitude/weight. Trace preserves displayed top-view proportions; do not silently override approved scale specification.",
+        "engineStations": [
+          {
+            "inletPlaneAftFromNoseM": 21.05,
+            "lateralCenterM": 9.37,
+            "inletBasis": "Printed numeric dimension",
+            "lateralBasis": "Half published front-view engine-center spacing (18.74m inboard /38.54m A340 outboard)",
+            "modelXInletM": 10.794999999999998
+          }
+        ],
+        "engineVariantNote": null,
+        "wingtip": {
+          "type": "upturned-curved",
+          "note": "Top-view outline does not establish tip vertical height, twist or airfoil."
+        }
+      }
+    },
+    {
+      "order": 18,
+      "id": "airbus-a340",
+      "name": "에어버스 A340",
+      "variant": "A340-300 기준",
+      "length": 63.69,
+      "span": 60.3,
+      "height": 16.99,
+      "diameter": 5.64,
+      "fuselageHeight": 5.8656,
+      "engineCount": 4,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 295,
+      "seatLayout": [
+        2,
+        4,
+        2
+      ],
+      "wingSweep": 30,
+      "wingRootChord": 12.1,
+      "wingTipChord": 2.2,
+      "engineDiameter": 2.25,
+      "winglet": "canted",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A340-200-300_20251201.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a340/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 63.69,
+        "span": 60.3,
+        "height": 16.99,
+        "diameter": 5.64
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 39,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 39,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 39,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 20.578035365589063,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          12.513362703217684
+        ],
+        [
+          0.09465,
+          1.9299646344109362,
+          10.883
+        ],
+        [
+          0.25103,
+          5.118637318290304,
+          8.189327316120636
+        ],
+        [
+          0.3251,
+          6.628964634410938,
+          7.52459890163297
+        ],
+        [
+          0.45679,
+          9.14775830916518,
+          6.509206325245756
+        ],
+        [
+          0.59671,
+          11.823964634410938,
+          5.409782868425047
+        ],
+        [
+          0.65432,
+          12.886914201704283,
+          4.996050432706653
+        ],
+        [
+          0.83128,
+          16.151964634410934,
+          4.081000000000003
+        ],
+        [
+          0.95885,
+          18.748964634410935,
+          2.6460330633284244
+        ],
+        [
+          0.96708,
+          19.271257370030707,
+          2.198707264380232
+        ],
+        [
+          0.99588,
+          21.098964634410937,
+          1.1
+        ],
+        [
+          1,
+          21.36042831250978,
+          1.1
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 9.37,
+          "inletFromNose": 22.39
+        },
+        {
+          "y": 19.27,
+          "inletFromNose": 28.96
+        }
+      ],
+      "geometryEvidence": {
+        "id": "airbus-a340",
+        "lengthM": 63.69,
+        "spanM": 60.3,
+        "sourceUrl": "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A340-200-300_20251201.pdf",
+        "sourcePdfPage": 40,
+        "localReviewedImage": "airbus-a340-topview.png",
+        "wingOutline": [
+          {
+            "spanFraction": 0.09465,
+            "aftFromNoseFraction": 0.3534,
+            "aftFromNoseM": 22.508,
+            "lateralM": 2.854
+          },
+          {
+            "spanFraction": 0.3251,
+            "aftFromNoseFraction": 0.42718,
+            "aftFromNoseM": 27.207,
+            "lateralM": 9.802
+          },
+          {
+            "spanFraction": 0.59671,
+            "aftFromNoseFraction": 0.50874,
+            "aftFromNoseM": 32.402,
+            "lateralM": 17.991
+          },
+          {
+            "spanFraction": 0.83128,
+            "aftFromNoseFraction": 0.5767,
+            "aftFromNoseM": 36.73,
+            "lateralM": 25.063
+          },
+          {
+            "spanFraction": 0.95885,
+            "aftFromNoseFraction": 0.61748,
+            "aftFromNoseM": 39.327,
+            "lateralM": 28.909
+          },
+          {
+            "spanFraction": 0.99588,
+            "aftFromNoseFraction": 0.65437,
+            "aftFromNoseM": 41.677,
+            "lateralM": 30.026
+          },
+          {
+            "spanFraction": 0.96708,
+            "aftFromNoseFraction": 0.66019,
+            "aftFromNoseM": 42.048,
+            "lateralM": 29.157
+          },
+          {
+            "spanFraction": 0.83128,
+            "aftFromNoseFraction": 0.64078,
+            "aftFromNoseM": 40.811,
+            "lateralM": 25.063
+          },
+          {
+            "spanFraction": 0.65432,
+            "aftFromNoseFraction": 0.60388,
+            "aftFromNoseM": 38.461,
+            "lateralM": 19.728
+          },
+          {
+            "spanFraction": 0.45679,
+            "aftFromNoseFraction": 0.56893,
+            "aftFromNoseM": 36.235,
+            "lateralM": 13.772
+          },
+          {
+            "spanFraction": 0.25103,
+            "aftFromNoseFraction": 0.53204,
+            "aftFromNoseM": 33.886,
+            "lateralM": 7.569
+          },
+          {
+            "spanFraction": 0.09465,
+            "aftFromNoseFraction": 0.52427,
+            "aftFromNoseM": 33.391,
+            "lateralM": 2.854
+          }
+        ],
+        "coordinateConvention": "Ordered root leading edge to tip to root trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L.",
+        "traceEvidence": "Manual pixels from official general-dimensions top view; not CAD extraction.",
+        "traceUncertaintyM": 0.35,
+        "dimensionCaution": "Top-view length differs slightly from side-view length because drawing notes aircraft attitude/weight. Trace preserves displayed top-view proportions; do not silently override approved scale specification.",
+        "engineStations": [
+          {
+            "inletPlaneAftFromNoseM": 22.39,
+            "lateralCenterM": 9.37,
+            "inletBasis": "Printed numeric dimension",
+            "lateralBasis": "Half published front-view engine-center spacing (18.74m inboard /38.54m A340 outboard)",
+            "modelXInletM": 9.454999999999998
+          },
+          {
+            "inletPlaneAftFromNoseM": 28.96,
+            "lateralCenterM": 19.27,
+            "inletBasis": "Printed numeric dimension",
+            "lateralBasis": "Half published front-view engine-center spacing (18.74m inboard /38.54m A340 outboard)",
+            "modelXInletM": 2.884999999999998
+          }
+        ],
+        "engineVariantNote": null,
+        "wingtip": {
+          "type": "canted-winglet",
+          "note": "Top-view outline does not establish tip vertical height, twist or airfoil."
+        }
+      }
+    },
+    {
+      "order": 19,
+      "id": "airbus-a350",
+      "name": "에어버스 A350 XWB",
+      "variant": "A350-900 기준",
+      "length": 66.8,
+      "span": 64.75,
+      "height": 17.05,
+      "diameter": 5.96,
+      "fuselageHeight": 6.1984,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 325,
+      "seatLayout": [
+        3,
+        3,
+        3
+      ],
+      "wingSweep": 31.9,
+      "wingRootChord": 13.0,
+      "wingTipChord": 1.7,
+      "engineDiameter": 3.45,
+      "winglet": "sharklet",
+      "sources": [
+        "https://mediaassets.airbus.com/pm_38_916_916746-gxtwm2qvq4.pdf?fileName=a350-aircraft-characteristics-airport-and-maintenance-planning.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a350/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 66.8,
+        "span": 64.75,
+        "height": 17.05,
+        "diameter": 5.96
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 51,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 51,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 51,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [],
+      "wingRootFromNose": 19.875270487920417,
+      "wingPlanform": [
+        [
+          0,
+          0.0,
+          14.844759948603418
+        ],
+        [
+          0.09363,
+          2.3507295120795817,
+          12.874000000000002
+        ],
+        [
+          0.24345,
+          6.112198010421601,
+          9.72053150165798
+        ],
+        [
+          0.32584,
+          8.180729512079584,
+          8.605796503496503
+        ],
+        [
+          0.40075,
+          9.80013920016231,
+          7.8535903119172765
+        ],
+        [
+          0.5618,
+          13.281729512079579,
+          6.231250350726349
+        ],
+        [
+          0.62172,
+          14.587873257155309,
+          5.616856254924272
+        ],
+        [
+          0.79026,
+          18.261729512079583,
+          4.090129207590351
+        ],
+        [
+          0.83146,
+          19.2116713656455,
+          3.6650581464340846
+        ],
+        [
+          0.9588,
+          22.147729512079586,
+          2.2628306506979925
+        ],
+        [
+          0.96255,
+          22.336953777876083,
+          2.1187757342035027
+        ],
+        [
+          0.99251,
+          23.84872951207958,
+          2.0646000000000058
+        ],
+        [
+          1,
+          26.27772951207958,
+          0.12
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 10.43,
+          "inletFromNose": 21.97
+        }
+      ],
+      "geometryEvidence": {
+        "id": "airbus-a350",
+        "lengthM": 66.8,
+        "spanM": 64.75,
+        "sourceUrl": "https://mediaassets.airbus.com/pm_38_916_916746-gxtwm2qvq4.pdf?fileName=a350-aircraft-characteristics-airport-and-maintenance-planning.pdf",
+        "sourcePdfPage": 51,
+        "localReviewedImage": "airbus-a350-topview.png",
+        "wingOutline": [
+          {
+            "spanFraction": 0.09363,
+            "aftFromNoseFraction": 0.33273,
+            "aftFromNoseM": 22.226,
+            "lateralM": 3.031
+          },
+          {
+            "spanFraction": 0.32584,
+            "aftFromNoseFraction": 0.42,
+            "aftFromNoseM": 28.056,
+            "lateralM": 10.549
+          },
+          {
+            "spanFraction": 0.5618,
+            "aftFromNoseFraction": 0.49636,
+            "aftFromNoseM": 33.157,
+            "lateralM": 18.188
+          },
+          {
+            "spanFraction": 0.79026,
+            "aftFromNoseFraction": 0.57091,
+            "aftFromNoseM": 38.137,
+            "lateralM": 25.585
+          },
+          {
+            "spanFraction": 0.9588,
+            "aftFromNoseFraction": 0.62909,
+            "aftFromNoseM": 42.023,
+            "lateralM": 31.041
+          },
+          {
+            "spanFraction": 0.99251,
+            "aftFromNoseFraction": 0.65455,
+            "aftFromNoseM": 43.724,
+            "lateralM": 32.132
+          },
+          {
+            "spanFraction": 1.0,
+            "aftFromNoseFraction": 0.69091,
+            "aftFromNoseM": 46.153,
+            "lateralM": 32.375
+          },
+          {
+            "spanFraction": 0.96255,
+            "aftFromNoseFraction": 0.66364,
+            "aftFromNoseM": 44.331,
+            "lateralM": 31.162
+          },
+          {
+            "spanFraction": 0.83146,
+            "aftFromNoseFraction": 0.64,
+            "aftFromNoseM": 42.752,
+            "lateralM": 26.919
+          },
+          {
+            "spanFraction": 0.62172,
+            "aftFromNoseFraction": 0.6,
+            "aftFromNoseM": 40.08,
+            "lateralM": 20.128
+          },
+          {
+            "spanFraction": 0.40075,
+            "aftFromNoseFraction": 0.56182,
+            "aftFromNoseM": 37.529,
+            "lateralM": 12.974
+          },
+          {
+            "spanFraction": 0.24345,
+            "aftFromNoseFraction": 0.53455,
+            "aftFromNoseM": 35.708,
+            "lateralM": 7.882
+          },
+          {
+            "spanFraction": 0.09363,
+            "aftFromNoseFraction": 0.52545,
+            "aftFromNoseM": 35.1,
+            "lateralM": 3.031
+          }
+        ],
+        "coordinateConvention": "Ordered root leading edge to tip to root trailing edge. spanFraction=abs(Y)/(span/2); aftFromNoseFraction=(L/2-X)/L.",
+        "traceEvidence": "Manual pixels from official general-dimensions top view; not CAD extraction.",
+        "traceUncertaintyM": 0.35,
+        "dimensionCaution": "Top-view length differs slightly from side-view length because drawing notes aircraft attitude/weight. Trace preserves displayed top-view proportions; do not silently override approved scale specification.",
+        "engineStations": [
+          {
+            "inletPlaneAftFromNoseM": 21.97,
+            "lateralCenterM": 10.43,
+            "inletBasis": "Printed numeric dimension",
+            "lateralBasis": "Manual top-view measurement +/-0.25m",
+            "modelXInletM": 11.43
+          }
+        ],
+        "engineVariantNote": null,
+        "wingtip": {
+          "type": "upturned-curved",
+          "note": "Top-view outline does not establish tip vertical height, twist or airfoil."
+        }
+      },
+      "noseSectionProfile": [
+        [
+          0.0,
+          0.004,
+          -1.5349,
+          -1.5349
+        ],
+        [
+          0.2476,
+          0.21339885714285714,
+          -0.9655,
+          -1.9557
+        ],
+        [
+          0.7427,
+          0.49937076923076923,
+          -0.4704,
+          -2.2033
+        ],
+        [
+          1.3616,
+          0.705936,
+          0.0248,
+          -2.4261
+        ],
+        [
+          1.9805,
+          0.8359049999999999,
+          0.5199,
+          -2.5746
+        ],
+        [
+          2.5994,
+          0.89994,
+          1.1883,
+          -2.6984
+        ],
+        [
+          3.3421,
+          0.9614382591093117,
+          1.7082,
+          -2.8222
+        ],
+        [
+          4.2085,
+          0.9702074898785424,
+          2.129,
+          -2.9212
+        ],
+        [
+          5.1988,
+          0.9802307692307692,
+          2.4509,
+          -3.0202
+        ],
+        [
+          6.4366,
+          0.9927591093117409,
+          2.7232,
+          -3.045
+        ],
+        [
+          7.6744,
+          1,
+          2.9212,
+          -3.045
+        ],
+        [
+          8.9122,
+          1,
+          2.9955,
+          -3.045
+        ],
+        [
+          10.3976,
+          1,
+          3.045,
+          -3.045
+        ],
+        [
+          12.3976,
+          1,
+          3.0992,
+          -3.0992
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "airbus-a350",
+        "variant": "A350-900",
+        "pdfPage": 50,
+        "sourceUrl": [
+          "https://mediaassets.airbus.com/pm_38_916_916746-gxtwm2qvq4.pdf?fileName=a350-aircraft-characteristics-airport-and-maintenance-planning.pdf"
+        ],
+        "sourceRendering": "work/aircraft_build/nose-extra/airbus-a350-crop.png",
+        "method": "Manual outer-envelope trace from actual official side-view rendered crop. Not manufacturer station coordinates or CAD. Fine contour deviations below uncertainty are unresolved.",
+        "pixelScalePerMeter": 40.39408866995074,
+        "scaleDatum": "6.09m printed side fuselage depth; 246 pixels",
+        "centerDatumPixelY": 155,
+        "centerDatum": "Midpoint between constant-section upper and lower side silhouette aft of nose; distinct from nose-tip height.",
+        "uncertaintyM": 0.15,
+        "includesUpperHump": false,
+        "doNotDoubleApplyHump": false,
+        "widthProfileStatus": "NOT_TRACED_FROM_SIDE_VIEW; width remains separately unverified; do not infer circular sections from this silhouette.",
+        "noseTipZeroRadius": true,
+        "points": [
+          {
+            "distanceFromTipM": 0.0,
+            "topZFromMainBodyCenterM": -1.5349,
+            "bottomZFromMainBodyCenterM": -1.5349,
+            "samplePixelX": 40,
+            "sampleTopPixelY": 217.0,
+            "sampleBottomPixelY": 217.0
+          },
+          {
+            "distanceFromTipM": 0.2476,
+            "topZFromMainBodyCenterM": -0.9655,
+            "bottomZFromMainBodyCenterM": -1.9557,
+            "samplePixelX": 50,
+            "sampleTopPixelY": 194,
+            "sampleBottomPixelY": 234
+          },
+          {
+            "distanceFromTipM": 0.7427,
+            "topZFromMainBodyCenterM": -0.4704,
+            "bottomZFromMainBodyCenterM": -2.2033,
+            "samplePixelX": 70,
+            "sampleTopPixelY": 174,
+            "sampleBottomPixelY": 244
+          },
+          {
+            "distanceFromTipM": 1.3616,
+            "topZFromMainBodyCenterM": 0.0248,
+            "bottomZFromMainBodyCenterM": -2.4261,
+            "samplePixelX": 95,
+            "sampleTopPixelY": 154,
+            "sampleBottomPixelY": 253
+          },
+          {
+            "distanceFromTipM": 1.9805,
+            "topZFromMainBodyCenterM": 0.5199,
+            "bottomZFromMainBodyCenterM": -2.5746,
+            "samplePixelX": 120,
+            "sampleTopPixelY": 134,
+            "sampleBottomPixelY": 259
+          },
+          {
+            "distanceFromTipM": 2.5994,
+            "topZFromMainBodyCenterM": 1.1883,
+            "bottomZFromMainBodyCenterM": -2.6984,
+            "samplePixelX": 145,
+            "sampleTopPixelY": 107,
+            "sampleBottomPixelY": 264
+          },
+          {
+            "distanceFromTipM": 3.3421,
+            "topZFromMainBodyCenterM": 1.7082,
+            "bottomZFromMainBodyCenterM": -2.8222,
+            "samplePixelX": 175,
+            "sampleTopPixelY": 86,
+            "sampleBottomPixelY": 269
+          },
+          {
+            "distanceFromTipM": 4.2085,
+            "topZFromMainBodyCenterM": 2.129,
+            "bottomZFromMainBodyCenterM": -2.9212,
+            "samplePixelX": 210,
+            "sampleTopPixelY": 69,
+            "sampleBottomPixelY": 273
+          },
+          {
+            "distanceFromTipM": 5.1988,
+            "topZFromMainBodyCenterM": 2.4509,
+            "bottomZFromMainBodyCenterM": -3.0202,
+            "samplePixelX": 250,
+            "sampleTopPixelY": 56,
+            "sampleBottomPixelY": 277
+          },
+          {
+            "distanceFromTipM": 6.4366,
+            "topZFromMainBodyCenterM": 2.7232,
+            "bottomZFromMainBodyCenterM": -3.045,
+            "samplePixelX": 300,
+            "sampleTopPixelY": 45,
+            "sampleBottomPixelY": 278
+          },
+          {
+            "distanceFromTipM": 7.6744,
+            "topZFromMainBodyCenterM": 2.9212,
+            "bottomZFromMainBodyCenterM": -3.045,
+            "samplePixelX": 350,
+            "sampleTopPixelY": 37,
+            "sampleBottomPixelY": 278
+          },
+          {
+            "distanceFromTipM": 8.9122,
+            "topZFromMainBodyCenterM": 2.9955,
+            "bottomZFromMainBodyCenterM": -3.045,
+            "samplePixelX": 400,
+            "sampleTopPixelY": 34,
+            "sampleBottomPixelY": 278
+          },
+          {
+            "distanceFromTipM": 10.3976,
+            "topZFromMainBodyCenterM": 3.045,
+            "bottomZFromMainBodyCenterM": -3.045,
+            "samplePixelX": 460,
+            "sampleTopPixelY": 32,
+            "sampleBottomPixelY": 278
+          }
+        ]
+      }
+    },
+    {
+      "order": 20,
+      "id": "airbus-a380",
+      "name": "에어버스 A380",
+      "variant": "A380-800",
+      "length": 72.73,
+      "span": 79.75,
+      "height": 24.09,
+      "diameter": 7.14,
+      "fuselageHeight": 8.41,
+      "engineCount": 4,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": true,
+      "hump": false,
+      "seats": 525,
+      "seatLayout": [
+        3,
+        4,
+        3
+      ],
+      "wingSweep": 33.5,
+      "wingRootChord": 17.7,
+      "wingTipChord": 3.3,
+      "engineDiameter": 3.5,
+      "winglet": "fence",
+      "sources": [
+        "https://www.aircraft.airbus.com/sites/default/files/2025-12/AC_A380_20251201.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a380/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration.",
+        "Two passenger decks. Width7.14m and approximate body vertical diameter8.41m; seat allocation between decks is illustrative.",
+        "General dimensions side-view72.73m. Attitude and weight affect dimensions."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 72.72,
+        "span": 79.75,
+        "height": 24.09,
+        "diameter": 7.14
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 34,
+          "verified": true,
+          "note": "General dimensions side-view72.73m. Attitude and weight affect dimensions."
+        },
+        "span": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 34,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "manufacturer_airport_planning_dimension_page",
+          "pdfPage": 34,
+          "verified": true,
+          "limitation": "Published reference dimensions; not tolerance-certified reconstruction."
+        }
+      },
+      "dimensionDiscrepancies": [
+        {
+          "field": "length",
+          "site": 72.72,
+          "modelReference": 72.73,
+          "pdfPage": 34,
+          "note": "General dimensions side-view72.73m. Attitude and weight affect dimensions."
+        }
+      ],
+      "wingRootFromNose": 17.67,
+      "wingPlanform": [
+        [
+          0,
+          0,
+          25.0
+        ],
+        [
+          0.09,
+          1.63,
+          23.4
+        ],
+        [
+          0.235,
+          6.83,
+          12.4
+        ],
+        [
+          0.5,
+          14.33,
+          10.3
+        ],
+        [
+          0.88,
+          26.33,
+          5.3
+        ],
+        [
+          1,
+          29.3,
+          3.98
+        ]
+      ],
+      "engineStations": [
+        {
+          "y": 14.8,
+          "inletFromNose": 22.23
+        },
+        {
+          "y": 25.7,
+          "inletFromNose": 29.94
+        }
+      ],
+      "horizontalTailSpan": 30.37,
+      "geometryEvidence": {
+        "pages": [
+          34,
+          35
+        ],
+        "source": "outputs/aircraft-research/fleet/airbus-a380/official-planning.pdf",
+        "method": "Engine spacing/inlet longitudinal station and tail span read from dimensions. Wing outline manually traced from page35, approximate +/-0.5m, not airfoil CAD."
+      },
+      "noseSectionProfile": [
+        [
+          0,
+          0.004,
+          -1.764,
+          -1.774
+        ],
+        [
+          0.25,
+          0.21542857142857144,
+          -1.081,
+          -2.334
+        ],
+        [
+          0.5,
+          0.37615384615384617,
+          -0.737,
+          -2.555
+        ],
+        [
+          1,
+          0.63,
+          -0.049,
+          -2.899
+        ],
+        [
+          1.5,
+          0.735,
+          0.147,
+          -3.12
+        ],
+        [
+          2,
+          0.84,
+          0.663,
+          -3.415
+        ],
+        [
+          3,
+          0.94,
+          1.425,
+          -3.538
+        ],
+        [
+          4,
+          0.968,
+          2.162,
+          -3.71
+        ],
+        [
+          5,
+          0.978,
+          2.826,
+          -3.833
+        ],
+        [
+          6,
+          0.988,
+          3.219,
+          -3.907
+        ],
+        [
+          8,
+          1,
+          3.612,
+          -4.054
+        ],
+        [
+          10,
+          1,
+          3.931,
+          -4.152
+        ],
+        [
+          12,
+          1,
+          4.128,
+          -4.201
+        ],
+        [
+          14,
+          1,
+          4.226,
+          -4.324
+        ],
+        [
+          16,
+          1,
+          4.205,
+          -4.205
+        ]
+      ],
+      "noseEvidence": {
+        "aircraftId": "airbus-a380",
+        "pdfPage": 34,
+        "sourceRendering": "work\\aircraft_build\\door-extra\\a380-nose-crop.png",
+        "method": "Manual datum selection and saturated outline/fill pixel sampling of official manufacturer side drawing. Approximate drawing trace, not manufacturer station data.",
+        "pixelScalePerMeter": 40.7,
+        "centerDatumPixelY": 218,
+        "uncertaintyM": 0.15,
+        "centerDatum": "Full body side-envelope midpoint",
+        "includesUpperHump": false,
+        "doNotDoubleApplyHump": false,
+        "widthProfileStatus": "not_traced; do not present generic width as measured",
+        "points": [
+          {
+            "distanceFromTipM": 0,
+            "topZFromMainBodyCenterM": -1.764,
+            "bottomZFromMainBodyCenterM": -1.774,
+            "manualTipPixelY": 290,
+            "note": "Tip lies onblackdatum line; pickedvisually instead offill segmentation."
+          },
+          {
+            "distanceFromTipM": 0.25,
+            "topZFromMainBodyCenterM": -1.081,
+            "bottomZFromMainBodyCenterM": -2.334,
+            "samplePixelX": 56,
+            "sampleTopPixelY": 262,
+            "sampleBottomPixelY": 313
+          },
+          {
+            "distanceFromTipM": 0.5,
+            "topZFromMainBodyCenterM": -0.737,
+            "bottomZFromMainBodyCenterM": -2.555,
+            "samplePixelX": 66,
+            "sampleTopPixelY": 248,
+            "sampleBottomPixelY": 322
+          },
+          {
+            "distanceFromTipM": 1,
+            "topZFromMainBodyCenterM": -0.049,
+            "bottomZFromMainBodyCenterM": -2.899,
+            "samplePixelX": 87,
+            "sampleTopPixelY": 220,
+            "sampleBottomPixelY": 336
+          },
+          {
+            "distanceFromTipM": 1.5,
+            "topZFromMainBodyCenterM": 0.147,
+            "bottomZFromMainBodyCenterM": -3.12,
+            "samplePixelX": 107,
+            "sampleTopPixelY": 212,
+            "sampleBottomPixelY": 345
+          },
+          {
+            "distanceFromTipM": 2,
+            "topZFromMainBodyCenterM": 0.663,
+            "bottomZFromMainBodyCenterM": -3.415,
+            "samplePixelX": 127,
+            "sampleTopPixelY": 191,
+            "sampleBottomPixelY": 357
+          },
+          {
+            "distanceFromTipM": 3,
+            "topZFromMainBodyCenterM": 1.425,
+            "bottomZFromMainBodyCenterM": -3.538,
+            "samplePixelX": 168,
+            "sampleTopPixelY": 160,
+            "sampleBottomPixelY": 362
+          },
+          {
+            "distanceFromTipM": 4,
+            "topZFromMainBodyCenterM": 2.162,
+            "bottomZFromMainBodyCenterM": -3.71,
+            "samplePixelX": 209,
+            "sampleTopPixelY": 130,
+            "sampleBottomPixelY": 369
+          },
+          {
+            "distanceFromTipM": 5,
+            "topZFromMainBodyCenterM": 2.826,
+            "bottomZFromMainBodyCenterM": -3.833,
+            "samplePixelX": 250,
+            "sampleTopPixelY": 103,
+            "sampleBottomPixelY": 374
+          },
+          {
+            "distanceFromTipM": 6,
+            "topZFromMainBodyCenterM": 3.219,
+            "bottomZFromMainBodyCenterM": -3.907,
+            "samplePixelX": 290,
+            "sampleTopPixelY": 87,
+            "sampleBottomPixelY": 377
+          },
+          {
+            "distanceFromTipM": 8,
+            "topZFromMainBodyCenterM": 3.612,
+            "bottomZFromMainBodyCenterM": -4.054,
+            "samplePixelX": 372,
+            "sampleTopPixelY": 71,
+            "sampleBottomPixelY": 383
+          },
+          {
+            "distanceFromTipM": 10,
+            "topZFromMainBodyCenterM": 3.931,
+            "bottomZFromMainBodyCenterM": -4.152,
+            "samplePixelX": 453,
+            "sampleTopPixelY": 58,
+            "sampleBottomPixelY": 387
+          },
+          {
+            "distanceFromTipM": 12,
+            "topZFromMainBodyCenterM": 4.128,
+            "bottomZFromMainBodyCenterM": -4.201,
+            "samplePixelX": 534,
+            "sampleTopPixelY": 50,
+            "sampleBottomPixelY": 389
+          },
+          {
+            "distanceFromTipM": 14,
+            "topZFromMainBodyCenterM": 4.226,
+            "bottomZFromMainBodyCenterM": -4.324,
+            "samplePixelX": 616,
+            "sampleTopPixelY": 46,
+            "sampleBottomPixelY": 394
+          }
+        ]
+      }
+    },
+    {
+      "order": 21,
+      "id": "airbus-a220",
+      "name": "에어버스 A220",
+      "variant": "A220-300 기준",
+      "length": 38.71,
+      "span": 35.1,
+      "height": 11.5,
+      "diameter": 3.5,
+      "fuselageHeight": 3.64,
+      "engineCount": 2,
+      "engineLayout": "wing",
+      "tailStyle": "conventional",
+      "doubleDeck": false,
+      "hump": false,
+      "seats": 140,
+      "seatLayout": [
+        2,
+        3
+      ],
+      "wingSweep": 25,
+      "wingRootChord": 7.2,
+      "wingTipChord": 1.2,
+      "engineDiameter": 2.3,
+      "winglet": "canted",
+      "sources": [
+        "https://mediaassets.airbus.com/pm_38_945_945825-4xwkn1oo4y.pdf?fileName=a220-aircraft-characteristics-publication-acp-oct-2026.pdf"
+      ],
+      "sourceManifest": "outputs/aircraft-research/fleet/airbus-a220/sources.json",
+      "approximationNotes": [
+        "Concept visualization, not a manufacturer-exact replica.",
+        "Model dimension references use manufacturer planning drawings where individually checked; remaining dimensions retain site values. Per-field evidence and site/model discrepancies are recorded. No tolerance-certified CAD reconstruction.",
+        "Wing sweep/chord, nacelle outside diameter, surface sections, structure, cockpit, seats, doors, windows and material colors are modeling estimates.",
+        "Interior is an illustrative layout; site passenger total does not identify an airline, registration, class split, seat pitch or galley configuration."
+      ],
+      "dimensionStatus": "manufacturer_reference_where_verified_otherwise_site_reference",
+      "modelStatus": "ILLUSTRATIVE_PROTOTYPE",
+      "unit": "meter",
+      "coordinateSystem": "X nose-positive; Y span; Z up; ground Z=0",
+      "seatCountStatus": "site_example_target; actual generated count must be reported separately",
+      "siteDimensions": {
+        "length": 38.71,
+        "span": 35.1,
+        "height": 11.5,
+        "diameter": 3.5
+      },
+      "dimensionEvidence": {
+        "length": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "span": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "height": {
+          "basis": "existing_site_specification",
+          "verified": false
+        },
+        "diameter": {
+          "basis": "existing_site_specification",
+          "verified": false
+        }
+      },
+      "dimensionDiscrepancies": []
+    }
+  ]
+}

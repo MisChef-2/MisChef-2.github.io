@@ -767,7 +767,7 @@ a.why-chip .dot{margin-right:0}
 .nav-g{margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
 .side .nav-sec{display:flex;align-items:center;gap:8px;padding:2px 10px 8px;font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--fg-2);opacity:1;text-transform:none}
 .side .nav-sec::before{content:"";width:3px;height:12px;border-radius:2px;background:var(--nav-g,var(--primary))}
-.nav-g.g1{--nav-g:#3b82f6} .nav-g.g2{--nav-g:#10b981} .nav-g.g3{--nav-g:#f59e0b} .nav-g.g4{--nav-g:#94a3b8}
+.nav-g.g1{--nav-g:#3b82f6} .nav-g.g2{--nav-g:#10b981} .nav-g.g3{--nav-g:#f59e0b} .nav-g.g4{--nav-g:#8b5cf6}
 .side a{position:relative;transition:color .15s,background .15s}
 .side a:hover{background:var(--tile)}
 .side a.on{background:var(--primary-soft)}
@@ -1153,6 +1153,44 @@ a.abw:hover{background:var(--primary-soft)}
 .lr3-fig{position:relative;background:radial-gradient(120% 100% at 50% 0%,var(--lr-paper),color-mix(in srgb,var(--lr-paper) 88%,var(--primary)))}
 .lr3-fig canvas{display:block;width:100%;height:clamp(320px,42vw,460px);touch-action:none;cursor:grab}
 .lr3-fig canvas.grab{cursor:grabbing}
+/* 기체와 흐름은 아래 WebGL 캔버스(깊이 버퍼), 화살표와 이름표는 위 2D 캔버스 */
+.lr3-fig{isolation:isolate}
+.lr3-fig canvas.lr3-gl{position:absolute;z-index:-1;pointer-events:none;height:auto;cursor:default}
+.m3d-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px 24px;flex-wrap:wrap}
+.m3d-head > div:first-child{flex:1;min-width:260px}
+.m3d-pick{width:260px;max-width:100%}
+.m3d-stage{overflow:hidden;padding:0;margin-bottom:24px}
+.m3d-stage iframe{display:block;width:100%;height:760px;border:0;background:var(--surface)}
+/* 3D 전체화면을 브라우저가 못 할 때: iframe이 창 전체를 덮는다 */
+.m3d-stage iframe.m3d-fs{position:fixed;inset:0;width:100vw;height:100vh!important;height:100dvh!important;z-index:1000;border-radius:0}
+html.m3d-fs-on,html.m3d-fs-on body{overflow:hidden}
+.ck-stage{overflow:hidden;padding:0;margin-bottom:24px;background:#0a121d}
+.ck-stage iframe{display:block;width:100%;height:640px;border:0}
+.ck-plan{margin-bottom:24px}
+.ck-off{display:none}
+.no-flight .ck-off{display:block}
+.no-flight .ck-plan,.no-flight .ck-stage,.no-flight .ck-credits,.no-flight a[data-cat="cockpit"],.no-flight [data-flight-experience]{display:none!important}
+.ck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px 18px}
+.ck-grid .fld > label small{font-weight:400;color:var(--muted)}
+.ck-grid .fld > label output{float:right;font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ck-grid input[type=range]{width:100%;accent-color:var(--primary);margin:10px 0 0}
+.ck-chk{align-content:end}
+.ck-chk label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--fg-2);min-height:38px;cursor:pointer}
+.ck-chk input{accent-color:var(--primary);width:16px;height:16px}
+.ck-view{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.ck-view summary{cursor:pointer;font-weight:500;color:var(--fg);font-size:14px}
+.ck-view .ck-grid{margin-top:14px}
+.ck-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.ck-actions p{flex:1;min-width:220px;margin:0}
+.ck-stage iframe.ck-fs{position:fixed;inset:0;width:100vw;height:100vh!important;height:100dvh!important;z-index:1000}
+.ck-credits{margin:-8px 2px 24px;line-height:1.8}
+.ck-credits a{margin-right:4px}
+@media (max-width:760px){ .ck-grid{grid-template-columns:1fr 1fr;gap:12px} .ck-actions .btn{flex:1;justify-content:center} .ck-plan{margin-bottom:16px} }
+@media (max-width:420px){ .ck-grid{grid-template-columns:1fr} }
+.m3d-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin:0 2px 16px}
+.m3d-name h2{font-size:22px;display:flex;align-items:center;gap:10px;margin:0}
+.m3d-name p{margin:0;color:var(--fg-2);flex:1;min-width:240px}
+@media (max-width:760px){ .m3d-pick{width:100%} .m3d-stage{margin-bottom:16px} }
 .lr3-hint{position:absolute;left:14px;bottom:10px;font-size:11.5px;color:var(--muted);pointer-events:none}
 .lr-row{display:grid;gap:24px;align-items:stretch}
 .lr-row > .card{display:flex;flex-direction:column;min-width:0} .lr-row > .card > .card-b{flex:1}
@@ -1668,9 +1706,9 @@ a.abw:hover{background:var(--primary-soft)}
 .icx-step b{font:800 16px var(--font);margin-top:6px} .icx-step small{font-size:12px;color:var(--muted)}
 @media (max-width:1100px){.icx-lets{grid-template-columns:repeat(3,minmax(0,1fr))}.icx-ref{grid-template-columns:1fr}}
 @media (max-width:640px){.icx-lets{grid-template-columns:repeat(2,minmax(0,1fr))}.icx-two{grid-template-columns:1fr}.icx-edto{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}.icx-edto::before{display:none}}
-.ac-live-mini{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.ac-live-mini{margin-top:0;padding:16px;border-top:1px solid var(--line)}
 .ac-live-mini .card-h{padding:0 0 8px;border:0;min-height:0}
-.ac-live-mini .aclive{display:grid!important;gap:10px;padding:0!important}
+.ac-live-mini .aclive{display:grid!important;grid-template-columns:minmax(0,1fr);gap:12px;padding:0!important}
 .ac-live-mini .aclive .btn{width:100%;justify-content:center}
 /* 기종 페이지 역사: 넓은 화면에서는 두 단으로 읽게 */
 @media (min-width:1200px){.detail .stack>section .prose{max-width:none}.detail .stack>section .prose.ac-hist{column-count:2;column-gap:36px}.detail .stack>section .prose.ac-hist p{break-inside:avoid}}
@@ -3574,6 +3612,77 @@ ${spanScale([ac])}
   }
   const errText = e => e.status === 401 ? "API 키가 올바르지 않습니다. 키를 다시 확인하세요." : e.status === 403 ? "요금제의 반경 한도를 넘었습니다. 무료 키는 반경 500 km까지입니다." : e.status === 429 ? `요청 한도를 넘었습니다. ${e.retry ? e.retry + "초 뒤" : "잠시 뒤"} 다시 시도합니다.` : e.status ? `API 오류 (${e.status}): ${e.message}` : "API에 연결하지 못했습니다. 네트워크 상태를 확인하세요.";
   const normAc = a => Object.assign({}, a, { flight: String(a.flight || "").trim() });
+  // Raw observations are frozen before live3d.js extrapolates the map marker.
+  // Units/time: https://flyitalyadsb.com/data/api/docs/fields/
+  function cockpitFrame(a, responseTime) {
+    if (!a || !famOf(a.t) || a.alt_baro === "ground") return null;
+    const altitude = Number.isFinite(a.alt_geom) ? a.alt_geom : a.alt_baro;
+    if (![a.lat, a.lon, altitude, a.gs, a.track].every(Number.isFinite) || Math.abs(a.lat) > 90 || Math.abs(a.lon) > 180 || a.gs < 0) return null;
+    if (!a.demo && (!Number.isFinite(a.seen_pos) || a.seen_pos < 0 || !Number.isFinite(responseTime))) return null;
+    return Object.freeze({ hex: String(a.hex || ""), flight: String(a.flight || a.r || a.hex || "").trim(), aircraftId: famOf(a.t), lat: a.lat, lon: a.lon,
+      altitudeM: altitude * 0.3048, speedMps: a.gs * 1852 / 3600, heading: ((a.track % 360) + 360) % 360,
+      verticalSpeedMps: Number.isFinite(a.baro_rate) ? a.baro_rate * 0.3048 / 60 : null,
+      observedAt: a.demo ? Date.now() : responseTime - a.seen_pos * 1000, demo: a.demo === true });
+  }
+  function cockpitRecords(d) {
+    const receivedAt = Date.now(), responseTime = Number.isFinite(d.now) ? Math.min(receivedAt, d.now * 1000) : receivedAt;
+    return (Array.isArray(d.ac) ? d.ac : []).map(a => Object.assign({}, a, { _cockpitObservation: cockpitFrame(a, responseTime) }));
+  }
+  let cockpitFollow = null, cockpitTimer = null;
+  function closeCockpitBridge() { if (cockpitTimer) clearInterval(cockpitTimer); cockpitTimer = null; cockpitFollow = null; }
+  function sendCockpitFrame() {
+    const follow = cockpitFollow;
+    if (!follow || follow.child.closed) { closeCockpitBridge(); return; }
+    if (follow.demo) {
+      const a = demoAircraft().find(a => a.hex === follow.hex);
+      if (a) follow.frame = cockpitFrame(a, Date.now());
+    } else {
+      const latest = LV.ac.find(a => a.hex === follow.hex && !a.demo)?._cockpitObservation;
+      if (latest && (!follow.frame || latest.observedAt > follow.frame.observedAt)) follow.frame = latest;
+    }
+    if (follow.frame) follow.child.postMessage({ type: "aircraft-live-frame", payload: follow.frame }, location.origin);
+    if (!follow.demo && LV.key && !follow.busy && Date.now() >= follow.nextPoll) pollCockpitAircraft(follow);
+  }
+  async function pollCockpitAircraft(follow) {
+    if (!/^[a-f\d]{6}$/i.test(follow.hex)) return;
+    follow.busy = true; follow.nextPoll = Date.now() + 15000;
+    try {
+      const d = await fia(`/v2/hex/${encodeURIComponent(follow.hex)}`);
+      if (cockpitFollow !== follow) return;
+      const a = Array.isArray(d.ac) ? d.ac.find(a => String(a.hex).toLowerCase() === follow.hex.toLowerCase()) : d.aircraft || d;
+      if (!a || String(a.hex).toLowerCase() !== follow.hex.toLowerCase()) return;
+      const frame = cockpitFrame(a, Number.isFinite(d.now) ? Math.min(Date.now(), d.now * 1000) : Date.now());
+      if (frame && frame.aircraftId === follow.aircraftId && (!follow.frame || frame.observedAt > follow.frame.observedAt)) follow.frame = frame;
+    } catch (e) {
+      // Preserve the last measured frame; the child marks it stale. Never switch a real flight to demo.
+      follow.nextPoll = Date.now() + Math.max(30000, Math.min(300000, (Number(e.retry) || 0) * 1000));
+      if (e.status === 401 || e.status === 403) follow.nextPoll = Date.now() + 300000;
+    } finally { follow.busy = false; }
+  }
+  function cockpitEntry(a) {
+    const frame = a.demo ? cockpitFrame(a, Date.now()) : a._cockpitObservation;
+    const enabled = !!frame && !!famOf(a.t) && (a.demo || Date.now() - frame.observedAt <= 30000);
+    const reason = !famOf(a.t) ? "이 기종의 조종석 모델이 아직 없습니다." : a.alt_baro === "ground" ? "지상 고도를 확인할 수 없어 추적 시점을 보류합니다." : !frame ? "위치·고도·방위·속도 자료가 부족합니다." : !enabled ? "위치 수신이 오래되어 새 자료를 기다립니다." : "";
+    return `<div class="live-sec"><button type="button" class="btn" data-live="cockpit" id="live-cockpit"${enabled ? "" : " disabled"}>${ICON.plane}${a.demo ? "예시 항공편 조종석 보기" : "이 항공편 조종석 시점"}</button><p class="small muted" style="margin:8px 0 0">${reason ? esc(reason) + " " : ""}${a.demo ? "시연용 위치로 재구성한 3D 화면입니다." : "수신 위치로 재구성한 3D 화면이며 실제 기내 영상이 아닙니다. 고도·기수 방향과 기종 세부형식은 근사 표현입니다."} 원래 창을 열어 두세요.</p><p class="small muted" id="live-cockpit-status" role="status"></p></div>`;
+  }
+  function openCockpit(a) {
+    const frame = a && (a.demo ? cockpitFrame(a, Date.now()) : a._cockpitObservation);
+    if (!frame || (!a.demo && Date.now() - frame.observedAt > 30000) || location.origin === "null") {
+      const status = document.getElementById("live-cockpit-status"); if (status) status.textContent = location.origin === "null" ? "로컬 미리보기 서버나 사이트 주소에서 열어 주세요." : "유효한 최신 항공편 자료를 기다립니다."; return;
+    }
+    const url = new URL("src/aircraft-3d/flight/index.html", document.baseURI);
+    url.searchParams.set("follow", frame.hex); url.searchParams.set("aircraft", frame.aircraftId);
+    const child = window.open(url.href, "aircraft-live-cockpit");
+    if (!child) { const status = document.getElementById("live-cockpit-status"); if (status) status.textContent = "팝업이 차단되었습니다. 이 사이트의 새 창을 허용해 주세요."; return; }
+    closeCockpitBridge(); cockpitFollow = { child, hex: frame.hex, aircraftId: frame.aircraftId, demo: frame.demo, frame, busy: false, nextPoll: Date.now() + 15000 };
+    cockpitTimer = setInterval(sendCockpitFrame, 1000); child.focus();
+  }
+  window.addEventListener("message", e => {
+    const follow = cockpitFollow;
+    if (!follow || e.origin !== location.origin || e.source !== follow.child || e.data?.type !== "aircraft-live-ready" || e.data.hex !== follow.hex) return;
+    sendCockpitFrame();
+  });
+  window.addEventListener("pagehide", closeCockpitBridge);
   function demoFor() {
     const all = demoAircraft();
     if (LV.scope === "all") return all;
@@ -3584,9 +3693,9 @@ ${spanScale([ac])}
     if (LV.net !== false && LV.key) {
       try {
         let list = [];
-        if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(d.ac || []); } }
-        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); (d.ac || []).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
-        else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = d.ac || []; }
+        if (LV.scope === "type") { for (const code of FAMILY_CODES[LV.typeId]) { const d = await fia(`/v2/type/${code}?with=route`); list = list.concat(cockpitRecords(d)); } }
+        else if (LV.scope === "all") { const seen = new Set(); for (const p of PLACES) { const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/250?with=route`); cockpitRecords(d).forEach(a => { if (!seen.has(a.hex)) { seen.add(a.hex); list.push(a); } }); } }
+        else { const p = placeById[LV.place]; const d = await fia(`/v2/lat/${p.lat}/lon/${p.lon}/dist/${LV.radius}?with=route`); list = cockpitRecords(d); }
         LV.ac = list.filter(a => typeof a.lat === "number" && typeof a.lon === "number").map(normAc); LV.acSrc = "live"; LV.acTime = Date.now(); LV.err = null; return;
       } catch (e) { LV.err = errText(e); if (!e.status && LV.net === null) LV.net = false; }
     }
@@ -3648,6 +3757,7 @@ ${p ? `<div class="fl-shot">${pimg(p, true, ac.name)}<span>${esc(ac.name)} 자�
 <div class="legs"><div class="leg"><span class="lbl">콜사인</span><span class="big">${esc(a.flight || "-")}</span><small>${esc(a.r || "")}</small></div><div class="leg"><span class="lbl">기종</span><span class="big">${esc(a.t || "-")}</span><small>${ac ? `<a class="ext" href="#${ac.id}">${esc(ac.name)}</a>` : "수록되지 않은 기종"}</small></div></div>
 ${a.route && a.route.from_iata ? `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span><span class="val">${esc(a.route.from_iata)} → ${esc(a.route.to_iata || "?")}</span></div><p class="small muted" style="margin:0">${a.demo ? "시연용 예시 노선입니다." : "최근 7일 기록에서 가장 잦았던 노선입니다. 운항 스케줄이 아닙니다."}</p></div>` : `<div class="pstat"><div class="pstat-h"><span class="pill">${esc(phase(a))}</span></div></div>`}
 <div class="kvs">${kv(ICON.gauge, "고도", esc(altTxt(a)))}${kv(ICON.gauge, "지상속도", typeof a.gs === "number" ? `${Math.round(a.gs)} kt<small> (${fmt(kmh)} km/h)</small>` : "-")}${kv(ICON.route, "진행 방위", typeof a.track === "number" ? Math.round(a.track) + "°" : "-")}${kv(ICON.chart, "승강률", typeof a.baro_rate === "number" ? fmt(a.baro_rate) + " ft/min" : "-")}${kv(ICON.info, "스퀵", esc(a.squawk || "-"))}${kv(ICON.info, "ICAO 주소", esc(a.demo ? "예시" : a.hex))}${kv(ICON.map, "위치", `${N(a.lat)}°, ${N(a.lon)}°`, "wide")}${kv(ICON.clock, "수신", a.demo ? "시연용 예시" : `${esc(String(a.type || "").indexOf("mlat") >= 0 ? "MLAT" : "ADS-B")}, ${N(a.seen_pos || 0)}초 전`, "wide")}</div>
+${cockpitEntry(a)}
 <div class="live-sec"><button type="button" class="btn" data-live="trail" id="live-trail">${ICON.route}${a.demo ? "예시 경로 보기" : "오늘 궤적 보기"}</button>${LV.trailNote ? `<p class="small muted" style="margin:8px 0 0">${esc(LV.trailNote)}</p>` : ""}</div>
 </div>`;
   }
@@ -3814,6 +3924,7 @@ GET ${FIA}/v2/history/{hex}/{YYYY-MM-DD}
       if (act === "radius") { LV.radius = +arg; saveLive(); paintLive(); focusLive(true); refreshLive("ac"); return; }
       if (act === "sel") { LV.sel = arg; LV.trail = null; LV.trailNote = ""; paintLive(); focusLive(true); return; }
       if (act === "back") { LV.sel = null; LV.trail = null; LV.trailNote = ""; paintLive(); focusLive(true); return; }
+      if (act === "cockpit") { openCockpit(LV.ac.find(a => a.hex === LV.sel)); return; }
       if (act === "trail") { const a = LV.ac.find(x => x.hex === LV.sel); if (a) { await loadTrail(a); paintLive(); } }
     });
     document.addEventListener("change", e => {
@@ -4569,7 +4680,7 @@ ${mapCard()}
     if (h.indexOf("apt-") === 0) return aptBy[h.slice(4)] ? renderApt(h.slice(4)) : null;
     return null;
   }
-  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "pireps" : h.indexOf("apt-") === 0 ? "airports" : h;
+  const navKey = h => byId[h] ? "fleet" : h.indexOf("pirep-") === 0 ? "pireps" : h.indexOf("apt-") === 0 ? "airports" : h.indexOf("3d-") === 0 ? "3d" : h.indexOf("cockpit-") === 0 ? "cockpit" : h;
   function pilotAfter(h) {
     wirePilot(); wirePortal(); updateWho(); paintSync(); bookMap = null; pirepMap = null; chartLeave(); globeLeave();
     if (h === "book") initBook();
@@ -4640,6 +4751,10 @@ ${mapCard()}
       { id: "rules", icon: "book", title: "운항 규정", tabs: [["notams", "bell", "NOTAM"], ["ranks", "star", "계급"], ["scores", "gauge", "점수 기준"], ["icao", "book", "ICAO 분류"]] },
       { id: "manual", icon: "check", title: "조종 매뉴얼", lead: "어떤 상황이든 순서는 같습니다. 비행기부터 안정시키고(조종), 어디로 갈지 정한 다음(항법), 관제와 승무원에게 알립니다(교신).", tabs: [["manual-sit", "bell", "상황별 대응"], ["manual-tips", "star", "경험과 요령"], ["manual-acc", "flag", "사건사고"]] },
       { id: "learn", icon: "wing", title: "비행 원리", tabs: [["learn-forces", "plane", "네 가지 힘"], ["learn-lift", "wing", "양력"], ["learn-stall", "gauge", "받음각과 실속"], ["learn-winglet", "target", "윙렛"], ["learn-sweep", "ruler", "후퇴익과 음속"], ["learn-highlift", "layers", "플랩과 슬랫"], ["learn-control", "swap", "조종면과 세 축"], ["learn-speed", "gauge", "속도의 종류"], ["learn-cg", "weight", "무게중심"]] }
+    ] },
+    { label: "시뮬레이션", items: [
+      { id: "m3d", icon: "layers", title: "3D 모형", tabs: [["3d", "layers", "3D 모형"]] },
+      { id: "cockpit", icon: "plane", title: "조종석 비행", tabs: [["cockpit", "plane", "조종석 비행"]] }
     ] }
   ];
   const CATS = []; NAV.forEach(g => g.items.forEach(c => CATS.push(c)));
@@ -4647,7 +4762,7 @@ ${mapCard()}
   function sideHtml() {
     const extra = k => k === "pireps" ? `<span class="cnt" id="nav-pireps" hidden></span>` : k === "live" ? `<span class="livedot" title="실시간"></span>` : `<span class="cnt">${k === "apt" ? APT.length : AIRCRAFT.length}</span>`;
     const link = c => `<a href="#${c.tabs[0][0]}" data-cat="${c.id}">${ICON[c.icon]}<span>${c.title}</span>${c.extra ? extra(c.extra) : ""}</a>`;
-    // 큰 묶음(비행, 내 기록, 자료)은 덩어리째 감싸고 이름표와 구분선을 둔다
+    // 큰 묶음(비행, 내 기록, 자료, 시뮬레이션)은 덩어리째 감싸고 이름표와 구분선을 둔다
     return NAV.map((g, i) => g.label ? `<div class="nav-g g${i}" role="group" aria-label="${g.label}"><div class="nav-sec"><span>${g.label}</span></div>${g.items.map(link).join("")}</div>` : `<div class="nav-top">${g.items.map(link).join("")}</div>`).join("");
   }
   // 왼쪽 메뉴에서 지금 묶음을 표시한다
@@ -6326,26 +6441,38 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     top ? { from: R([-2.0, 1.35, 0.38]), to: R([-2.0, 1.35, 0.38]), col: [37, 99, 235], label: top, noline: true } : null,
     bot ? { from: R([-1.2, 1.2, -0.5]), to: R([-1.2, 1.2, -0.5]), col: [234, 88, 12], label: bot, noline: true } : null].filter(Boolean); };
   const l3smooth = P => { if (P.length < 5) return P; let Q = P; for (let r = 0; r < 3; r++) Q = Q.map((p, i) => i === 0 || i === Q.length - 1 ? p : [(Q[i - 1][0] + p[0] * 2 + Q[i + 1][0]) / 4, (Q[i - 1][1] + p[1] * 2 + Q[i + 1][1]) / 4, (Q[i - 1][2] + p[2] * 2 + Q[i + 1][2]) / 4]); return Q; };
-  // 흐름선을 유체처럼: 아주 옅은 바탕선 위로, 작은 입자들이 꼬리를 끌며 일정하게 흘러간다(꼬리는 뒤로 갈수록 흐려짐)
+  // 흐름을 유체처럼: 선 대신 부드러운 입자. 흐름마다 parts = [x,y,z, 알파, 크기, 밝기] 를 만든다
+  // (1) 흐름길을 따라 아주 옅고 큰 입자를 촘촘히 깔아 연기 띠처럼 보이게 하고
+  // (2) 그 위로 작은 덩어리들이 꼬리를 끌며 흘러간다. 꼬리는 뒤로 갈수록 작고 옅어진다
   // mult = 속도 배율. 프레임마다 흐른 시간 × 배율을 쌓아 두어, 슬라이더를 움직여도 입자가 튀지 않고 빨라지거나 느려진다
-  const l3nice = (L, mult, dens) => { const D = dens == null ? 1 : Math.max(0.15, Math.min(1, dens)); const now = performance.now() / 1000, dt = Math.min(0.1, now - (L3.flast || now)); L3.flast = now; L3.fx = (L3.fx || 0) + dt * (mult || 1); const T = L3.fx; return L.flatMap(l => {
-    l = Object.assign({}, l, { p: l3smooth(l.p), wob: 0 }); const col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]);
-    const P = l.p, acc = [0]; for (let i = 1; i < P.length; i++) acc.push(acc[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2])); const tot = acc[acc.length - 1] || 1;
-    const at = d => { d = Math.max(0, Math.min(tot, d)); let i = 1; while (i < acc.length - 1 && acc[i] < d) i++; const k = (d - acc[i - 1]) / ((acc[i] - acc[i - 1]) || 1); return [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * k, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * k, P[i - 1][2] + (P[i][2] - P[i - 1][2]) * k]; };
-    const out = [Object.assign({}, l, { col: col, dash: null, speed: 0, alpha: 0.16, w: 1.2, fade: true })], N = Math.max(2, Math.round(9 * D)), sp = Math.pow(l.speed || 1, 1.8) * 0.5, tl = 0.55, ph = (P[0][1] * 3.7 + P[0][2] * 5.1) % 1;
-    for (let n = 0; n < N; n++) { const head = (((T * sp / tot + n / N + ph) % 1) + 1) % 1 * (tot + tl); const pts = []; for (let k = 0; k <= 8; k++) pts.push(at(head - tl + tl * k / 8)); const edge = Math.min(1, head / 0.6, (tot + tl - head) / 0.6); out.push({ p: pts, col: col, dash: null, speed: 0, w: 1.6 + 1.2 * D, alpha: (0.45 + 0.5 * D) * Math.max(0, edge), tail: true }); }
-    return out; }); };
-  // 실속 때 윗면 뒤쪽의 떨어진 흐름: 매끈한 나선 몇 개가 천천히 돈다 (세기 k 0~1)
+  const l3arc = P => { const acc = [0]; for (let i = 1; i < P.length; i++) acc.push(acc[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2]));
+    const tot = acc[acc.length - 1] || 1, at = d => { d = Math.max(0, Math.min(tot, d)); let i = 1; while (i < acc.length - 1 && acc[i] < d) i++; const k = (d - acc[i - 1]) / ((acc[i] - acc[i - 1]) || 1); return [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * k, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * k, P[i - 1][2] + (P[i][2] - P[i - 1][2]) * k]; };
+    return { tot, at }; };
+  const l3nice = (L, mult, dens) => { const D = dens == null ? 1 : Math.max(0.15, Math.min(1, dens)); const now = performance.now() / 1000, dt = Math.min(0.1, now - (L3.flast || now)); L3.flast = now; L3.fx = (L3.fx || 0) + dt * (mult || 1); const T = L3.fx; return L.map(l => {
+    const P = l3smooth(l.p), col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]), A = l3arc(P), tot = A.tot, parts = [];
+    const edge = d => Math.max(0, Math.min(1, d / 0.7, (tot - d) / 0.7));
+    for (let d = 0.02; d < tot; d += 0.03) { const q = A.at(d); parts.push(q[0], q[1], q[2], 0.028 * (0.55 + 0.45 * D) * edge(d), 0.2, 0); }
+    // 흘러가는 덩어리: 꼬리를 길고 촘촘하게, 위아래로 살짝 일렁이게 (연기처럼)
+    const N = Math.max(3, Math.round(12 * D)), sp = Math.pow(l.speed || 1, 1.8) * 0.5, ph = ((P[0][1] * 3.7 + P[0][2] * 5.1) % 1 + 1) % 1, TL = 18;
+    for (let n = 0; n < N; n++) { const head = (((T * sp / tot + n / N + ph) % 1) + 1) % 1 * tot, sd = n * 12.9898 + ph * 78.233;
+      for (let j = 0; j < TL; j++) { const d = head - j * 0.03; if (d < 0) break; const q = A.at(d), f = 1 - j / TL, wob = Math.sin(d * 5 + sd + T * 0.7) * 0.018 * (1 - f * 0.5); parts.push(q[0], q[1] + wob * 0.6, q[2] + wob, (0.34 + 0.34 * D) * f * f * edge(d), 0.05 + 0.08 * f + (1 - f) * 0.05, 0.4 * f); } }
+    return { p: P, col, parts, fluid: true }; }); };
+  // 소용돌이, 떨어진 흐름처럼 모양 자체가 움직이는 흐름: 길을 따라 입자를 촘촘히 놓고, 뒤로 갈수록 퍼지며 옅어진다
+  const l3vapor = (pts, col, o) => { const A = l3arc(pts), tot = A.tot, parts = [], st = o.step || 0.03;
+    for (let d = 0; d < tot; d += st) { const u = d / tot, q = A.at(d), fade = Math.pow(Math.sin(Math.PI * Math.min(1, u * (o.tail || 1))), 0.7); parts.push(q[0], q[1], q[2], o.alpha * fade, o.size * (1 + (o.grow || 0) * u), (o.hl || 0) * (1 - u)); }
+    return { p: pts, col, parts, fluid: true }; };
+  // 실속 때 윗면 뒤쪽의 떨어진 흐름: 흐트러진 연기와 그 안에서 천천히 도는 소용돌이 (세기 k 0~1)
   const l3swirls = (a, t, k) => { const L = []; [-1.0, 0, 1.0].forEach((y, j) => {
-      const R = q => rotY(q, a, [-0.5, 0, 0]), band = []; for (let x = -0.7; x >= -2.6; x -= 0.08) band.push(R([x, y, 0.2 + (-0.7 - x) * 0.12]));
-      L.push({ p: band, col: [239, 68, 68], speed: 0, w: 16 + 10 * k, dash: null, alpha: 0.10, fade: true });
-      const cx = -1.25 - 0.15 * j, cz = 0.36, Rr = 0.12 + 0.08 * k, pts = []; for (let u = 0; u <= 9; u += 0.1) { const r = Rr * (0.15 + u / 9 * 0.85), ang = u - t * 2.4 + j * 1.7; pts.push(R([cx + r * Math.cos(ang) - u * 0.03, y, cz + r * Math.sin(ang)])); }
-      L.push({ p: pts, col: [220, 38, 38], speed: 0, w: 2.6, dash: null, alpha: 0.85, fade: true }); }); return L; };
+      const R = q => rotY(q, a, [-0.5, 0, 0]), band = []; for (let x = -0.7; x >= -2.6; x -= 0.04) band.push(R([x, y + Math.sin(x * 7 + t * 3 + j) * 0.05, 0.2 + (-0.7 - x) * 0.12 + Math.sin(x * 9 - t * 4 + j * 2) * 0.05 * (0.5 + k)]));
+      L.push(l3vapor(band, [239, 68, 68], { alpha: 0.10 + 0.06 * k, size: 0.45 + 0.25 * k, grow: 0.8, step: 0.05 }));
+      const cx = -1.25 - 0.15 * j, cz = 0.36, Rr = 0.12 + 0.08 * k, pts = []; for (let u = 0; u <= 9; u += 0.05) { const r = Rr * (0.15 + u / 9 * 0.85), ang = u - t * 2.4 + j * 1.7; pts.push(R([cx + r * Math.cos(ang) - u * 0.03, y, cz + r * Math.sin(ang)])); }
+      L.push(l3vapor(pts, [220, 38, 38], { alpha: 0.55, size: 0.08, grow: 1.4, step: 0.012, hl: 0.3 })); }); return L; };
   const LR3_SCENES = {
     "learn-forces": t => {
       const thr = lrVal("lr-f-thr", 62), aoa = lrVal("lr-f-aoa", 3) * LR_TOR, speed = 0.35 + thr / 100 * 0.65, lift = Math.min(1.5, (0.55 + aoa / LR_TOR * 0.09) * (0.6 + speed * 0.55)), drag = 0.28 + speed * speed * 0.42 + aoa / LR_TOR * 0.025;
       const P = l3plane().map(q => ({ p: q.p.map(p => rotY(p, aoa, [0, 0, 0])), c: q.c })), L = [];
-      for (let i = 0; i < 9; i++) { const y = -4 + (i % 3) * 4, z = -1.6 + Math.floor(i / 3) * 1.6; L.push({ p: [[4.5, y, z], [-4.5, y, z]], col: [148, 163, 184], speed: 2 + speed * 6, w: 1, dash: [0.4, 0.6] }); }
+      // 기체를 스쳐 지나가는 바람: 연기처럼 흐르는 입자 (추력이 크면 빨리 흐른다)
+      { const W = []; for (let i = 0; i < 12; i++) { const y = -3.6 + (i % 4) * 2.4, z = -1.5 + Math.floor(i / 4) * 1.5, pts = []; for (let x = 4.5; x >= -4.5; x -= 0.3) pts.push([x, y, z + Math.sin(x * 0.6 + i) * 0.08]); W.push({ p: pts, col: [148, 163, 184], speed: 1.6 }); } L.push(...l3nice(W, 0.6 + speed * 2.2, 0.45)); }
       return { sky: true, shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: L, arrows: [l3arrow([0, 0, 0.35], [0, 0, 0.35 + lift * 2.2], [22, 163, 74], "양력"), l3arrow([0, 0, -0.35], [0, 0, -1.9], [220, 38, 38], "무게"), l3arrow([2.7, 0, 0], [2.7 + thr / 100 * 2.4, 0, 0], [37, 99, 235], "추력"), l3arrow([-2.6, 0, 0], [-2.6 - drag * 2.4, 0, 0], [234, 88, 12], "항력")] };
     },
     // 흐름선: 흐린 실선 위로 작은 점이 흘러가게 (점선 여러 겹 대신)
@@ -6371,7 +6498,9 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
       [1, -1].forEach(sd => {
         const cy = sd * (tipY + ex), cz = tipZ + ez, x0 = tipX + 0.02;
         // 지금 소용돌이: 파란 나선 세 가닥
-        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 7; x += 0.05) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * Math.min(1, Math.pow(x / 1.1, 0.7)); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.4 + s, dash: null, alpha: 0.8 - k * 0.2, fade: true }); }
+        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 7; x += 0.02) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * Math.min(1, Math.pow(x / 1.1, 0.7)); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push(l3vapor(pts, [37, 99, 235], { alpha: (0.26 - k * 0.05) * (0.6 + 0.4 * s), size: 0.06 + 0.05 * s, grow: 4.5, step: 0.012, tail: 1, hl: 0.3 })); }
+        // 소용돌이 둘레의 옅은 공기 덩어리 (뒤로 갈수록 퍼진다)
+        { const core = []; for (let x = 0.2; x <= 7; x += 0.05) core.push([x0 - x, cy, cz]); L.push(l3vapor(core, [59, 130, 246], { alpha: 0.035 + 0.035 * s, size: R * 2.4 + 0.12, grow: 1.4, step: 0.04 })); }
         // 비교용: 윙렛이 없을 때 소용돌이 크기(회색 점선 고리)
         [1.2, 2.4, 3.6].forEach(x => { const pts = []; for (let a = 0; a <= 6.3; a += 0.2) pts.push([x0 - x, cy + R0 * Math.cos(a), cz + R0 * Math.sin(a)]); L.push({ p: pts, col: [148, 163, 184], speed: 0, w: 1, dash: [0.05, 0.06], alpha: 0.7 }); });
       });
@@ -6426,22 +6555,104 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
     }
   };
 
+  /* ---------- WebGL 층 ----------
+     2D 캔버스의 화가 알고리즘은 삼각형 하나를 평균 깊이 하나로 줄 세워서, 긴 삼각형이 많은 기체 메시에서
+     동체 위로 날개나 문이 비쳐 보이는 '깨짐'이 생겼다. 그래서 기체와 날개는 아래 WebGL 캔버스에서 깊이 버퍼로 그리고,
+     공기 흐름도 같은 곳에서 부드러운 입자(연기처럼 번지는 점)로 그려 날개 뒤로 지나가면 가려지게 한다.
+     화살표와 이름표는 위의 2D 캔버스에 그대로 그린다. WebGL을 못 쓰면 예전 2D 방식으로 그린다 */
+  const GL3 = { gl: null, cv: null, own: null, poly: null, part: null, bp: null, bq: null };
+  const GL3_PRJ = `uniform vec3 uCam; uniform vec2 uSize;
+    vec4 prj(vec3 p, out float k) { float cy = cos(uCam.x), sy = sin(uCam.x), x1 = p.x * cy - p.y * sy, y1 = p.x * sy + p.y * cy;
+      float cp = cos(uCam.y), sp = sin(uCam.y), dep = y1 * cp - p.z * sp, up = p.z * cp + y1 * sp; k = 9.0 / (9.0 + dep);
+      float s = uCam.z * min(uSize.x, uSize.y * 1.7) * 0.125, sx = uSize.x * 0.5 + s * x1 * k, sy2 = uSize.y * 0.54 - s * up * k;
+      return vec4(sx / uSize.x * 2.0 - 1.0, 1.0 - sy2 / uSize.y * 2.0, dep / 24.0, 1.0); }`;
+  function gl3prog(gl, vs, fs) {
+    const mk = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+    const p = gl.createProgram(); gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = n => gl.getUniformLocation(p, n), a = n => gl.getAttribLocation(p, n);
+    return { p, uCam: u("uCam"), uSize: u("uSize"), uPx: u("uPx"), aPos: a("aPos"), aCol: a("aCol"), aSz: a("aSz") };
+  }
+  function gl3init(cv2d) {
+    GL3.gl = null; GL3.own = cv2d;
+    try {
+      let cv = cv2d.parentNode.querySelector("canvas.lr3-gl");
+      if (!cv) { cv = document.createElement("canvas"); cv.className = "lr3-gl"; cv.setAttribute("aria-hidden", "true"); cv2d.parentNode.insertBefore(cv, cv2d); }
+      const gl = cv.getContext("webgl", { antialias: true, alpha: true, premultipliedAlpha: true }); if (!gl) { cv.remove(); return; }
+      GL3.poly = gl3prog(gl, `attribute vec3 aPos; attribute vec3 aCol; varying vec3 vCol; ${GL3_PRJ}
+        void main() { float k; gl_Position = prj(aPos, k); vCol = aCol; }`,
+        `precision mediump float; varying vec3 vCol; void main() { gl_FragColor = vec4(vCol, 1.0); }`);
+      GL3.part = gl3prog(gl, `attribute vec3 aPos; attribute vec4 aCol; attribute float aSz; uniform float uPx; varying vec4 vCol; ${GL3_PRJ}
+        void main() { float k; gl_Position = prj(aPos, k); gl_PointSize = max(1.0, aSz * uPx * k); vCol = aCol; }`,
+        // 가운데가 진하고 가장자리로 갈수록 부드럽게 사라지는 점 (미리 곱한 알파)
+        `precision mediump float; varying vec4 vCol; void main() { vec2 d = gl_PointCoord - 0.5; float r = dot(d, d) * 4.0; if (r > 1.0) discard;
+          float a = vCol.a * exp(-r * 2.6) * (1.0 - r); gl_FragColor = vec4(vCol.rgb * a, a); }`);
+      GL3.bp = gl.createBuffer(); GL3.bq = gl.createBuffer(); GL3.gl = gl; GL3.cv = cv;
+    } catch (e) { GL3.gl = null; const c = cv2d.parentNode && cv2d.parentNode.querySelector("canvas.lr3-gl"); if (c) c.remove(); }
+  }
+  function gl3size() {
+    const g = GL3.cv, cv = L3.cv; if (!g || !cv) return;
+    [["left", cv.offsetLeft], ["top", cv.offsetTop], ["width", cv.offsetWidth], ["height", cv.offsetHeight], ["min-height", 0]].forEach(k => g.style.setProperty(k[0], k[1] + "px", "important"));
+    const w = Math.round(L3.W * L3.dpr), h = Math.round(L3.H * L3.dpr); if (g.width !== w || g.height !== h) { g.width = w; g.height = h; }
+  }
+  function gl3use(pr) { const gl = GL3.gl; gl.useProgram(pr.p); gl.uniform3f(pr.uCam, L3.yaw, L3.pitch, L3.zoom); gl.uniform2f(pr.uSize, L3.W, L3.H); }
+  // 다각형: 부채꼴로 삼각형을 만들고, 면마다 빛 방향 명암을 색에 미리 곱한다
+  function gl3polys(polys) {
+    const gl = GL3.gl, out = [];
+    polys.forEach(q => { const p = q.p, nrm = v3.cross(v3.sub(p[1], p[0]), v3.sub(p[2], p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl), sh = (0.5 + 0.5 * lam) / 255, c = q.c;
+      for (let i = 1; i < p.length - 1; i++) [p[0], p[i], p[i + 1]].forEach(v => out.push(v[0], v[1], v[2], c[0] * sh, c[1] * sh, c[2] * sh)); });
+    if (!out.length) return; const pr = GL3.poly; gl3use(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, GL3.bp); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(out), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(pr.aPos); gl.vertexAttribPointer(pr.aPos, 3, gl.FLOAT, false, 24, 0);
+    gl.enableVertexAttribArray(pr.aCol); gl.vertexAttribPointer(pr.aCol, 3, gl.FLOAT, false, 24, 12);
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.depthMask(true); gl.disable(gl.BLEND);
+    gl.drawArrays(gl.TRIANGLES, 0, out.length / 6); gl.disableVertexAttribArray(pr.aCol);
+  }
+  // 흐름 입자: 각 흐름의 parts = [x,y,z, 알파, 크기, 밝기] 반복. 색은 흐름의 col (밝기만큼 흰색을 섞는다)
+  function l3partData(fl) {
+    const out = [];
+    fl.forEach(l => { const c = l.col, P = l.parts; for (let i = 0; i < P.length; i += 6) { const hl = P[i + 5]; out.push(P[i], P[i + 1], P[i + 2], (c[0] + (255 - c[0]) * hl) / 255, (c[1] + (255 - c[1]) * hl) / 255, (c[2] + (255 - c[2]) * hl) / 255, P[i + 3], P[i + 4]); } });
+    return out;
+  }
+  function gl3parts(fl) {
+    const gl = GL3.gl, out = l3partData(fl); if (!out.length) return; const pr = GL3.part; gl3use(pr);
+    gl.uniform1f(pr.uPx, L3.zoom * Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.dpr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, GL3.bq); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(out), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(pr.aPos); gl.vertexAttribPointer(pr.aPos, 3, gl.FLOAT, false, 32, 0);
+    gl.enableVertexAttribArray(pr.aCol); gl.vertexAttribPointer(pr.aCol, 4, gl.FLOAT, false, 32, 12);
+    gl.enableVertexAttribArray(pr.aSz); gl.vertexAttribPointer(pr.aSz, 1, gl.FLOAT, false, 32, 28);
+    // 날개에 가려지되(깊이 비교), 입자끼리는 서로 가리지 않고 겹쳐 번진다
+    gl.enable(gl.DEPTH_TEST); gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.drawArrays(gl.POINTS, 0, out.length / 8); gl.depthMask(true);
+    gl.disableVertexAttribArray(pr.aCol); gl.disableVertexAttribArray(pr.aSz);
+  }
+
   /* ---------- 그리기 ---------- */
-  const LIGHT = (() => { const l = [0.35, -0.45, 0.82], n = Math.hypot(...l); return l.map(x => x / n); })();
+  const LIGHT =(() => { const l = [0.35, -0.45, 0.82], n = Math.hypot(...l); return l.map(x => x / n); })();
   function l3draw(now) {
     const c = L3.ctx, sc = LR3_SCENES[L3.key]; if (!c || !sc) return;
     const dark = getComputedStyle(document.documentElement).getPropertyValue("--mg").trim() === "1";
     c.setTransform(L3.dpr, 0, 0, L3.dpr, 0, 0); c.clearRect(0, 0, L3.W, L3.H);
-    const S = sc(now / 1000), items = [];
+    const S = sc(now / 1000), items = [], FZ = S.floor != null ? S.floor : -2.6;
     // 바닥 모눈(원근). 하늘을 나는 장면(sky)에는 그리지 않는다
     if (!S.sky) { c.lineWidth = 1; c.strokeStyle = dark ? "rgba(148,180,220,.10)" : "rgba(100,116,139,.12)";
-    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, -2.6]), b = l3prj([i, 8, -2.6]), e = l3prj([-8, i, -2.6]), f = l3prj([8, i, -2.6]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); } }
-    if (S.shadow && !S.sky) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), -2.6]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
+    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, FZ]), b = l3prj([i, 8, FZ]), e = l3prj([-8, i, FZ]), f = l3prj([8, i, FZ]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); } }
+    if (S.shadow && !S.sky) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), FZ]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
       const g = c.createRadialGradient(cx, cy, 0, cx, cy, rr); g.addColorStop(0, dark ? "rgba(0,0,0,.35)" : "rgba(15,23,42,.16)"); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); }
-    S.polys.forEach(q => { const pr = q.p.map(l3prj), dep = pr.reduce((s, r) => s + r.d, 0) / pr.length, nrm = v3.cross(v3.sub(q.p[1], q.p[0]), v3.sub(q.p[2], q.p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl); items.push({ t: 0, pr, dep, col: q.c, sh: 0.5 + 0.5 * lam }); });
-    S.lines.forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc, f: i / (pr.length - 1) }); acc += sl; } });
+    const useGL = !!GL3.gl && GL3.own === L3.cv && !GL3.gl.isContextLost(), fluid = S.lines.filter(l => l.parts);
+    if (useGL) {
+      gl3size(); const gl = GL3.gl; gl.viewport(0, 0, GL3.cv.width, GL3.cv.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl3polys(S.polys); gl3parts(fluid);
+    } else {
+      S.polys.forEach(q => { const pr = q.p.map(l3prj), dep = pr.reduce((s, r) => s + r.d, 0) / pr.length, nrm = v3.cross(v3.sub(q.p[1], q.p[0]), v3.sub(q.p[2], q.p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl); items.push({ t: 0, pr, dep, col: q.c, sh: 0.5 + 0.5 * lam }); });
+      // WebGL이 없을 때: 흐름 입자를 2D 점으로 (깊이 순서만 맞춘다)
+      const D = l3partData(fluid), s0 = L3.zoom * Math.min(L3.W, L3.H * 1.7) * 0.125;
+      for (let i = 0; i < D.length; i += 8) { const pr = l3prj([D[i], D[i + 1], D[i + 2]]); items.push({ t: 2, pr, dep: pr.d, c: `rgba(${Math.round(D[i + 3] * 255)},${Math.round(D[i + 4] * 255)},${Math.round(D[i + 5] * 255)},${(D[i + 6] * 0.6).toFixed(3)})`, r: Math.max(0.6, D[i + 7] * s0 * pr.k * 0.32) }); }
+    }
+    S.lines.filter(l => !l.parts).forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc, f: i / (pr.length - 1) }); acc += sl; } });
     items.sort((p, q) => q.dep - p.dep);
     items.forEach(it => {
+      if (it.t === 2) { c.fillStyle = it.c; c.beginPath(); c.arc(it.pr.x, it.pr.y, it.r, 0, 7); c.fill(); return; }
       if (it.t === 0) { const r = Math.round(it.col[0] * it.sh), g = Math.round(it.col[1] * it.sh), b = Math.round(it.col[2] * it.sh); c.fillStyle = `rgb(${r},${g},${b})`; c.strokeStyle = c.fillStyle; c.lineWidth = 0.8; c.lineJoin = "round"; c.beginPath(); it.pr.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); c.stroke(); return; }
       const ln = it.ln, k = (it.a.k + it.b.k) / 2; const fa = ln.tail ? Math.pow(Math.min(1, Math.max(0, it.f)), 1.6) : ln.fade ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, it.f))), 0.7) : 1; c.strokeStyle = `rgba(${ln.col.join(",")},${((ln.alpha != null ? ln.alpha : 0.8) * fa).toFixed(3)})`; c.lineWidth = (ln.w || 1.2) * k * (ln.tail ? 0.35 + 0.65 * Math.min(1, Math.max(0, it.f)) : 1); c.lineCap = "round";
       if (ln.dash !== null) { const ds = ln.dash || [0.18, 0.14], sz = Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.zoom; c.setLineDash([ds[0] * sz * k, ds[1] * sz * k]); c.lineDashOffset = -(now / 1000) * (ln.speed != null ? ln.speed : 1) * sz * 0.6 + it.acc; } else c.setLineDash([]);
@@ -6460,12 +6671,12 @@ ${lrCard("c5", "layers", "다른 움직이는 면", `<ul class="lr-list"><li><b>
         c.fillStyle = col; c.beginPath(); c.arc(px + 11, py + ph / 2, 3.6, 0, 7); c.fill();
         c.fillStyle = dark ? "#e2e8f0" : "#1e293b"; c.fillText(ar.label, px + 19, py + 15.5); } });
   }
-  function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); }
+  function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); if (GL3.gl && GL3.own === L3.cv) gl3size(); }
   function l3loop(now) { L3.raf = 0; if (!L3.cv || !document.contains(L3.cv)) { L3.cv = null; return; } if (L3.autoSpin && !L3.drag) L3.yaw += 0.0025; { const rr = L3.cv.getBoundingClientRect(); if (L3.cv.width !== Math.round(rr.width * L3.dpr) || L3.cv.height !== Math.round(rr.height * L3.dpr)) l3size(); } l3draw(now); if (!fxCalm()) L3.raf = requestAnimationFrame(l3loop); }
   function lr3start(h) {
-    if (L3.raf) cancelAnimationFrame(L3.raf); L3.raf = 0;
+    if (L3.raf) cancelAnimationFrame(L3.raf); L3.raf = 0; L3.autoSpin = false;
     const cv = document.querySelector("#app canvas[data-lr3]"); if (!cv) { L3.cv = null; return; }
-    L3.cv = cv; L3.ctx = cv.getContext("2d"); L3.key = h; const v = LR3_VIEW[h] || [-0.65, 0.32, 1]; L3.yaw = v[0]; L3.pitch = v[1]; L3.zoom = v[2];
+    L3.cv = cv; L3.ctx = cv.getContext("2d"); L3.key = h; gl3init(cv); const v = LR3_VIEW[h] || [-0.65, 0.32, 1]; L3.yaw = v[0]; L3.pitch = v[1]; L3.zoom = v[2];
     l3size(); L3.raf = requestAnimationFrame(l3loop);
     cv.addEventListener("pointerdown", e => { L3.drag = { x: e.clientX, y: e.clientY, yaw: L3.yaw, pitch: L3.pitch }; cv.setPointerCapture(e.pointerId); cv.classList.add("grab"); });
     cv.addEventListener("pointermove", e => { if (!L3.drag) return; L3.yaw = L3.drag.yaw - (e.clientX - L3.drag.x) * 0.008; L3.pitch = Math.max(-0.2, Math.min(1.4, L3.drag.pitch + (e.clientY - L3.drag.y) * 0.006)); if (fxCalm()) l3draw(performance.now()); });
@@ -9450,6 +9661,121 @@ ${mk(260, 92, 1, "#2563eb")}${mk(120, 156, 2, "#2563eb")}${mk(256, 176, 3, "#256
     if (k === "ctry") { mnCtry = arg; document.querySelectorAll("[data-mn^='ctry:']").forEach(x => x.classList.toggle("on", x === b)); const box = $("#mn-acc-list"); if (box) box.innerHTML = mnAccList(); return; }
     if (k === "dec") { mnDec = arg; document.querySelectorAll("[data-mn^='dec:']").forEach(x => x.classList.toggle("on", x === b)); const box = $("#mn-acc-list"); if (box) box.innerHTML = mnAccList(); }
   });
+  /* ================= 기종 백과: 3D 보기 =================
+     비행 원리와 같은 3D 그리기 도구(learn3d.js의 L3)로 기종별 가벼운 메시를 그린다.
+     메시는 models3d/<기종>.json (Blender 모델에서 외형만, 공통 도색, 777 길이 = 5.5 단위의 공통 축척).
+     페이지를 열 때만 내려받고, 한 번 받은 것은 기억해 둔다. */
+  const AC3 = { cache: {}, cur: null, polys: [], floor: -1, ext: 5.5 };
+  // 기종 페이지 맨 위: 이름과 버튼, 그 아래 3D 모형. 사진은 무대 아래에 따로 놓는다
+  function ac3dStage(o) {
+    const ac = o.ac, p = o.photo, actions = String(o.actions || "").replace(/\bon-dark\b/g, "ghost");
+    const hp = p ? Object.assign({}, p, { focus: p.hfocus || p.focus || "50% 50%" }) : null;
+    return `<header class="card ac-stage mk-${o.mk}"><div class="ac-stage-h"><div><div class="crumbs">${o.crumbs}</div><h1>${o.title}</h1>${o.sub}</div><div class="actions">${actions}</div></div>
+<div class="ac3d"><canvas data-lr3="ac3d" role="img" aria-label="${esc(ac.name)} 3D 모형, 끌어서 돌려 볼 수 있음"></canvas><p class="ac3d-wait">3D 모형을 불러오는 중</p><span class="lr3-hint">끌어서 돌려 보기, 두 번 누르면 처음 시점</span><span class="ac3d-note">${esc(ac.variant)} 외형 모형, 실제 치수 비율. 도색은 사이트 공통 색</span></div></header>
+${hp ? `<figure class="hero ac-photo mk-${o.mk}">${pimg(hp, false, o.alt, true)}<div class="pcr">${pcredit(p)}${p.koreanAir ? ", 대한항공 기재" : ""}</div></figure>` : ""}`;
+  }
+  function ac3dScene() {
+    return { polys: AC3.polys, lines: [], arrows: [], floor: AC3.floor, shadow: [0, 0, 0, AC3.len * 0.5, AC3.span * 0.42] };
+  }
+  LR3_SCENES.ac3d = ac3dScene;
+  function ac3dUse(id, M) {
+    const t = M.t, P = []; let zmin = 9, xmax = 0, ymax = 0;
+    for (let i = 0; i < t.length; i += 10) {
+      const p = [[t[i] / 1000, t[i + 1] / 1000, t[i + 2] / 1000], [t[i + 3] / 1000, t[i + 4] / 1000, t[i + 5] / 1000], [t[i + 6] / 1000, t[i + 7] / 1000, t[i + 8] / 1000]];
+      p.forEach(v => { if (v[2] < zmin) zmin = v[2]; if (Math.abs(v[0]) > xmax) xmax = Math.abs(v[0]); if (Math.abs(v[1]) > ymax) ymax = Math.abs(v[1]); });
+      P.push({ p: p, c: M.mats[t[i + 9]] });
+    }
+    AC3.cur = id; AC3.polys = P; AC3.floor = zmin; AC3.len = xmax * 2; AC3.span = ymax * 2; AC3.ext = Math.max(xmax * 2, ymax * 2 * 0.9);
+  }
+  function ac3dStart(ac) {
+    const cv = document.querySelector("#app canvas[data-lr3=ac3d]"); if (!cv) return;
+    const box = cv.parentNode, wait = box.querySelector(".ac3d-wait");
+    const go = () => {
+      if (!document.contains(cv)) return;
+      ac3dUse(ac.id, AC3.cache[ac.id]);
+      // 작은 기종도 화면을 알맞게 채우도록 확대 (큰 기종일수록 덜)
+      LR3_VIEW.ac3d = [-0.7, 0.3, Math.max(0.9, Math.min(2.8, 7.2 / AC3.ext)) * (cv.clientWidth < 520 ? 0.8 : 1)];
+      if (wait) wait.remove();
+      lr3start("ac3d"); L3.autoSpin = !fxCalm();
+      cv.addEventListener("pointerdown", () => { L3.autoSpin = false; });
+    };
+    if (AC3.cache[ac.id]) return go();
+    fetch("models3d/" + ac.id + ".json").then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(M => { AC3.cache[ac.id] = M; go(); })
+      .catch(() => { if (wait) wait.textContent = "3D 모형을 불러오지 못했습니다. 3면도 탭에서 도면을 볼 수 있습니다."; });
+  }
+/* Jetliner Hub: lazy, isolated Blender viewer. Loaded before hub-app.js. */
+const AircraftViewerModal = (() => {
+  let dialog, frame, opener, previousOverflow;
+  const css = `
+    .av-dialog{padding:0;width:min(1440px,calc(100vw - 40px));max-width:none;height:calc(100dvh - 40px);max-height:none;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--fg);box-shadow:0 24px 90px #0008;overflow:hidden}
+    .av-dialog::backdrop{background:#101827b8;backdrop-filter:blur(5px)}
+    .av-dialog[open]{display:flex;flex-direction:column}
+    .av-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);flex-shrink:0}
+    .av-head h2{font-size:18px;margin:0;color:var(--fg);font-weight:650}.av-head p{font-size:13px;margin:3px 0 0;color:var(--muted)}
+    .av-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}.av-actions .btn{min-height:40px}
+    .av-body{flex:1;min-height:0;position:relative;background:#101821}.av-body iframe{width:100%;height:100%;border:0;display:block;position:relative;background:#101821}
+    .av-wait{position:absolute;inset:0;display:grid;place-items:center;color:#d6e4ef;padding:24px;font-size:16px;text-align:center}
+    .av-entry{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 24px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+    .av-entry h3{font-size:18px;margin:0 0 6px;color:var(--fg)}.av-entry p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}.av-entry .btn{flex-shrink:0;min-height:44px}
+    @media(max-width:720px){.av-dialog{width:100%;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0}.av-head{padding:10px 12px;gap:8px}.av-head h2{font-size:16px}.av-head p{display:none}.av-actions .btn{padding:9px 11px;font-size:13px}.av-entry{align-items:flex-start;flex-direction:column;padding:18px}.av-entry .btn{width:100%}}
+  `;
+  const escape = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function url(id) {
+    if (!/^(boeing|airbus)-[a-z0-9]+$/.test(id)) return null;
+    const base = /^(https?:)$/.test(location.protocol) && !location.hostname.endsWith('claudeusercontent.com') && !location.hostname.endsWith('claude.ai') ? document.baseURI : 'https://mischef-2.github.io/';
+    const u = new URL('3d/viewer/index.html', base);
+    u.hash = id; return u.href;
+  }
+  function button(ac, cls = '') {
+    const href = url(ac.id); if (!href) return '';
+    return `<a class="btn ${escape(cls)}" href="${escape(href)}" data-aircraft-viewer="${escape(ac.id)}" data-aircraft-name="${escape(ac.name)}" aria-haspopup="dialog">3D 내부·외부 보기</a><a class="btn ${escape(cls)}" data-flight-experience href="${escape(href.replace("3d/viewer/index.html", "src/aircraft-3d/flight/index.html"))}" target="_blank" rel="noopener">조종석 비행</a>`;
+  }
+  function card(ac) {
+    return `<section class="av-entry" aria-label="항공기 3D 탐색"><div><h3>기체 안팎을 직접 둘러보세요</h3><p>외관부터 객실·조종실·화물칸까지, 회전하고 확대하며 살펴볼 수 있습니다.<br>자료를 바탕으로 만든 연구 모델이며, 일부 형상과 내부 배치는 예시입니다.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap">${button(ac)}</div></section>`;
+  }
+  function close() { if (dialog?.open) dialog.close(); }
+  function setup() {
+    if (dialog) return;
+    dialog = document.createElement('dialog'); dialog.className = 'av-dialog'; dialog.setAttribute('aria-labelledby','av-title');
+    dialog.innerHTML = '<header class="av-head"><div><h2 id="av-title">항공기 3D 탐색</h2><p>드래그로 회전 · 휠로 확대 · 아래 시점 버튼으로 내부 탐색</p></div><div class="av-actions"><a class="btn ghost av-popout" target="_blank" rel="noopener">새 탭</a><button type="button" class="btn ghost av-close" aria-label="3D 보기 닫기" autofocus>닫기 ×</button></div></header><div class="av-body"></div>';
+    document.body.append(dialog);
+    dialog.querySelector('.av-close').addEventListener('click',close);
+    dialog.addEventListener('click',e=>{if(e.target===dialog)close();});
+    dialog.addEventListener('close',()=>{frame?.remove();frame=null;dialog.querySelector('.av-body').replaceChildren();document.body.style.overflow=previousOverflow;opener?.focus();});
+    window.addEventListener('hashchange',close);
+  }
+  function open(link) {
+    setup(); if (dialog.open) return;
+    opener = link; previousOverflow = document.body.style.overflow;
+    dialog.querySelector('#av-title').textContent = `${link.dataset.aircraftName} · 3D 탐색`;
+    dialog.querySelector('.av-popout').href = link.href;
+    const body = dialog.querySelector('.av-body');
+    const wait = document.createElement('div');wait.className='av-wait';wait.textContent='3D 보기 창을 여는 중입니다…';body.append(wait);
+    frame = document.createElement('iframe');frame.title = `${link.dataset.aircraftName} 내부·외부 3D 뷰어`;frame.src=link.href;
+    frame.addEventListener('load',()=>{
+      wait.remove();
+      try {
+        const doc=frame.contentDocument;
+        if(!doc?.querySelector('#canvas-host'))return;
+        const style=doc.createElement('style');
+        style.textContent='.sidebar,.topbar{display:none!important}body{display:block}main{width:100%}.stage{height:calc(100dvh - 165px);min-height:380px}.view-controls button{font-size:12px;min-height:40px}.aircraft-versions{padding-top:12px}@media(max-width:720px){.stage{height:calc(100dvh - 185px);min-height:360px}.view-controls{width:calc(100% - 24px);max-width:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:6px;bottom:48px}.view-controls button{font-size:12px;padding:8px 3px;min-width:0;white-space:nowrap}.title-block{left:16px;top:16px}.title-block h1{font-size:26px}.prototype{font-size:10px}}';
+        doc.head.append(style);
+        doc.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();close();}},true);
+      } catch (_) { /* Cross-origin artifact: keep the independent viewer intact. */ }
+    });
+    body.append(frame);document.body.style.overflow='hidden';dialog.showModal();
+  }
+  document.addEventListener('click',e=>{
+    const link=e.target.closest?.('[data-aircraft-viewer]');
+    if(!link||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+    if(new URL(link.href).origin!==location.origin)return;
+    e.preventDefault();e.stopImmediatePropagation();open(link);
+  },true);
+  // Install styling before the first aircraft page is rendered; no iframe is created here.
+  const style=document.createElement('style');style.textContent=css;document.head.append(style);
+  return Object.freeze({button,card,close});
+})();
 
   /* ================= Hub 전용 데이터 ================= */
   const ICAO = { "boeing-707": "B703", "boeing-727": "B722", "boeing-737": "B738", "boeing-737max": "B38M", "boeing-747": "B744", "boeing-757": "B752", "boeing-767": "B763", "boeing-777": "B77W", "boeing-777x": "B779", "boeing-787": "B789", "boeing-717": "B712",
@@ -9698,6 +10024,159 @@ ${encyExtras()}
     if (typeof WHY_ERAS === "undefined") return "";
     return `<section class="card c12 why-eras">${cardH(ICON.target, "왜 만들어졌나: 시대별 개발 배경", `<span class="hint">문제 → 답으로 나온 기종</span>`)}<div>${WHY_ERAS.map(e => `<div class="era"><div class="era-y">${esc(e.years)}</div><div><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p><div class="tour-legs" style="margin-top:10px">${e.ids.map(id => `<a class="tleg why-chip mk-${byId[id].maker}" href="#${id}"><span class="dot"></span>${ICAO[id]} ${esc(byId[id].name)}</a>`).join("")}</div></div></div>`).join("")}</div></section>`;
   }
+  /* ================= 3D 모형 =================
+     위: 3D 모형 뷰어(3d/viewer?embed). 뷰어 자체 사이드바와 제목은 숨기고, 색과 글꼴은 허브 테마를 넘겨 준다.
+     기종은 허브 쪽 선택 상자로 고르고, 뷰어 높이는 내용에 맞춰 늘려 안쪽 스크롤이 생기지 않게 한다.
+     아래: 고른 기종의 제원, 도면, ICAO, 역사 */
+  const M3D_IDS = ["boeing-707", "boeing-727", "boeing-737", "boeing-737max", "boeing-747", "boeing-757", "boeing-767", "boeing-777", "boeing-777x", "boeing-787", "boeing-717", "airbus-a300", "airbus-a310", "airbus-a320", "airbus-a320neo", "airbus-a330", "airbus-a330neo", "airbus-a340", "airbus-a350", "airbus-a380", "airbus-a220"];
+  let m3dId = "boeing-777";
+  const curAcId = () => { const k = (location.hash || "").slice(1); return k.indexOf("3d-") === 0 ? k.slice(3) : k === "3d" ? m3dId : k; };
+  function m3dInfo(ac) {
+    // 3D 모형 페이지에서는 "3D로 둘러보기" 안내 카드가 필요 없다
+    const html = renderAircraft(ac).replace(/<section class="av-entry"[\s\S]*?<\/section>/, ""), i = html.indexOf('<div class="detail">');
+    return `<div class="m3d-name mk-${ac.maker}"><h2>${esc(ac.name)} <span class="code">${ICAO[ac.id]}</span> ${statusPill(ac)}</h2><p>${esc(ac.en)}, ${esc(ac.variant)}. ${esc(ac.role)}</p><a class="ext" href="#${ac.id}">기종 백과에서 보기 →</a></div>${i >= 0 ? html.slice(i) : ""}`;
+  }
+  function render3d(id) {
+    if (id && byId[id] && M3D_IDS.indexOf(id) >= 0) m3dId = id; const ac = byId[m3dId];
+    const ids = M3D_IDS.filter(x => byId[x]);
+    const pick = `<select class="sel" id="m3d-pick" aria-label="기종 선택">${["boeing", "airbus"].map(mk => `<optgroup label="${makerName(mk)}">${ids.filter(x => byId[x].maker === mk).map(x => `<option value="${x}"${x === m3dId ? " selected" : ""}>${ICAO[x]} ${esc(byId[x].name)}</option>`).join("")}</optgroup>`).join("")}</select>`;
+    return `<header class="card ph m3d-head"><div><div class="crumbs"><a href="#home">대시보드</a> / 시뮬레이션</div><h1>3D 모형</h1><p>끌어서 돌리고 휠로 확대합니다. 왼쪽 단추로 외부, 단면, 객실, 조종실, 평면 시점을 바꾸고, 전체화면으로도 볼 수 있습니다. 기체 버전은 실제 항공사 도색을 사진으로 참고해 만든 모형입니다.</p></div><div class="fld m3d-pick"><label for="m3d-pick">기종</label>${pick}</div></header>
+<section class="card m3d-stage"><iframe id="m3d-frame" src="3d/viewer/index.html?embed#${m3dId}" title="항공기 3D 모형 뷰어" allow="fullscreen" allowfullscreen scrolling="no"></iframe></section>
+<div id="m3d-info">${m3dInfo(ac)}</div>`;
+  }
+  function m3dAfter() {
+    const fr = $("#m3d-frame"); if (!fr) return;
+    initAcLive(byId[m3dId]);
+    const show = id => {
+      if (!byId[id] || id === m3dId) return;
+      m3dId = id; history.replaceState(null, "", "#3d-" + id);
+      $("#m3d-info").innerHTML = m3dInfo(byId[id]); initAcLive(byId[id]);
+      const sel = $("#m3d-pick"); if (sel && sel.value !== id) sel.value = id;
+    };
+    $("#m3d-pick").addEventListener("change", e => { const id = e.target.value; try { fr.contentWindow.location.hash = id; } catch (err) { /* 무시 */ } show(id); });
+    // 허브 테마(색, 글꼴)와 3D 화면 높이를 뷰어에 넘긴다
+    const theme = () => {
+      let d; try { d = fr.contentDocument.documentElement; } catch (e) { return; } if (!d) return;
+      const cs = getComputedStyle(document.documentElement);
+      ["surface", "inset", "line", "fg", "fg-2", "muted", "primary", "primary-fg", "tile", "tile-line", "font"].forEach(k => d.style.setProperty("--h-" + k, cs.getPropertyValue("--" + k).trim()));
+      d.style.colorScheme = cs.colorScheme || "dark";
+      const h = innerWidth < 760 ? Math.round(Math.max(380, innerHeight * 0.62)) : Math.round(Math.max(440, Math.min(680, innerHeight - 220)));
+      d.style.setProperty("--h-stage", h + "px");
+    };
+    const fit = () => { try { const b = fr.contentDocument.body; if (b) fr.style.height = Math.ceil(b.scrollHeight) + "px"; } catch (e) { /* 무시 */ } };
+    const mo = new MutationObserver(theme); mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const onResize = () => { if (!document.body.contains(fr)) { removeEventListener("resize", onResize); mo.disconnect(); return; } theme(); };
+    addEventListener("resize", onResize);
+    fr.addEventListener("load", () => {
+      theme();
+      try {
+        const w = fr.contentWindow;
+        new w.ResizeObserver(fit).observe(w.document.body); fit();
+        w.addEventListener("hashchange", () => show((w.location.hash || "").slice(1).split("/")[0]));
+      } catch (e) { /* 무시 */ }
+    });
+  }
+  /* ================= 조종석 비행 =================
+     Codex가 만든 조종석 비행 체험(src/aircraft-3d/flight)을 띄운다. 그 파일은 고치지 않는다.
+     설정(기종, 공항, 활주로, 게이트, 날씨, 시점)은 허브 카드에서 고르고, 화면 칸에는 조종석 장면만 보인다.
+     허브 칸은 조종석 페이지의 입력칸을 그대로 따라 만든 거울이다. 값을 바꾸면 조종석 페이지 입력칸에 넣고
+     change 이벤트를 보내서(활주로, 게이트 목록은 그쪽이 다시 채운다) 바뀐 목록을 다시 허브로 옮겨 온다 */
+  const FLIGHT_URL = "src/aircraft-3d/flight/index.html";
+  let ckId = "boeing-737";
+  function renderCockpit(id) {
+    if (id && byId[id] && M3D_IDS.indexOf(id) >= 0) ckId = id;
+    return `<header class="card ph"><div><div class="crumbs"><a href="#home">대시보드</a> / 시뮬레이션</div><h1>조종석 비행</h1><p>출발 공항과 도착 공항, 날씨를 고르고 비행 준비를 누르면 아래 조종석 창밖으로 비행을 지켜봅니다. 경로와 고도, 속도는 어림한 값으로 그린 장면이며, 비행 훈련 장치가 아닙니다.</p></div></header>
+<section class="card ck-plan">${cardH(ICON.route, "비행 설정", `<span class="hint">출발 시각은 UTC 기준</span>`)}<div class="card-b"><div class="ck-grid" id="ck-form"><p class="small muted">조종석을 불러오는 중입니다.</p></div>
+<details class="ck-view"><summary>시점과 공항 표시</summary><div class="ck-grid" id="ck-view"></div></details>
+<div class="ck-actions"><p id="ck-status" class="small muted" role="status" aria-live="polite"></p><button type="button" class="btn ghost" id="ck-fs">${ICON.layers}전체화면</button><button type="button" class="btn" id="ck-apply" disabled>${ICON.plane}비행 준비</button></div></div></section>
+<section class="card ck-stage"><iframe id="ck-frame" src="${FLIGHT_URL}?embed=1&amp;ac=${ckId}#${ckId}" title="조종석 비행 장면" allow="fullscreen" allowfullscreen></iframe></section>
+<p class="small muted ck-credits" id="ck-credits"></p><section class="card ck-off"><div class="card-b"><p>조종석 비행은 준비 중입니다. 지금은 <a href="#3d">3D 모형</a>에서 조종실 시점을 볼 수 있습니다.</p></div></section>`;
+  }
+  // 조종석 페이지 안: 머리와 설정 칸을 숨기고 장면만 꽉 채운다
+  const CK_STYLE = `header,aside#settings{display:none!important}
+main{height:100dvh!important}
+:root,body,button,input,select{font-family:var(--h-font)!important}
+.transport #play{background:var(--h-primary)!important;color:#fff!important;font-weight:600}
+button,select,input{border-radius:6px}
+#timeline{accent-color:var(--h-primary)}
+.eyebrow{color:var(--h-primary-fg)!important}`;
+  function cockpitAfter() {
+    const fr = $("#ck-frame"); if (!fr) return;
+    const size = () => { fr.style.height = Math.round(Math.max(520, Math.min(860, innerHeight - 120))) + "px"; };
+    let mo = null, tick = 0;
+    const dress = () => {
+      let d; try { d = fr.contentDocument; } catch (e) { return; } if (!d || !d.head || !d.getElementById("plan")) return;
+      const cs = getComputedStyle(document.documentElement);
+      ["font", "primary", "primary-fg"].forEach(k => d.documentElement.style.setProperty("--h-" + k, cs.getPropertyValue("--" + k).trim()));
+      if (!d.getElementById("hub-dress")) { const st = d.createElement("style"); st.id = "hub-dress"; st.textContent = CK_STYLE; d.head.append(st); }
+      // 숨긴 설정 칸 때문에 장면 크기가 바뀌었음을 알려 준다
+      try { fr.contentWindow.dispatchEvent(new Event("resize")); } catch (e) { /* 무시 */ }
+      mirror(d);
+    };
+    function mirror(d) {
+      const form = $("#ck-form"), view = $("#ck-view"); if (!form) return;
+      const pairs = [];
+      const labelOf = el => { const l = el.closest("label") || (el.id && d.querySelector(`label[for="${el.id}"]`)); if (!l) return el.id; const c = l.cloneNode(true); c.querySelectorAll("select,input,output,small").forEach(x => x.remove()); return c.textContent.trim(); };
+      const build = (list, host) => {
+        host.innerHTML = "";
+        list.forEach(src => {
+          const f = document.createElement("div"), lab = labelOf(src), small = src.closest("label") && src.closest("label").querySelector("small"), hid = "ck-" + src.id;
+          let dst;
+          if (src.type === "checkbox") { f.className = "fld ck-chk"; f.innerHTML = `<label><input type="checkbox" id="${hid}"> ${esc(lab)}</label>`; dst = f.querySelector("input"); }
+          else {
+            f.className = "fld"; f.innerHTML = `<label for="${hid}">${esc(lab)}${small ? ` <small>${esc(small.textContent)}</small>` : ""}${src.type === "range" ? ` <output id="${hid}-out"></output>` : ""}</label>`;
+            if (src.tagName === "SELECT") { dst = document.createElement("select"); dst.className = "sel"; }
+            else { dst = document.createElement("input"); dst.type = src.type; if (src.type !== "range") dst.className = "in"; ["min", "max", "step", "placeholder"].forEach(k => { const v = src.getAttribute(k); if (v != null) dst.setAttribute(k, v); }); }
+            dst.id = hid; f.append(dst);
+          }
+          host.append(f); pairs.push([src, dst]);
+          const send = () => {
+            if (dst.type === "checkbox") src.checked = dst.checked; else src.value = dst.value;
+            src.dispatchEvent(new Event("input", { bubbles: true })); src.dispatchEvent(new Event("change", { bubbles: true }));
+            if (src.id === "aircraft" && byId[dst.value]) { ckId = dst.value; history.replaceState(null, "", "#cockpit-" + ckId); }
+            sync();
+          };
+          dst.addEventListener(dst.tagName === "SELECT" || dst.type === "checkbox" ? "change" : "input", send);
+        });
+      };
+      build([...d.querySelectorAll("#plan select, #plan input")], form);
+      build([...d.querySelectorAll(".view-settings select, .view-settings input")], view);
+      const st = $("#ck-status"), ap = $("#ck-apply"), stat = d.getElementById("status"), apply = d.getElementById("apply");
+      function sync() {
+        pairs.forEach(([src, dst]) => {
+          if (src.tagName === "SELECT" && dst.innerHTML !== src.innerHTML) dst.innerHTML = src.innerHTML;
+          if (document.activeElement !== dst) { if (dst.type === "checkbox") dst.checked = src.checked; else if (dst.value !== src.value) dst.value = src.value; }
+          dst.disabled = src.disabled;
+          const out = document.getElementById(dst.id + "-out"), so = src.closest("label") && src.closest("label").querySelector("output"); if (out && so) out.textContent = so.textContent;
+        });
+        if (st && stat) st.textContent = stat.textContent;
+        if (ap && apply) ap.disabled = apply.disabled;
+      }
+      let queued = false; const later = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; if (document.body.contains(form)) sync(); }); };
+      if (mo) mo.disconnect();
+      mo = new MutationObserver(later); [d.getElementById("plan"), d.querySelector(".view-settings"), stat].forEach(n => n && mo.observe(n, { subtree: true, childList: true, characterData: true, attributes: true }));
+      // 조종석 페이지가 스스로 값을 바꾸는 경우(기본 공항, 활주로 등)도 따라가도록 처음 10초는 주기적으로도 맞춘다
+      clearInterval(tick); let n = 0; tick = setInterval(() => { if (!document.body.contains(form) || ++n > 40) { clearInterval(tick); return; } sync(); }, 250);
+      ap.onclick = () => { const f = d.getElementById("plan"); try { if (f.requestSubmit) f.requestSubmit(apply); else apply.click(); } catch (e) { apply.click(); } fr.scrollIntoView({ behavior: "smooth", block: "start" }); };
+      // 자료 출처: 조종석 페이지의 출처 링크를 장면 아래에 보인다
+      const cr = $("#ck-credits"); if (cr) { const links = [...d.querySelectorAll(".data-credits a, aside details a")].map(a => `<a class="ext" href="${esc(a.href)}" target="_blank" rel="noopener">${esc(a.textContent.trim())}</a>`); cr.innerHTML = links.length ? "자료 출처: " + links.join(", ") : ""; }
+      sync();
+    }
+    // 전체화면: 장면 칸을 전체화면으로. 브라우저가 막으면 창 전체를 덮는다 (Esc로 닫힘)
+    const fsOff = () => { fr.classList.remove("ck-fs"); document.documentElement.classList.remove("m3d-fs-on"); };
+    $("#ck-fs").addEventListener("click", () => {
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      if (fr.classList.contains("ck-fs")) { fsOff(); return; }
+      const pseudo = () => { if (!document.fullscreenElement) { fr.classList.add("ck-fs"); document.documentElement.classList.add("m3d-fs-on"); } };
+      try { const p = fr.requestFullscreen && fr.requestFullscreen(); if (p && p.catch) p.catch(pseudo); else if (!p) pseudo(); } catch (e) { pseudo(); }
+      setTimeout(pseudo, 700);
+    });
+    const escKey = e => { if (e.key === "Escape" && fr.classList.contains("ck-fs")) fsOff(); };
+    document.addEventListener("keydown", escKey);
+    size(); fr.addEventListener("load", () => { dress(); try { fr.contentDocument.addEventListener("keydown", escKey); } catch (e) { /* 무시 */ } }); dress();
+    const onResize = () => { if (!document.body.contains(fr)) { removeEventListener("resize", onResize); document.removeEventListener("keydown", escKey); if (mo) mo.disconnect(); return; } size(); };
+    addEventListener("resize", onResize);
+  }
   function renderAircraft(ac) {
     const S = ac.specs, p = photoOf(ac), rival = ac.rival ? byId[ac.rival] : null, py = prodYears(ac);
     if (viz === "overlay" && !rival) viz = "three";
@@ -9708,7 +10187,7 @@ ${encyExtras()}
       crumbs: `<a href="#home">대시보드</a> / <a href="#fleet">기종 백과</a> / <a href="#${ac.maker}">${makerName(ac.maker)}</a>`,
       title: `${esc(ac.name)} <span class="code">${ICAO[ac.id]}</span> ${statusPill(ac)}`,
       sub: `<div class="en">${esc(ac.en)}, ${esc(ac.variant)}</div><p>${esc(ac.role)}, ${esc(ac.generation)}</p>`,
-      actions: `<button type="button" class="btn" data-pilot="useac:${ac.id}" id="btn-fly">${ICON.plane}이 기종으로 비행 예약</button><button type="button" class="btn ${p ? "on-dark" : "ghost"}" id="btn-cmp" data-cmp="${ac.id}|${rival ? rival.id : (ac.maker === "boeing" ? "airbus-a350" : "boeing-787")}">${ICON.swap}다른 기종과 비교</button><a class="btn ${p ? "on-dark" : "ghost"}" href="https://ko.wikipedia.org/wiki/${encodeURIComponent(ac.wikiKo)}" target="_blank" rel="noopener">${ICON.ext}위키백과</a>` }) + `
+      actions: `${AircraftViewerModal.button(ac)}<button type="button" class="btn" data-pilot="useac:${ac.id}" id="btn-fly">${ICON.plane}이 기종으로 비행 예약</button><button type="button" class="btn ${p ? "on-dark" : "ghost"}" id="btn-cmp" data-cmp="${ac.id}|${rival ? rival.id : (ac.maker === "boeing" ? "airbus-a350" : "boeing-787")}">${ICON.swap}다른 기종과 비교</button><a class="btn ${p ? "on-dark" : "ghost"}" href="https://ko.wikipedia.org/wiki/${encodeURIComponent(ac.wikiKo)}" target="_blank" rel="noopener">${ICON.ext}위키백과</a>` }) + `
 <div class="detail">
 <aside class="card fl-panel mk-${ac.maker}">
 <div class="legs" style="padding-top:12px"><div class="leg"><span class="lbl">${ICON.plane}초도비행</span><span class="big">${yearOf(ac.firstFlight)}</span><small>${esc(dateKo(ac.firstFlight))}</small></div><div class="leg"><span class="lbl">${ICON.flag}취항</span><span class="big">${/^\d{4}/.test(ac.intro) ? yearOf(ac.intro) : "미정"}</span><small>${esc(dateKo(ac.intro))}</small></div></div>
@@ -9717,6 +10196,7 @@ ${encyExtras()}
 <div class="ac-live-mini">${acLiveCard(ac).replace('<section class="card" id="ac-live">', '<div id="ac-live">').replace(/<\/section>$/, "</div>")}</div>
 </aside>
 <div class="stack">
+${AircraftViewerModal.card(ac)}
 ${whyCard(ac)}
 <div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
 ${icaoCard(ac)}</div>
@@ -9787,12 +10267,14 @@ ${whyEras()}
   const app = $("#app");
   $("#side").innerHTML = sideHtml();
   const PAGES = { home: renderDash, book: renderBook, flights: renderFlights, live: renderLive, profile: renderProfile, activities: renderActivities, community: renderCommunity, airports: renderAirports, fleet: renderFleet, boeing: () => renderCompany("boeing"), airbus: () => renderCompany("airbus"), compare: renderCompare, timeline: renderTimeline };
-  Object.assign(PAGES, PORTAL_PAGES, LEARN_PAGES, MANUAL_PAGES);
+  Object.assign(PAGES, PORTAL_PAGES, LEARN_PAGES, MANUAL_PAGES, { "3d": () => render3d(), cockpit: () => renderCockpit() });
   const TITLES = { book: "비행 예약", flights: "내 예약", live: "실시간 운항", profile: "조종사 프로필", activities: "활동", community: "리더보드", airports: "공항", fleet: "기종 백과", boeing: "보잉", airbus: "에어버스", compare: "기종 비교", timeline: "연표" };
-  Object.assign(TITLES, PORTAL_TITLES, LEARN_TITLES, MANUAL_TITLES);
+  Object.assign(TITLES, PORTAL_TITLES, LEARN_TITLES, MANUAL_TITLES, { "3d": "3D 모형", cockpit: "조종석 비행" });
   function route(keep) {
     let h = (location.hash || "#home").slice(1), dyn = null;
-    if (!PAGES[h] && !byId[h]) { dyn = dynPage(h); if (!dyn) h = "home"; }
+    if (h.indexOf("3d-") === 0) dyn = byId[h.slice(3)] ? render3d(h.slice(3)) : null;
+    if (h.indexOf("cockpit-") === 0) dyn = byId[h.slice(8)] ? renderCockpit(h.slice(8)) : null;
+    if (!PAGES[h] && !byId[h] && !dyn) { dyn = dynPage(h); if (!dyn) h = "home"; }
     const y = window.scrollY, nk = navKey(h);
     app.innerHTML = dyn || (PAGES[h] ? PAGES[h]() : renderAircraft(byId[h]));
     if (byId[h]) pushRecent(h);
@@ -9804,6 +10286,8 @@ ${whyEras()}
     if (h === "home") initHomeLive();
     if (h === "live") initLive(); else stopLive();
     if (byId[h]) initAcLive(byId[h]);
+    if (h === "3d" || h.indexOf("3d-") === 0) m3dAfter();
+    if (h === "cockpit" || h.indexOf("cockpit-") === 0) cockpitAfter();
     pilotAfter(h);
     window.scrollTo(0, keep === true ? y : 0);
   }
@@ -9813,7 +10297,7 @@ ${whyEras()}
   const SEG = {
     stat: v => { statSel = v; $("#stats-out").innerHTML = fleetStats(); },
     del: v => { delRange = +v; $("#del-out").innerHTML = delBlock(); },
-    viz: v => { viz = v; const ac = byId[(location.hash || "").slice(1)]; if (ac) $("#viz-out").innerHTML = vizOut(ac); },
+    viz: v => { viz = v; const ac = byId[curAcId()]; if (ac) $("#viz-out").innerHTML = vizOut(ac); },
     fmk: v => { fmk = v; $("#fleet-out").innerHTML = fleetOut(); },
     fcat: v => { fcat = v; $("#fleet-out").innerHTML = fleetOut(); },
     fview: v => { fview = v; $("#fleet-out").innerHTML = fleetOut(); }
@@ -9854,6 +10338,9 @@ ${whyEras()}
   document.addEventListener("input", e => { if (e.target.id === "fleet-q") { fq = e.target.value; $("#fleet-out").innerHTML = fleetOut(); } });
   $("#menu").addEventListener("click", () => { if (window.matchMedia("(max-width:900px)").matches) document.body.classList.toggle("nav-open"); else { document.body.classList.toggle("nav-collapsed"); if (mapInst && mapInst.updateSize) setTimeout(() => { try { mapInst.updateSize(); } catch (e) { /* 무시 */ } }, 30); } });
   $("#backdrop").addEventListener("click", () => document.body.classList.remove("nav-open"));
+  // 조종석 비행: 그 파일(src/aircraft-3d/flight, 저장소에 아직 안 올림)이 있는 곳에서만 메뉴와 단추를 보인다
+  document.documentElement.classList.add("no-flight");
+  fetch(FLIGHT_URL, { method: "HEAD", cache: "no-store" }).then(r => { if (r.ok) document.documentElement.classList.remove("no-flight"); }).catch(() => { /* 없음 */ });
   try { const t = localStorage.getItem("hub-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) { /* 저장소 없음 */ }
   $("#theme").addEventListener("click", () => { const root = document.documentElement, cur = root.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"), next = cur === "dark" ? "light" : "dark"; root.setAttribute("data-theme", next); try { localStorage.setItem("hub-theme", next); } catch (e) { /* 무시 */ } });
   const clock = $("#clock"), tick = () => { clock.textContent = new Date().toISOString().slice(11, 19) + "z"; };

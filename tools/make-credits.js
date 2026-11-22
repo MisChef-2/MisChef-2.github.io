@@ -63,5 +63,20 @@ ${accRows.join(String.fromCharCode(10))}
 - [d3-geo](https://github.com/d3/d3-geo) 3.1.1, [d3-array](https://github.com/d3/d3-array) 3.2.4 (ISC), [topojson-client](https://github.com/topojson/topojson-client) 3.1.0 (ISC)
 - [Figtree](https://fonts.google.com/specimen/Figtree), [Noto Sans KR](https://fonts.google.com/noto/specimen/Noto+Sans+KR), [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) (Google Fonts, 각 글꼴의 오픈 폰트 라이선스)
 `;
-fs.writeFileSync(path.join(root, "CREDITS.md"), md);
-console.log("CREDITS.md:", rows.length, "photos");
+// 3D 모형의 기체 버전(실제 항공사 도색) 참고 사진: 3d/livery-references.json
+const livP = path.join(root, "3d/livery-references.json"), liv = fs.existsSync(livP) ? JSON.parse(fs.readFileSync(livP, "utf8")).references || [] : [];
+const livRows = liv.filter(r => r.photoPath && fs.existsSync(path.join(root, "3d", r.photoPath))).map(r => `| \`3d/${r.photoPath}\` | [${cell(r.title)}](${r.sourcePage || r.sourceUrl}) | ${cell(r.artist)} | ${r.licenseUrl ? `[${cell(r.license)}](${r.licenseUrl})` : cell(r.license)} |`);
+const livMd = livRows.length ? `
+## 3D 모형 기체 버전 참고 사진 (Wikimedia Commons)
+
+\`3d/\` 의 기체 버전(항공사 도색) 모형은 아래 사진을 참고해 색과 무늬를 맞춘 실기체 참고 모형입니다. 사진은 뷰어 안에서 비교용으로 함께 보여 줍니다.
+항공사 이름과 도색은 각 항공사의 것이며, Jetliner Virtual과 관계가 없습니다.
+
+| 파일 | 원본 | 촬영 | 라이선스 |
+|---|---|---|---|
+${livRows.join("\n")}
+` : "";
+// 손으로 적는 추가 절 (tools/credits-extra.md)
+const exP = path.join(__dirname, "credits-extra.md"), extra = fs.existsSync(exP) ? fs.readFileSync(exP, "utf8") : "";
+fs.writeFileSync(path.join(root, "CREDITS.md"), md + livMd + extra);
+console.log("CREDITS.md:", rows.length, "photos,", livRows.length, "livery references");

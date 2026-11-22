@@ -101,26 +101,38 @@
     top ? { from: R([-2.0, 1.35, 0.38]), to: R([-2.0, 1.35, 0.38]), col: [37, 99, 235], label: top, noline: true } : null,
     bot ? { from: R([-1.2, 1.2, -0.5]), to: R([-1.2, 1.2, -0.5]), col: [234, 88, 12], label: bot, noline: true } : null].filter(Boolean); };
   const l3smooth = P => { if (P.length < 5) return P; let Q = P; for (let r = 0; r < 3; r++) Q = Q.map((p, i) => i === 0 || i === Q.length - 1 ? p : [(Q[i - 1][0] + p[0] * 2 + Q[i + 1][0]) / 4, (Q[i - 1][1] + p[1] * 2 + Q[i + 1][1]) / 4, (Q[i - 1][2] + p[2] * 2 + Q[i + 1][2]) / 4]); return Q; };
-  // 흐름선을 유체처럼: 아주 옅은 바탕선 위로, 작은 입자들이 꼬리를 끌며 일정하게 흘러간다(꼬리는 뒤로 갈수록 흐려짐)
+  // 흐름을 유체처럼: 선 대신 부드러운 입자. 흐름마다 parts = [x,y,z, 알파, 크기, 밝기] 를 만든다
+  // (1) 흐름길을 따라 아주 옅고 큰 입자를 촘촘히 깔아 연기 띠처럼 보이게 하고
+  // (2) 그 위로 작은 덩어리들이 꼬리를 끌며 흘러간다. 꼬리는 뒤로 갈수록 작고 옅어진다
   // mult = 속도 배율. 프레임마다 흐른 시간 × 배율을 쌓아 두어, 슬라이더를 움직여도 입자가 튀지 않고 빨라지거나 느려진다
-  const l3nice = (L, mult, dens) => { const D = dens == null ? 1 : Math.max(0.15, Math.min(1, dens)); const now = performance.now() / 1000, dt = Math.min(0.1, now - (L3.flast || now)); L3.flast = now; L3.fx = (L3.fx || 0) + dt * (mult || 1); const T = L3.fx; return L.flatMap(l => {
-    l = Object.assign({}, l, { p: l3smooth(l.p), wob: 0 }); const col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]);
-    const P = l.p, acc = [0]; for (let i = 1; i < P.length; i++) acc.push(acc[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2])); const tot = acc[acc.length - 1] || 1;
-    const at = d => { d = Math.max(0, Math.min(tot, d)); let i = 1; while (i < acc.length - 1 && acc[i] < d) i++; const k = (d - acc[i - 1]) / ((acc[i] - acc[i - 1]) || 1); return [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * k, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * k, P[i - 1][2] + (P[i][2] - P[i - 1][2]) * k]; };
-    const out = [Object.assign({}, l, { col: col, dash: null, speed: 0, alpha: 0.16, w: 1.2, fade: true })], N = Math.max(2, Math.round(9 * D)), sp = Math.pow(l.speed || 1, 1.8) * 0.5, tl = 0.55, ph = (P[0][1] * 3.7 + P[0][2] * 5.1) % 1;
-    for (let n = 0; n < N; n++) { const head = (((T * sp / tot + n / N + ph) % 1) + 1) % 1 * (tot + tl); const pts = []; for (let k = 0; k <= 8; k++) pts.push(at(head - tl + tl * k / 8)); const edge = Math.min(1, head / 0.6, (tot + tl - head) / 0.6); out.push({ p: pts, col: col, dash: null, speed: 0, w: 1.6 + 1.2 * D, alpha: (0.45 + 0.5 * D) * Math.max(0, edge), tail: true }); }
-    return out; }); };
-  // 실속 때 윗면 뒤쪽의 떨어진 흐름: 매끈한 나선 몇 개가 천천히 돈다 (세기 k 0~1)
+  const l3arc = P => { const acc = [0]; for (let i = 1; i < P.length; i++) acc.push(acc[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2]));
+    const tot = acc[acc.length - 1] || 1, at = d => { d = Math.max(0, Math.min(tot, d)); let i = 1; while (i < acc.length - 1 && acc[i] < d) i++; const k = (d - acc[i - 1]) / ((acc[i] - acc[i - 1]) || 1); return [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * k, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * k, P[i - 1][2] + (P[i][2] - P[i - 1][2]) * k]; };
+    return { tot, at }; };
+  const l3nice = (L, mult, dens) => { const D = dens == null ? 1 : Math.max(0.15, Math.min(1, dens)); const now = performance.now() / 1000, dt = Math.min(0.1, now - (L3.flast || now)); L3.flast = now; L3.fx = (L3.fx || 0) + dt * (mult || 1); const T = L3.fx; return L.map(l => {
+    const P = l3smooth(l.p), col = l.col[0] > 200 ? l.col : (l.col[2] > 200 ? [59, 130, 246] : [148, 163, 184]), A = l3arc(P), tot = A.tot, parts = [];
+    const edge = d => Math.max(0, Math.min(1, d / 0.7, (tot - d) / 0.7));
+    for (let d = 0.02; d < tot; d += 0.03) { const q = A.at(d); parts.push(q[0], q[1], q[2], 0.028 * (0.55 + 0.45 * D) * edge(d), 0.2, 0); }
+    // 흘러가는 덩어리: 꼬리를 길고 촘촘하게, 위아래로 살짝 일렁이게 (연기처럼)
+    const N = Math.max(3, Math.round(12 * D)), sp = Math.pow(l.speed || 1, 1.8) * 0.5, ph = ((P[0][1] * 3.7 + P[0][2] * 5.1) % 1 + 1) % 1, TL = 18;
+    for (let n = 0; n < N; n++) { const head = (((T * sp / tot + n / N + ph) % 1) + 1) % 1 * tot, sd = n * 12.9898 + ph * 78.233;
+      for (let j = 0; j < TL; j++) { const d = head - j * 0.03; if (d < 0) break; const q = A.at(d), f = 1 - j / TL, wob = Math.sin(d * 5 + sd + T * 0.7) * 0.018 * (1 - f * 0.5); parts.push(q[0], q[1] + wob * 0.6, q[2] + wob, (0.34 + 0.34 * D) * f * f * edge(d), 0.05 + 0.08 * f + (1 - f) * 0.05, 0.4 * f); } }
+    return { p: P, col, parts, fluid: true }; }); };
+  // 소용돌이, 떨어진 흐름처럼 모양 자체가 움직이는 흐름: 길을 따라 입자를 촘촘히 놓고, 뒤로 갈수록 퍼지며 옅어진다
+  const l3vapor = (pts, col, o) => { const A = l3arc(pts), tot = A.tot, parts = [], st = o.step || 0.03;
+    for (let d = 0; d < tot; d += st) { const u = d / tot, q = A.at(d), fade = Math.pow(Math.sin(Math.PI * Math.min(1, u * (o.tail || 1))), 0.7); parts.push(q[0], q[1], q[2], o.alpha * fade, o.size * (1 + (o.grow || 0) * u), (o.hl || 0) * (1 - u)); }
+    return { p: pts, col, parts, fluid: true }; };
+  // 실속 때 윗면 뒤쪽의 떨어진 흐름: 흐트러진 연기와 그 안에서 천천히 도는 소용돌이 (세기 k 0~1)
   const l3swirls = (a, t, k) => { const L = []; [-1.0, 0, 1.0].forEach((y, j) => {
-      const R = q => rotY(q, a, [-0.5, 0, 0]), band = []; for (let x = -0.7; x >= -2.6; x -= 0.08) band.push(R([x, y, 0.2 + (-0.7 - x) * 0.12]));
-      L.push({ p: band, col: [239, 68, 68], speed: 0, w: 16 + 10 * k, dash: null, alpha: 0.10, fade: true });
-      const cx = -1.25 - 0.15 * j, cz = 0.36, Rr = 0.12 + 0.08 * k, pts = []; for (let u = 0; u <= 9; u += 0.1) { const r = Rr * (0.15 + u / 9 * 0.85), ang = u - t * 2.4 + j * 1.7; pts.push(R([cx + r * Math.cos(ang) - u * 0.03, y, cz + r * Math.sin(ang)])); }
-      L.push({ p: pts, col: [220, 38, 38], speed: 0, w: 2.6, dash: null, alpha: 0.85, fade: true }); }); return L; };
+      const R = q => rotY(q, a, [-0.5, 0, 0]), band = []; for (let x = -0.7; x >= -2.6; x -= 0.04) band.push(R([x, y + Math.sin(x * 7 + t * 3 + j) * 0.05, 0.2 + (-0.7 - x) * 0.12 + Math.sin(x * 9 - t * 4 + j * 2) * 0.05 * (0.5 + k)]));
+      L.push(l3vapor(band, [239, 68, 68], { alpha: 0.10 + 0.06 * k, size: 0.45 + 0.25 * k, grow: 0.8, step: 0.05 }));
+      const cx = -1.25 - 0.15 * j, cz = 0.36, Rr = 0.12 + 0.08 * k, pts = []; for (let u = 0; u <= 9; u += 0.05) { const r = Rr * (0.15 + u / 9 * 0.85), ang = u - t * 2.4 + j * 1.7; pts.push(R([cx + r * Math.cos(ang) - u * 0.03, y, cz + r * Math.sin(ang)])); }
+      L.push(l3vapor(pts, [220, 38, 38], { alpha: 0.55, size: 0.08, grow: 1.4, step: 0.012, hl: 0.3 })); }); return L; };
   const LR3_SCENES = {
     "learn-forces": t => {
       const thr = lrVal("lr-f-thr", 62), aoa = lrVal("lr-f-aoa", 3) * LR_TOR, speed = 0.35 + thr / 100 * 0.65, lift = Math.min(1.5, (0.55 + aoa / LR_TOR * 0.09) * (0.6 + speed * 0.55)), drag = 0.28 + speed * speed * 0.42 + aoa / LR_TOR * 0.025;
       const P = l3plane().map(q => ({ p: q.p.map(p => rotY(p, aoa, [0, 0, 0])), c: q.c })), L = [];
-      for (let i = 0; i < 9; i++) { const y = -4 + (i % 3) * 4, z = -1.6 + Math.floor(i / 3) * 1.6; L.push({ p: [[4.5, y, z], [-4.5, y, z]], col: [148, 163, 184], speed: 2 + speed * 6, w: 1, dash: [0.4, 0.6] }); }
+      // 기체를 스쳐 지나가는 바람: 연기처럼 흐르는 입자 (추력이 크면 빨리 흐른다)
+      { const W = []; for (let i = 0; i < 12; i++) { const y = -3.6 + (i % 4) * 2.4, z = -1.5 + Math.floor(i / 4) * 1.5, pts = []; for (let x = 4.5; x >= -4.5; x -= 0.3) pts.push([x, y, z + Math.sin(x * 0.6 + i) * 0.08]); W.push({ p: pts, col: [148, 163, 184], speed: 1.6 }); } L.push(...l3nice(W, 0.6 + speed * 2.2, 0.45)); }
       return { sky: true, shadow: [0, 0, 0, 3.2, 3.6], polys: P, lines: L, arrows: [l3arrow([0, 0, 0.35], [0, 0, 0.35 + lift * 2.2], [22, 163, 74], "양력"), l3arrow([0, 0, -0.35], [0, 0, -1.9], [220, 38, 38], "무게"), l3arrow([2.7, 0, 0], [2.7 + thr / 100 * 2.4, 0, 0], [37, 99, 235], "추력"), l3arrow([-2.6, 0, 0], [-2.6 - drag * 2.4, 0, 0], [234, 88, 12], "항력")] };
     },
     // 흐름선: 흐린 실선 위로 작은 점이 흘러가게 (점선 여러 겹 대신)
@@ -146,7 +158,9 @@
       [1, -1].forEach(sd => {
         const cy = sd * (tipY + ex), cz = tipZ + ez, x0 = tipX + 0.02;
         // 지금 소용돌이: 파란 나선 세 가닥
-        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 7; x += 0.05) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * Math.min(1, Math.pow(x / 1.1, 0.7)); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push({ p: pts, col: [37, 99, 235], speed: 0, w: 1.4 + s, dash: null, alpha: 0.8 - k * 0.2, fade: true }); }
+        for (let k = 0; k < 3; k++) { const pts = []; for (let x = 0; x <= 7; x += 0.02) { const ang = sd * (x * 5 + k * 2.1 - t * 4), r = R * Math.min(1, Math.pow(x / 1.1, 0.7)); pts.push([x0 - x, cy + r * Math.cos(ang), cz + r * Math.sin(ang)]); } L.push(l3vapor(pts, [37, 99, 235], { alpha: (0.26 - k * 0.05) * (0.6 + 0.4 * s), size: 0.06 + 0.05 * s, grow: 4.5, step: 0.012, tail: 1, hl: 0.3 })); }
+        // 소용돌이 둘레의 옅은 공기 덩어리 (뒤로 갈수록 퍼진다)
+        { const core = []; for (let x = 0.2; x <= 7; x += 0.05) core.push([x0 - x, cy, cz]); L.push(l3vapor(core, [59, 130, 246], { alpha: 0.035 + 0.035 * s, size: R * 2.4 + 0.12, grow: 1.4, step: 0.04 })); }
         // 비교용: 윙렛이 없을 때 소용돌이 크기(회색 점선 고리)
         [1.2, 2.4, 3.6].forEach(x => { const pts = []; for (let a = 0; a <= 6.3; a += 0.2) pts.push([x0 - x, cy + R0 * Math.cos(a), cz + R0 * Math.sin(a)]); L.push({ p: pts, col: [148, 163, 184], speed: 0, w: 1, dash: [0.05, 0.06], alpha: 0.7 }); });
       });
@@ -201,22 +215,104 @@
     }
   };
 
+  /* ---------- WebGL 층 ----------
+     2D 캔버스의 화가 알고리즘은 삼각형 하나를 평균 깊이 하나로 줄 세워서, 긴 삼각형이 많은 기체 메시에서
+     동체 위로 날개나 문이 비쳐 보이는 '깨짐'이 생겼다. 그래서 기체와 날개는 아래 WebGL 캔버스에서 깊이 버퍼로 그리고,
+     공기 흐름도 같은 곳에서 부드러운 입자(연기처럼 번지는 점)로 그려 날개 뒤로 지나가면 가려지게 한다.
+     화살표와 이름표는 위의 2D 캔버스에 그대로 그린다. WebGL을 못 쓰면 예전 2D 방식으로 그린다 */
+  const GL3 = { gl: null, cv: null, own: null, poly: null, part: null, bp: null, bq: null };
+  const GL3_PRJ = `uniform vec3 uCam; uniform vec2 uSize;
+    vec4 prj(vec3 p, out float k) { float cy = cos(uCam.x), sy = sin(uCam.x), x1 = p.x * cy - p.y * sy, y1 = p.x * sy + p.y * cy;
+      float cp = cos(uCam.y), sp = sin(uCam.y), dep = y1 * cp - p.z * sp, up = p.z * cp + y1 * sp; k = 9.0 / (9.0 + dep);
+      float s = uCam.z * min(uSize.x, uSize.y * 1.7) * 0.125, sx = uSize.x * 0.5 + s * x1 * k, sy2 = uSize.y * 0.54 - s * up * k;
+      return vec4(sx / uSize.x * 2.0 - 1.0, 1.0 - sy2 / uSize.y * 2.0, dep / 24.0, 1.0); }`;
+  function gl3prog(gl, vs, fs) {
+    const mk = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+    const p = gl.createProgram(); gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = n => gl.getUniformLocation(p, n), a = n => gl.getAttribLocation(p, n);
+    return { p, uCam: u("uCam"), uSize: u("uSize"), uPx: u("uPx"), aPos: a("aPos"), aCol: a("aCol"), aSz: a("aSz") };
+  }
+  function gl3init(cv2d) {
+    GL3.gl = null; GL3.own = cv2d;
+    try {
+      let cv = cv2d.parentNode.querySelector("canvas.lr3-gl");
+      if (!cv) { cv = document.createElement("canvas"); cv.className = "lr3-gl"; cv.setAttribute("aria-hidden", "true"); cv2d.parentNode.insertBefore(cv, cv2d); }
+      const gl = cv.getContext("webgl", { antialias: true, alpha: true, premultipliedAlpha: true }); if (!gl) { cv.remove(); return; }
+      GL3.poly = gl3prog(gl, `attribute vec3 aPos; attribute vec3 aCol; varying vec3 vCol; ${GL3_PRJ}
+        void main() { float k; gl_Position = prj(aPos, k); vCol = aCol; }`,
+        `precision mediump float; varying vec3 vCol; void main() { gl_FragColor = vec4(vCol, 1.0); }`);
+      GL3.part = gl3prog(gl, `attribute vec3 aPos; attribute vec4 aCol; attribute float aSz; uniform float uPx; varying vec4 vCol; ${GL3_PRJ}
+        void main() { float k; gl_Position = prj(aPos, k); gl_PointSize = max(1.0, aSz * uPx * k); vCol = aCol; }`,
+        // 가운데가 진하고 가장자리로 갈수록 부드럽게 사라지는 점 (미리 곱한 알파)
+        `precision mediump float; varying vec4 vCol; void main() { vec2 d = gl_PointCoord - 0.5; float r = dot(d, d) * 4.0; if (r > 1.0) discard;
+          float a = vCol.a * exp(-r * 2.6) * (1.0 - r); gl_FragColor = vec4(vCol.rgb * a, a); }`);
+      GL3.bp = gl.createBuffer(); GL3.bq = gl.createBuffer(); GL3.gl = gl; GL3.cv = cv;
+    } catch (e) { GL3.gl = null; const c = cv2d.parentNode && cv2d.parentNode.querySelector("canvas.lr3-gl"); if (c) c.remove(); }
+  }
+  function gl3size() {
+    const g = GL3.cv, cv = L3.cv; if (!g || !cv) return;
+    [["left", cv.offsetLeft], ["top", cv.offsetTop], ["width", cv.offsetWidth], ["height", cv.offsetHeight], ["min-height", 0]].forEach(k => g.style.setProperty(k[0], k[1] + "px", "important"));
+    const w = Math.round(L3.W * L3.dpr), h = Math.round(L3.H * L3.dpr); if (g.width !== w || g.height !== h) { g.width = w; g.height = h; }
+  }
+  function gl3use(pr) { const gl = GL3.gl; gl.useProgram(pr.p); gl.uniform3f(pr.uCam, L3.yaw, L3.pitch, L3.zoom); gl.uniform2f(pr.uSize, L3.W, L3.H); }
+  // 다각형: 부채꼴로 삼각형을 만들고, 면마다 빛 방향 명암을 색에 미리 곱한다
+  function gl3polys(polys) {
+    const gl = GL3.gl, out = [];
+    polys.forEach(q => { const p = q.p, nrm = v3.cross(v3.sub(p[1], p[0]), v3.sub(p[2], p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl), sh = (0.5 + 0.5 * lam) / 255, c = q.c;
+      for (let i = 1; i < p.length - 1; i++) [p[0], p[i], p[i + 1]].forEach(v => out.push(v[0], v[1], v[2], c[0] * sh, c[1] * sh, c[2] * sh)); });
+    if (!out.length) return; const pr = GL3.poly; gl3use(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, GL3.bp); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(out), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(pr.aPos); gl.vertexAttribPointer(pr.aPos, 3, gl.FLOAT, false, 24, 0);
+    gl.enableVertexAttribArray(pr.aCol); gl.vertexAttribPointer(pr.aCol, 3, gl.FLOAT, false, 24, 12);
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.depthMask(true); gl.disable(gl.BLEND);
+    gl.drawArrays(gl.TRIANGLES, 0, out.length / 6); gl.disableVertexAttribArray(pr.aCol);
+  }
+  // 흐름 입자: 각 흐름의 parts = [x,y,z, 알파, 크기, 밝기] 반복. 색은 흐름의 col (밝기만큼 흰색을 섞는다)
+  function l3partData(fl) {
+    const out = [];
+    fl.forEach(l => { const c = l.col, P = l.parts; for (let i = 0; i < P.length; i += 6) { const hl = P[i + 5]; out.push(P[i], P[i + 1], P[i + 2], (c[0] + (255 - c[0]) * hl) / 255, (c[1] + (255 - c[1]) * hl) / 255, (c[2] + (255 - c[2]) * hl) / 255, P[i + 3], P[i + 4]); } });
+    return out;
+  }
+  function gl3parts(fl) {
+    const gl = GL3.gl, out = l3partData(fl); if (!out.length) return; const pr = GL3.part; gl3use(pr);
+    gl.uniform1f(pr.uPx, L3.zoom * Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.dpr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, GL3.bq); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(out), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(pr.aPos); gl.vertexAttribPointer(pr.aPos, 3, gl.FLOAT, false, 32, 0);
+    gl.enableVertexAttribArray(pr.aCol); gl.vertexAttribPointer(pr.aCol, 4, gl.FLOAT, false, 32, 12);
+    gl.enableVertexAttribArray(pr.aSz); gl.vertexAttribPointer(pr.aSz, 1, gl.FLOAT, false, 32, 28);
+    // 날개에 가려지되(깊이 비교), 입자끼리는 서로 가리지 않고 겹쳐 번진다
+    gl.enable(gl.DEPTH_TEST); gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.drawArrays(gl.POINTS, 0, out.length / 8); gl.depthMask(true);
+    gl.disableVertexAttribArray(pr.aCol); gl.disableVertexAttribArray(pr.aSz);
+  }
+
   /* ---------- 그리기 ---------- */
-  const LIGHT = (() => { const l = [0.35, -0.45, 0.82], n = Math.hypot(...l); return l.map(x => x / n); })();
+  const LIGHT =(() => { const l = [0.35, -0.45, 0.82], n = Math.hypot(...l); return l.map(x => x / n); })();
   function l3draw(now) {
     const c = L3.ctx, sc = LR3_SCENES[L3.key]; if (!c || !sc) return;
     const dark = getComputedStyle(document.documentElement).getPropertyValue("--mg").trim() === "1";
     c.setTransform(L3.dpr, 0, 0, L3.dpr, 0, 0); c.clearRect(0, 0, L3.W, L3.H);
-    const S = sc(now / 1000), items = [];
+    const S = sc(now / 1000), items = [], FZ = S.floor != null ? S.floor : -2.6;
     // 바닥 모눈(원근). 하늘을 나는 장면(sky)에는 그리지 않는다
     if (!S.sky) { c.lineWidth = 1; c.strokeStyle = dark ? "rgba(148,180,220,.10)" : "rgba(100,116,139,.12)";
-    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, -2.6]), b = l3prj([i, 8, -2.6]), e = l3prj([-8, i, -2.6]), f = l3prj([8, i, -2.6]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); } }
-    if (S.shadow && !S.sky) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), -2.6]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
+    for (let i = -8; i <= 8; i++) { const a = l3prj([i, -8, FZ]), b = l3prj([i, 8, FZ]), e = l3prj([-8, i, FZ]), f = l3prj([8, i, FZ]); c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.moveTo(e.x, e.y); c.lineTo(f.x, f.y); c.stroke(); } }
+    if (S.shadow && !S.sky) { const sh = S.shadow, pts = Array.from({ length: 28 }, (_, i) => { const q = i / 28 * Math.PI * 2; return l3prj([sh[0] + sh[3] * Math.cos(q), sh[1] + sh[4] * Math.sin(q), FZ]); }), cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length, rr = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.y - cy)));
       const g = c.createRadialGradient(cx, cy, 0, cx, cy, rr); g.addColorStop(0, dark ? "rgba(0,0,0,.35)" : "rgba(15,23,42,.16)"); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); }
-    S.polys.forEach(q => { const pr = q.p.map(l3prj), dep = pr.reduce((s, r) => s + r.d, 0) / pr.length, nrm = v3.cross(v3.sub(q.p[1], q.p[0]), v3.sub(q.p[2], q.p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl); items.push({ t: 0, pr, dep, col: q.c, sh: 0.5 + 0.5 * lam }); });
-    S.lines.forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc, f: i / (pr.length - 1) }); acc += sl; } });
+    const useGL = !!GL3.gl && GL3.own === L3.cv && !GL3.gl.isContextLost(), fluid = S.lines.filter(l => l.parts);
+    if (useGL) {
+      gl3size(); const gl = GL3.gl; gl.viewport(0, 0, GL3.cv.width, GL3.cv.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl3polys(S.polys); gl3parts(fluid);
+    } else {
+      S.polys.forEach(q => { const pr = q.p.map(l3prj), dep = pr.reduce((s, r) => s + r.d, 0) / pr.length, nrm = v3.cross(v3.sub(q.p[1], q.p[0]), v3.sub(q.p[2], q.p[0])), nl = v3.len(nrm) || 1, lam = Math.abs((nrm[0] * LIGHT[0] + nrm[1] * LIGHT[1] + nrm[2] * LIGHT[2]) / nl); items.push({ t: 0, pr, dep, col: q.c, sh: 0.5 + 0.5 * lam }); });
+      // WebGL이 없을 때: 흐름 입자를 2D 점으로 (깊이 순서만 맞춘다)
+      const D = l3partData(fluid), s0 = L3.zoom * Math.min(L3.W, L3.H * 1.7) * 0.125;
+      for (let i = 0; i < D.length; i += 8) { const pr = l3prj([D[i], D[i + 1], D[i + 2]]); items.push({ t: 2, pr, dep: pr.d, c: `rgba(${Math.round(D[i + 3] * 255)},${Math.round(D[i + 4] * 255)},${Math.round(D[i + 5] * 255)},${(D[i + 6] * 0.6).toFixed(3)})`, r: Math.max(0.6, D[i + 7] * s0 * pr.k * 0.32) }); }
+    }
+    S.lines.filter(l => !l.parts).forEach(ln => { const pr = ln.p.map(l3prj); let acc = 0; for (let i = 1; i < pr.length; i++) { const a = pr[i - 1], b = pr[i], sl = Math.hypot(b.x - a.x, b.y - a.y); let wob = 0; if (ln.wob) wob = Math.sin(i * 0.9 + now / 120) * 6 * ln.wob * Math.min(1, i / 12); items.push({ t: 1, a, b, wob, dep: (a.d + b.d) / 2, ln, acc, f: i / (pr.length - 1) }); acc += sl; } });
     items.sort((p, q) => q.dep - p.dep);
     items.forEach(it => {
+      if (it.t === 2) { c.fillStyle = it.c; c.beginPath(); c.arc(it.pr.x, it.pr.y, it.r, 0, 7); c.fill(); return; }
       if (it.t === 0) { const r = Math.round(it.col[0] * it.sh), g = Math.round(it.col[1] * it.sh), b = Math.round(it.col[2] * it.sh); c.fillStyle = `rgb(${r},${g},${b})`; c.strokeStyle = c.fillStyle; c.lineWidth = 0.8; c.lineJoin = "round"; c.beginPath(); it.pr.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.closePath(); c.fill(); c.stroke(); return; }
       const ln = it.ln, k = (it.a.k + it.b.k) / 2; const fa = ln.tail ? Math.pow(Math.min(1, Math.max(0, it.f)), 1.6) : ln.fade ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, it.f))), 0.7) : 1; c.strokeStyle = `rgba(${ln.col.join(",")},${((ln.alpha != null ? ln.alpha : 0.8) * fa).toFixed(3)})`; c.lineWidth = (ln.w || 1.2) * k * (ln.tail ? 0.35 + 0.65 * Math.min(1, Math.max(0, it.f)) : 1); c.lineCap = "round";
       if (ln.dash !== null) { const ds = ln.dash || [0.18, 0.14], sz = Math.min(L3.W, L3.H * 1.7) * 0.125 * L3.zoom; c.setLineDash([ds[0] * sz * k, ds[1] * sz * k]); c.lineDashOffset = -(now / 1000) * (ln.speed != null ? ln.speed : 1) * sz * 0.6 + it.acc; } else c.setLineDash([]);
@@ -235,12 +331,12 @@
         c.fillStyle = col; c.beginPath(); c.arc(px + 11, py + ph / 2, 3.6, 0, 7); c.fill();
         c.fillStyle = dark ? "#e2e8f0" : "#1e293b"; c.fillText(ar.label, px + 19, py + 15.5); } });
   }
-  function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); }
+  function l3size() { const r = L3.cv.getBoundingClientRect(); if (!r.width) return; L3.W = r.width; L3.H = r.height; L3.dpr = Math.min(2, window.devicePixelRatio || 1); L3.cv.width = Math.round(L3.W * L3.dpr); L3.cv.height = Math.round(L3.H * L3.dpr); if (GL3.gl && GL3.own === L3.cv) gl3size(); }
   function l3loop(now) { L3.raf = 0; if (!L3.cv || !document.contains(L3.cv)) { L3.cv = null; return; } if (L3.autoSpin && !L3.drag) L3.yaw += 0.0025; { const rr = L3.cv.getBoundingClientRect(); if (L3.cv.width !== Math.round(rr.width * L3.dpr) || L3.cv.height !== Math.round(rr.height * L3.dpr)) l3size(); } l3draw(now); if (!fxCalm()) L3.raf = requestAnimationFrame(l3loop); }
   function lr3start(h) {
-    if (L3.raf) cancelAnimationFrame(L3.raf); L3.raf = 0;
+    if (L3.raf) cancelAnimationFrame(L3.raf); L3.raf = 0; L3.autoSpin = false;
     const cv = document.querySelector("#app canvas[data-lr3]"); if (!cv) { L3.cv = null; return; }
-    L3.cv = cv; L3.ctx = cv.getContext("2d"); L3.key = h; const v = LR3_VIEW[h] || [-0.65, 0.32, 1]; L3.yaw = v[0]; L3.pitch = v[1]; L3.zoom = v[2];
+    L3.cv = cv; L3.ctx = cv.getContext("2d"); L3.key = h; gl3init(cv); const v = LR3_VIEW[h] || [-0.65, 0.32, 1]; L3.yaw = v[0]; L3.pitch = v[1]; L3.zoom = v[2];
     l3size(); L3.raf = requestAnimationFrame(l3loop);
     cv.addEventListener("pointerdown", e => { L3.drag = { x: e.clientX, y: e.clientY, yaw: L3.yaw, pitch: L3.pitch }; cv.setPointerCapture(e.pointerId); cv.classList.add("grab"); });
     cv.addEventListener("pointermove", e => { if (!L3.drag) return; L3.yaw = L3.drag.yaw - (e.clientX - L3.drag.x) * 0.008; L3.pitch = Math.max(-0.2, Math.min(1.4, L3.drag.pitch + (e.clientY - L3.drag.y) * 0.006)); if (fxCalm()) l3draw(performance.now()); });
