@@ -254,8 +254,7 @@ ${encyExtras()}
   let m3dId = "boeing-777";
   const curAcId = () => { const k = (location.hash || "").slice(1); return k.indexOf("3d-") === 0 ? k.slice(3) : k === "3d" ? m3dId : k; };
   function m3dInfo(ac) {
-    // 3D 모형 페이지에서는 "3D로 둘러보기" 안내 카드가 필요 없다
-    const html = renderAircraft(ac).replace(/<section class="av-entry"[\s\S]*?<\/section>/, ""), i = html.indexOf('<div class="detail">');
+    const html = renderAircraft(ac), i = html.indexOf('<div class="detail">');
     return `<div class="m3d-name mk-${ac.maker}"><h2>${esc(ac.name)} <span class="code">${ICAO[ac.id]}</span> ${statusPill(ac)}</h2><p>${esc(ac.en)}, ${esc(ac.variant)}. ${esc(ac.role)}</p><a class="ext" href="#${ac.id}">기종 백과에서 보기 →</a></div>${i >= 0 ? html.slice(i) : ""}`;
   }
   function render3d(id) {
@@ -418,7 +417,6 @@ button,select,input{border-radius:6px}
 <div class="ac-live-mini">${acLiveCard(ac).replace('<section class="card" id="ac-live">', '<div id="ac-live">').replace(/<\/section>$/, "</div>")}</div>
 </aside>
 <div class="stack">
-${AircraftViewerModal.card(ac)}
 ${whyCard(ac)}
 <div class="ac-pair"><section class="card ac-draw">${cardH(ICON.ruler, "도면", `<div class="tabs" role="group" aria-label="도면 종류">${tabs.map(t => `<button type="button" id="viz-${t[0]}" data-seg="viz" data-v="${t[0]}" class="${viz === t[0] ? "on" : ""}">${t[1]}</button>`).join("")}</div>`)}<div class="card-b" id="viz-out">${vizOut(ac)}</div></section>
 ${icaoCard(ac)}</div>

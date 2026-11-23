@@ -11,8 +11,8 @@
       { id: "live", icon: "map", title: "실시간 운항", extra: "live", tabs: [["live", "map", "실시간 운항"]] }
     ] },
     { label: "내 기록", items: [
-      { id: "me", icon: "users", title: "조종사 프로필", tabs: [["profile", "users", "개요"], ["stats", "chart", "통계"], ["map", "globe", "비행 지도"], ["passport", "pass", "패스포트"], ["badges", "medal", "배지"], ["settings", "gear", "설정"]] },
-      { id: "act", icon: "target", title: "활동", tabs: [["activities", "target", "투어와 도전 과제"], ["community", "cup", "리더보드"]] }
+      { id: "me", icon: "users", title: "조종사 프로필", tabs: [["profile", "users", "개요"], ["stats", "chart", "통계"], ["map", "globe", "비행 지도"], ["settings", "gear", "설정"]] },
+      { id: "act", icon: "target", title: "활동", tabs: [["activities", "target", "투어와 도전 과제"], ["passport", "pass", "패스포트"], ["badges", "medal", "배지"], ["community", "cup", "리더보드"]] }
     ] },
     { label: "자료", items: [
       { id: "apt", icon: "flag", title: "공항", extra: "apt", tabs: [["airports", "flag", "공항"]] },
@@ -308,7 +308,7 @@ ${flag(58, 75, 8)}<text x="72" y="80" font-size="13" font-weight="700" fill="cur
     const roman = String(nm).normalize("NFKD").replace(/[^A-Za-z]/g, "").toUpperCase() || "PILOT";
     const mrz1 = ("P<JLV" + roman + "<<" + num).padEnd(44, "<").slice(0, 44), mrz2 = (num + "<0JLV" + issued.replace(/\./g, "").slice(2) + "<<" + seen.length + "<" + nA).padEnd(44, "<").slice(0, 44);
     const loc = aptBy[PS.pilot.loc];
-    return phead(`<a href="#profile">조종사 프로필</a>`, "패스포트", "이착륙한 공항과 나라를 여권처럼 모았습니다. 새 나라에 처음 내리면 입국 도장이 찍히고, 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
+    return phead(`<a href="#activities">활동</a>`, "패스포트", "이착륙한 공항과 나라를 여권처럼 모았습니다. 새 나라에 처음 내리면 입국 도장이 찍히고, 한 나라의 취항 공항을 모두 방문하면 금색 별이 붙습니다.", ``) + profTabs("passport") + `
 <div class="grid">${PS.demo ? demoNote() : ""}
 <section class="card c12 pp-book"><div class="pp-cover"><span class="pp-emb">${ICON.globe}</span><div><b>PASSPORT</b><span>여권 JETLINER VIRTUAL</span></div><span class="pp-type"><small>종류 / Type</small>P<small>발행 / Code</small>JLV</span></div>
 <div class="pp-spread"><div class="pp-page pp-left">
@@ -348,7 +348,7 @@ ${flag(58, 75, 8)}<text x="72" y="80" font-size="13" font-weight="700" fill="cur
     const B = badgeList(), got = B.filter(x => x[2]).length, P = badgeProg();
     const card = (x, i) => { const pr = P[x[0]] || [0, 1], pct = Math.min(100, pr[0] / pr[1] * 100);
       return `<div class="badge2${x[2] ? " got" : ""}" style="--bc:${(BADGE_ART[x[0]] || ["#64748b"])[0]}">${medal(x[0], x[2], i)}<b>${x[0]}</b><small>${x[1]}</small>${x[2] ? `<span class="b2-ok">획득</span>` : `<div class="b2-bar"><i style="width:${pct.toFixed(0)}%"></i></div><span class="b2-n">${pr[2] ? `${fmt(Math.min(pr[0], pr[1]))} / ${fmt(pr[1])} ${pr[2]}` : "아직"}</span>`}</div>`; };
-    return phead(`<a href="#profile">조종사 프로필</a>`, "배지", "PIREP을 제출하면 조건을 확인해 배지를 자동으로 줍니다.", `<span class="hint">${got} / ${B.length} 획득</span>`) + profTabs("badges") + `
+    return phead(`<a href="#activities">활동</a>`, "배지", "PIREP을 제출하면 조건을 확인해 배지를 자동으로 줍니다.", `<span class="hint">${got} / ${B.length} 획득</span>`) + profTabs("badges") + `
 <div class="grid"><section class="card c12">${cardH(ICON.medal, "배지 진열장", `<span class="hint">${got} / ${B.length} 획득</span>`)}<div class="card-b"><div class="b2-shelf-bar"><i style="width:${(got / B.length * 100).toFixed(0)}%"></i></div><div class="badges2">${B.map((x, i) => [x, i]).sort((p, q) => q[0][2] - p[0][2]).map(([x, i]) => card(x, i)).join("")}</div></div></section></div>`;
   }
   function renderSettings() {
