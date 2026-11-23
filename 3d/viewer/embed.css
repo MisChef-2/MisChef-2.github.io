@@ -151,3 +151,12 @@ html.embed .stage[data-bg=white]:not(.interior-view):not(.cockpit-view):not(.fac
 html.embed .stage[data-bg=white]:not(.interior-view):not(.cockpit-view):not(.facility-view) .scale div{border-color:#6b7684}
 html.embed .stage[data-bg=sky]:not(.interior-view):not(.cockpit-view):not(.facility-view) :is(.canvas-help,.scale,.view-label,.north){color:#fff;text-shadow:0 1px 3px rgba(10,40,80,.45)}
 html.embed .stage[data-bg=sky]:not(.interior-view):not(.cockpit-view):not(.facility-view) .scale div{border-color:#fff}
+/* 파란 하늘(깊은 하늘): 아래까지 흰빛 없는 차분한 파랑. 격자는 숨기고 글씨는 파란 하늘과 같이 흰색 */
+html.embed .bg-pick [data-bg=blue] i{background:#2f6db5}
+html.embed .stage[data-bg=blue]:not(.interior-view):not(.cockpit-view):not(.facility-view){background:linear-gradient(180deg,#285f9f 0%,#2f6db5 55%,#3a7bc2 100%)}
+html.embed .stage[data-bg=blue]:not(.interior-view):not(.cockpit-view):not(.facility-view) :is(.canvas-help,.scale,.view-label,.north){color:#fff;text-shadow:0 1px 3px rgba(5,30,70,.5)}
+html.embed .stage[data-bg=blue]:not(.interior-view):not(.cockpit-view):not(.facility-view) .scale div{border-color:#fff}
+html.embed .view-label{left:262px;max-width:calc(100% - 420px)}
+html.embed .stage.panel-open .view-label{max-width:calc(100% - 600px)}
+@media(max-width:720px){ html.embed .view-label{left:242px} }
+@media(max-width:480px){ html.embed .view-label{left:178px} }

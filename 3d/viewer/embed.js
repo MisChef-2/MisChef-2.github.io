@@ -71,9 +71,9 @@
 (function () {
   if (!document.documentElement.classList.contains('embed')) return;
   const stage = document.querySelector('.stage'); if (!stage) return;
-  const KEY = 'jlv-3d-bg', LIST = [['dark', '어두운 배경'], ['white', '흰 배경'], ['sky', '파란 하늘']];
+  const KEY = 'jlv-3d-bg', LIST = [['dark', '어두운 배경'], ['white', '흰 배경'], ['sky', '연한 하늘'], ['blue', '파란 하늘']];
   // 바닥 격자와 원판 진하기: [격자, 원판]
-  const FLOOR = { dark: [0.55, 0.22], white: [0.35, 0.08], sky: [0, 0] };
+  const FLOOR = { dark: [0.55, 0.22], blue: [0, 0], white: [0.35, 0.08], sky: [0, 0] };
   let cur = 'dark';
   try { const v = localStorage.getItem(KEY); if (FLOOR[v]) cur = v; } catch (e) { /* 저장 못 해도 그냥 쓴다 */ }
   const box = document.createElement('div');
