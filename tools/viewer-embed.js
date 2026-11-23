@@ -65,3 +65,32 @@
     }
   }).observe(dash, { subtree: true, attributes: true, attributeFilter: ['hidden'] });
 })();
+
+// 배경 고르기: 어두운 배경, 흰 배경, 파란 하늘. 고른 값은 이 브라우저에 기억한다
+// 객실, 조종실, 설비 같은 안쪽 시점은 늘 어두운 배경으로 보인다 (embed.css)
+(function () {
+  if (!document.documentElement.classList.contains('embed')) return;
+  const stage = document.querySelector('.stage'); if (!stage) return;
+  const KEY = 'jlv-3d-bg', LIST = [['dark', '어두운 배경'], ['white', '흰 배경'], ['sky', '파란 하늘']];
+  // 바닥 격자와 원판 진하기: [격자, 원판]
+  const FLOOR = { dark: [0.55, 0.22], white: [0.35, 0.08], sky: [0, 0] };
+  let cur = 'dark';
+  try { const v = localStorage.getItem(KEY); if (FLOOR[v]) cur = v; } catch (e) { /* 저장 못 해도 그냥 쓴다 */ }
+  const box = document.createElement('div');
+  box.className = 'bg-pick'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', '배경');
+  box.innerHTML = LIST.map(([k, t]) => `<button type="button" data-bg="${k}" title="${t}" aria-label="${t}"><i></i></button>`).join('');
+  const floor = () => {
+    const s = window.__hubScene; if (!s) return false;
+    const [g, o] = FLOOR[cur]; s.grid.material.opacity = g; s.ground.material.opacity = o; return true;
+  };
+  const set = k => {
+    cur = k; stage.dataset.bg = k;
+    box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.bg === k));
+    floor();
+    try { localStorage.setItem(KEY, k); } catch (e) { /* 무시 */ }
+  };
+  box.addEventListener('click', e => { const b = e.target.closest('button'); if (b) set(b.dataset.bg); });
+  stage.append(box); set(cur);
+  // 뷰어 모듈이 늦게 뜨면 격자를 찾을 때까지 잠깐 기다린다
+  if (!floor()) { let n = 0; const t = setInterval(() => { if (floor() || ++n > 60) clearInterval(t); }, 250); }
+})();

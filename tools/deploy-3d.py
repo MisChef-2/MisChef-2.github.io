@@ -38,6 +38,8 @@ js = rep(js, "import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';",
          "import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';\nimport { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';")
 js = rep(js, "const loader = new GLTFLoader();",
          "const loader = new GLTFLoader();\n{ const draco = new DRACOLoader(); draco.setDecoderPath('vendor/three/addons/libs/draco/gltf/'); loader.setDRACOLoader(draco); }")
+# 허브 배경 고르기(embed.js)가 바닥 격자와 원판의 진하기를 바꿀 수 있게 내보낸다
+js = re.sub(r"scene\.add\(ground\);(\r?\n)", lambda m: "scene.add(ground);" + m.group(1) + "window.__hubScene = { grid, ground };" + m.group(1), js, count=1)
 open(os.path.join(DST, "viewer", "viewer.js"), "w", encoding="utf-8").write(js)
 
 # 제작 검토 링크와 .blend 내려받기는 숨긴다 (배포하지 않는 파일)

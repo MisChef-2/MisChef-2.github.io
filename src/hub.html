@@ -1221,6 +1221,8 @@ html.m3d-fs-on,html.m3d-fs-on body{overflow:hidden}
 /* ---------- 조종 매뉴얼 ---------- */
 .mn-ph-seg{margin-bottom:0}
 .mn-sit-list,.mn-acc-list{display:grid;gap:10px;padding:0 20px 20px}
+@media (min-width:1100px){ .mn-sit-list{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start} .mn-sit-list .mn-cols{grid-template-columns:1fr;gap:14px}
+  .mn-sit-list .mn-sit.open .mn-sit-b:has(>.mn-img){display:block} .mn-sit-list .mn-sit-b>.mn-img{aspect-ratio:16/7;margin:0 0 14px;position:static} }
 .mn-sit{border-radius:12px;background:var(--tile);overflow:hidden}
 .mn-sit-h{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;border:0;background:none;font:inherit;text-align:left;cursor:pointer;color:var(--fg)}
 .mn-sit-h b{flex:1;font-size:15px}

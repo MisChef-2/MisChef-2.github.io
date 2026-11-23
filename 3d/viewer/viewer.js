@@ -63,6 +63,7 @@ const ground = new THREE.Mesh(new THREE.CircleGeometry(90, 96), new THREE.MeshBa
 ground.rotation.x = -Math.PI / 2;
 ground.position.y = -0.02;
 scene.add(ground);
+window.__hubScene = { grid, ground };
 // A procedural parked-aircraft environment, visible through real cockpit openings.
 // This changes only the exterior scene; no aircraft shell is hidden for cockpit view.
 const flightdeckWorld = new THREE.Group(); flightdeckWorld.visible = false;
